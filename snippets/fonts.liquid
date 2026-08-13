@@ -1,0 +1,105 @@
+<style>
+
+  /* Heading Custom Font*/
+    {% if settings.enable_custom_font %}
+        @font-face { font-family: {{ settings.twocustom_font_name }}; src: url('{{ settings.twocustom_font_url }}'); } 
+
+    h1,h2,h3,h4,h5,h6,.h1,.h2,.h3,.h4,.h5,.h6{
+    font-family: {{ settings.twocustom_font_name }} !important;
+  }
+
+   :root {
+--font-heading--family: {{ settings.twocustom_font_name }} !important;
+  }
+
+  .accordion .details__header {
+font-family: {{ settings.twocustom_font_name }} !important;
+  }
+
+  .custom-typography>* {
+    font-family: var(--font-family) !important;
+  }
+   {% endif %}
+
+
+ /* Body Custom Font*/
+   {% if settings.bodyenable_custom_font %}
+       @font-face { font-family: {{ settings.custom_font_name }}; src: url('{{ settings.custom_font_url }}'); } 
+
+      p{
+      font-family: {{ settings.custom_font_name }} !important;
+    }
+
+  :root {
+--font-body--family:{{ settings.custom_font_name }} !important;
+  }
+ 
+
+    .custom-typography>* {
+    font-family: var(--font-family) !important;
+  }
+
+   :root {
+  --cart-secondary-font-family: {{ settings.custom_font_name }} !important;
+  }
+{% endif %}
+
+
+ /* Accent Custom Font*/
+{% if settings.accent_custom_font %}
+ @font-face { font-family: {{ settings.accent_font_name }}; src: url('{{ settings.accent_font_url }}'); } 
+
+ {
+  font-family: {{ settings.accent_font_name }} !important;
+}
+
+ :root {
+--font-accent--family:{{ settings.accent_font_name }} !important;
+}
+{% endif %}
+</style>
+
+
+
+{% # theme-check-disable %}
+{%- unless settings.type_body_font.system? -%}
+  <link
+    rel="preload"
+    as="font"
+    href="{{ settings.type_body_font | font_url }}"
+    type="font/woff2"
+    crossorigin
+    fetchpriority="low"
+  >
+{%- endunless -%}
+{%- unless settings.type_subheading_font.system? -%}
+  <link
+    rel="preload"
+    as="font"
+    href="{{ settings.type_subheading_font | font_url }}"
+    type="font/woff2"
+    crossorigin
+    fetchpriority="low"
+  >
+{%- endunless -%}
+{%- unless settings.type_heading_font.system? -%}
+  <link
+    rel="preload"
+    as="font"
+    href="{{ settings.type_heading_font | font_url }}"
+    type="font/woff2"
+    crossorigin
+    fetchpriority="low"
+  >
+{%- endunless -%}
+{%- unless settings.type_accent_font.system? -%}
+  <link
+    rel="preload"
+    as="font"
+    href="{{ settings.type_accent_font | font_url }}"
+    type="font/woff2"
+    crossorigin
+    fetchpriority="low"
+  >
+{%- endunless -%}
+{% # theme-check-enable %}

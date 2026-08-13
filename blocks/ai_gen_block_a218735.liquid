@@ -1,0 +1,577 @@
+{% doc %}
+  @prompt
+    create block using this code
+
+    Shipping Date Banner Block
+
+    Features:
+    - Dynamic "today + days ahead" date
+    - Optional timezone setting
+    - Country flag image picker
+    - Single inline rich text setting for the right side text
+    - Mobile layout stays in one row like desktop
+    - Animated pulse dot
+    - Show/hide date setting
+    - Show/hide icon dot setting
+{% enddoc %}
+
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% liquid
+  assign days_ahead = block.settings.days_ahead
+  assign seconds_to_add = days_ahead | times: 86400
+  assign current_timestamp = 'now' | date: '%s'
+  assign ship_timestamp = current_timestamp | plus: seconds_to_add
+  assign fallback_ship_date = ship_timestamp | date: block.settings.date_format
+%}
+
+{% style %}
+  .ai-shipping-banner-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+  }
+
+  .ai-shipping-banner-container-{{ ai_gen_id }} {
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: {{ block.settings.max_width }}px;
+    margin: {{ block.settings.margin_top }}px auto {{ block.settings.margin_bottom }}px;
+    padding: {{ block.settings.padding_y }}px {{ block.settings.padding_x }}px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 14px;
+    border-radius: {{ block.settings.radius }}px;
+    background: {{ block.settings.bg_color }};
+    color: {{ block.settings.text_color }};
+    font-size: {{ block.settings.font_size }}px;
+    line-height: 1.2;
+    letter-spacing: 0.02em;
+    box-sizing: border-box;
+  }
+
+  .ai-shipping-banner-left-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+    flex: 1 1 auto;
+  }
+
+  .ai-shipping-banner-dot-{{ ai_gen_id }} {
+    width: {{ block.settings.dot_size }}px;
+    height: {{ block.settings.dot_size }}px;
+    border-radius: 50%;
+    background-color: {{ block.settings.dot_color }};
+    flex: 0 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  .ai-shipping-banner-dot-{{ ai_gen_id }}::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: {{ block.settings.dot_pulse_color }};
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.45;
+    z-index: -1;
+    animation: ai-shipping-dot-pulse-{{ ai_gen_id }} {{ block.settings.dot_animation_speed }}s ease-out infinite;
+  }
+
+  @keyframes ai-shipping-dot-pulse-{{ ai_gen_id }} {
+    0% {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 0.45;
+    }
+
+    70% {
+      transform: translate(-50%, -50%) scale(2.6);
+      opacity: 0;
+    }
+
+    100% {
+      transform: translate(-50%, -50%) scale(2.6);
+      opacity: 0;
+    }
+  }
+
+  .ai-shipping-banner-text-{{ ai_gen_id }} {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    flex-wrap: nowrap;
+    white-space: nowrap;
+    min-width: 0;
+  }
+
+  .ai-shipping-banner-text-{{ ai_gen_id }} p,
+  .ai-shipping-banner-right-text-{{ ai_gen_id }} p {
+    margin: 0;
+  }
+
+  .ai-shipping-banner-right-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    white-space: nowrap;
+    flex: 0 0 auto;
+  }
+
+  .ai-shipping-banner-flag-{{ ai_gen_id }} {
+    width: {{ block.settings.flag_height }}px;
+    height: {{ block.settings.flag_height }}px;
+    object-fit: cover;
+    border-radius: 999px;
+    display: block;
+    flex: 0 0 auto;
+  }
+
+  .ai-shipping-banner-right-text-{{ ai_gen_id }} {
+    font-size: {{ block.settings.right_text_size }}px;
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
+  }
+
+  .ai-shipping-banner-container-{{ ai_gen_id }} strong,
+  .ai-shipping-banner-container-{{ ai_gen_id }} b {
+    font-weight: 800;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-shipping-banner-container-{{ ai_gen_id }} {
+      width: 100%;
+      max-width: 100%;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: nowrap;
+      gap: 10px;
+      overflow-x: auto;
+      overflow-y: hidden;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+
+    .ai-shipping-banner-container-{{ ai_gen_id }}::-webkit-scrollbar {
+      display: none;
+    }
+
+    .ai-shipping-banner-left-{{ ai_gen_id }} {
+      flex: 1 1 auto;
+      min-width: max-content;
+    }
+
+    .ai-shipping-banner-right-{{ ai_gen_id }} {
+      width: auto;
+      justify-content: flex-end;
+      flex: 0 0 auto;
+    }
+  }
+{% endstyle %}
+
+<ai-shipping-banner-{{ ai_gen_id }}
+  class="ai-shipping-banner-{{ ai_gen_id }}"
+  data-shipping-date-banner
+  data-days-ahead="{{ days_ahead }}"
+  data-date-format="{{ block.settings.date_format | escape }}"
+  data-locale="{{ block.settings.locale | escape }}"
+  {% if block.settings.timezone != blank %}
+    data-timezone="{{ block.settings.timezone | escape }}"
+  {% endif %}
+  role="status"
+  aria-label="Shipping information"
+  {{ block.shopify_attributes }}
+>
+  <div class="ai-shipping-banner-container-{{ ai_gen_id }}">
+    <div class="ai-shipping-banner-left-{{ ai_gen_id }}">
+      {% if block.settings.show_dot %}
+        <span class="ai-shipping-banner-dot-{{ ai_gen_id }}" aria-hidden="true"></span>
+      {% endif %}
+
+      <span class="ai-shipping-banner-text-{{ ai_gen_id }}">
+        {{ block.settings.prefix_text }}
+
+        {% if block.settings.show_date %}
+          <strong data-shipping-date>{{ fallback_ship_date }}</strong>
+        {% endif %}
+      </span>
+    </div>
+
+    <div class="ai-shipping-banner-right-{{ ai_gen_id }}">
+      {% if block.settings.flag_image != blank %}
+        <img
+          src="{{ block.settings.flag_image | image_url: width: 120 }}"
+          class="ai-shipping-banner-flag-{{ ai_gen_id }}"
+          loading="lazy"
+          alt="Country flag"
+          width="{{ block.settings.flag_height }}"
+          height="{{ block.settings.flag_height }}"
+        >
+      {% endif %}
+
+      {% if block.settings.right_inline_text != blank %}
+        <div class="ai-shipping-banner-right-text-{{ ai_gen_id }}">
+          {{ block.settings.right_inline_text }}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</ai-shipping-banner-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class AiShippingBanner{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+      }
+
+      connectedCallback() {
+        this.updateShippingDate();
+      }
+
+      updateShippingDate() {
+        const daysAhead = Number(this.dataset.daysAhead || 3);
+        const dateFormat = this.dataset.dateFormat || '%a, %b %-d';
+        const locale = this.dataset.locale || 'en-GB';
+        const timeZone = this.dataset.timezone || undefined;
+        const dateTarget = this.querySelector('[data-shipping-date]');
+
+        if (!dateTarget) return;
+
+        const targetDate = this.buildTargetDate(daysAhead, timeZone, locale);
+        dateTarget.textContent = new Intl.DateTimeFormat(locale, this.getFormatOptions(dateFormat)).format(targetDate);
+      }
+
+      getDatePartsInTimezone(date, timeZone, locale) {
+        const parts = new Intl.DateTimeFormat(locale || 'en-US', {
+          timeZone,
+          year: 'numeric',
+          month: 'numeric',
+          day: 'numeric'
+        }).formatToParts(date);
+
+        const getPart = (type) => Number(parts.find((part) => part.type === type)?.value);
+
+        return {
+          year: getPart('year'),
+          month: getPart('month'),
+          day: getPart('day')
+        };
+      }
+
+      buildTargetDate(daysAhead, timeZone, locale) {
+        const now = new Date();
+        let year = now.getFullYear();
+        let month = now.getMonth() + 1;
+        let day = now.getDate();
+
+        if (timeZone) {
+          try {
+            const zonedParts = this.getDatePartsInTimezone(now, timeZone, locale);
+            year = zonedParts.year;
+            month = zonedParts.month;
+            day = zonedParts.day;
+          } catch (error) {
+            console.warn('Shipping date banner: invalid timezone, using visitor timezone.', error);
+          }
+        }
+
+        const targetDate = new Date(year, month - 1, day);
+        targetDate.setDate(targetDate.getDate() + daysAhead);
+        return targetDate;
+      }
+
+      getFormatOptions(format) {
+        switch (format) {
+          case '%A, %B %-d':
+            return { weekday: 'long', month: 'long', day: 'numeric' };
+          case '%-d %b, %Y':
+            return { day: 'numeric', month: 'short', year: 'numeric' };
+          case '%d/%m/%Y':
+            return { day: '2-digit', month: '2-digit', year: 'numeric' };
+          case '%a, %b %-d':
+          default:
+            return { weekday: 'short', month: 'short', day: 'numeric' };
+        }
+      }
+    }
+
+    if (!customElements.get('ai-shipping-banner-{{ ai_gen_id }}')) {
+      customElements.define('ai-shipping-banner-{{ ai_gen_id }}', AiShippingBanner{{ ai_gen_id }});
+    }
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Shipping date banner",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "prefix_text",
+      "label": "Prefix text",
+      "default": "Order within the next 24 hours and receive it by"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_date",
+      "label": "Show date",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_dot",
+      "label": "Show icon dot",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "days_ahead",
+      "label": "Days ahead",
+      "min": 1,
+      "max": 30,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "select",
+      "id": "date_format",
+      "label": "Date format",
+      "options": [
+        {
+          "value": "%a, %b %-d",
+          "label": "Mon, Jan 1"
+        },
+        {
+          "value": "%A, %B %-d",
+          "label": "Monday, January 1"
+        },
+        {
+          "value": "%-d %b, %Y",
+          "label": "1 Jan, 2026"
+        },
+        {
+          "value": "%d/%m/%Y",
+          "label": "01/01/2026"
+        }
+      ],
+      "default": "%a, %b %-d"
+    },
+    {
+      "type": "text",
+      "id": "locale",
+      "label": "Locale",
+      "default": "en-GB",
+      "info": "e.g., en-US, en-GB, fr-FR"
+    },
+    {
+      "type": "text",
+      "id": "timezone",
+      "label": "Timezone",
+      "info": "Optional. e.g., America/New_York, Europe/London, Asia/Colombo"
+    },
+    {
+      "type": "header",
+      "content": "Right side"
+    },
+    {
+      "type": "image_picker",
+      "id": "flag_image",
+      "label": "Flag image"
+    },
+    {
+      "type": "range",
+      "id": "flag_height",
+      "label": "Flag height",
+      "min": 12,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "inline_richtext",
+      "id": "right_inline_text",
+      "label": "Right text",
+      "default": "Free shipping"
+    },
+    {
+      "type": "range",
+      "id": "right_text_size",
+      "label": "Right text size",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background",
+      "default": "#efebdd"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "#392013"
+    },
+    {
+      "type": "color",
+      "id": "dot_color",
+      "label": "Dot color",
+      "default": "#716a29"
+    },
+    {
+      "type": "color",
+      "id": "dot_pulse_color",
+      "label": "Dot animation glow color",
+      "default": "#716a29"
+    },
+    {
+      "type": "select",
+      "id": "dot_animation_speed",
+      "label": "Dot animation speed",
+      "options": [
+        {
+          "value": "1",
+          "label": "Fast - 1s"
+        },
+        {
+          "value": "1.5",
+          "label": "Normal - 1.5s"
+        },
+        {
+          "value": "1.8",
+          "label": "Smooth - 1.8s"
+        },
+        {
+          "value": "2.5",
+          "label": "Slow - 2.5s"
+        },
+        {
+          "value": "3",
+          "label": "Very slow - 3s"
+        }
+      ],
+      "default": "1.8"
+    },
+    {
+      "type": "range",
+      "id": "dot_size",
+      "label": "Dot size",
+      "min": 4,
+      "max": 16,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "font_size",
+      "label": "Font size",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "label": "Max width",
+      "min": 400,
+      "max": 1400,
+      "step": 50,
+      "unit": "px",
+      "default": 1200
+    },
+    {
+      "type": "range",
+      "id": "padding_x",
+      "label": "Horizontal padding",
+      "min": 0,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_y",
+      "label": "Vertical padding",
+      "min": 0,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "margin_top",
+      "label": "Top margin",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom",
+      "label": "Bottom margin",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "Shipping date banner"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,635 @@
+{% doc %}
+  @prompt
+    I need creta e size chart block. Its have add page and when click it and popup it. use new animations for it, very gooddd... but i dont need dots icon. and need chage block width padding and maragin mobile and dekstop separatly. Dpnt cjamge anothere datas. All settings are very impornent for me.
+    
+
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .size-chart-container-{{ ai_gen_id }} {
+    display: inline-block;
+    margin: {{ block.settings.margin_top_desktop }}px {{ block.settings.margin_right_desktop }}px {{ block.settings.margin_bottom_desktop }}px {{ block.settings.margin_left_desktop }}px;
+    padding: {{ block.settings.padding_top_desktop }}px {{ block.settings.padding_right_desktop }}px {{ block.settings.padding_bottom_desktop }}px {{ block.settings.padding_left_desktop }}px;
+    width: {{ block.settings.block_width_desktop }}px;
+  }
+
+  .size-chart-trigger-{{ ai_gen_id }} {
+    display: inline-block;
+    cursor: pointer;
+    color: {{ block.settings.text_color }};
+    font-size: {{ block.settings.font_size }}px;
+    text-decoration: underline;
+    background: none;
+    border: none;
+    padding: 0;
+  }
+
+  .size-chart-modal-{{ ai_gen_id }} {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0.3s, opacity 0.3s;
+  }
+
+  .size-chart-modal-{{ ai_gen_id }}.active {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  .size-chart-overlay-{{ ai_gen_id }} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+  }
+
+  .size-chart-content-{{ ai_gen_id }} {
+    position: relative;
+    background-color: {{ block.settings.background_color }};
+    border-radius: {{ block.settings.border_radius }}px;
+    padding: 30px;
+    max-width: 90%;
+    max-height: 90vh;
+    width: {{ block.settings.popup_width }}px;
+    overflow-y: auto;
+    transform: scale(0.9);
+    opacity: 0;
+    transition: transform 0.3s, opacity 0.3s;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  }
+
+  .size-chart-modal-{{ ai_gen_id }}.active .size-chart-content-{{ ai_gen_id }} {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  .size-chart-header-{{ ai_gen_id }} {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .size-chart-title-{{ ai_gen_id }} {
+    margin: 0;
+    color: {{ block.settings.title_color }};
+    font-size: {{ block.settings.title_size }}px;
+  }
+
+  .size-chart-close-{{ ai_gen_id }} {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+  }
+
+  .size-chart-close-{{ ai_gen_id }} svg {
+    width: 20px;
+    height: 20px;
+    color: {{ block.settings.text_color }};
+  }
+
+  .size-chart-table-{{ ai_gen_id }} {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+
+  .size-chart-table-{{ ai_gen_id }} th,
+  .size-chart-table-{{ ai_gen_id }} td {
+    border: 1px solid {{ block.settings.border_color }};
+    padding: 10px;
+    text-align: center;
+    color: {{ block.settings.text_color }};
+  }
+
+  .size-chart-table-{{ ai_gen_id }} th {
+    background-color: {{ block.settings.header_background_color }};
+    color: {{ block.settings.header_text_color }};
+    font-weight: bold;
+  }
+
+  .size-chart-table-{{ ai_gen_id }} tr:nth-child(even) {
+    background-color: {{ block.settings.alternate_row_color }};
+  }
+
+  .size-chart-description-{{ ai_gen_id }} {
+    margin-top: 20px;
+    color: {{ block.settings.text_color }};
+  }
+
+  @media screen and (max-width: 767px) {
+    .size-chart-container-{{ ai_gen_id }} {
+      margin: {{ block.settings.margin_top_mobile }}px {{ block.settings.margin_right_mobile }}px {{ block.settings.margin_bottom_mobile }}px {{ block.settings.margin_left_mobile }}px;
+      padding: {{ block.settings.padding_top_mobile }}px {{ block.settings.padding_right_mobile }}px {{ block.settings.padding_bottom_mobile }}px {{ block.settings.padding_left_mobile }}px;
+      width: {{ block.settings.block_width_mobile }}px;
+    }
+    
+    .size-chart-content-{{ ai_gen_id }} {
+      width: 95%;
+      padding: 20px;
+    }
+    
+    .size-chart-table-{{ ai_gen_id }} {
+      font-size: 14px;
+    }
+    
+    .size-chart-table-{{ ai_gen_id }} th,
+    .size-chart-table-{{ ai_gen_id }} td {
+      padding: 8px 5px;
+    }
+  }
+{% endstyle %}
+
+<div class="size-chart-container-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <button
+    type="button" 
+    class="size-chart-trigger-{{ ai_gen_id }}" 
+    aria-label="{{ block.settings.button_text }}"
+    aria-expanded="false"
+    aria-controls="size-chart-modal-{{ ai_gen_id }}"
+  >
+    {{ block.settings.button_text }}
+  </button>
+</div>
+
+<div
+  id="size-chart-modal-{{ ai_gen_id }}" 
+  class="size-chart-modal-{{ ai_gen_id }}" 
+  role="dialog" 
+  aria-modal="true" 
+  aria-labelledby="size-chart-title-{{ ai_gen_id }}"
+>
+  <div class="size-chart-overlay-{{ ai_gen_id }}"></div>
+  <div class="size-chart-content-{{ ai_gen_id }}">
+    <div class="size-chart-header-{{ ai_gen_id }}">
+      <h2 id="size-chart-title-{{ ai_gen_id }}" class="size-chart-title-{{ ai_gen_id }}">{{ block.settings.title }}</h2>
+      <button 
+        type="button" 
+        class="size-chart-close-{{ ai_gen_id }}" 
+        aria-label="Close size chart"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+        </svg>
+      </button>
+    </div>
+    {% if block.settings.chart_description != blank %}
+      <div class="size-chart-description-{{ ai_gen_id }}">
+        {{ block.settings.chart_description }}
+      </div>
+    {% endif %}
+    
+    <table class="size-chart-table-{{ ai_gen_id }}">
+      {% if block.settings.page != blank %}
+        {{ block.settings.page.content }}
+      {% else %}
+        <thead>
+          <tr>
+            <th>Size</th>
+            <th>Bust (in)</th>
+            <th>Waist (in)</th>
+            <th>Hip (in)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>XS</td>
+            <td>32-34</td>
+            <td>24-26</td>
+            <td>34-36</td>
+          </tr>
+          <tr>
+            <td>S</td>
+            <td>34-36</td>
+            <td>26-28</td>
+            <td>36-38</td>
+          </tr>
+          <tr>
+            <td>M</td>
+            <td>36-38</td>
+            <td>28-30</td>
+            <td>38-40</td>
+          </tr>
+          <tr>
+            <td>L</td>
+            <td>38-40</td>
+            <td>30-32</td>
+            <td>40-42</td>
+          </tr>
+          <tr>
+            <td>XL</td>
+            <td>40-42</td>
+            <td>32-34</td>
+            <td>42-44</td>
+          </tr>
+        </tbody>
+      {% endif %}
+    </table>
+  </div>
+</div>
+
+<script>
+  (function() {
+    class SizeChart extends HTMLElement {
+      constructor() {
+        super();
+        this.trigger = document.querySelector('.size-chart-trigger-{{ ai_gen_id }}');
+        this.modal = document.querySelector('.size-chart-modal-{{ ai_gen_id }}');
+        this.overlay = document.querySelector('.size-chart-overlay-{{ ai_gen_id }}');
+        this.closeButton = document.querySelector('.size-chart-close-{{ ai_gen_id }}');
+        this.setupEventListeners();
+      }
+      
+      setupEventListeners() {
+        // Open modal
+        this.trigger.addEventListener('click', () => {
+          this.openModal();
+        });
+        
+        // Close modal when clicking overlay
+        this.overlay.addEventListener('click', () => {
+          this.closeModal();
+        });
+        
+        // Close modal when clicking close button
+        this.closeButton.addEventListener('click', () => {
+          this.closeModal();
+        });
+        
+        // Close modal when pressing ESC key
+        document.addEventListener('keydown', (event) => {
+          if (event.key === 'Escape' && this.modal.classList.contains('active')) {
+            this.closeModal();
+          }
+        });
+      }
+      
+      openModal() {
+        this.modal.classList.add('active');
+        this.trigger.setAttribute('aria-expanded', 'true');
+        document.body.style.overflow = 'hidden';
+        
+        // Set focus to the close button
+        setTimeout(() => {
+          this.closeButton.focus();
+        }, 100);
+      }
+      
+      closeModal() {
+        this.modal.classList.remove('active');
+        this.trigger.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = '';
+        
+        // Return focus to trigger
+        setTimeout(() => {
+          this.trigger.focus();
+        }, 100);
+      }
+    }
+    
+    customElements.define('size-chart-{{ ai_gen_id }}', SizeChart);
+    
+    // Initialize the component
+    new SizeChart();
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Size Chart",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Button Settings"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button text",
+      "default": "Size Chart"
+    },
+    {
+      "type": "range",
+      "id": "font_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Button font size",
+      "default": 14
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Button text color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Desktop Spacing"
+    },
+    {
+      "type": "range",
+      "id": "block_width_desktop",
+      "min": 100,
+      "max": 500,
+      "step": 10,
+      "unit": "px",
+      "label": "Block width (desktop)",
+      "default": 200
+    },
+    {
+      "type": "range",
+      "id": "margin_top_desktop",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "label": "Margin top (desktop)",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "margin_right_desktop",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "label": "Margin right (desktop)",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom_desktop",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "label": "Margin bottom (desktop)",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "margin_left_desktop",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "label": "Margin left (desktop)",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_top_desktop",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "label": "Padding top (desktop)",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_right_desktop",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "label": "Padding right (desktop)",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_desktop",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "label": "Padding bottom (desktop)",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_left_desktop",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "label": "Padding left (desktop)",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Mobile Spacing"
+    },
+    {
+      "type": "range",
+      "id": "block_width_mobile",
+      "min": 50,
+      "max": 300,
+      "step": 10,
+      "unit": "px",
+      "label": "Block width (mobile)",
+      "default": 150
+    },
+    {
+      "type": "range",
+      "id": "margin_top_mobile",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "label": "Margin top (mobile)",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "margin_right_mobile",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "label": "Margin right (mobile)",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom_mobile",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "label": "Margin bottom (mobile)",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "margin_left_mobile",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "label": "Margin left (mobile)",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "label": "Padding top (mobile)",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_right_mobile",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "label": "Padding right (mobile)",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "label": "Padding bottom (mobile)",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_left_mobile",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "label": "Padding left (mobile)",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Popup Settings"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Popup title",
+      "default": "Size Chart"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "min": 16,
+      "max": 36,
+      "step": 1,
+      "unit": "px",
+      "label": "Title font size",
+      "default": 24
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "popup_width",
+      "min": 300,
+      "max": 1000,
+      "step": 50,
+      "unit": "px",
+      "label": "Popup width",
+      "default": 700
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Border radius",
+      "default": 8
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "richtext",
+      "id": "chart_description",
+      "label": "Description",
+      "default": "<p>Please use this size chart to find your perfect fit. Measurements are in inches.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Table Settings"
+    },
+    {
+      "type": "color",
+      "id": "header_background_color",
+      "label": "Header background color",
+      "default": "#f5f5f5"
+    },
+    {
+      "type": "color",
+      "id": "header_text_color",
+      "label": "Header text color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "alternate_row_color",
+      "label": "Alternate row color",
+      "default": "#f9f9f9"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Table border color",
+      "default": "#e0e0e0"
+    },
+    {
+      "type": "header",
+      "content": "Content Source"
+    },
+    {
+      "type": "paragraph",
+      "content": "You can use a page to create your size chart or use the default one."
+    },
+    {
+      "type": "page",
+      "id": "page",
+      "label": "Size chart page"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Size Chart"
+    }
+  ]
+}
+{% endschema %}

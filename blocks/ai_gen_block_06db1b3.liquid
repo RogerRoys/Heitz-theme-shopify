@@ -1,0 +1,1086 @@
+{% doc %}
+  @prompt
+    Trust Pilot Block
+
+    Features:
+    - Up to 5 editable reviews
+    - Editable review label, title, content, customer name, and rating
+    - Editable summary text
+    - Auto slide enable/disable
+    - Swipe/drag slide change
+    - Slider arrows enable/disable
+    - Clickable pagination dots
+    - Scoped CSS to avoid theme conflicts
+{% enddoc %}
+
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+{% assign max_reviews = block.settings.max_reviews | default: 5 %}
+
+{% style %}
+  .aus-trustpilot-block-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+  }
+
+  .aus-trustpilot-block-{{ ai_gen_id }} .swiper-container {
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    touch-action: pan-y;
+    cursor: grab;
+    user-select: none;
+    background: {{ block.settings.section_bg_color }};
+  }
+
+  .aus-trustpilot-block-{{ ai_gen_id }} .swiper-container.is-dragging {
+    cursor: grabbing;
+  }
+
+  .aus-trustpilot-block-{{ ai_gen_id }} .swiper-wrapper {
+    display: flex;
+    transition: transform 0.45s ease;
+    will-change: transform;
+  }
+
+  .aus-trustpilot-block-{{ ai_gen_id }} .swiper-slide {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    padding: 0;
+    height: auto;
+    flex: 0 0 calc(100% / {{ block.settings.slides_desktop }});
+    box-sizing: border-box;
+  }
+
+  .aus-trustpilot-block-{{ ai_gen_id }} .us-post {
+    width: 100%;
+    background: {{ block.settings.card_bg_color }};
+    margin: 10px;
+    border-radius: {{ block.settings.card_radius }}px;
+  }
+
+  .aus-trustpilot-block-{{ ai_gen_id }} .us-post-info {
+    padding: {{ block.settings.card_padding_y }}px {{ block.settings.card_padding_x }}px;
+  }
+
+  .aus-trustpilot-block-{{ ai_gen_id }} .str-rating {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .aus-trustpilot-block-{{ ai_gen_id }} .str-rating p {
+    font-size: {{ block.settings.review_label_size }}px;
+    font-weight: {{ block.settings.review_label_weight }};
+    margin: 0;
+    color: {{ block.settings.review_label_color }};
+  }
+
+  .aus-trustpilot-block-{{ ai_gen_id }} .aus_t_svg {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .aus-trustpilot-block-{{ ai_gen_id }} .aus_tp_stars svg {
+    width: 80px;
+    height: auto;
+    display: block;
+  }
+
+  .aus-trustpilot-block-{{ ai_gen_id }} .us-post-info h3 {
+    margin-top: 5px;
+    margin-bottom: 3px;
+    padding-bottom: 5px;
+    font-size: {{ block.settings.review_title_size }}px;
+    font-weight: {{ block.settings.review_title_weight }};
+    color: {{ block.settings.review_title_color }};
+  }
+
+  .aus-trustpilot-block-{{ ai_gen_id }} .us-post-info .rev,
+  .aus-trustpilot-block-{{ ai_gen_id }} .us-post-info .rev p {
+    margin-top: 0;
+    margin-bottom: 3px;
+    font-size: {{ block.settings.review_content_size }}px;
+    color: {{ block.settings.review_content_color }};
+  }
+
+  .aus-trustpilot-block-{{ ai_gen_id }} .rev {
+    padding-bottom: 10px;
+  }
+
+  .aus-trustpilot-block-{{ ai_gen_id }} .us-post-info h5 {
+    margin: 0;
+    font-size: {{ block.settings.customer_name_size }}px;
+    font-weight: {{ block.settings.customer_name_weight }};
+    letter-spacing: 0.01em;
+    color: {{ block.settings.customer_name_color }};
+  }
+
+  .aus-trustpilot-block-{{ ai_gen_id }} .review-summary {
+    font-size: {{ block.settings.summary_text_size }}px;
+    text-align: center;
+    color: {{ block.settings.summary_text_color }};
+  }
+
+  .aus-trustpilot-block-{{ ai_gen_id }} .review-summary p {
+    margin: 10px 0 0;
+  }
+
+  .aus-trustpilot-block-{{ ai_gen_id }} .aus-slider-arrow {
+    position: absolute;
+    top: 42%;
+    z-index: 3;
+    width: {{ block.settings.arrow_size }}px;
+    height: {{ block.settings.arrow_size }}px;
+    padding: 0;
+    border: 0;
+    border-radius: 999px;
+    background: {{ block.settings.arrow_bg_color }};
+    color: {{ block.settings.arrow_icon_color }};
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transform: translateY(-50%);
+    box-shadow: 0;
+    transition: transform 0.25s ease, opacity 0.25s ease;
+  }
+
+  .aus-trustpilot-block-{{ ai_gen_id }} .aus-slider-arrow:hover {
+    transform: translateY(-50%) scale(1.06);
+  }
+
+  .aus-trustpilot-block-{{ ai_gen_id }} .aus-slider-arrow svg {
+    width: calc({{ block.settings.arrow_size }}px * 0.45);
+    height: calc({{ block.settings.arrow_size }}px * 0.45);
+    display: block;
+  }
+
+  .aus-trustpilot-block-{{ ai_gen_id }} .aus-slider-arrow--prev {
+    left: {{ block.settings.arrow_offset }}px;
+  }
+
+  .aus-trustpilot-block-{{ ai_gen_id }} .aus-slider-arrow--next {
+    right: {{ block.settings.arrow_offset }}px;
+  }
+
+  .aus-trustpilot-block-{{ ai_gen_id }} .aus-slider-dots {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: {{ block.settings.pagination_dot_gap }}px;
+    margin-top: {{ block.settings.pagination_dot_margin_top }}px;
+  }
+
+  .aus-trustpilot-block-{{ ai_gen_id }} .aus-slider-dot {
+    width: {{ block.settings.pagination_dot_size }}px;
+    height: {{ block.settings.pagination_dot_size }}px;
+    padding: 0;
+    border: 0;
+    border-radius: 999px;
+    background: {{ block.settings.pagination_dot_color }};
+    opacity: 0.45;
+    cursor: pointer;
+    transition: opacity 0.25s ease, transform 0.25s ease, background 0.25s ease;
+  }
+
+  .aus-trustpilot-block-{{ ai_gen_id }} .aus-slider-dot.is-active {
+    background: {{ block.settings.pagination_dot_active_color }};
+    opacity: 1;
+    transform: scale(1.25);
+  }
+
+  .aus-trustpilot-block-{{ ai_gen_id }} .aus-slider-dot:focus-visible {
+    outline: 2px solid {{ block.settings.pagination_dot_active_color }};
+    outline-offset: 3px;
+  }
+
+  @media (max-width: 749px) {
+    .aus-trustpilot-block-{{ ai_gen_id }} .swiper-slide {
+      flex-basis: calc(100% / {{ block.settings.slides_mobile }});
+    }
+  }
+{% endstyle %}
+
+<aus-trustpilot-block-{{ ai_gen_id }}
+  class="aus-trustpilot-block-{{ ai_gen_id }}"
+  data-enable-autoplay="{{ block.settings.enable_autoplay }}"
+  data-autoplay-speed="{{ block.settings.autoplay_speed | times: 1000 }}"
+  data-slides-desktop="{{ block.settings.slides_desktop }}"
+  data-slides-mobile="{{ block.settings.slides_mobile }}"
+  data-enable-swipe="{{ block.settings.enable_swipe }}"
+  data-show-dots="{{ block.settings.show_dots }}"
+  {{ block.shopify_attributes }}
+>
+  <div class="swiper-container aus_review_slider">
+    <div class="swiper-wrapper">
+      {% for i in (1..max_reviews) %}
+        {% capture review_label_key %}review_label_{{ i }}{% endcapture %}
+        {% capture review_title_key %}review_title_{{ i }}{% endcapture %}
+        {% capture review_content_key %}review_content_{{ i }}{% endcapture %}
+        {% capture customer_name_key %}customer_name_{{ i }}{% endcapture %}
+        {% capture rating_key %}rating_{{ i }}{% endcapture %}
+
+        {% assign review_label = block.settings[review_label_key] | default: 'Review' %}
+        {% assign review_title = block.settings[review_title_key] %}
+        {% assign review_content = block.settings[review_content_key] %}
+        {% assign customer_name = block.settings[customer_name_key] %}
+        {% assign rating = block.settings[rating_key] | default: '5' %}
+
+        {% if review_title != blank and review_content != blank %}
+          <div class="swiper-slide">
+            <div class="us-post">
+              <div class="us-post-info">
+                <div class="str-rating">
+                  <div class="aus_t_svg">
+                    <div class="aus_tp_stars">
+                      {% if rating == '5' %}
+                        <svg class="star-rating dkt" width="1068" height="200" viewBox="0 0 1068 200" style="height: 15px; width: auto;" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="5 star rating">
+                          <path d="M0 0V200H200V0H0ZM130 127.5L143 166.5L100 135.5L57 165.5L73 115.5L30.5 84H83.5L100 33.5L116.5 84H169.5L101 134.5L130 127.5Z" fill="{{ block.settings.star_color }}"></path>
+                          <path d="M217 0V200H417V0H217ZM347 127.5L360 166.5L317 135.5L274 165.5L290 115.5L247.5 84H300.5L317 33.5L333.5 84H386.5L318 134.5L347 127.5Z" fill="{{ block.settings.star_color }}"></path>
+                          <path d="M434 0V200H634V0H434ZM564 127.5L577 166.5L534 135.5L491 165.5L507 115.5L464.5 84H517.5L534 33.5L550.5 84H603.5L535 134.5L564 127.5Z" fill="{{ block.settings.star_color }}"></path>
+                          <path d="M651 0V200H851V0H651ZM781 127.5L794 166.5L751 135.5L708 165.5L724 115.5L681.5 84H734.5L751 33.5L767.5 84H820.5L752 134.5L781 127.5Z" fill="{{ block.settings.star_color }}"></path>
+                          <path d="M868 0V200H1068V0H868ZM998 127.5L1011 166.5L968 135.5L925 165.5L941 115.5L898.5 84H951.5L968 33.5L984.5 84H1037.5L969 134.5L998 127.5Z" fill="{{ block.settings.star_color }}"></path>
+                        </svg>
+                      {% else %}
+                        <svg class="star-rating dkt" width="1068" height="200" viewBox="0 0 1068 200" style="height: 15px; width: auto;" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="4 star rating">
+                          <path d="M0 0V200H200V0H0ZM130 127.5L143 166.5L100 135.5L57 165.5L73 115.5L30.5 84H83.5L100 33.5L116.5 84H169.5L101 134.5L130 127.5Z" fill="{{ block.settings.star_color }}"></path>
+                          <path d="M217 0V200H417V0H217ZM347 127.5L360 166.5L317 135.5L274 165.5L290 115.5L247.5 84H300.5L317 33.5L333.5 84H386.5L318 134.5L347 127.5Z" fill="{{ block.settings.star_color }}"></path>
+                          <path d="M434 0V200H634V0H434ZM564 127.5L577 166.5L534 135.5L491 165.5L507 115.5L464.5 84H517.5L534 33.5L550.5 84H603.5L535 134.5L564 127.5Z" fill="{{ block.settings.star_color }}"></path>
+                          <path d="M651 0V200H851V0H651ZM781 127.5L794 166.5L751 135.5L708 165.5L724 115.5L681.5 84H734.5L751 33.5L767.5 84H820.5L752 134.5L781 127.5Z" fill="{{ block.settings.star_color }}"></path>
+                          <path d="M868 0V200H1068V0H868ZM998 127.5L1011 166.5L968 135.5L925 165.5L941 115.5L898.5 84H951.5L968 33.5L984.5 84H1037.5L969 134.5L998 127.5Z" fill="{{ block.settings.empty_star_color }}"></path>
+                        </svg>
+                      {% endif %}
+                    </div>
+                  </div>
+                  <p>{{ review_label }}</p>
+                </div>
+
+                <h3>{{ review_title }}</h3>
+                <div class="rev">{{ review_content }}</div>
+
+                {% if customer_name != blank %}
+                  <h5>{{ customer_name }}</h5>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+
+    {% if block.settings.show_arrows %}
+      <button class="aus-slider-arrow aus-slider-arrow--prev" type="button" data-slider-prev aria-label="Previous review">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M15.5 4.5 8 12l7.5 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+      </button>
+      <button class="aus-slider-arrow aus-slider-arrow--next" type="button" data-slider-next aria-label="Next review">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="m8.5 4.5 7.5 7.5-7.5 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+      </button>
+    {% endif %}
+
+    {% if block.settings.show_dots %}
+      <div class="aus-slider-dots" data-slider-dots aria-label="Review slider pagination"></div>
+    {% endif %}
+
+    <div class="review-summary">
+      <p>{{ block.settings.review_summary_text }}</p>
+    </div>
+  </div>
+</aus-trustpilot-block-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class AusTrustpilotBlock{{ ai_gen_id }} extends HTMLElement {
+      connectedCallback() {
+        this.container = this.querySelector('.swiper-container');
+        this.slider = this.querySelector('.swiper-wrapper');
+        this.slides = Array.from(this.querySelectorAll('.swiper-slide'));
+        this.dotsContainer = this.querySelector('[data-slider-dots]');
+        this.prevButton = this.querySelector('[data-slider-prev]');
+        this.nextButton = this.querySelector('[data-slider-next]');
+        this.dots = [];
+        this.index = 0;
+        this.timer = null;
+        this.isDragging = false;
+        this.startX = 0;
+        this.dragDelta = 0;
+
+        if (!this.container || !this.slider || this.slides.length <= 1) return;
+
+        this.buildDots();
+        this.setupArrows();
+        this.setupSwipe();
+        this.startAutoplay();
+        window.addEventListener('resize', this.handleResize);
+      }
+
+      disconnectedCallback() {
+        this.stopAutoplay();
+        window.removeEventListener('resize', this.handleResize);
+
+        if (this.prevButton) this.prevButton.removeEventListener('click', this.onPrevClick);
+        if (this.nextButton) this.nextButton.removeEventListener('click', this.onNextClick);
+      }
+
+      handleResize = () => {
+        this.index = 0;
+        this.buildDots();
+        this.updateSlider();
+      };
+
+      getVisibleSlides() {
+        const isMobile = window.matchMedia('(max-width: 749px)').matches;
+        const value = isMobile ? this.dataset.slidesMobile : this.dataset.slidesDesktop;
+        return Math.max(1, Number(value || 1));
+      }
+
+      getMaxIndex() {
+        return Math.max(0, this.slides.length - this.getVisibleSlides());
+      }
+
+      getStepPercent() {
+        return 100 / this.getVisibleSlides();
+      }
+
+      updateSlider(extraPercent = 0) {
+        const step = this.getStepPercent();
+        this.slider.style.transform = `translateX(calc(-${this.index * step}% + ${extraPercent}%))`;
+        this.updateDots();
+      }
+
+      nextSlide() {
+        const maxIndex = this.getMaxIndex();
+        this.index = this.index >= maxIndex ? 0 : this.index + 1;
+        this.updateSlider();
+      }
+
+      prevSlide() {
+        const maxIndex = this.getMaxIndex();
+        this.index = this.index <= 0 ? maxIndex : this.index - 1;
+        this.updateSlider();
+      }
+
+      startAutoplay() {
+        if (this.dataset.enableAutoplay === 'false') return;
+
+        const speed = Math.max(1500, Number(this.dataset.autoplaySpeed || 3000));
+        this.stopAutoplay();
+        this.timer = window.setInterval(() => this.nextSlide(), speed);
+      }
+
+      stopAutoplay() {
+        if (this.timer) {
+          window.clearInterval(this.timer);
+          this.timer = null;
+        }
+      }
+
+      buildDots() {
+        if (this.dataset.showDots === 'false' || !this.dotsContainer) return;
+
+        const dotCount = this.getMaxIndex() + 1;
+        this.dotsContainer.innerHTML = '';
+        this.dots = [];
+
+        if (dotCount <= 1) return;
+
+        for (let i = 0; i < dotCount; i += 1) {
+          const dot = document.createElement('button');
+          dot.type = 'button';
+          dot.className = 'aus-slider-dot';
+          dot.setAttribute('aria-label', `Go to review slide ${i + 1}`);
+
+          dot.addEventListener('click', (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            this.stopAutoplay();
+            this.index = i;
+            this.updateSlider();
+            this.startAutoplay();
+          });
+
+          this.dotsContainer.appendChild(dot);
+          this.dots.push(dot);
+        }
+
+        this.updateDots();
+      }
+
+      updateDots() {
+        if (!this.dots || !this.dots.length) return;
+
+        this.dots.forEach((dot, dotIndex) => {
+          const isActive = dotIndex === this.index;
+          dot.classList.toggle('is-active', isActive);
+          dot.setAttribute('aria-current', isActive ? 'true' : 'false');
+        });
+      }
+
+      setupArrows() {
+        if (this.prevButton) this.prevButton.addEventListener('click', this.onPrevClick);
+        if (this.nextButton) this.nextButton.addEventListener('click', this.onNextClick);
+      }
+
+      onPrevClick = (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        this.stopAutoplay();
+        this.prevSlide();
+        this.startAutoplay();
+      };
+
+      onNextClick = (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        this.stopAutoplay();
+        this.nextSlide();
+        this.startAutoplay();
+      };
+
+      setupSwipe() {
+        if (this.dataset.enableSwipe === 'false') return;
+
+        this.container.addEventListener('pointerdown', this.onPointerDown);
+        this.container.addEventListener('pointermove', this.onPointerMove);
+        this.container.addEventListener('pointerup', this.onPointerUp);
+        this.container.addEventListener('pointercancel', this.onPointerUp);
+        this.container.addEventListener('pointerleave', this.onPointerUp);
+      }
+
+      onPointerDown = (event) => {
+        if (event.target.closest('[data-slider-dots], [data-slider-prev], [data-slider-next]')) return;
+        if (event.button !== undefined && event.button !== 0) return;
+
+        this.isDragging = true;
+        this.startX = event.clientX;
+        this.dragDelta = 0;
+        this.stopAutoplay();
+        this.slider.style.transition = 'none';
+        this.container.classList.add('is-dragging');
+
+        if (this.container.setPointerCapture) {
+          this.container.setPointerCapture(event.pointerId);
+        }
+      };
+
+      onPointerMove = (event) => {
+        if (!this.isDragging) return;
+
+        this.dragDelta = event.clientX - this.startX;
+        const containerWidth = this.container.offsetWidth || 1;
+        const dragPercent = (this.dragDelta / containerWidth) * 100;
+        this.updateSlider(dragPercent);
+      };
+
+      onPointerUp = () => {
+        if (!this.isDragging) return;
+
+        const containerWidth = this.container.offsetWidth || 1;
+        const threshold = Math.max(40, containerWidth * 0.12);
+
+        this.isDragging = false;
+        this.slider.style.transition = 'transform 0.45s ease';
+        this.container.classList.remove('is-dragging');
+
+        if (Math.abs(this.dragDelta) > threshold) {
+          if (this.dragDelta < 0) {
+            this.nextSlide();
+          } else {
+            this.prevSlide();
+          }
+        } else {
+          this.updateSlider();
+        }
+
+        this.startAutoplay();
+      };
+    }
+
+    if (!customElements.get('aus-trustpilot-block-{{ ai_gen_id }}')) {
+      customElements.define('aus-trustpilot-block-{{ ai_gen_id }}', AusTrustpilotBlock{{ ai_gen_id }});
+    }
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Trust Pilot Block",
+  "settings": [
+    {
+      "type": "range",
+      "id": "max_reviews",
+      "label": "Number of reviews",
+      "min": 1,
+      "max": 5,
+      "step": 1,
+      "default": 5
+    },
+    {
+      "type": "range",
+      "id": "slides_desktop",
+      "label": "Slides visible on desktop",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "select",
+      "id": "slides_mobile",
+      "label": "Slides visible on mobile",
+      "options": [
+        {
+          "value": "1",
+          "label": "1 slide"
+        },
+        {
+          "value": "2",
+          "label": "2 slides"
+        }
+      ],
+      "default": "1"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_autoplay",
+      "label": "Enable auto slide",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "autoplay_speed",
+      "label": "Autoplay speed",
+      "min": 2,
+      "max": 8,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_swipe",
+      "label": "Enable swipe / drag slide change",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_dots",
+      "label": "Show scrolling dots",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_arrows",
+      "label": "Show slider arrows",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "section_bg_color",
+      "label": "Section background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "card_bg_color",
+      "label": "Review card background",
+      "default": "#f9f9f9"
+    },
+    {
+      "type": "color",
+      "id": "star_color",
+      "label": "Star color",
+      "default": "#00B67B"
+    },
+    {
+      "type": "color",
+      "id": "empty_star_color",
+      "label": "Empty star color",
+      "default": "#DBDBDD"
+    },
+    {
+      "type": "color",
+      "id": "review_title_color",
+      "label": "Review title color",
+      "default": "#506369"
+    },
+    {
+      "type": "color",
+      "id": "review_content_color",
+      "label": "Review content color",
+      "default": "#506369"
+    },
+    {
+      "type": "color",
+      "id": "review_label_color",
+      "label": "Review label color",
+      "default": "#506369"
+    },
+    {
+      "type": "color",
+      "id": "customer_name_color",
+      "label": "Customer name color",
+      "default": "#506369"
+    },
+    {
+      "type": "color",
+      "id": "summary_text_color",
+      "label": "Summary text color",
+      "default": "#506369"
+    },
+    {
+      "type": "color",
+      "id": "arrow_icon_color",
+      "label": "Arrow icon color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "arrow_bg_color",
+      "label": "Arrow background color",
+      "default": "#506369"
+    },
+    {
+      "type": "color",
+      "id": "pagination_dot_color",
+      "label": "Pagination dot color",
+      "default": "#cfd6d8"
+    },
+    {
+      "type": "color",
+      "id": "pagination_dot_active_color",
+      "label": "Active pagination dot color",
+      "default": "#506369"
+    },
+    {
+      "type": "header",
+      "content": "Font sizes"
+    },
+    {
+      "type": "range",
+      "id": "review_title_size",
+      "label": "Review title size",
+      "min": 10,
+      "max": 28,
+      "step": 1,
+      "default": 14
+    },
+    {
+      "type": "select",
+      "id": "review_title_weight",
+      "label": "Review title weight",
+      "options": [
+        {
+          "value": "400",
+          "label": "Regular"
+        },
+        {
+          "value": "500",
+          "label": "Medium"
+        },
+        {
+          "value": "600",
+          "label": "Semi bold"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        }
+      ],
+      "default": "700"
+    },
+    {
+      "type": "range",
+      "id": "review_content_size",
+      "label": "Review content size",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "default": 13
+    },
+    {
+      "type": "range",
+      "id": "review_label_size",
+      "label": "Review label size",
+      "min": 10,
+      "max": 22,
+      "step": 1,
+      "default": 12
+    },
+    {
+      "type": "select",
+      "id": "review_label_weight",
+      "label": "Review label weight",
+      "options": [
+        {
+          "value": "300",
+          "label": "Light"
+        },
+        {
+          "value": "400",
+          "label": "Regular"
+        },
+        {
+          "value": "500",
+          "label": "Medium"
+        },
+        {
+          "value": "600",
+          "label": "Semi bold"
+        }
+      ],
+      "default": "400"
+    },
+    {
+      "type": "range",
+      "id": "customer_name_size",
+      "label": "Customer name size",
+      "min": 10,
+      "max": 22,
+      "step": 1,
+      "default": 12
+    },
+    {
+      "type": "select",
+      "id": "customer_name_weight",
+      "label": "Customer name weight",
+      "options": [
+        {
+          "value": "400",
+          "label": "Regular"
+        },
+        {
+          "value": "500",
+          "label": "Medium"
+        },
+        {
+          "value": "600",
+          "label": "Semi bold"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        }
+      ],
+      "default": "500"
+    },
+    {
+      "type": "range",
+      "id": "summary_text_size",
+      "label": "Summary text size",
+      "min": 10,
+      "max": 22,
+      "step": 1,
+      "default": 12
+    },
+    {
+      "type": "header",
+      "content": "Slider arrows"
+    },
+    {
+      "type": "range",
+      "id": "arrow_size",
+      "label": "Arrow size",
+      "min": 28,
+      "max": 56,
+      "step": 2,
+      "default": 38
+    },
+    {
+      "type": "range",
+      "id": "arrow_offset",
+      "label": "Arrow side spacing",
+      "min": -20,
+      "max": 30,
+      "step": 2,
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "Pagination dots"
+    },
+    {
+      "type": "range",
+      "id": "pagination_dot_size",
+      "label": "Dot size",
+      "min": 6,
+      "max": 16,
+      "step": 1,
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "pagination_dot_gap",
+      "label": "Dot spacing",
+      "min": 4,
+      "max": 20,
+      "step": 1,
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "pagination_dot_margin_top",
+      "label": "Dots top spacing",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "default": 14
+    },
+    {
+      "type": "header",
+      "content": "Card style"
+    },
+    {
+      "type": "range",
+      "id": "card_radius",
+      "label": "Card border radius",
+      "min": 0,
+      "max": 30,
+      "step": 1,
+      "default": 5
+    },
+    {
+      "type": "range",
+      "id": "card_padding_x",
+      "label": "Card horizontal padding",
+      "min": 8,
+      "max": 40,
+      "step": 2,
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "card_padding_y",
+      "label": "Card vertical padding",
+      "min": 8,
+      "max": 40,
+      "step": 2,
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Review 1"
+    },
+    {
+      "type": "text",
+      "id": "review_title_1",
+      "label": "Review title"
+    },
+    {
+      "type": "textarea",
+      "id": "review_content_1",
+      "label": "Review content"
+    },
+    {
+      "type": "text",
+      "id": "customer_name_1",
+      "label": "Customer name"
+    },
+    {
+      "type": "text",
+      "id": "review_label_1",
+      "label": "Review label 1",
+      "default": "Review 1"
+    },
+    {
+      "type": "select",
+      "id": "rating_1",
+      "label": "Rating",
+      "default": "5",
+      "options": [
+        {
+          "value": "5",
+          "label": "Five star"
+        },
+        {
+          "value": "4",
+          "label": "Four star"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Review 2"
+    },
+    {
+      "type": "text",
+      "id": "review_title_2",
+      "label": "Review title"
+    },
+    {
+      "type": "text",
+      "id": "review_label_2",
+      "label": "Review label 2",
+      "default": "Review 2"
+    },
+    {
+      "type": "textarea",
+      "id": "review_content_2",
+      "label": "Review content"
+    },
+    {
+      "type": "text",
+      "id": "customer_name_2",
+      "label": "Customer name"
+    },
+    {
+      "type": "select",
+      "id": "rating_2",
+      "label": "Rating",
+      "default": "5",
+      "options": [
+        {
+          "value": "5",
+          "label": "Five star"
+        },
+        {
+          "value": "4",
+          "label": "Four star"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Review 3"
+    },
+    {
+      "type": "text",
+      "id": "review_title_3",
+      "label": "Review title"
+    },
+    {
+      "type": "textarea",
+      "id": "review_content_3",
+      "label": "Review content"
+    },
+    {
+      "type": "text",
+      "id": "customer_name_3",
+      "label": "Customer name"
+    },
+    {
+      "type": "text",
+      "id": "review_label_3",
+      "label": "Review label 3",
+      "default": "Review 3"
+    },
+    {
+      "type": "select",
+      "id": "rating_3",
+      "label": "Rating",
+      "default": "5",
+      "options": [
+        {
+          "value": "5",
+          "label": "Five star"
+        },
+        {
+          "value": "4",
+          "label": "Four star"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Review 4"
+    },
+    {
+      "type": "text",
+      "id": "review_title_4",
+      "label": "Review title"
+    },
+    {
+      "type": "textarea",
+      "id": "review_content_4",
+      "label": "Review content"
+    },
+    {
+      "type": "text",
+      "id": "review_label_4",
+      "label": "Review label 4",
+      "default": "Review 4"
+    },
+    {
+      "type": "text",
+      "id": "customer_name_4",
+      "label": "Customer name"
+    },
+    {
+      "type": "select",
+      "id": "rating_4",
+      "label": "Rating",
+      "default": "5",
+      "options": [
+        {
+          "value": "5",
+          "label": "Five star"
+        },
+        {
+          "value": "4",
+          "label": "Four star"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Review 5"
+    },
+    {
+      "type": "text",
+      "id": "review_title_5",
+      "label": "Review title"
+    },
+    {
+      "type": "textarea",
+      "id": "review_content_5",
+      "label": "Review content"
+    },
+    {
+      "type": "text",
+      "id": "customer_name_5",
+      "label": "Customer name"
+    },
+    {
+      "type": "text",
+      "id": "review_label_5",
+      "label": "Review label 5",
+      "default": "Review 5"
+    },
+    {
+      "type": "select",
+      "id": "rating_5",
+      "label": "Rating",
+      "default": "5",
+      "options": [
+        {
+          "value": "5",
+          "label": "Five star"
+        },
+        {
+          "value": "4",
+          "label": "Four star"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "review_summary_text",
+      "label": "Review summary text",
+      "default": "Rated 4.6 / 5 based on 1289 reviews. Showing our 5-star reviews."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Trust Pilot Slider"
+    }
+  ]
+}
+{% endschema %}

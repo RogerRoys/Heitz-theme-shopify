@@ -1,0 +1,1095 @@
+{% assign gen_id = block.id | replace: '_', '' | downcase %}
+
+{% if product %}
+  {% style %}
+    .sticky-atc-{{ gen_id }} {
+      position: fixed;
+      left: 0;
+      width: 100%;
+      z-index: {{ block.settings.z_index }};
+      transition: transform 0.3s ease;
+    }
+
+    .sticky-atc-container-{{ gen_id }} {
+      max-width: 100%;
+      margin: 0 auto;
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      background-color: var(--color-background);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .sticky-atc-image-{{ gen_id }} {
+      width: 60px;
+      height: 60px;
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+
+    .sticky-atc-image-{{ gen_id }} img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .sticky-atc-info-{{ gen_id }} {
+      flex-grow: 1;
+      min-width: 0;
+    }
+
+    .sticky-atc-title-{{ gen_id }} {
+      font-size: {{ block.settings.title_font_size }}px;
+      color: var(--color-foreground);
+      margin: 0 0 4px 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .sticky-atc-price-{{ gen_id }} {
+      font-size: {{ block.settings.price_font_size }}px;
+      color: var(--color-foreground);
+      margin: 0;
+    }
+
+    .sticky-atc-variants-{{ gen_id }} {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .sticky-atc-variant-select-{{ gen_id }} {
+      padding: 8px 12px;
+      border: 0px solid var(--color-primary-button-background);
+      border-radius: {{ block.settings.button_border_radius }}px;
+      background-color: var(--color-background);
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .sticky-atc-variant-select-{{ gen_id }}:focus-visible{
+      outline:none;
+    }
+
+    .sticky-atc-button-{{ gen_id }} {
+      padding: 12px 32px;
+      background-color: var(--color-primary-button-background);
+      color: var(--color-primary-button-text);
+      border: 1px solid var(--color-primary-button-border);
+      border-radius: {{ block.settings.button_border_radius }}px;
+      font-size: {{ block.settings.button_font_size }}px;
+      cursor: pointer;
+      white-space: nowrap;
+      font-family: var(--button-font-family-primary);
+      transition: background-color 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .sticky-atc-button-{{ gen_id }}:hover {
+      background-color: var(--color-primary-button-hover-background);
+      color:var(--color-primary-button-hover-text);
+      border: 1px solid var(--color-primary-button-hover-border);
+    }
+
+    .sticky-atc-button-{{ gen_id }}:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .sticky-atc-divider-{{ gen_id }} {
+      width: 1px;
+      height: 15px;
+      background-color: var(--color-primary-button-text);
+      opacity: 1;
+    }
+
+    .sticky-atc-button-{{ gen_id }}:hover .sticky-atc-divider-{{ gen_id }}{
+      background-color:var(--color-primary-button-hover-text);
+    }
+
+    @media screen and (max-width: 767px) {
+      .sticky-atc-{{ gen_id }} {
+        bottom: 0 !important;
+        top: auto !important;
+        transform: translateY(100%);
+      }
+
+      .sticky-atc-{{ gen_id }}.sticky-visible-{{ gen_id }} {
+        transform: translateY(0) !important;
+      }
+
+      .sticky-atc-container-{{ gen_id }} {
+        /* flex-wrap: wrap; */
+        gap: 12px;
+        border-top: 1px solid var(--color-background);
+      }
+
+      .sticky-atc-image-{{ gen_id }} {
+        width: 50px;
+        height: 50px;
+      }
+
+      .sticky-atc-info-{{ gen_id }} {
+        flex-basis: calc(100% - 70px);
+        display:none;
+      }
+
+      .sticky-atc-variants-{{ gen_id }} {
+        flex-basis: 100%;
+        order: 3;
+      }
+
+      .sticky-atc-button-{{ gen_id }} {
+        flex-basis: 100%;
+        order: 4;
+        justify-content: center;
+        font-size:{{ block.settings.button_mobilefont_size }}px;
+      }
+    }
+
+    @media screen and (min-width: 768px) {
+      .sticky-atc-{{ gen_id }} {
+        top: 0;
+        transform: translateY(-100%);
+      }
+
+      .sticky-atc-{{ gen_id }}.sticky-visible-{{ gen_id }} {
+        transform: translateY(0);
+      }
+
+      .sticky-atc-container-{{ gen_id }} {
+        border-bottom: 1px solid var(--color-background);
+      }
+    }
+  {% endstyle %}
+
+  <div class="color-{{ block.settings.color_scheme }}">
+    <sticky-add-to-cart-{{ gen_id }}
+      class="sticky-atc-{{ gen_id }}"
+      data-product-id="{{ product.id }}"
+      {{ block.shopify_attributes }}
+    >
+      <div class="sticky-atc-container-{{ gen_id }}">
+        {% if product.featured_image %}
+          <div class="sticky-atc-image-{{ gen_id }}">
+            <img
+              src="{{ product.featured_image | image_url: width: 120 }}"
+              alt="{{ product.featured_image.alt | escape }}"
+              loading="lazy"
+              width="60"
+              height="60"
+            >
+          </div>
+        {% endif %}
+
+        <div class="sticky-atc-info-{{ gen_id }}">
+          {% comment %} <h3 class="sticky-atc-title-{{ gen_id }}">{{ product.title }}</h3> {% endcomment %}
+          {% render 'text', block: block %}
+          {% unless block.settings.hide_price_below_title %}
+            <div class="sticky-atc-price-{{ gen_id }}" data-sticky-price>
+              {{ product.selected_or_first_available_variant.price | money }}
+            </div>
+          {% endunless %}
+        </div>
+
+        {% if product.has_only_default_variant == false %}
+          <div class="sticky-atc-variants-{{ gen_id }}">
+            {% for option in product.options_with_values %}
+              <select
+                class="sticky-atc-variant-select-{{ gen_id }}"
+                data-option-index="{{ forloop.index0 }}"
+                data-sticky-variant-select
+              >
+                {% for value in option.values %}
+                  <option
+                    value="{{ value | escape }}"
+                    {% if option.selected_value == value %}
+                      selected
+                    {% endif %}
+                  >
+                    {{ option.name }}: {{ value }}
+                  </option>
+                {% endfor %}
+              </select>
+            {% endfor %}
+          </div>
+        {% endif %}
+
+        <button
+          type="button"
+          class="sticky-atc-button-{{ gen_id }}"
+          data-sticky-add-to-cart
+          {% unless product.selected_or_first_available_variant.available %}
+            disabled
+          {% endunless %}
+        >
+          <span data-button-text>
+            {% if product.selected_or_first_available_variant.available %}
+              {{ block.settings.button_text }}
+            {% else %}
+              {{ block.settings.sold_out_text }}
+            {% endif %}
+          </span>
+          {% unless block.settings.hide_price_in_button %}
+            <span class="sticky-atc-divider-{{ gen_id }}"></span>
+            <span data-button-price>
+              {{ product.selected_or_first_available_variant.price | money }}
+            </span>
+          {% endunless %}
+        </button>
+      </div>
+    </sticky-add-to-cart-{{ gen_id }}>
+  </div>
+
+<script>
+  (function() {
+    class StickyAddToCart{{ gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+        this.productId = this.dataset.productId;
+        this.stickyBar = this;
+        this.addToCartButton = this.querySelector('[data-sticky-add-to-cart]');
+        this.variantSelects = this.querySelectorAll('[data-sticky-variant-select]');
+        this.priceElements = this.querySelectorAll('[data-sticky-price], [data-button-price]');
+        this.buttonText = this.querySelector('[data-button-text]');
+        this.mainProductForm = null;
+        this.currentVariant = null;
+
+        this.headerEl = null;
+        this.headerGroupEl = null;
+        this._lastScrollY = window.pageYOffset || 0;
+        this._ticking = false;
+        this._upScrollStabilizer = null;
+
+        this._suppressDrawer = false;
+        this._drawerObserver = null;
+        this._suppressTimeoutId = null;
+
+        this._productCache = {};
+        this._productFetchThrottle = null;
+        this._cartFetchPromise = null;
+        this._lastCartFetchTs = 0;
+        this._cartCacheTTL = 1500;
+        this._addingLock = false;
+
+        this._drawerOpenDelay = 2000; // 2 seconds
+        this._enableLogs = false;
+      }
+
+      connectedCallback() {
+        const attrDelay = parseInt(this.getAttribute('data-drawer-delay'), 10);
+        if (!isNaN(attrDelay) && attrDelay >= 0) this._drawerOpenDelay = attrDelay;
+        const attrLog = this.getAttribute('data-sticky-log');
+        if (attrLog === 'true') this._enableLogs = true;
+
+        this.injectForceHideCSS();
+        this.init();
+        if (this._enableLogs) console.debug('sticky:init config', { drawerDelay: this._drawerOpenDelay });
+      }
+
+      log(...args) { if (this._enableLogs) console.debug('sticky:', ...args); }
+
+      injectForceHideCSS() {
+        const styleEl = document.createElement('style');
+        styleEl.setAttribute('data-sticky-atc-style-{{ gen_id }}', '');
+        styleEl.textContent = `
+          .sticky-atc-{{ gen_id }}.force-hide-{{ gen_id }} {
+            {% comment %} opacity: 0 !important; {% endcomment %}
+            pointer-events: none !important;
+          }
+        `;
+        document.head.appendChild(styleEl);
+      }
+
+      init() {
+        this.resolveElements();
+        this.measureAndApply("init");
+        this.observeResizes();
+        this.setupScrollListener();
+        this.setupVariantSelects();
+        this.setupAddToCart();
+        this.syncWithMainForm();
+        window.addEventListener("resize", () => this.measureAndApply("resize"));
+        
+        // Prevent cart refresh from auto-opening drawer
+        this.setupCartRefreshInterceptor();
+      }
+
+      // NEW: Intercept cart refresh events to prevent auto-opening
+      setupCartRefreshInterceptor() {
+        // Listen for cart update events and prevent default drawer opening behavior
+        document.addEventListener('cart:update', (event) => {
+          if (event.detail?.sourceId === 'sticky-add-to-cart-{{ gen_id }}') {
+            this.log('cart:update intercepted from sticky ATC - preventing auto-open');
+            // We'll handle the opening manually after delay
+          }
+        });
+
+        // Also intercept section rendering events that might open drawer
+        document.addEventListener('shopify:section:load', (event) => {
+          if (this._suppressDrawer) {
+            this.log('section load during suppression - preventing auto-open');
+            this._closeAllDrawers();
+          }
+        });
+      }
+
+      resolveElements() {
+        this.headerEl = document.querySelector("#header-group") || 
+                        document.querySelector("header") || 
+                        document.querySelector(".header") || 
+                        document.querySelector('[role="banner"]');
+        this.headerGroupEl = document.querySelector("header.shopify-section-group-header-groups") || 
+                             document.querySelector(".shopify-section-group-header-groups");
+      }
+
+      getVisibleHeight(el) {
+        if (!el) return 0;
+        const rect = el.getBoundingClientRect();
+        return Math.max(0, Math.min(rect.bottom, rect.height));
+      }
+
+      getCurrentMeasureTarget(context) {
+        if (context === "scroll-up") return this.headerGroupEl || this.headerEl;
+        return this.headerEl || this.headerGroupEl;
+      }
+
+      measureAndApply(context) {
+        if (window.innerWidth < 768) { this.stickyBar.style.top = null; return; }
+        if (!this.headerEl && !this.headerGroupEl) this.resolveElements();
+        const px = this.getVisibleHeight(this.getCurrentMeasureTarget(context));
+        this.stickyBar.style.top = px + "px";
+      }
+
+      observeResizes() {
+        if (!("ResizeObserver" in window)) return;
+        const observer = new ResizeObserver(() => this.measureAndApply("resize"));
+        if (this.headerEl) observer.observe(this.headerEl);
+        if (this.headerGroupEl) observer.observe(this.headerGroupEl);
+      }
+
+      startUpScrollStabilizer() {
+        if (this._upScrollStabilizer) { cancelAnimationFrame(this._upScrollStabilizer); this._upScrollStabilizer = null; }
+        const start = performance.now();
+        const duration = 600;
+        const tick = (now) => {
+          if (window.innerWidth >= 768) this.measureAndApply("scroll-up");
+          if (now - start < duration) this._upScrollStabilizer = requestAnimationFrame(tick);
+          else this._upScrollStabilizer = null;
+        };
+        this._upScrollStabilizer = requestAnimationFrame(tick);
+      }
+
+      setupScrollListener() {
+        const mainProductSection = document.querySelector('[data-section-type="product"], .product, .product-template, main');
+        const onScroll = () => {
+          const currentY = window.pageYOffset || 0;
+          const scrollingUp = currentY < this._lastScrollY;
+          const context = scrollingUp ? "scroll-up" : "scroll-down";
+
+          let scrollThreshold = 0;
+          if (mainProductSection) scrollThreshold = mainProductSection.offsetTop + 300;
+
+          if (currentY > scrollThreshold) {
+            this.stickyBar.classList.remove("force-hide-{{ gen_id }}");
+            this.stickyBar.classList.add("sticky-visible-{{ gen_id }}");
+          } else {
+            this.stickyBar.classList.remove("sticky-visible-{{ gen_id }}");
+            this.stickyBar.classList.add("force-hide-{{ gen_id }}");
+          }
+
+          if (currentY <= 0) {
+            this.stickyBar.classList.remove("sticky-visible-{{ gen_id }}");
+            this.stickyBar.classList.add("force-hide-{{ gen_id }}");
+          }
+
+          if (window.innerWidth >= 768) {
+            this.measureAndApply(context);
+            if (scrollingUp) this.startUpScrollStabilizer();
+          }
+
+          this._lastScrollY = currentY;
+        };
+
+        window.addEventListener("scroll", () => {
+          if (this._ticking) return;
+          this._ticking = true;
+          requestAnimationFrame(() => { onScroll(); this._ticking = false; });
+        }, { passive: true });
+      }
+
+      setupVariantSelects() {
+        this.variantSelects.forEach(select => select.addEventListener("change", () => this._throttledUpdateVariant()));
+      }
+      _throttledUpdateVariant() {
+        if (this._productFetchThrottle) clearTimeout(this._productFetchThrottle);
+        this._productFetchThrottle = setTimeout(() => { this.updateVariant(); this._productFetchThrottle = null; }, 120);
+      }
+      updateVariant() {
+        const selectedOptions = Array.from(this.variantSelects).map(s => s.value);
+        const handle = this.getProductHandle();
+        if (!handle) return;
+        this.fetchProduct(handle).then(product => {
+          if (!product) return;
+          const variant = product.variants.find(v => selectedOptions.every((opt,i) => v.options[i] === opt));
+          if (variant) {
+            this.currentVariant = variant;
+            this.updatePrice(variant.price);
+            this.updateButton(variant.available);
+            this.updateMainFormVariant(variant.id);
+          }
+        }).catch(e => this.log('product fetch err', e));
+      }
+      fetchProduct(handle) {
+        if (!handle) return Promise.resolve(null);
+        const cache = this._productCache[handle];
+        if (cache && (Date.now() - cache.ts) < 60_000 && cache.product) return Promise.resolve(cache.product);
+        return fetch(`/products/${handle}.js`).then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+          .then(product => { this._productCache[handle] = { ts: Date.now(), product }; return product; });
+      }
+
+      updatePrice(price) { const formatted = this.formatMoney(price); this.priceElements.forEach(el => el.textContent = formatted); }
+      updateButton(available) { if (this.addToCartButton) this.addToCartButton.disabled = !available; if (this.buttonText) this.buttonText.textContent = available ? "{{ block.settings.button_text }}" : "{{ block.settings.sold_out_text }}"; }
+
+      setupAddToCart() {
+        if (!this.addToCartButton) return;
+        this.addToCartButton.addEventListener("click", (e) => { e.preventDefault(); this.handleAddToCart(); });
+      }
+
+      _startDrawerSuppression(duration) {
+        this._stopDrawerSuppression();
+        this._suppressDrawer = true;
+        this.log('suppress:start', { duration });
+        
+        // Close all drawers immediately when suppression starts
+        this._closeAllDrawers();
+
+        this._drawerObserver = new MutationObserver(() => {
+          if (!this._suppressDrawer) return;
+          // If any drawer tries to open during suppression, close it immediately
+          const drawers = this._getDrawerCandidates();
+          drawers.forEach(d => {
+            const isOpen = (d.hasAttribute && d.hasAttribute('open')) || d.classList.contains('is-open') || (d.style && (d.style.display === 'block' || d.style.display === 'flex'));
+            if (isOpen) {
+              this.log('suppress: detected open, forcing close');
+              this._forceCloseDrawer(d);
+            }
+          });
+        });
+
+        try {
+          this._drawerObserver.observe(document.documentElement || document.body, { 
+            childList: true, 
+            attributes: true, 
+            subtree: true, 
+            attributeFilter: ['class','style','open'] 
+          });
+        } catch(e) {
+          try { 
+            this._drawerObserver.observe(document.body, { 
+              childList: true, 
+              attributes: true, 
+              subtree: true 
+            }); 
+          } catch(e2) { this.log('suppress: observer fail', e2); }
+        }
+
+        this._suppressTimeoutId = setTimeout(() => { 
+          this._stopDrawerSuppression(); 
+        }, duration);
+      }
+
+      _stopDrawerSuppression() {
+        this._suppressDrawer = false;
+        if (this._drawerObserver) { 
+          try { this._drawerObserver.disconnect(); } catch(e) {} 
+          this._drawerObserver = null; 
+        }
+        if (this._suppressTimeoutId) { 
+          clearTimeout(this._suppressTimeoutId); 
+          this._suppressTimeoutId = null; 
+        }
+        this.log('suppress:stopped');
+      }
+
+      // NEW: Close all drawers
+      _closeAllDrawers() {
+        const drawers = this._getDrawerCandidates();
+        drawers.forEach(d => this._forceCloseDrawer(d));
+      }
+
+      // NEW: Get all possible drawer candidates
+      _getDrawerCandidates() {
+        return [
+          document.querySelector('cart-drawer-component'),
+          document.querySelector('cart-drawer'),
+          document.querySelector('#CartDrawer'),
+          document.querySelector('#cart-drawer'),
+          document.querySelector('.cart-drawer'),
+          document.querySelector('.drawer--cart'),
+          document.querySelector('.drawer--right')
+        ].filter(Boolean);
+      }
+
+      // NEW: Force close a drawer
+      _forceCloseDrawer(d) {
+        try {
+          if (typeof d.close === 'function') { 
+            d.close(); 
+            this.log('forceClose: called close()'); 
+            return; 
+          }
+          if (typeof d.hide === 'function') { 
+            d.hide(); 
+            this.log('forceClose: called hide()');
+          }
+          if (d.hasAttribute && d.hasAttribute('open')) {
+            d.removeAttribute('open');
+            this.log('forceClose: removed open attribute');
+          }
+          d.classList.remove('is-open', 'open', 'drawer--is-open', 'active');
+          try { 
+            d.style.display = 'none'; 
+            this.log('forceClose: set display none');
+          } catch(e){}
+        } catch(e) { 
+          this.log('forceClose: error', e); 
+        }
+      }
+
+      fetchCart(force = false) {
+        const now = Date.now();
+        if (!force && this._cartFetchPromise && (now - this._lastCartFetchTs) < this._cartCacheTTL) return this._cartFetchPromise;
+        this._cartFetchPromise = fetch('/cart.js', { cache: 'no-store' }).then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+          .then(cart => { this._lastCartFetchTs = Date.now(); setTimeout(()=>{ this._cartFetchPromise = null; }, 250); return cart; })
+          .catch(err => { this._cartFetchPromise = null; throw err; });
+        return this._cartFetchPromise;
+      }
+
+      // MAIN: add-to-cart flow
+      handleAddToCart() {
+        if (this._addingLock) { this.log('add:locked'); return; }
+        const variantId = this.currentVariant ? this.currentVariant.id : this.getVariantIdFromSelects();
+        if (!variantId) { console.error('StickyAddToCart: variant id not found.'); return; }
+
+        this._addingLock = true;
+        if (this.addToCartButton) this.addToCartButton.disabled = true;
+
+        const payload = { items: [{ id: variantId, quantity: 1 }] };
+
+        // Start aggressive drawer suppression
+        this._startDrawerSuppression(this._drawerOpenDelay + 1000); // Suppress for longer than our open delay
+
+        fetch('/cart/add.js', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        })
+        .then(res => { if (!res.ok) throw new Error('Add failed: '+res.status); return res.json(); })
+        .then(addResult => {
+          this.log('add:result', addResult);
+          return this.fetchCart(true);
+        })
+        .then(cart => {
+          this.log('cart:fetched', cart);
+          
+          // Update cart count in DOM
+          this.updateCartCountInDOM(cart);
+
+          // Dispatch cart update event but prevent auto-opening
+          try {
+            const detail = { 
+              resource: cart, 
+              sourceId: 'sticky-add-to-cart-{{ gen_id }}', 
+              data: { 
+                didError: false, 
+                source: 'sticky', 
+                itemCount: cart.item_count, 
+                variantId: variantId, 
+                sections: {},
+                // Add flag to indicate we'll handle opening manually
+                suppressAutoOpen: true
+              } 
+            };
+            document.dispatchEvent(new CustomEvent('cart:update', { bubbles: true, detail }));
+            this.log('cart:update dispatched with suppressAutoOpen flag');
+          } catch(e){ this.log('dispatch fail', e); }
+
+          // Wait 2 seconds then manually open the drawer
+          setTimeout(() => {
+            this.log('manual drawer open after delay');
+            this._stopDrawerSuppression(); // Stop suppression first
+            this._openCartDrawerOnly(); // Manually open the drawer
+            this._addingLock = false;
+            if (this.addToCartButton) this.addToCartButton.disabled = false;
+          }, this._drawerOpenDelay);
+
+        })
+        .catch(err => {
+          console.error('StickyAddToCart error:', err);
+          try { 
+            document.dispatchEvent(new CustomEvent('cart:error', { 
+              bubbles: true, 
+              detail: { 
+                message: String(err), 
+                sourceId: 'sticky-add-to-cart-{{ gen_id }}' 
+              } 
+            })); 
+          } catch(e){}
+          // cleanup
+          this._addingLock = false;
+          if (this.addToCartButton) this.addToCartButton.disabled = false;
+          this._stopDrawerSuppression();
+        });
+      }
+
+      updateCartCountInDOM(cart) {
+        const count = (cart && typeof cart.item_count === 'number') ? cart.item_count : null;
+        if (count === null) return;
+        const selectors = ['.site-header__cart-count','.drawer__cart-count','.js-cart-count'];
+        let updated = false;
+        selectors.forEach(sel => {
+          const nodes = document.querySelectorAll(sel);
+          if (nodes && nodes.length) { nodes.forEach(n => n.textContent = count); updated = true; }
+        });
+        const input = document.querySelector('input[name="cart-count"], input#cart-count-input');
+        if (input) { input.value = count; updated = true; }
+        if (!updated) this.log('updateCartCountInDOM: no selectors found');
+      }
+
+      _openCartDrawerOnly() {
+        try {
+          const drawers = this._getDrawerCandidates();
+          for (const d of drawers) {
+            if (!d) continue;
+            try {
+              if (typeof d.open === 'function') { 
+                d.open(); 
+                this.log('open: used open()'); 
+                return; 
+              }
+              if (typeof d.showDialog === 'function') { 
+                d.showDialog(); 
+                this.log('open: used showDialog()'); 
+                return; 
+              }
+              if (typeof d.show === 'function') { 
+                d.show(); 
+                this.log('open: used show()'); 
+                return; 
+              }
+              // Fallback: manually set attributes and styles
+              d.classList.add('is-open', 'open'); 
+              d.setAttribute('open',''); 
+              d.style.display = 'block';
+              this.log('open: fallback forced open'); 
+              return;
+            } catch(e) { this.log('open: candidate attempt failed', e); }
+          }
+          this.log('open: no drawer candidate found');
+        } catch(e) { this.log('open: error', e); }
+      }
+
+      getVariantIdFromSelects() {
+        const form = document.querySelector('form[action*="/cart/add"]');
+        return form?.querySelector('[name="id"]')?.value || null;
+      }
+
+      syncWithMainForm() {
+        this.mainProductForm = document.querySelector('form[action*="/cart/add"]');
+        if (this.mainProductForm) {
+          const mainVariantSelects = this.mainProductForm.querySelectorAll('select[name^="options"], input[type="radio"][name^="options"]');
+          mainVariantSelects.forEach(input => input.addEventListener("change", () => { setTimeout(()=>this.syncFromMainForm(),100); }));
+        }
+      }
+
+      syncFromMainForm() {
+        if (!this.mainProductForm) return;
+        const variantIdInput = this.mainProductForm.querySelector('[name="id"]');
+        if (!variantIdInput) return;
+        const variantId = variantIdInput.value;
+        this.fetchProduct(this.getProductHandle()).then(product => {
+          const variant = product?.variants.find(v => v.id == variantId);
+          if (variant) {
+            this.currentVariant = variant;
+            this.updatePrice(variant.price);
+            this.updateButton(variant.available);
+            this.variantSelects.forEach((s,i) => s.value = variant.options[i]);
+          }
+        }).catch(()=>{});
+      }
+
+      getProductHandle() { return window.location.pathname.split("/products/")[1]?.split("?")[0] || ""; }
+      formatMoney(cents) { const money = (cents / 100).toFixed(2); return "{{ cart.currency.symbol }}" + money; }
+    }
+
+    customElements.define("sticky-add-to-cart-{{ gen_id }}", StickyAddToCart{{ gen_id }});
+  })();
+</script>
+
+{% endif %}
+
+{% schema %}
+{
+  "name": "Sticky add to cart",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Bar style"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:settings.color_scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "range",
+      "id": "z_index",
+      "min": 10,
+      "max": 1000,
+      "step": 10,
+      "label": "Z-index",
+      "default": 990
+    },
+    {
+      "type": "header",
+      "content": "Product info"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "t:settings.text"
+    },
+    {
+      "type": "header",
+      "content": "t:content.typography"
+    },
+    {
+      "type": "select",
+      "id": "type_preset",
+      "label": "t:settings.preset",
+      "options": [
+        {
+          "value": "rte",
+          "label": "t:options.default"
+        },
+        {
+          "value": "paragraph",
+          "label": "t:options.paragraph"
+        },
+        {
+          "value": "h1",
+          "label": "t:options.h1"
+        },
+        {
+          "value": "h2",
+          "label": "t:options.h2"
+        },
+        {
+          "value": "h3",
+          "label": "t:options.h3"
+        },
+        {
+          "value": "h4",
+          "label": "t:options.h4"
+        },
+        {
+          "value": "h5",
+          "label": "t:options.h5"
+        },
+        {
+          "value": "h6",
+          "label": "t:options.h6"
+        },
+        {
+          "value": "custom",
+          "label": "t:options.custom"
+        }
+      ],
+      "default": "rte",
+      "info": "t:info.edit_presets_in_theme_settings"
+    },
+    {
+      "type": "select",
+      "id": "font",
+      "label": "t:settings.font",
+      "options": [
+        {
+          "value": "var(--font-body--family)",
+          "label": "t:options.body"
+        },
+        {
+          "value": "var(--font-subheading--family)",
+          "label": "t:options.subheading"
+        },
+        {
+          "value": "var(--font-heading--family)",
+          "label": "t:options.heading"
+        },
+        {
+          "value": "var(--font-accent--family)",
+          "label": "t:options.accent"
+        }
+      ],
+      "default": "var(--font-body--family)",
+      "visible_if": "{{ block.settings.type_preset == 'custom' }}"
+    },
+    {
+      "type": "select",
+      "id": "font_size",
+      "label": "t:settings.size",
+      "options": [
+        {
+          "value": "",
+          "label": "t:options.default"
+        },
+        {
+          "value": "0.625rem",
+          "label": "10px"
+        },
+        {
+          "value": "0.75rem",
+          "label": "12px"
+        },
+        {
+          "value": "0.875rem",
+          "label": "14px"
+        },
+        {
+          "value": "1rem",
+          "label": "16px"
+        },
+        {
+          "value": "1.125rem",
+          "label": "18px"
+        },
+        {
+          "value": "1.25rem",
+          "label": "20px"
+        },
+        {
+          "value": "1.5rem",
+          "label": "24px"
+        },
+        {
+          "value": "2rem",
+          "label": "32px"
+        },
+        {
+          "value": "2.5rem",
+          "label": "40px"
+        },
+        {
+          "value": "3rem",
+          "label": "48px"
+        },
+        {
+          "value": "3.5rem",
+          "label": "56px"
+        },
+        {
+          "value": "4.5rem",
+          "label": "72px"
+        },
+        {
+          "value": "5.5rem",
+          "label": "88px"
+        },
+        {
+          "value": "7.5rem",
+          "label": "120px"
+        },
+        {
+          "value": "9.5rem",
+          "label": "152px"
+        },
+        {
+          "value": "11.5rem",
+          "label": "184px"
+        }
+      ],
+      "default": "1rem",
+      "visible_if": "{{ block.settings.type_preset == 'custom' }}"
+    },
+    {
+      "type": "select",
+      "id": "line_height",
+      "label": "t:settings.line_height",
+      "options": [
+        {
+          "value": "tight",
+          "label": "t:options.tight"
+        },
+        {
+          "value": "normal",
+          "label": "t:options.normal"
+        },
+        {
+          "value": "loose",
+          "label": "t:options.loose"
+        }
+      ],
+      "default": "normal",
+      "visible_if": "{{ block.settings.type_preset == 'custom' }}"
+    }, 
+    {
+      "type": "select",
+      "id": "letter_spacing",
+      "label": "t:settings.letter_spacing",
+      "options": [
+        {
+          "value": "tight",
+          "label": "t:options.tight"
+        },
+        {
+          "value": "normal",
+          "label": "t:options.normal"
+        },
+        {
+          "value": "loose",
+          "label": "t:options.loose"
+        }
+      ],
+      "default": "normal",
+      "visible_if": "{{ block.settings.type_preset == 'custom' }}"
+    },
+    {
+      "type": "select",
+      "id": "case",
+      "label": "t:settings.case",
+      "options": [
+        {
+          "value": "none",
+          "label": "t:options.default"
+        },
+        {
+          "value": "uppercase",
+          "label": "t:options.uppercase"
+        }
+      ],
+      "default": "none",
+      "visible_if": "{{ block.settings.type_preset == 'custom' }}"
+    },
+    {
+      "type": "select",
+      "id": "wrap",
+      "label": "t:settings.wrap",
+      "options": [
+        {
+          "value": "pretty",
+          "label": "t:options.pretty"
+        },
+        {
+          "value": "balance",
+          "label": "t:options.balance"
+        },
+        {
+          "value": "nowrap",
+          "label": "t:options.none"
+        }
+      ],
+      "visible_if": "{{ block.settings.type_preset == 'custom' }}"
+    },
+    {
+      "type": "select",
+      "id": "color",
+      "label": "t:settings.color",
+      "options": [
+        {
+          "value": "var(--color-foreground)",
+          "label": "t:options.text"
+        },
+        {
+          "value": "var(--color-foreground-heading)",
+          "label": "t:options.heading"
+        },
+        {
+          "value": "var(--color-primary)",
+          "label": "t:options.link"
+        }
+      ],
+      "default": "var(--color-foreground)",
+      "visible_if": "{{ block.settings.type_preset != 'rte' }}"
+    },
+    {
+      "type": "range",
+      "id": "price_font_size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Price font size",
+      "default": 14
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_price_below_title",
+      "label": "Hide price below title",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Button"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button text",
+      "default": "ADD TO CART"
+    },
+    {
+      "type": "text",
+      "id": "sold_out_text",
+      "label": "Sold out text",
+      "default": "SOLD OUT"
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_price_in_button",
+      "label": "Hide price in button",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "button_border_radius",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "label": "Border radius",
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "button_font_size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Font size",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "button_mobilefont_size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Mobile Font size",
+      "default": 14
+    }
+  ],
+  "presets": [
+    {
+      "name": "Sticky add to cart"
+    }
+  ]
+}
+{% endschema %}

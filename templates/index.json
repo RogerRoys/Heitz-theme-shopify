@@ -254,6 +254,7 @@
           ]
         }
       },
+      "custom_css": [],
       "settings": {
         "collection": "pendant-lights",
         "title": "Pendant Lighting",
@@ -265,6 +266,9 @@
     },
     "cta_pendant": {
       "type": "heitz-cta-button",
+      "custom_css": [
+        ".htf-cta-template--30222283735121__cta_pendant {margin-top: 0px; padding-top: 40px;}"
+      ],
       "settings": {
         "color_scheme": "scheme-1",
         "label": "Shop now",

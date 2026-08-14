@@ -52,6 +52,11 @@
   .htf-header {
     --icon-size-sm: 26px;
     --icon-size-xs: 22px;
+    /* Horizon's account popover CSS anchors below the trigger using
+       --header-padding; without it the top calc collapses and the panel
+       floats mid-page. Define it here since the stock header section
+       (its usual source) is not rendered. */
+    --header-padding: var(--padding-sm, 12px);
   }
   .htf-header__item--left { display: flex; align-items: center; justify-content: flex-start; }
   .htf-header__item--icons {

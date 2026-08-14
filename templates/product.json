@@ -14,7 +14,8 @@
       "settings": {
         "bg": "#fbf7f1",
         "text": "#1a1b18",
-        "accent": "#d9b97a"
+        "accent": "#d9b97a",
+        "color_scheme": "scheme-heitz-cream"
       }
     },
     "main": {
@@ -124,7 +125,8 @@
         "eyebrow": "Personal Lighting Guidance",
         "heading": "Not Sure Which Light Will Suit Your Space?",
         "text": "Share a photo, wall dimensions or details about your room, entrance or garden. Our team will help you compare suitable sizes, finishes and lighting styles.",
-        "button_label": "Ask for Advice"
+        "button_label": "Ask for Advice",
+        "color_scheme": "scheme-1"
       }
     },
     "recommendations": {
@@ -313,7 +315,8 @@
         "badge_text": "Lighting chosen for warm ambience, clean form and elevated interior styling.",
         "kicker": "Lighting, Elevated",
         "title": "Refined Lighting for a More Beautiful Home",
-        "subtitle": "Heitz Living brings together pendant lights, wall lights and outdoor lighting designed to add warmth, structure and a premium architectural finish to your home."
+        "subtitle": "Heitz Living brings together pendant lights, wall lights and outdoor lighting designed to add warmth, structure and a premium architectural finish to your home.",
+        "color_scheme": "scheme-heitz-warm"
       }
     },
     "icon_row": {
@@ -358,7 +361,9 @@
         "icon_3",
         "icon_4"
       ],
-      "settings": {}
+      "settings": {
+        "color_scheme": "scheme-heitz-brown"
+      }
     }
   },
   "order": [

@@ -18,7 +18,8 @@
         "title": "Lighting That Defines the Space",
         "subtitle": "Thoughtfully designed pieces for refined, modern interiors.",
         "button_label": "Explore",
-        "link": "shopify://collections/all"
+        "link": "shopify://collections/all",
+        "color_scheme": "scheme-heitz-dark"
       }
     },
     "trust_badges": {
@@ -67,7 +68,9 @@
         "badge_4",
         "badge_5"
       ],
-      "settings": {}
+      "settings": {
+        "color_scheme": "scheme-heitz-light"
+      }
     },
     "category_scroll": {
       "type": "heitz-category-scroll",
@@ -132,7 +135,9 @@
         "cat_6",
         "cat_7"
       ],
-      "settings": {}
+      "settings": {
+        "color_scheme": "scheme-heitz-light"
+      }
     },
     "featured_pendant": {
       "type": "heitz-featured-collection",
@@ -262,7 +267,8 @@
       "type": "heitz-cta-button",
       "settings": {
         "label": "Shop now",
-        "link": "shopify://collections/pendant-lights"
+        "link": "shopify://collections/pendant-lights",
+        "color_scheme": "scheme-heitz-light"
       }
     },
     "featured_outdoor": {
@@ -430,7 +436,9 @@
         "group_collection",
         "group_room"
       ],
-      "settings": {}
+      "settings": {
+        "color_scheme": "scheme-heitz-beige"
+      }
     },
     "editorial": {
       "type": "heitz-editorial",
@@ -438,7 +446,8 @@
         "title": "Behind the Design",
         "text": "Explore lighting inspiration, styling ideas, and thoughtful design stories made to help you create a more beautiful home.",
         "button_label": "Explore Collections",
-        "link": "shopify://collections"
+        "link": "shopify://collections",
+        "color_scheme": "scheme-heitz-light"
       }
     },
     "newsletter": {
@@ -447,7 +456,8 @@
         "title": "Sign up and save",
         "text": "Be the first to know about new arrivals and special offers.",
         "placeholder": "Enter your email",
-        "button_label": "Subscribe"
+        "button_label": "Subscribe",
+        "color_scheme": "scheme-heitz-light"
       }
     }
   },

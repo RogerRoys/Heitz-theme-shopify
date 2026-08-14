@@ -44,11 +44,19 @@
           }
         }
       },
-      "block_order": ["contact", "menu_support", "menu_policies", "newsletter"],
+      "block_order": [
+        "contact",
+        "menu_support",
+        "menu_policies",
+        "newsletter"
+      ],
       "settings": {
-        "show_payment_icons": true
+        "show_payment_icons": true,
+        "color_scheme": "scheme-heitz-dark"
       }
     }
   },
-  "order": ["heitz_footer"]
+  "order": [
+    "heitz_footer"
+  ]
 }

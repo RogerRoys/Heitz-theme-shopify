@@ -1,0 +1,138 @@
+{%- comment -%}
+  Heitz PDP scrollspy — fixed top pill nav auto-built from page headings
+  tagged [data-hpdp-spy]. Cream bar, gold active underline, scroll progress
+  indicator, hides while scrolling up (header takes over then).
+{%- endcomment -%}
+{% render 'heitz-pdp-base' %}
+<style>
+  .hpdp-spybar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: {{ section.settings.bg | default: '#fbf7f1' }};
+    box-shadow: 0 2px 14px rgba(0,0,0,.08);
+    z-index: 80;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-100%);
+    transition: opacity .3s ease, visibility .3s ease, transform .3s ease;
+  }
+  .hpdp-spybar.is-visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+  .hpdp-spybar__indicator {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 2px;
+    width: 0;
+    background: {{ section.settings.accent | default: '#d9b97a' }};
+  }
+  .hpdp-spybar__menu {
+    display: flex;
+    gap: 20px;
+    padding: 2px 24px 0;
+    margin: 0 auto;
+    max-width: 1600px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .hpdp-spybar__menu::-webkit-scrollbar { display: none; }
+  .hpdp-spybar__item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: .75em 0;
+    color: {{ section.settings.text | default: '#1a1b18' }};
+    font-family: var(--hpdp-font-body);
+    font-weight: 500;
+    font-size: 12px;
+    text-decoration: none;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    transition: color .25s ease, border-color .25s ease, transform .25s ease;
+    cursor: pointer;
+    background: none;
+  }
+  .hpdp-spybar__item:hover { color: {{ section.settings.accent | default: '#d9b97a' }}; transform: translateY(-1px); }
+  .hpdp-spybar__item.is-active {
+    color: {{ section.settings.accent | default: '#d9b97a' }};
+    border-bottom-color: {{ section.settings.accent | default: '#d9b97a' }};
+  }
+</style>
+
+<nav class="hpdp-spybar" data-hpdp-spybar aria-label="Page sections">
+  <span class="hpdp-spybar__indicator" data-hpdp-spy-indicator></span>
+  <div class="hpdp-spybar__menu" data-hpdp-spy-menu></div>
+</nav>
+
+<script>
+  (function () {
+    var bar = document.querySelector('[data-hpdp-spybar]');
+    if (!bar) return;
+    var menu = bar.querySelector('[data-hpdp-spy-menu]');
+    var indicator = bar.querySelector('[data-hpdp-spy-indicator]');
+
+    function build() {
+      var targets = document.querySelectorAll('[data-hpdp-spy]');
+      if (!targets.length) return [];
+      menu.innerHTML = '';
+      var pairs = [];
+      targets.forEach(function (t, i) {
+        var label = t.getAttribute('data-hpdp-spy') || t.textContent.trim();
+        if (label.length > 34) label = label.slice(0, 32) + '…';
+        if (!t.id) t.id = 'hpdp-spy-' + i;
+        var a = document.createElement('a');
+        a.className = 'hpdp-spybar__item';
+        a.textContent = label;
+        a.href = '#' + t.id;
+        a.addEventListener('click', function (e) {
+          e.preventDefault();
+          window.scrollTo({ top: t.getBoundingClientRect().top + window.scrollY - 60, behavior: 'smooth' });
+        });
+        menu.appendChild(a);
+        pairs.push({ target: t, link: a });
+      });
+      return pairs;
+    }
+
+    var pairs = [];
+    document.addEventListener('DOMContentLoaded', function () { pairs = build(); });
+
+    var lastY = window.scrollY;
+    function onScroll() {
+      var y = window.scrollY;
+      var goingDown = y > lastY;
+      lastY = y;
+      var show = y > 480 && goingDown;
+      if (y > 480 && !goingDown && bar.classList.contains('is-visible')) show = false;
+      bar.classList.toggle('is-visible', show);
+
+      var doc = document.documentElement;
+      var progress = doc.scrollHeight > doc.clientHeight ? y / (doc.scrollHeight - doc.clientHeight) : 0;
+      indicator.style.width = (progress * 100) + '%';
+
+      var current = null;
+      pairs.forEach(function (p) {
+        if (p.target.getBoundingClientRect().top < window.innerHeight * 0.45) current = p;
+      });
+      pairs.forEach(function (p) { p.link.classList.toggle('is-active', p === current); });
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Heitz PDP Scrollspy",
+  "settings": [
+    { "type": "color", "id": "bg", "label": "Bar background", "default": "#fbf7f1" },
+    { "type": "color", "id": "text", "label": "Text", "default": "#1a1b18" },
+    { "type": "color", "id": "accent", "label": "Active accent", "default": "#d9b97a" }
+  ],
+  "presets": [{ "name": "Heitz PDP Scrollspy" }]
+}
+{% endschema %}

@@ -1,0 +1,37 @@
+{%- comment -%}
+  Heitz PDP base — Jost + Cabin fonts and tokens for the product page,
+  ported from the Be Yours-based reference design.
+{%- endcomment -%}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cabin:wght@500;600;700&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --hpdp-font-heading: 'Cabin', sans-serif;
+    --hpdp-font-body: 'Jost', sans-serif;
+    --hpdp-text: #212326;
+    --hpdp-heading: #1a1b18;
+    --hpdp-muted: #555555;
+    --hpdp-soft: #666666;
+    --hpdp-border: #d2d5d9;
+    --hpdp-border-light: #e8e8e8;
+    --hpdp-price: #1a1b18;
+    --hpdp-sale: #c0270b;
+    --hpdp-success: #2ca45f;
+    --hpdp-gold: #b8a98a;
+    --hpdp-gold-strong: #d9b97a;
+    --hpdp-cream: #fbf7f1;
+    --hpdp-warm: #f8f5f0;
+    --hpdp-brown: #3a160c;
+    --hpdp-brown-text: #5a3a2f;
+    --hpdp-ink: #111111;
+  }
+  .hpdp-page-width {
+    margin: 0 auto;
+    max-width: 1600px;
+    padding: 0 24px;
+  }
+  @media screen and (min-width: 750px) {
+    .hpdp-page-width { padding: 0 50px; }
+  }
+</style>

@@ -1,0 +1,889 @@
+{%- comment -%}
+  Heitz PDP main — Be Yours-style product page core:
+  55/45 gallery + buy box, thumbnail slider, zoom modal, variant pills,
+  quantity, Horizon-wired add to cart (cart drawer), dynamic checkout,
+  payment icons, trust list, description, info accordion, FAQ, sticky bar.
+{%- endcomment -%}
+{% render 'heitz-pdp-base' %}
+
+{%- assign current_variant = product.selected_or_first_available_variant -%}
+{%- assign sid = section.id -%}
+
+<style>
+  .hpdp { font-family: var(--hpdp-font-body); color: var(--hpdp-text); }
+  .hpdp a { text-decoration: none; }
+  .hpdp-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 30px;
+    padding: 20px 0 40px;
+  }
+  @media screen and (min-width: 750px) {
+    .hpdp-grid { grid-template-columns: 55fr 45fr; gap: 50px; padding: 30px 0 60px; }
+  }
+
+  /* ── gallery ─────────────────────────────────── */
+  .hpdp-media { position: relative; }
+  @media screen and (min-width: 750px) {
+    .hpdp-media__sticky { position: sticky; top: 20px; }
+  }
+  .hpdp-stage { position: relative; overflow: hidden; }
+  .hpdp-stage__track {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .hpdp-stage__track::-webkit-scrollbar { display: none; }
+  .hpdp-slide {
+    flex: 0 0 100%;
+    scroll-snap-align: start;
+    position: relative;
+  }
+  .hpdp-slide__ratio { position: relative; padding-bottom: 100%; background: #f3f3f3; }
+  .hpdp-slide__ratio img {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover; display: block;
+    cursor: zoom-in;
+  }
+  .hpdp-zoom-btn {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    z-index: 3;
+    width: 40px;
+    height: 40px;
+    border: 0;
+    border-radius: 50%;
+    background: rgba(255,255,255,.9);
+    color: var(--hpdp-heading);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,.12);
+  }
+  .hpdp-zoom-btn svg { width: 19px; height: 19px; }
+  .hpdp-dots {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 12px;
+  }
+  .hpdp-dots span {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: #ccc;
+    transition: background .2s;
+  }
+  .hpdp-dots span.is-active { background: var(--hpdp-heading); }
+  .hpdp-thumbs-wrap {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    margin-top: 30px;
+    position: relative;
+    z-index: 5;
+  }
+  .hpdp-thumbs {
+    display: flex;
+    max-width: 270px;
+    padding: 6px;
+    column-gap: 6px;
+    background: #ffffff;
+    box-shadow: 0 0 40px rgba(33,35,38,.2);
+    overflow-x: auto;
+    scrollbar-width: none;
+    scroll-behavior: smooth;
+  }
+  .hpdp-thumbs::-webkit-scrollbar { display: none; }
+  .hpdp-thumb {
+    flex: 0 0 60px;
+    width: 60px;
+    height: 60px;
+    padding: 0;
+    border: 1px solid transparent;
+    background: #f3f3f3;
+    cursor: pointer;
+  }
+  .hpdp-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .hpdp-thumb.is-active { border-color: var(--hpdp-heading); }
+  .hpdp-thumb-arrow {
+    border: 0;
+    background: transparent;
+    width: 34px;
+    height: 44px;
+    cursor: pointer;
+    color: var(--hpdp-heading);
+    font-size: 22px;
+    line-height: 1;
+  }
+  @media screen and (min-width: 750px) {
+    .hpdp-stage__track { overflow: hidden; }
+    .hpdp-thumbs-wrap { display: flex; }
+    .hpdp-dots { display: none; }
+  }
+
+  /* ── buy box ─────────────────────────────────── */
+  .hpdp-title {
+    font-family: var(--hpdp-font-heading);
+    font-weight: 600;
+    font-size: clamp(24px, 19.5px + 1.5vw, 35px);
+    line-height: 1.2;
+    letter-spacing: .3px;
+    color: var(--hpdp-heading);
+    margin: 0 0 15px;
+  }
+  .hpdp-price {
+    font-family: var(--hpdp-font-heading);
+    font-size: 22px;
+    letter-spacing: 1.3px;
+    color: var(--hpdp-price);
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 4px;
+  }
+  .hpdp-price__compare { display: none; text-decoration: line-through; font-size: 17px; color: #85838f; }
+  .hpdp-price--on-sale .hpdp-price__current { color: var(--hpdp-sale); }
+  .hpdp-price--on-sale .hpdp-price__compare { display: inline; }
+
+  .hpdp-trust {
+    padding: 4px 0 8px;
+    margin: 10px 0 4px;
+  }
+  .hpdp-trust__item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+    color: #222222;
+    font-size: 15px;
+    font-weight: 400;
+    letter-spacing: .5px;
+    line-height: 1.25;
+  }
+  .hpdp-trust__item:last-child { margin-bottom: 0; }
+  .hpdp-trust__icon {
+    width: 18px; height: 18px; min-width: 18px;
+    border: 1.4px solid var(--hpdp-success);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--hpdp-success);
+  }
+  .hpdp-trust__icon svg { width: 11px; height: 11px; stroke: currentColor; stroke-width: 2.5; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+
+  .hpdp-pills { border: 0; padding: 0; margin: 14px 0 0; }
+  .hpdp-pills legend {
+    font-size: 13px;
+    letter-spacing: .4px;
+    margin-bottom: 6px;
+    padding: 0;
+    color: var(--hpdp-text);
+  }
+  .hpdp-pills input { position: absolute; opacity: 0; pointer-events: none; }
+  .hpdp-pills label {
+    display: inline-block;
+    padding: 9px 16px;
+    margin: 0 8px 8px 0;
+    font-size: 13px;
+    letter-spacing: .4px;
+    color: var(--hpdp-heading);
+    background: #ffffff;
+    box-shadow: inset 0 0 0 1px var(--hpdp-border);
+    cursor: pointer;
+    transition: box-shadow .2s ease;
+  }
+  .hpdp-pills input:checked + label { box-shadow: inset 0 0 0 2px var(--hpdp-heading); }
+  .hpdp-pills label:hover { box-shadow: inset 0 0 0 1px var(--hpdp-heading); }
+
+  .hpdp-form-row { margin-top: 18px; }
+  .hpdp-qty {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: rgba(33,35,38,.04);
+    border-radius: 40px;
+    padding: 4px;
+    margin-bottom: 14px;
+  }
+  .hpdp-qty button {
+    width: 36px; height: 36px;
+    border: 0;
+    border-radius: 50%;
+    background: rgba(33,35,38,.06);
+    color: var(--hpdp-heading);
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background .2s ease, color .2s ease;
+  }
+  .hpdp-qty button:hover { background: var(--hpdp-heading); color: #fff; }
+  .hpdp-qty input {
+    width: 46px;
+    border: 0;
+    background: transparent;
+    text-align: center;
+    font-family: var(--hpdp-font-body);
+    font-size: 14px;
+    font-weight: 500;
+    -moz-appearance: textfield;
+  }
+  .hpdp-qty input::-webkit-outer-spin-button, .hpdp-qty input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+
+  .hpdp .hpdp-atc.button {
+    width: 100%;
+    min-height: 50px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    padding: 12px 30px;
+    background: #ffffff;
+    border: 1px solid var(--hpdp-heading);
+    border-radius: 0;
+    color: var(--hpdp-heading);
+    font-family: var(--hpdp-font-body);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background .3s ease, color .3s ease;
+    --color-button: 255, 255, 255;
+    --color-button-text: 26, 27, 24;
+  }
+  .hpdp .hpdp-atc.button:hover { background: var(--hpdp-heading); color: #ffffff; }
+  .hpdp .shopify-payment-button { margin-top: 10px; }
+  .hpdp .shopify-payment-button__button--unbranded {
+    border-radius: 0;
+    min-height: 50px;
+    font-family: var(--hpdp-font-body);
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    font-size: 12px;
+  }
+
+  .hpdp-payments {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    flex-wrap: nowrap;
+    width: 100%;
+    padding: 14px 0 16px;
+    margin: 0;
+    list-style: none;
+  }
+  .hpdp-payments li { line-height: 0; display: flex; }
+  .hpdp-payments svg { width: 38px; height: auto; display: block; }
+  @media (max-width: 600px) {
+    .hpdp-payments { gap: 4px; padding: 10px 0 14px; }
+    .hpdp-payments svg { width: clamp(28px, 8vw, 34px); }
+  }
+
+  .hpdp-description { margin-top: 6px; }
+  .hpdp-description h2 { font-family: var(--hpdp-font-heading); font-weight: 600; font-size: 22px; letter-spacing: -.02em; color: var(--hpdp-heading); margin: 18px 0 10px; }
+  .hpdp-description h3 { font-family: var(--hpdp-font-heading); font-weight: 600; font-size: 17px; color: var(--hpdp-heading); margin: 16px 0 8px; }
+  .hpdp-description p, .hpdp-description li { font-size: 15px; font-weight: 400; line-height: 1.7; letter-spacing: .2px; color: var(--hpdp-muted); }
+  .hpdp-description ul { padding-left: 20px; margin: 8px 0; }
+  .hpdp-description img { max-width: 100%; height: auto; margin-top: 10px; }
+
+  /* info accordion (pd-info) */
+  .hpdp-info-acc { width: 100%; border-top: 1px solid var(--hpdp-border-light); margin-top: 18px; }
+  .hpdp-info-acc__item { border-bottom: 1px solid var(--hpdp-border-light); }
+  .hpdp-info-acc__trigger {
+    all: unset;
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 0;
+    cursor: pointer;
+  }
+  .hpdp-info-acc__icon { flex-shrink: 0; color: #1a1a1a; display: flex; }
+  .hpdp-info-acc__icon svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+  .hpdp-info-acc__label {
+    font-family: var(--hpdp-font-heading);
+    font-weight: 500;
+    font-size: 14px;
+    color: #1a1a1a;
+    letter-spacing: -.01em;
+    flex: 1;
+    transition: color .2s ease;
+  }
+  .hpdp-info-acc__trigger:hover .hpdp-info-acc__label { color: var(--hpdp-gold); }
+  .hpdp-info-acc__chevron { flex-shrink: 0; color: var(--hpdp-gold); display: flex; transition: transform .25s ease; }
+  .hpdp-info-acc__chevron svg { width: 14px; height: 14px; fill: none; }
+  .hpdp-info-acc__trigger[aria-expanded="true"] .hpdp-info-acc__chevron { transform: rotate(180deg); }
+  .hpdp-info-acc__answer p {
+    font-weight: 300;
+    font-size: 13.5px;
+    line-height: 1.7;
+    color: var(--hpdp-soft);
+    margin: 0 0 10px;
+  }
+  .hpdp-info-acc__answer p:last-child { margin-bottom: 16px; }
+  .hpdp-info-acc__answer a { color: var(--hpdp-soft); text-decoration: underline; }
+  .hpdp-info-acc__answer strong { font-weight: 500; color: #1a1a1a; }
+
+  /* FAQ (cl-faq) */
+  .hpdp-faq { background: #ffffff; padding: 32px 0 16px; }
+  .hpdp-faq__eyebrow {
+    font-weight: 300;
+    font-size: 11px;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: #aaa;
+    margin: 0 0 8px;
+  }
+  .hpdp-faq__title {
+    font-family: var(--hpdp-font-heading);
+    font-weight: 600;
+    font-size: 22px;
+    color: #1a1a1a;
+    letter-spacing: -.02em;
+    line-height: 1.2;
+    margin: 0 0 24px;
+  }
+  .hpdp-faq__list { border-top: 1px solid var(--hpdp-border-light); }
+  .hpdp-faq__item { border-bottom: 1px solid var(--hpdp-border-light); }
+  .hpdp-faq__trigger {
+    all: unset;
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 16px 0;
+    cursor: pointer;
+  }
+  .hpdp-faq__q {
+    font-family: var(--hpdp-font-heading);
+    font-weight: 500;
+    font-size: 14px;
+    color: #1a1a1a;
+    line-height: 1.4;
+    transition: color .2s ease;
+  }
+  .hpdp-faq__trigger:hover .hpdp-faq__q { color: var(--hpdp-gold); }
+  .hpdp-faq__icon {
+    flex-shrink: 0;
+    color: var(--hpdp-gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px; height: 28px; min-width: 28px;
+    border: 1px solid #e0ddd8;
+    border-radius: 50%;
+    transition: background-color .2s ease, border-color .2s ease, color .2s ease;
+  }
+  .hpdp-faq__icon svg { width: 16px; height: 16px; }
+  .hpdp-faq__icon .hpdp-icon-v { transition: transform .2s ease, opacity .2s ease; transform-origin: center; }
+  .hpdp-faq__trigger:hover .hpdp-faq__icon,
+  .hpdp-faq__trigger[aria-expanded="true"] .hpdp-faq__icon { background: var(--hpdp-gold); border-color: var(--hpdp-gold); color: #fff; }
+  .hpdp-faq__trigger[aria-expanded="true"] .hpdp-icon-v { transform: scaleY(0); opacity: 0; }
+  .hpdp-faq__a p { font-weight: 300; font-size: 13.5px; line-height: 1.7; color: var(--hpdp-soft); margin: 0; padding: 0 0 16px; }
+
+  /* ── sticky bar ─────────────────────────────── */
+  .hpdp-sticky {
+    position: fixed;
+    bottom: 0; left: 0;
+    width: 100%;
+    z-index: 90;
+    background: #ffffff;
+    box-shadow: 0 -4px 30px rgba(33,35,38,.14);
+    transform: translateY(100%);
+    opacity: 0;
+    transition: transform .25s ease, opacity .25s ease;
+  }
+  .hpdp-sticky.is-visible { transform: translateY(0); opacity: 1; }
+  .hpdp-sticky__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 10px 24px;
+    margin: 0 auto;
+    max-width: 1600px;
+  }
+  .hpdp-sticky__left { display: flex; align-items: center; gap: 14px; min-width: 0; }
+  .hpdp-sticky__img { width: 48px; height: 48px; object-fit: cover; flex: 0 0 48px; }
+  .hpdp-sticky__title {
+    font-family: var(--hpdp-font-heading);
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--hpdp-heading);
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 380px;
+  }
+  .hpdp-sticky__price { font-family: var(--hpdp-font-heading); font-size: 14px; letter-spacing: .5px; }
+  .hpdp-sticky__form { display: flex; align-items: center; gap: 10px; }
+  .hpdp-sticky select {
+    font-family: var(--hpdp-font-body);
+    font-size: 13px;
+    padding: 9px 30px 9px 12px;
+    border: 1px solid var(--hpdp-border);
+    border-radius: 0;
+    background: #fff;
+    color: var(--hpdp-heading);
+  }
+  .hpdp-sticky__atc {
+    min-height: 42px;
+    padding: 10px 26px;
+    background: var(--hpdp-heading);
+    border: 1px solid var(--hpdp-heading);
+    color: #fff;
+    font-family: var(--hpdp-font-body);
+    font-size: 12px;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+  @media screen and (max-width: 749px) {
+    .hpdp-sticky__img, .hpdp-sticky__title, .hpdp-sticky select { display: none; }
+    .hpdp-sticky__inner { padding: 10px 16px; }
+    .hpdp-sticky__form { flex: 1 1 auto; }
+    .hpdp-sticky__atc { width: 100%; }
+  }
+
+  /* ── zoom modal ─────────────────────────────── */
+  .hpdp-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 120;
+    background: #ffffff;
+    display: none;
+    overflow-y: auto;
+  }
+  .hpdp-modal.is-open { display: block; }
+  .hpdp-modal__close {
+    position: fixed;
+    top: 20px; right: 24px;
+    z-index: 3;
+    width: 44px; height: 44px;
+    border: 0;
+    border-radius: 50%;
+    background: rgba(33,35,38,.08);
+    color: var(--hpdp-heading);
+    font-size: 26px;
+    cursor: pointer;
+  }
+  .hpdp-modal__content { max-width: 1100px; margin: 0 auto; padding: 60px 20px; }
+  .hpdp-modal__content img { width: 100%; height: auto; display: block; margin-bottom: 16px; }
+</style>
+
+<section class="hpdp" data-hpdp
+  data-section-id="{{ sid }}"
+  data-product-id="{{ product.id }}">
+  <div class="hpdp-page-width">
+    <div class="hpdp-grid">
+
+      <div class="hpdp-media">
+        <div class="hpdp-media__sticky">
+          <div class="hpdp-stage">
+            <button type="button" class="hpdp-zoom-btn" data-hpdp-zoom-open aria-label="Zoom image">
+              <svg viewBox="0 0 19 19" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M4.67 7.94c0-.28.22-.5.5-.5l5.53-.02a.5.5 0 1 1 0 1l-5.53.02a.5.5 0 0 1-.5-.5Z" fill="currentColor"/><path fill-rule="evenodd" clip-rule="evenodd" d="M7.93 4.66c.27 0 .5.23.5.5l.01 5.54a.5.5 0 0 1-1 0l-.01-5.53c0-.28.22-.5.5-.5Z" fill="currentColor"/><path fill-rule="evenodd" clip-rule="evenodd" d="M12.83 3.03a6.93 6.93 0 1 0-9.8 9.8 6.93 6.93 0 0 0 9.8-9.8ZM2.32 2.32a7.93 7.93 0 0 1 11.3 11.14l4.63 4.63a.5.5 0 0 1-.71.7l-4.66-4.66A7.93 7.93 0 0 1 2.32 2.32Z" fill="currentColor"/></svg>
+            </button>
+            <div class="hpdp-stage__track" data-hpdp-track>
+              {%- for media in product.media -%}
+                {%- if forloop.first -%}{%- assign img_loading = 'eager' -%}{%- else -%}{%- assign img_loading = 'lazy' -%}{%- endif -%}
+                <div class="hpdp-slide" data-hpdp-slide data-media-id="{{ media.id }}">
+                  <div class="hpdp-slide__ratio">
+                    {{ media | image_url: width: 1500 | image_tag: alt: product.title, loading: img_loading, sizes: '(min-width: 750px) 55vw, 100vw', widths: '535, 750, 1100, 1500' }}
+                  </div>
+                </div>
+              {%- else -%}
+                <div class="hpdp-slide"><div class="hpdp-slide__ratio"></div></div>
+              {%- endfor -%}
+            </div>
+          </div>
+          <div class="hpdp-dots" data-hpdp-dots></div>
+          <div class="hpdp-thumbs-wrap">
+            <button type="button" class="hpdp-thumb-arrow" data-hpdp-thumb-prev aria-label="Previous">&#8249;</button>
+            <div class="hpdp-thumbs" data-hpdp-thumbs>
+              {%- for media in product.media -%}
+                <button type="button" class="hpdp-thumb{% if forloop.first %} is-active{% endif %}" data-hpdp-thumb data-media-id="{{ media.id }}" aria-label="Image {{ forloop.index }}">
+                  {{ media | image_url: width: 140 | image_tag: alt: '', loading: 'lazy' }}
+                </button>
+              {%- endfor -%}
+            </div>
+            <button type="button" class="hpdp-thumb-arrow" data-hpdp-thumb-next aria-label="Next">&#8250;</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="hpdp-info">
+        <h1 class="hpdp-title" data-hpdp-spy="{{ product.title | escape }}">{{ product.title }}</h1>
+
+        <div class="hpdp-price{% if current_variant.compare_at_price > current_variant.price %} hpdp-price--on-sale{% endif %}" data-hpdp-price>
+          <span class="hpdp-price__current">{{ current_variant.price | money }}</span>
+          <s class="hpdp-price__compare">{{ current_variant.compare_at_price | money }}</s>
+        </div>
+
+        {%- assign trust_blocks = section.blocks | where: 'type', 'trust_item' -%}
+        {%- if trust_blocks.size > 0 -%}
+          <div class="hpdp-trust">
+            {%- for block in trust_blocks -%}
+              <div class="hpdp-trust__item" {{ block.shopify_attributes }}>
+                <span class="hpdp-trust__icon"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.2 4.2L19 7"/></svg></span>
+                <span>{{ block.settings.text | escape }}</span>
+              </div>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+
+        {%- unless product.has_only_default_variant -%}
+          <div data-hpdp-options>
+            {%- for option in product.options_with_values -%}
+              <fieldset class="hpdp-pills" data-option-index="{{ forloop.index0 }}">
+                <legend>{{ option.name }}</legend>
+                {%- assign opt_idx = forloop.index0 -%}
+                {%- for value in option.values -%}
+                  <input type="radio"
+                    id="hpdp-{{ sid }}-{{ opt_idx }}-{{ forloop.index0 }}"
+                    name="hpdp-{{ sid }}-option-{{ opt_idx }}"
+                    value="{{ value | escape }}"
+                    {% if option.selected_value == value %}checked{% endif %}>
+                  <label for="hpdp-{{ sid }}-{{ opt_idx }}-{{ forloop.index0 }}">{{ value }}</label>
+                {%- endfor -%}
+              </fieldset>
+            {%- endfor -%}
+          </div>
+        {%- endunless -%}
+
+        <div class="hpdp-form-row">
+          <product-form-component
+            data-section-id="{{ sid }}"
+            data-product-id="{{ product.id }}"
+            data-product-url="{{ product.url }}"
+            on:submit="/handleSubmit"
+            data-quantity-default="1"
+            data-quantity-error-max="{{ 'products.product.quantity_error_max' | t: default: 'Max quantity reached' }}"
+          >
+            <div class="visually-hidden" aria-live="assertive" role="status" aria-atomic="true" ref="liveRegion"></div>
+            {%- form 'product', product, id: 'hpdp-form', data-type: 'add-to-cart-form' -%}
+              <input type="hidden" name="id" ref="variantId" value="{{ current_variant.id }}" data-hpdp-variant-input>
+              <div class="hpdp-qty">
+                <button type="button" data-hpdp-qty-minus aria-label="Decrease quantity">&minus;</button>
+                <input type="number" name="quantity" value="1" min="1" step="1" aria-label="Quantity" data-hpdp-qty-input>
+                <button type="button" data-hpdp-qty-plus aria-label="Increase quantity">+</button>
+              </div>
+              {% render 'add-to-cart-button',
+                can_add_to_cart: current_variant.available,
+                product: product,
+                class: 'hpdp-atc button--full-width',
+                id: 'hpdp-atc-btn'
+              %}
+              {%- if section.settings.show_dynamic_checkout -%}
+                {{ form | payment_button }}
+              {%- endif -%}
+            {%- endform -%}
+          </product-form-component>
+        </div>
+
+        {%- if section.settings.show_payment_icons -%}
+          <ul class="hpdp-payments" aria-label="Accepted payment methods">
+            {%- for type in shop.enabled_payment_types -%}
+              <li>{{ type | payment_type_svg_tag }}</li>
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+
+        <div class="hpdp-description">{{ product.description }}</div>
+
+        {%- assign info_blocks = section.blocks | where: 'type', 'info_item' -%}
+        {%- if info_blocks.size > 0 -%}
+          <div class="hpdp-info-acc">
+            {%- for block in info_blocks -%}
+              <div class="hpdp-info-acc__item" {{ block.shopify_attributes }}>
+                <button class="hpdp-info-acc__trigger" aria-expanded="false" data-hpdp-acc>
+                  <span class="hpdp-info-acc__icon">
+                    {%- if block.settings.icon == 'box' -%}
+                      <svg viewBox="0 0 24 24"><path d="M3 10H21M7 3L3 10V19C3 19.53 3.21 20.04 3.59 20.41C3.96 20.79 4.47 21 5 21H19C19.53 21 20.04 20.79 20.41 20.41C20.79 20.04 21 19.53 21 19V10L17 3H7Z"/></svg>
+                    {%- else -%}
+                      <svg viewBox="0 0 24 24"><path d="M1 3H15V16H1V3Z"/><path d="M15 8H19L23 12V16H15V8Z"/><circle cx="5.5" cy="18.5" r="1.5"/><circle cx="18.5" cy="18.5" r="1.5"/></svg>
+                    {%- endif -%}
+                  </span>
+                  <span class="hpdp-info-acc__label">{{ block.settings.title | escape }}</span>
+                  <span class="hpdp-info-acc__chevron">
+                    <svg viewBox="0 0 14 14"><path d="M2 5L7 10L12 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </span>
+                </button>
+                <div class="hpdp-info-acc__answer" hidden>{{ block.settings.content }}</div>
+              </div>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+
+        {%- assign faq_blocks = section.blocks | where: 'type', 'faq_item' -%}
+        {%- if faq_blocks.size > 0 -%}
+          <div class="hpdp-faq">
+            <p class="hpdp-faq__eyebrow">{{ section.settings.faq_eyebrow | default: product.collections.first.title | default: 'FAQs' }}</p>
+            <h2 class="hpdp-faq__title" data-hpdp-spy="Common Questions">{{ section.settings.faq_title | default: 'Common Questions' }}</h2>
+            <div class="hpdp-faq__list">
+              {%- for block in faq_blocks -%}
+                <div class="hpdp-faq__item" {{ block.shopify_attributes }}>
+                  <button class="hpdp-faq__trigger" aria-expanded="false" data-hpdp-acc>
+                    <span class="hpdp-faq__q">{{ block.settings.question | escape }}</span>
+                    <span class="hpdp-faq__icon">
+                      <svg viewBox="0 0 16 16"><line x1="2" y1="8" x2="14" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line class="hpdp-icon-v" x1="8" y1="2" x2="8" y2="14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                    </span>
+                  </button>
+                  <div class="hpdp-faq__a" hidden><p>{{ block.settings.answer }}</p></div>
+                </div>
+              {%- endfor -%}
+            </div>
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+
+  <div class="hpdp-sticky" data-hpdp-sticky>
+    <div class="hpdp-sticky__inner">
+      <div class="hpdp-sticky__left">
+        {%- if product.featured_media -%}
+          <img class="hpdp-sticky__img" src="{{ product.featured_media | image_url: width: 96 }}" alt="" loading="lazy" data-hpdp-sticky-img>
+        {%- endif -%}
+        <p class="hpdp-sticky__title">{{ product.title }}</p>
+        <span class="hpdp-sticky__price" data-hpdp-sticky-price>{{ current_variant.price | money }}</span>
+      </div>
+      <div class="hpdp-sticky__form">
+        {%- unless product.has_only_default_variant -%}
+          <select data-hpdp-sticky-select aria-label="Variant">
+            {%- for variant in product.variants -%}
+              <option value="{{ variant.id }}" {% if variant == current_variant %}selected{% endif %} {% unless variant.available %}disabled{% endunless %}>{{ variant.title }}</option>
+            {%- endfor -%}
+          </select>
+        {%- endunless -%}
+        <button type="submit" class="hpdp-sticky__atc" form="hpdp-form">Add to cart</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="hpdp-modal" data-hpdp-modal aria-hidden="true">
+    <button type="button" class="hpdp-modal__close" data-hpdp-zoom-close aria-label="Close">&times;</button>
+    <div class="hpdp-modal__content">
+      {%- for media in product.media -%}
+        <img src="{{ media | image_url: width: 3000 }}" alt="{{ product.title | escape }}" loading="lazy">
+      {%- endfor -%}
+    </div>
+  </div>
+
+  <script type="application/json" data-hpdp-variants>{{ product.variants | json }}</script>
+  <span data-hpdp-money-format hidden>{{ shop.money_format }}</span>
+</section>
+
+<script>
+  (function () {
+    var root = document.querySelector('[data-hpdp]');
+    if (!root) return;
+    var variants = JSON.parse(root.querySelector('[data-hpdp-variants]').textContent);
+    var moneyTemplate = root.querySelector('[data-hpdp-money-format]').textContent.trim();
+    var moneyFormat = function (cents) {
+      var amount = (cents / 100).toFixed(2);
+      if (/amount_no_decimals/.test(moneyTemplate)) amount = Math.round(cents / 100).toString();
+      return moneyTemplate.replace(/\{\{\s*amount[^}]*\}\}/, amount);
+    };
+
+    /* gallery */
+    var track = root.querySelector('[data-hpdp-track]');
+    var slides = Array.prototype.slice.call(root.querySelectorAll('[data-hpdp-slide]'));
+    var thumbs = Array.prototype.slice.call(root.querySelectorAll('[data-hpdp-thumb]'));
+    var dotsEl = root.querySelector('[data-hpdp-dots]');
+    var current = 0;
+
+    if (dotsEl && slides.length > 1) {
+      slides.forEach(function (s, i) {
+        var d = document.createElement('span');
+        if (i === 0) d.className = 'is-active';
+        dotsEl.appendChild(d);
+      });
+    }
+
+    function goTo(i, smooth) {
+      current = Math.max(0, Math.min(i, slides.length - 1));
+      track.scrollTo({ left: track.clientWidth * current, behavior: smooth === false ? 'auto' : 'smooth' });
+      sync();
+    }
+    function sync() {
+      thumbs.forEach(function (t, i) { t.classList.toggle('is-active', i === current); });
+      if (dotsEl) Array.prototype.forEach.call(dotsEl.children, function (d, i) { d.classList.toggle('is-active', i === current); });
+      var active = thumbs[current];
+      if (active) active.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: 'smooth' });
+    }
+    thumbs.forEach(function (t, i) { t.addEventListener('click', function () { goTo(i); }); });
+    track.addEventListener('scroll', function () {
+      var i = Math.round(track.scrollLeft / track.clientWidth);
+      if (i !== current) { current = i; sync(); }
+    }, { passive: true });
+    var prev = root.querySelector('[data-hpdp-thumb-prev]');
+    var next = root.querySelector('[data-hpdp-thumb-next]');
+    if (prev) prev.addEventListener('click', function () { goTo(current - 1); });
+    if (next) next.addEventListener('click', function () { goTo(current + 1); });
+
+    /* zoom modal */
+    var modal = root.querySelector('[data-hpdp-modal]');
+    function openModal() { modal.classList.add('is-open'); modal.setAttribute('aria-hidden', 'false'); document.documentElement.style.overflow = 'hidden'; }
+    function closeModal() { modal.classList.remove('is-open'); modal.setAttribute('aria-hidden', 'true'); document.documentElement.style.overflow = ''; }
+    root.querySelector('[data-hpdp-zoom-open]').addEventListener('click', openModal);
+    slides.forEach(function (s) { s.addEventListener('click', function (e) { if (window.innerWidth >= 750) openModal(); }); });
+    root.querySelector('[data-hpdp-zoom-close]').addEventListener('click', closeModal);
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeModal(); });
+
+    /* quantity */
+    var qtyInput = root.querySelector('[data-hpdp-qty-input]');
+    root.querySelector('[data-hpdp-qty-minus]').addEventListener('click', function () {
+      qtyInput.value = Math.max(1, parseInt(qtyInput.value || '1', 10) - 1);
+    });
+    root.querySelector('[data-hpdp-qty-plus]').addEventListener('click', function () {
+      qtyInput.value = parseInt(qtyInput.value || '1', 10) + 1;
+    });
+
+    /* variants */
+    var optionsWrap = root.querySelector('[data-hpdp-options]');
+    var variantInput = root.querySelector('[data-hpdp-variant-input]');
+    var priceEl = root.querySelector('[data-hpdp-price]');
+    var stickyPrice = root.querySelector('[data-hpdp-sticky-price]');
+    var stickySelect = root.querySelector('[data-hpdp-sticky-select]');
+    var stickyImg = root.querySelector('[data-hpdp-sticky-img]');
+    var atcBtn = root.querySelector('#hpdp-atc-btn');
+
+    function selectedOptions() {
+      var out = [];
+      if (!optionsWrap) return out;
+      optionsWrap.querySelectorAll('fieldset').forEach(function (fs) {
+        var checked = fs.querySelector('input:checked');
+        out.push(checked ? checked.value : null);
+      });
+      return out;
+    }
+    function findVariant(opts) {
+      return variants.find(function (v) {
+        return opts.every(function (val, i) { return !val || v.options[i] === val; });
+      });
+    }
+    function applyVariant(v) {
+      if (!v) return;
+      variantInput.value = v.id;
+      var cur = priceEl.querySelector('.hpdp-price__current');
+      var cmp = priceEl.querySelector('.hpdp-price__compare');
+      cur.textContent = moneyFormat(v.price);
+      var onSale = v.compare_at_price && v.compare_at_price > v.price;
+      priceEl.classList.toggle('hpdp-price--on-sale', !!onSale);
+      if (onSale) cmp.textContent = moneyFormat(v.compare_at_price);
+      if (stickyPrice) stickyPrice.textContent = moneyFormat(v.price);
+      if (stickySelect && stickySelect.value !== String(v.id)) stickySelect.value = String(v.id);
+      if (atcBtn) atcBtn.disabled = !v.available;
+      if (v.featured_media) {
+        var idx = slides.findIndex(function (s) { return s.getAttribute('data-media-id') === String(v.featured_media.id); });
+        if (idx >= 0) goTo(idx);
+        if (stickyImg && v.featured_media.preview_image) stickyImg.src = v.featured_media.preview_image.src + '&width=96';
+      }
+    }
+    if (optionsWrap) {
+      optionsWrap.addEventListener('change', function () {
+        applyVariant(findVariant(selectedOptions()));
+      });
+    }
+    if (stickySelect) {
+      stickySelect.addEventListener('change', function () {
+        var v = variants.find(function (x) { return String(x.id) === stickySelect.value; });
+        if (!v) return;
+        if (optionsWrap) {
+          optionsWrap.querySelectorAll('fieldset').forEach(function (fs, i) {
+            var input = fs.querySelector('input[value="' + (v.options[i] || '').replace(/"/g, '\\"') + '"]');
+            if (input) input.checked = true;
+          });
+        }
+        applyVariant(v);
+      });
+    }
+
+    /* accordions (single-open per group) */
+    root.querySelectorAll('.hpdp-info-acc, .hpdp-faq__list').forEach(function (group) {
+      var triggers = group.querySelectorAll('[data-hpdp-acc]');
+      triggers.forEach(function (trigger) {
+        trigger.addEventListener('click', function () {
+          var isOpen = trigger.getAttribute('aria-expanded') === 'true';
+          triggers.forEach(function (t) {
+            t.setAttribute('aria-expanded', 'false');
+            var panel = t.parentElement.querySelector('[hidden], .hpdp-info-acc__answer, .hpdp-faq__a');
+            if (panel) panel.hidden = true;
+          });
+          trigger.setAttribute('aria-expanded', String(!isOpen));
+          var own = trigger.parentElement.querySelector('.hpdp-info-acc__answer, .hpdp-faq__a');
+          if (own) own.hidden = isOpen;
+        });
+      });
+    });
+
+    /* sticky bar */
+    var sticky = root.querySelector('[data-hpdp-sticky]');
+    if (sticky && atcBtn) {
+      var observer = new IntersectionObserver(function (entries) {
+        sticky.classList.toggle('is-visible', !entries[0].isIntersecting && entries[0].boundingClientRect.top < 0);
+      }, { threshold: 0 });
+      observer.observe(atcBtn);
+    }
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Heitz PDP Main",
+  "settings": [
+    { "type": "checkbox", "id": "show_dynamic_checkout", "label": "Show dynamic checkout button", "default": true },
+    { "type": "checkbox", "id": "show_payment_icons", "label": "Show payment icons", "default": true },
+    { "type": "text", "id": "faq_eyebrow", "label": "FAQ eyebrow (falls back to first collection)" },
+    { "type": "text", "id": "faq_title", "label": "FAQ title", "default": "Common Questions" }
+  ],
+  "blocks": [
+    {
+      "type": "trust_item",
+      "name": "Trust item",
+      "settings": [
+        { "type": "text", "id": "text", "label": "Text", "default": "In stock, ready to ship" }
+      ]
+    },
+    {
+      "type": "info_item",
+      "name": "Info accordion item",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "box", "label": "Box" },
+            { "value": "truck", "label": "Truck" }
+          ],
+          "default": "box"
+        },
+        { "type": "text", "id": "title", "label": "Title", "default": "Returns and Refunds" },
+        { "type": "richtext", "id": "content", "label": "Content" }
+      ]
+    },
+    {
+      "type": "faq_item",
+      "name": "FAQ item",
+      "settings": [
+        { "type": "text", "id": "question", "label": "Question" },
+        { "type": "textarea", "id": "answer", "label": "Answer" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "Heitz PDP Main" }]
+}
+{% endschema %}

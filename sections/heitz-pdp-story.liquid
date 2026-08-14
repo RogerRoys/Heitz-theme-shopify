@@ -1,0 +1,239 @@
+{%- comment -%}
+  Heitz PDP story — warm brand section: image with glass badge + copy and
+  2x2 feature grid (marvin-denis-section port, warm brown palette).
+{%- endcomment -%}
+{% render 'heitz-pdp-base' %}
+<style>
+  .hpdp-story {
+    width: 100%;
+    background: var(--hpdp-warm);
+    padding: 78px 20px;
+    overflow: hidden;
+    font-family: var(--hpdp-font-body);
+  }
+  .hpdp-story__wrap {
+    max-width: 1320px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 54px;
+    align-items: stretch;
+  }
+  .hpdp-story__media {
+    position: relative;
+    overflow: hidden;
+    border-radius: 3px;
+    background: #e7ded5;
+    min-height: 620px;
+    box-shadow: 0 18px 45px rgba(58,22,12,.12);
+  }
+  .hpdp-story__media img {
+    width: 100%; height: 100%;
+    min-height: 620px;
+    object-fit: cover;
+    display: block;
+    transform: scale(1.01);
+  }
+  .hpdp-story__media::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(58,22,12,.02) 0%, rgba(58,22,12,.12) 100%);
+    pointer-events: none;
+  }
+  .hpdp-story__badge {
+    position: absolute;
+    left: 26px; bottom: 26px;
+    z-index: 2;
+    max-width: 330px;
+    padding: 18px 20px;
+    background: rgba(255,255,255,.88);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(58,22,12,.12);
+  }
+  .hpdp-story__badge strong {
+    display: block;
+    font-family: var(--hpdp-font-heading);
+    font-size: 14px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--hpdp-brown);
+    margin-bottom: 5px;
+  }
+  .hpdp-story__badge span {
+    display: block;
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--hpdp-brown-text);
+    letter-spacing: .35px;
+  }
+  .hpdp-story__content { display: flex; flex-direction: column; justify-content: center; padding: 8px 0; }
+  .hpdp-story__kicker {
+    font-size: 12.5px;
+    letter-spacing: 2.6px;
+    text-transform: uppercase;
+    color: #7a4f3f;
+    margin-bottom: 14px;
+  }
+  .hpdp-story__title {
+    font-family: var(--hpdp-font-heading);
+    font-size: 40px;
+    line-height: 1.14;
+    font-weight: 600;
+    letter-spacing: .7px;
+    color: var(--hpdp-brown);
+    margin: 0;
+    max-width: 640px;
+  }
+  .hpdp-story__subtitle {
+    max-width: 610px;
+    margin: 18px 0 0;
+    font-size: 16px;
+    line-height: 1.75;
+    letter-spacing: .4px;
+    color: var(--hpdp-brown-text);
+  }
+  .hpdp-story__list {
+    margin-top: 34px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .hpdp-story__item {
+    background: rgba(255,255,255,.74);
+    border: 1px solid rgba(58,22,12,.11);
+    padding: 24px 22px;
+    min-height: 170px;
+    transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+  }
+  .hpdp-story__item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 30px rgba(58,22,12,.08);
+    border-color: rgba(58,22,12,.2);
+  }
+  .hpdp-story__icon { width: 32px; height: 32px; color: var(--hpdp-brown); margin-bottom: 16px; }
+  .hpdp-story__icon svg { width: 32px; height: 32px; stroke: currentColor; stroke-width: 1.65; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+  .hpdp-story__item h3 {
+    font-family: var(--hpdp-font-heading);
+    font-size: 14px;
+    line-height: 1.35;
+    font-weight: 600;
+    letter-spacing: 1.45px;
+    text-transform: uppercase;
+    color: var(--hpdp-brown);
+    margin: 0 0 9px;
+  }
+  .hpdp-story__item p {
+    font-size: 14.5px;
+    line-height: 1.65;
+    letter-spacing: .35px;
+    color: var(--hpdp-brown-text);
+    margin: 0;
+  }
+  @media screen and (max-width: 990px) {
+    .hpdp-story { padding: 58px 18px; }
+    .hpdp-story__wrap { grid-template-columns: 1fr; gap: 34px; }
+    .hpdp-story__media, .hpdp-story__media img { min-height: 480px; }
+    .hpdp-story__content { padding: 0; }
+    .hpdp-story__title { font-size: 32px; }
+  }
+  @media screen and (max-width: 620px) {
+    .hpdp-story { padding: 42px 16px; }
+    .hpdp-story__wrap { gap: 28px; }
+    .hpdp-story__media, .hpdp-story__media img { min-height: 360px; }
+    .hpdp-story__badge { left: 16px; right: 16px; bottom: 16px; max-width: none; padding: 15px 16px; }
+    .hpdp-story__title { font-size: 26px; line-height: 1.18; }
+    .hpdp-story__subtitle { font-size: 14.5px; line-height: 1.65; }
+    .hpdp-story__list { grid-template-columns: 1fr; gap: 13px; margin-top: 26px; }
+    .hpdp-story__item { min-height: auto; padding: 21px 19px; }
+  }
+</style>
+
+<section class="hpdp-story">
+  <div class="hpdp-story__wrap">
+    <div class="hpdp-story__media">
+      {%- if section.settings.image != blank -%}
+        {{ section.settings.image | image_url: width: 1400 | image_tag: alt: section.settings.title, loading: 'lazy' }}
+      {%- else -%}
+        <div style="width:100%;height:100%;min-height:620px;background:linear-gradient(160deg,#e7ded5 20%,#d9c9b8 80%);"></div>
+      {%- endif -%}
+      <div class="hpdp-story__badge">
+        <strong>{{ section.settings.badge_title | escape }}</strong>
+        <span>{{ section.settings.badge_text | escape }}</span>
+      </div>
+    </div>
+    <div class="hpdp-story__content">
+      <div class="hpdp-story__kicker">{{ section.settings.kicker | escape }}</div>
+      <h2 class="hpdp-story__title" data-hpdp-spy="{{ section.settings.kicker | default: section.settings.title | escape }}">{{ section.settings.title | escape }}</h2>
+      <p class="hpdp-story__subtitle">{{ section.settings.subtitle | escape }}</p>
+      <div class="hpdp-story__list">
+        {%- for block in section.blocks -%}
+          <div class="hpdp-story__item" {{ block.shopify_attributes }}>
+            <div class="hpdp-story__icon">
+              {%- case block.settings.icon -%}
+                {%- when 'shield' -%}
+                  <svg viewBox="0 0 24 24"><path d="M12 3l7 4v5c0 4.5-2.8 7.5-7 9-4.2-1.5-7-4.5-7-9V7z"/><path d="M9 12l2 2 4-4"/></svg>
+                {%- when 'glow' -%}
+                  <svg viewBox="0 0 24 24"><path d="M4 14c4-8 12-8 16 0"/><path d="M7 14c2.8-4.5 7.2-4.5 10 0"/><path d="M12 14v6"/><path d="M9 20h6"/></svg>
+                {%- when 'columns' -%}
+                  <svg viewBox="0 0 24 24"><path d="M5 7h14"/><path d="M7 7v12"/><path d="M17 7v12"/><path d="M4 19h16"/><path d="M9 4h6l2 3H7z"/></svg>
+                {%- when 'truck' -%}
+                  <svg viewBox="0 0 24 24"><path d="M4 7h10v9H4z"/><path d="M14 10h3.5l2.5 3v3h-6z"/><circle cx="7" cy="18" r="1.7"/><circle cx="17" cy="18" r="1.7"/></svg>
+              {%- endcase -%}
+            </div>
+            <h3>{{ block.settings.title | escape }}</h3>
+            <p>{{ block.settings.text | escape }}</p>
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Heitz PDP Story",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Image" },
+    { "type": "text", "id": "badge_title", "label": "Badge title", "default": "Thoughtfully Selected" },
+    { "type": "textarea", "id": "badge_text", "label": "Badge text", "default": "Lighting chosen for warm ambience, clean form and elevated interior styling." },
+    { "type": "text", "id": "kicker", "label": "Kicker", "default": "Lighting, Elevated" },
+    { "type": "text", "id": "title", "label": "Heading", "default": "Refined Lighting for a More Beautiful Home" },
+    { "type": "textarea", "id": "subtitle", "label": "Subtitle", "default": "Heitz Living brings together pendant lights, wall lights and outdoor lighting designed to add warmth, structure and a premium architectural finish to your home." }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "shield", "label": "Shield check" },
+            { "value": "glow", "label": "Glow" },
+            { "value": "columns", "label": "Architecture" },
+            { "value": "truck", "label": "Truck" }
+          ],
+          "default": "shield"
+        },
+        { "type": "text", "id": "title", "label": "Title", "default": "Built to Last" },
+        { "type": "textarea", "id": "text", "label": "Text", "default": "Quality materials and finishes selected for everyday living." }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "presets": [
+    {
+      "name": "Heitz PDP Story",
+      "blocks": [
+        { "type": "feature", "settings": { "icon": "shield", "title": "Built to Last", "text": "Selected for quality materials, finishes and everyday durability." } },
+        { "type": "feature", "settings": { "icon": "glow", "title": "Premium Ambience", "text": "Create a warm, inviting glow that makes your space feel polished and welcoming." } },
+        { "type": "feature", "settings": { "icon": "columns", "title": "Architectural Finish", "text": "Clean silhouettes and refined details chosen to complement both classic and contemporary homes." } },
+        { "type": "feature", "settings": { "icon": "truck", "title": "Tracked Delivery", "text": "Enjoy free shipping and follow your order from dispatch through to arrival." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

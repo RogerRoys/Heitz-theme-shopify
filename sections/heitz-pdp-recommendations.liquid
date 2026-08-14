@@ -1,0 +1,105 @@
+{%- comment -%}
+  Heitz PDP recommendations — "You may also like" 4-up grid fetched from the
+  Shopify recommendations JSON API and rendered Be Yours card-style.
+{%- endcomment -%}
+{% render 'heitz-pdp-base' %}
+<style>
+  .hpdp-recs { padding: 36px 0; font-family: var(--hpdp-font-body); }
+  .hpdp-recs__title {
+    font-family: var(--hpdp-font-heading);
+    font-weight: 600;
+    font-size: clamp(22px, 18px + 1.2vw, 30px);
+    color: var(--hpdp-heading);
+    letter-spacing: -.01em;
+    margin: 0 0 24px;
+  }
+  .hpdp-recs__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px 16px;
+  }
+  @media screen and (min-width: 750px) {
+    .hpdp-recs__grid { grid-template-columns: repeat(4, 1fr); gap: 28px 20px; }
+  }
+  .hpdp-recs__card a { text-decoration: none; }
+  .hpdp-recs__img {
+    position: relative;
+    padding-bottom: 100%;
+    background: #f3f3f3;
+    overflow: hidden;
+  }
+  .hpdp-recs__img img {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform .5s ease;
+  }
+  .hpdp-recs__card:hover .hpdp-recs__img img { transform: scale(1.04); }
+  .hpdp-recs__name {
+    font-size: 14px;
+    line-height: 1.45;
+    color: var(--hpdp-text);
+    margin: 12px 0 4px;
+  }
+  .hpdp-recs__price {
+    font-family: var(--hpdp-font-heading);
+    font-size: 14px;
+    letter-spacing: .5px;
+    color: var(--hpdp-price);
+  }
+  .hpdp-recs__price s { color: #85838f; margin-right: 6px; font-weight: 400; }
+  .hpdp-recs__price .is-sale { color: var(--hpdp-sale); }
+</style>
+
+<div class="hpdp-recs">
+  <div class="hpdp-page-width">
+    <h2 class="hpdp-recs__title" data-hpdp-spy="{{ section.settings.title | escape }}">{{ section.settings.title | escape }}</h2>
+    <div class="hpdp-recs__grid"
+      data-hpdp-recs
+      data-product-id="{{ product.id }}"
+      data-limit="{{ section.settings.limit | default: 4 }}"
+      data-money="{{ shop.money_format | escape }}">
+    </div>
+  </div>
+</div>
+
+<script>
+  (function () {
+    var grid = document.querySelector('[data-hpdp-recs]');
+    if (!grid) return;
+    var money = grid.getAttribute('data-money');
+    function fmt(cents) {
+      var amount = (cents / 100).toFixed(2);
+      if (/amount_no_decimals/.test(money)) amount = Math.round(cents / 100).toString();
+      return money.replace(/\{\{\s*amount[^}]*\}\}/, amount);
+    }
+    fetch('/recommendations/products.json?product_id=' + grid.getAttribute('data-product-id') + '&limit=' + grid.getAttribute('data-limit'))
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        var products = (data && data.products) || [];
+        if (!products.length) { grid.closest('.hpdp-recs').style.display = 'none'; return; }
+        grid.innerHTML = products.map(function (p) {
+          var img = (p.featured_image || (p.images && p.images[0]) || '') + '';
+          var imgUrl = img ? img.replace(/(\.[a-z]{3,4})(\?|$)/, '$1$2') + (img.indexOf('?') > -1 ? '&' : '?') + 'width=600' : '';
+          var onSale = p.compare_at_price && p.compare_at_price > p.price;
+          return '<div class="hpdp-recs__card"><a href="' + p.url + '">' +
+            '<div class="hpdp-recs__img">' + (imgUrl ? '<img src="' + imgUrl + '" alt="" loading="lazy">' : '') + '</div>' +
+            '<p class="hpdp-recs__name">' + p.title + '</p>' +
+            '<p class="hpdp-recs__price">' + (onSale ? '<s>' + fmt(p.compare_at_price) + '</s><span class="is-sale">' + fmt(p.price) + '</span>' : fmt(p.price)) + '</p>' +
+            '</a></div>';
+        }).join('');
+      })
+      .catch(function () { grid.closest('.hpdp-recs').style.display = 'none'; });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Heitz PDP Recommendations",
+  "settings": [
+    { "type": "text", "id": "title", "label": "Heading", "default": "You may also like" },
+    { "type": "range", "id": "limit", "min": 2, "max": 8, "step": 1, "label": "Products to show", "default": 4 }
+  ],
+  "presets": [{ "name": "Heitz PDP Recommendations" }]
+}
+{% endschema %}

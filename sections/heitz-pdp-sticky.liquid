@@ -1,0 +1,15 @@
+{%- comment -%}
+  Heitz PDP sticky bar — thin wrapper that renders the theme's own
+  "Sticky add to cart" block (blocks/sticky_cart_bar.liquid). Kept as its
+  own section because theme blocks cannot mix with section-defined blocks.
+  The bar is position: fixed, so section order does not matter visually.
+{%- endcomment -%}
+{% content_for 'block', type: 'sticky_cart_bar', id: 'sticky-cart-bar' %}
+
+{% schema %}
+{
+  "name": "Heitz PDP Sticky ATC",
+  "settings": [],
+  "presets": [{ "name": "Heitz PDP Sticky ATC" }]
+}
+{% endschema %}

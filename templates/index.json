@@ -447,7 +447,7 @@
     "editorial": {
       "type": "heitz-editorial",
       "settings": {
-        "color_scheme": "scheme-heitz-light",
+        "color_scheme": "scheme-1",
         "title": "Behind the Design",
         "text": "Explore lighting inspiration, styling ideas, and thoughtful design stories made to help you create a more beautiful home.",
         "button_label": "Explore Collections",
@@ -457,7 +457,7 @@
     "newsletter": {
       "type": "heitz-newsletter",
       "settings": {
-        "color_scheme": "scheme-heitz-light",
+        "color_scheme": "scheme-2",
         "title": "Sign up and save",
         "text": "Be the first to know about new arrivals and special offers.",
         "placeholder": "Enter your email",

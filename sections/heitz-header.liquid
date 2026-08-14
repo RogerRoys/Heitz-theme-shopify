@@ -45,18 +45,27 @@
     stroke-miterlimit: 10;
     vertical-align: middle;
   }
-  .htf-header__item--icons { text-align: right; }
-  .htf-cart-bubble {
-    background-color: var(--htf-color-btn);
-    border-radius: 50%;
-    display: none;
-    height: 10px;
-    width: 10px;
-    position: absolute;
-    right: 5px;
-    top: 8px;
+  /* Horizon action components (search / account / cart) restyled to match */
+  .htf-header {
+    --icon-size-sm: 26px;
+    --icon-size-xs: 22px;
   }
-  .htf-cart-bubble.is-visible { display: block; }
+  .htf-header__item--left { display: flex; align-items: center; justify-content: flex-start; }
+  .htf-header__item--icons {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 2px;
+  }
+  .htf-header .header-actions__action,
+  .htf-header .search-modal__button {
+    color: var(--htf-color-text);
+    padding: 7.5px 9px;
+  }
+  .htf-header header-actions {
+    display: flex;
+    align-items: center;
+  }
   .htf-logo { margin: 0; display: block; line-height: 0; }
   .htf-logo a { display: inline-block; width: 130px; }
   .htf-logo img, .htf-logo svg { width: 100%; height: auto; display: block; }
@@ -83,7 +92,8 @@
   .htf-nav__item { position: relative; margin: 0; }
   .htf-nav__link {
     color: var(--htf-color-text);
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
     font-family: var(--htf-font-heading);
     font-weight: 400;
     font-size: 15px;
@@ -107,11 +117,13 @@
   }
   .htf-nav__item:hover > .htf-nav__link:after { transform: scaleX(1); }
   .htf-nav__link .htf-chevron {
-    width: 10px;
-    height: 6px;
-    margin-left: 4px;
-    vertical-align: middle;
+    width: 11px;
+    height: 7px;
+    margin-left: 7px;
+    flex: 0 0 auto;
+    transition: transform .25s ease;
   }
+  .htf-nav__item:hover > .htf-nav__link .htf-chevron { transform: rotate(180deg); }
   .htf-dropdown {
     background-color: #ffffff;
     box-shadow: 0 10px 20px #00000017;
@@ -174,35 +186,6 @@
     opacity: 1;
     visibility: visible;
   }
-
-  /* ── search overlay ──────────────────────────── */
-  .htf-search {
-    background: #ffffff;
-    border-bottom: 1px solid var(--htf-color-border-light);
-    display: none;
-    left: 0;
-    right: 0;
-    padding: 25px 0;
-    position: absolute;
-    top: 100%;
-    z-index: 28;
-  }
-  .htf-search.is-open { display: block; }
-  .htf-search form { display: flex; align-items: center; gap: 12px; max-width: 700px; margin: 0 auto; }
-  .htf-search input[type="search"] {
-    background: transparent;
-    border: 0;
-    border-bottom: 2px solid var(--htf-color-text);
-    border-radius: 0;
-    color: var(--htf-color-text);
-    flex: 1 1 auto;
-    font-family: var(--htf-font-body);
-    font-size: 18px;
-    padding: 8px 0;
-    outline: none;
-  }
-  .htf-search button { background: none; border: 0; cursor: pointer; color: var(--htf-color-text); padding: 6px; }
-  .htf-search button svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 4px; }
 
   /* ── mobile drawer ───────────────────────────── */
   .htf-drawer {
@@ -290,9 +273,7 @@
   <div class="htf-page-width">
     <div class="htf-header__layout">
       <div class="htf-header__item htf-header__item--left">
-        <button type="button" class="htf-header__icon-link htf-desktop-only" data-htf-search-toggle aria-label="Search">
-          <svg viewBox="0 0 64 64"><path d="M47.16 28.58A18.58 18.58 0 1 1 28.58 10a18.58 18.58 0 0 1 18.58 18.58ZM54 54 41.94 42"/></svg>
-        </button>
+        {% render 'search', class: 'mobile:hidden' %}
         <button type="button" class="htf-header__icon-link htf-mobile-only" data-htf-drawer-open aria-label="Menu">
           <svg viewBox="0 0 64 64"><path d="M7 15h51"/><path d="M7 32h43"/><path d="M7 49h51"/></svg>
         </button>
@@ -311,16 +292,8 @@
       </div>
 
       <div class="htf-header__item htf-header__item--icons">
-        <a href="{{ routes.account_url }}" class="htf-header__icon-link htf-desktop-only" aria-label="Account">
-          <svg viewBox="0 0 64 64"><path d="M35 39.84v-2.53c3.3-1.91 6-6.66 6-11.41 0-7.63 0-13.82-9-13.82s-9 6.19-9 13.82c0 4.75 2.7 9.51 6 11.41v2.53c-10.18.85-18 6-18 12.16h42c0-6.19-7.82-11.31-18-12.16Z"/></svg>
-        </a>
-        <button type="button" class="htf-header__icon-link htf-mobile-only" data-htf-search-toggle aria-label="Search">
-          <svg viewBox="0 0 64 64"><path d="M47.16 28.58A18.58 18.58 0 1 1 28.58 10a18.58 18.58 0 0 1 18.58 18.58ZM54 54 41.94 42"/></svg>
-        </button>
-        <a href="{{ routes.cart_url }}" class="htf-header__icon-link" aria-label="Cart">
-          <svg viewBox="0 0 64 64"><path d="M11.375 17.863h41.25v36.75h-41.25z"/><path d="M22.25 18c0-7.105 4.35-9 9.75-9s9.75 1.895 9.75 9"/></svg>
-          <span class="htf-cart-bubble{% if cart.item_count > 0 %} is-visible{% endif %}" data-htf-cart-bubble></span>
-        </a>
+        {% render 'search', class: 'desktop:hidden' %}
+        {% render 'header-actions' %}
       </div>
     </div>
 
@@ -358,19 +331,6 @@
     {%- endif -%}
   </div>
 
-  <div class="htf-search" data-htf-search>
-    <div class="htf-page-width">
-      <form action="{{ routes.search_url }}" method="get" role="search">
-        <input type="search" name="q" placeholder="Search" aria-label="Search">
-        <button type="submit" aria-label="Submit search">
-          <svg viewBox="0 0 64 64"><path d="M47.16 28.58A18.58 18.58 0 1 1 28.58 10a18.58 18.58 0 0 1 18.58 18.58ZM54 54 41.94 42"/></svg>
-        </button>
-        <button type="button" data-htf-search-close aria-label="Close search">
-          <svg viewBox="0 0 64 64"><path d="m19 17.61 27.12 27.13m0-27.12L19 44.74"/></svg>
-        </button>
-      </form>
-    </div>
-  </div>
 </div>
 
 <div class="htf-drawer__overlay" data-htf-drawer-overlay></div>
@@ -422,16 +382,6 @@
     var header = document.querySelector('[data-htf-header]');
     if (!header) return;
 
-    var search = header.querySelector('[data-htf-search]');
-    header.querySelectorAll('[data-htf-search-toggle]').forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        search.classList.toggle('is-open');
-        if (search.classList.contains('is-open')) search.querySelector('input').focus();
-      });
-    });
-    var searchClose = header.querySelector('[data-htf-search-close]');
-    if (searchClose) searchClose.addEventListener('click', function () { search.classList.remove('is-open'); });
-
     var drawer = document.querySelector('[data-htf-drawer]');
     var overlay = document.querySelector('[data-htf-drawer-overlay]');
     function setDrawer(open) {
@@ -456,18 +406,6 @@
         if (sub) sub.classList.toggle('is-open', !open);
       });
     });
-
-    function refreshCartBubble() {
-      fetch('/cart.js')
-        .then(function (r) { return r.json(); })
-        .then(function (c) {
-          document.querySelectorAll('[data-htf-cart-bubble]').forEach(function (b) {
-            b.classList.toggle('is-visible', c.item_count > 0);
-          });
-        })
-        .catch(function () {});
-    }
-    window.addEventListener('pageshow', refreshCartBubble);
   })();
 </script>
 
@@ -486,7 +424,13 @@
       "type": "image_picker",
       "id": "logo",
       "label": "Logo (falls back to theme logo, then shop name)"
-    }
+    },
+    { "type": "checkbox", "id": "enable_custom_search_icon", "label": "Use custom search icon", "default": false },
+    { "type": "html", "id": "custom_search_icon_svg", "label": "Custom search icon SVG" },
+    { "type": "checkbox", "id": "enable_custom_account_icon", "label": "Use custom account icon", "default": false },
+    { "type": "html", "id": "custom_account_svg", "label": "Custom account icon SVG" },
+    { "type": "checkbox", "id": "enable_custom_cart_icon", "label": "Use custom cart icon", "default": false },
+    { "type": "html", "id": "custom_cart_icon_svg", "label": "Custom cart icon SVG" }
   ]
 }
 {% endschema %}

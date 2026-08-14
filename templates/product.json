@@ -363,7 +363,7 @@
     "sticky": {
       "type": "heitz-pdp-sticky",
       "blocks": {
-        "sticky-cart-bar": {
+        "stickybar": {
           "type": "sticky_cart_bar",
           "static": true,
           "settings": {

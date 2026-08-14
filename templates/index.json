@@ -95,6 +95,7 @@
         },
         "cat_4": {
           "type": "category",
+          "disabled": true,
           "settings": {
             "collection": "floor-lamps",
             "label": "Floor Lamps"
@@ -135,14 +136,6 @@
     },
     "featured_pendant": {
       "type": "heitz-featured-collection",
-      "settings": {
-        "collection": "pendant-lights",
-        "title": "Pendant Lighting",
-        "link_label": "View all",
-        "limit": 5,
-        "columns": 5,
-        "color_scheme": "scheme-1"
-      },
       "blocks": {
         "static-product-card": {
           "type": "_product-card",
@@ -173,7 +166,8 @@
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
                 "padding-inline-end": 0
-              }
+              },
+              "blocks": {}
             },
             "card_title": {
               "type": "product-title",
@@ -196,7 +190,8 @@
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
                 "padding-inline-end": 0
-              }
+              },
+              "blocks": {}
             },
             "card_price": {
               "type": "price",
@@ -228,7 +223,8 @@
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
                 "padding-inline-end": 0
-              }
+              },
+              "blocks": {}
             },
             "card_swatches": {
               "type": "swatches",
@@ -241,7 +237,8 @@
                 "product_swatches_padding_bottom": 0,
                 "product_swatches_padding_left": 0,
                 "product_swatches_padding_right": 0
-              }
+              },
+              "blocks": {}
             }
           },
           "block_order": [
@@ -251,6 +248,14 @@
             "card_swatches"
           ]
         }
+      },
+      "settings": {
+        "collection": "pendant-lights",
+        "title": "Pendant Lighting",
+        "link_label": "View all",
+        "limit": 5,
+        "columns": 5,
+        "color_scheme": "scheme-1"
       }
     },
     "cta_pendant": {
@@ -262,14 +267,6 @@
     },
     "featured_outdoor": {
       "type": "heitz-featured-collection",
-      "settings": {
-        "collection": "outdoor-wall-lights",
-        "title": "Outdoor Wall Lighting",
-        "link_label": "View all",
-        "limit": 5,
-        "columns": 5,
-        "color_scheme": "scheme-1"
-      },
       "blocks": {
         "static-product-card": {
           "type": "_product-card",
@@ -300,7 +297,8 @@
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
                 "padding-inline-end": 0
-              }
+              },
+              "blocks": {}
             },
             "card_title": {
               "type": "product-title",
@@ -323,7 +321,8 @@
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
                 "padding-inline-end": 0
-              }
+              },
+              "blocks": {}
             },
             "card_price": {
               "type": "price",
@@ -355,7 +354,8 @@
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
                 "padding-inline-end": 0
-              }
+              },
+              "blocks": {}
             },
             "card_swatches": {
               "type": "swatches",
@@ -368,7 +368,8 @@
                 "product_swatches_padding_bottom": 0,
                 "product_swatches_padding_left": 0,
                 "product_swatches_padding_right": 0
-              }
+              },
+              "blocks": {}
             }
           },
           "block_order": [
@@ -378,6 +379,14 @@
             "card_swatches"
           ]
         }
+      },
+      "settings": {
+        "collection": "outdoor-wall-lights",
+        "title": "Outdoor Wall Lighting",
+        "link_label": "View all",
+        "limit": 5,
+        "columns": 5,
+        "color_scheme": "scheme-1"
       }
     },
     "category_accordion": {

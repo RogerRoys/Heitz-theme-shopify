@@ -32,12 +32,20 @@
     .hpdp-grid { grid-template-columns: 55fr 45fr; gap: 50px; padding: 30px 0 60px; }
   }
 
-  /* ── gallery ─────────────────────────────────── */
+  /* ── gallery (Impulse "beside/left" layout) ──── */
   .hpdp-media { position: relative; }
   @media screen and (min-width: 750px) {
     .hpdp-media__sticky { position: sticky; top: 20px; }
   }
-  .hpdp-stage { position: relative; overflow: hidden; }
+  .hpdp-gallery-flex { display: flex; width: 100%; }
+  .hpdp-thumbs-col {
+    display: none;
+    flex: 0 0 80px;
+    max-width: 80px;
+    margin-right: 15px;
+    position: relative;
+  }
+  .hpdp-stage { position: relative; overflow: hidden; flex: 1 1 auto; min-width: 0; }
   .hpdp-stage__track {
     display: flex;
     overflow-x: auto;
@@ -60,22 +68,24 @@
   }
   .hpdp-zoom-btn {
     position: absolute;
-    top: 14px;
+    bottom: 14px;
     right: 14px;
     z-index: 3;
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
     border: 0;
     border-radius: 50%;
-    background: rgba(255,255,255,.9);
+    background: #ffffff;
     color: var(--hpdp-heading);
-    cursor: pointer;
+    cursor: zoom-in;
     display: flex;
     align-items: center;
     justify-content: center;
     box-shadow: 0 2px 10px rgba(0,0,0,.12);
+    transition: transform .2s ease;
   }
-  .hpdp-zoom-btn svg { width: 19px; height: 19px; }
+  .hpdp-zoom-btn:hover { transform: scale(1.06); }
+  .hpdp-zoom-btn svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 4; stroke-miterlimit: 10; }
   .hpdp-dots {
     display: flex;
     justify-content: center;
@@ -89,50 +99,36 @@
     transition: background .2s;
   }
   .hpdp-dots span.is-active { background: var(--hpdp-heading); }
-  .hpdp-thumbs-wrap {
-    display: none;
-    align-items: center;
-    justify-content: center;
-    margin-top: 30px;
-    position: relative;
-    z-index: 5;
-  }
   .hpdp-thumbs {
-    display: flex;
-    max-width: 270px;
-    padding: 6px;
-    column-gap: 6px;
-    background: #ffffff;
-    box-shadow: 0 0 40px rgba(33,35,38,.2);
-    overflow-x: auto;
+    position: absolute;
+    inset: 0;
+    overflow-y: auto;
     scrollbar-width: none;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
     scroll-behavior: smooth;
   }
-  .hpdp-thumbs::-webkit-scrollbar { display: none; }
+  .hpdp-thumbs::-webkit-scrollbar { width: 0; height: 0; }
   .hpdp-thumb {
-    flex: 0 0 60px;
-    width: 60px;
-    height: 60px;
+    display: block;
+    width: 100%;
     padding: 0;
-    border: 1px solid transparent;
+    margin: 0 0 8px;
+    border: 2px solid transparent;
     background: #f3f3f3;
     cursor: pointer;
+    position: relative;
   }
-  .hpdp-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .hpdp-thumb.is-active { border-color: var(--hpdp-heading); }
-  .hpdp-thumb-arrow {
-    border: 0;
-    background: transparent;
-    width: 34px;
-    height: 44px;
-    cursor: pointer;
-    color: var(--hpdp-heading);
-    font-size: 22px;
-    line-height: 1;
+  .hpdp-thumb img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; display: block; }
+  .hpdp-thumb.is-active:before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    box-shadow: inset 0 0 0 2px var(--hpdp-heading);
+    z-index: 1;
   }
   @media screen and (min-width: 750px) {
     .hpdp-stage__track { overflow: hidden; }
-    .hpdp-thumbs-wrap { display: flex; }
+    .hpdp-thumbs-col { display: block; }
     .hpdp-dots { display: none; }
   }
 
@@ -438,9 +434,19 @@
 
       <div class="hpdp-media">
         <div class="hpdp-media__sticky">
-          <div class="hpdp-stage">
+          <div class="hpdp-gallery-flex">
+            <div class="hpdp-thumbs-col">
+              <div class="hpdp-thumbs" data-hpdp-thumbs>
+                {%- for media in product.media -%}
+                  <button type="button" class="hpdp-thumb{% if forloop.first %} is-active{% endif %}" data-hpdp-thumb data-media-id="{{ media.id }}" aria-label="Image {{ forloop.index }}">
+                    {{ media | image_url: width: 160 | image_tag: alt: '', loading: 'lazy' }}
+                  </button>
+                {%- endfor -%}
+              </div>
+            </div>
+            <div class="hpdp-stage">
             <button type="button" class="hpdp-zoom-btn" data-hpdp-zoom-open aria-label="Zoom image">
-              <svg viewBox="0 0 19 19" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M4.67 7.94c0-.28.22-.5.5-.5l5.53-.02a.5.5 0 1 1 0 1l-5.53.02a.5.5 0 0 1-.5-.5Z" fill="currentColor"/><path fill-rule="evenodd" clip-rule="evenodd" d="M7.93 4.66c.27 0 .5.23.5.5l.01 5.54a.5.5 0 0 1-1 0l-.01-5.53c0-.28.22-.5.5-.5Z" fill="currentColor"/><path fill-rule="evenodd" clip-rule="evenodd" d="M12.83 3.03a6.93 6.93 0 1 0-9.8 9.8 6.93 6.93 0 0 0 9.8-9.8ZM2.32 2.32a7.93 7.93 0 0 1 11.3 11.14l4.63 4.63a.5.5 0 0 1-.71.7l-4.66-4.66A7.93 7.93 0 0 1 2.32 2.32Z" fill="currentColor"/></svg>
+              <svg viewBox="0 0 64 64"><path d="M47.16 28.58A18.58 18.58 0 1 1 28.58 10a18.58 18.58 0 0 1 18.58 18.58ZM54 54 41.94 42"/></svg>
             </button>
             <div class="hpdp-stage__track" data-hpdp-track>
               {%- for media in product.media -%}
@@ -455,18 +461,8 @@
               {%- endfor -%}
             </div>
           </div>
-          <div class="hpdp-dots" data-hpdp-dots></div>
-          <div class="hpdp-thumbs-wrap">
-            <button type="button" class="hpdp-thumb-arrow" data-hpdp-thumb-prev aria-label="Previous">&#8249;</button>
-            <div class="hpdp-thumbs" data-hpdp-thumbs>
-              {%- for media in product.media -%}
-                <button type="button" class="hpdp-thumb{% if forloop.first %} is-active{% endif %}" data-hpdp-thumb data-media-id="{{ media.id }}" aria-label="Image {{ forloop.index }}">
-                  {{ media | image_url: width: 140 | image_tag: alt: '', loading: 'lazy' }}
-                </button>
-              {%- endfor -%}
-            </div>
-            <button type="button" class="hpdp-thumb-arrow" data-hpdp-thumb-next aria-label="Next">&#8250;</button>
           </div>
+          <div class="hpdp-dots" data-hpdp-dots></div>
         </div>
       </div>
 
@@ -653,10 +649,6 @@
       var i = Math.round(track.scrollLeft / track.clientWidth);
       if (i !== current) { current = i; sync(); }
     }, { passive: true });
-    var prev = root.querySelector('[data-hpdp-thumb-prev]');
-    var next = root.querySelector('[data-hpdp-thumb-next]');
-    if (prev) prev.addEventListener('click', function () { goTo(current - 1); });
-    if (next) next.addEventListener('click', function () { goTo(current + 1); });
 
     /* zoom modal */
     var modal = root.querySelector('[data-hpdp-modal]');

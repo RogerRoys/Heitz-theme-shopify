@@ -359,25 +359,6 @@
         "icon_4"
       ],
       "settings": {}
-    },
-    "sticky": {
-      "type": "heitz-pdp-sticky",
-      "blocks": {
-        "stickybar": {
-          "type": "sticky_cart_bar",
-          "static": true,
-          "settings": {
-            "color_scheme": "scheme-1",
-            "z_index": 990,
-            "button_text": "ADD TO CART",
-            "sold_out_text": "SOLD OUT",
-            "button_border_radius": 0,
-            "price_font_size": 14,
-            "button_font_size": 14,
-            "button_mobilefont_size": 14
-          }
-        }
-      }
     }
   },
   "order": [
@@ -386,7 +367,6 @@
     "advice",
     "recommendations",
     "story",
-    "icon_row",
-    "sticky"
+    "icon_row"
   ]
 }

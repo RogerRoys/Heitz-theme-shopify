@@ -1,8 +1,18 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "hero": {
       "type": "heitz-hero",
       "settings": {
+        "image": "shopify://shop_images/New_2_75abb9e3-f69a-46c1-87b2-4a5892594838.jpg",
         "mobile_ratio": 125,
         "overlay_opacity": 4,
         "title": "Lighting That Defines the Space",
@@ -14,26 +24,114 @@
     "trust_badges": {
       "type": "heitz-trust-badges",
       "blocks": {
-        "badge_1": { "type": "badge", "settings": { "icon": "truck", "text": "Free Tracked Shipping" } },
-        "badge_2": { "type": "badge", "settings": { "icon": "returns", "text": "30-Day Returns" } },
-        "badge_3": { "type": "badge", "settings": { "icon": "globe", "text": "USA Delivery" } },
-        "badge_4": { "type": "badge", "settings": { "icon": "shield", "text": "Secure Checkout" } },
-        "badge_5": { "type": "badge", "settings": { "icon": "chat", "text": "Responsive Support" } }
+        "badge_1": {
+          "type": "badge",
+          "settings": {
+            "icon": "truck",
+            "text": "Free Tracked Shipping"
+          }
+        },
+        "badge_2": {
+          "type": "badge",
+          "settings": {
+            "icon": "returns",
+            "text": "30-Day Returns"
+          }
+        },
+        "badge_3": {
+          "type": "badge",
+          "settings": {
+            "icon": "globe",
+            "text": "USA Delivery"
+          }
+        },
+        "badge_4": {
+          "type": "badge",
+          "settings": {
+            "icon": "shield",
+            "text": "Secure Checkout"
+          }
+        },
+        "badge_5": {
+          "type": "badge",
+          "settings": {
+            "icon": "chat",
+            "text": "Responsive Support"
+          }
+        }
       },
-      "block_order": ["badge_1", "badge_2", "badge_3", "badge_4", "badge_5"]
+      "block_order": [
+        "badge_1",
+        "badge_2",
+        "badge_3",
+        "badge_4",
+        "badge_5"
+      ],
+      "settings": {}
     },
     "category_scroll": {
       "type": "heitz-category-scroll",
       "blocks": {
-        "cat_1": { "type": "category", "settings": { "collection": "pendant-lights", "label": "Pendant Lights" } },
-        "cat_2": { "type": "category", "settings": { "collection": "wall-lights", "label": "Wall Lights" } },
-        "cat_3": { "type": "category", "settings": { "collection": "ceiling-lights", "label": "Ceiling Lights" } },
-        "cat_4": { "type": "category", "settings": { "collection": "floor-lamps", "label": "Floor Lamps" } },
-        "cat_5": { "type": "category", "settings": { "collection": "table-lamps", "label": "Table Lamps" } },
-        "cat_6": { "type": "category", "settings": { "collection": "outdoor-wall-lights", "label": "Outdoor Wall" } },
-        "cat_7": { "type": "category", "settings": { "collection": "outdoor-lights", "label": "Outdoor" } }
+        "cat_1": {
+          "type": "category",
+          "settings": {
+            "collection": "pendant-lights",
+            "label": "Pendant Lights"
+          }
+        },
+        "cat_2": {
+          "type": "category",
+          "settings": {
+            "collection": "wall-lights",
+            "label": "Wall Lights"
+          }
+        },
+        "cat_3": {
+          "type": "category",
+          "settings": {
+            "collection": "ceiling-lights",
+            "label": "Ceiling Lights"
+          }
+        },
+        "cat_4": {
+          "type": "category",
+          "settings": {
+            "collection": "floor-lamps",
+            "label": "Floor Lamps"
+          }
+        },
+        "cat_5": {
+          "type": "category",
+          "settings": {
+            "collection": "table-lamps",
+            "label": "Table Lamps"
+          }
+        },
+        "cat_6": {
+          "type": "category",
+          "settings": {
+            "collection": "outdoor-wall-lights",
+            "label": "Outdoor Wall"
+          }
+        },
+        "cat_7": {
+          "type": "category",
+          "settings": {
+            "collection": "outdoor-lights",
+            "label": "Outdoor"
+          }
+        }
       },
-      "block_order": ["cat_1", "cat_2", "cat_3", "cat_4", "cat_5", "cat_6", "cat_7"]
+      "block_order": [
+        "cat_1",
+        "cat_2",
+        "cat_3",
+        "cat_4",
+        "cat_5",
+        "cat_6",
+        "cat_7"
+      ],
+      "settings": {}
     },
     "featured_pendant": {
       "type": "heitz-featured-collection",
@@ -99,7 +197,11 @@
           }
         }
       },
-      "block_order": ["group_collection", "group_room"]
+      "block_order": [
+        "group_collection",
+        "group_room"
+      ],
+      "settings": {}
     },
     "editorial": {
       "type": "heitz-editorial",

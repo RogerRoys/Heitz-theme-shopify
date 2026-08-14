@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "scrollspy": {
@@ -11,9 +20,24 @@
     "main": {
       "type": "heitz-pdp-main",
       "blocks": {
-        "trust_1": { "type": "trust_item", "settings": { "text": "In stock, ready to ship" } },
-        "trust_2": { "type": "trust_item", "settings": { "text": "Free tracked shipping on all orders" } },
-        "trust_3": { "type": "trust_item", "settings": { "text": "30-day hassle-free returns" } },
+        "trust_1": {
+          "type": "trust_item",
+          "settings": {
+            "text": "In stock, ready to ship"
+          }
+        },
+        "trust_2": {
+          "type": "trust_item",
+          "settings": {
+            "text": "Free tracked shipping on all orders"
+          }
+        },
+        "trust_3": {
+          "type": "trust_item",
+          "settings": {
+            "text": "30-day hassle-free returns"
+          }
+        },
         "info_returns": {
           "type": "info_item",
           "settings": {
@@ -73,7 +97,19 @@
           }
         }
       },
-      "block_order": ["trust_1", "trust_2", "trust_3", "info_returns", "info_shipping", "faq_1", "faq_2", "faq_3", "faq_4", "faq_5", "faq_6"],
+      "block_order": [
+        "trust_1",
+        "trust_2",
+        "trust_3",
+        "info_returns",
+        "info_shipping",
+        "faq_1",
+        "faq_2",
+        "faq_3",
+        "faq_4",
+        "faq_5",
+        "faq_6"
+      ],
       "settings": {
         "show_dynamic_checkout": true,
         "show_payment_icons": true,
@@ -100,12 +136,45 @@
     "story": {
       "type": "heitz-pdp-story",
       "blocks": {
-        "feature_1": { "type": "feature", "settings": { "icon": "shield", "title": "Built to Last", "text": "Selected for quality materials, finishes and everyday durability." } },
-        "feature_2": { "type": "feature", "settings": { "icon": "glow", "title": "Premium Ambience", "text": "Create a warm, inviting glow that makes your space feel polished and welcoming." } },
-        "feature_3": { "type": "feature", "settings": { "icon": "columns", "title": "Architectural Finish", "text": "Clean silhouettes and refined details chosen to complement both classic and contemporary homes." } },
-        "feature_4": { "type": "feature", "settings": { "icon": "truck", "title": "Tracked Delivery", "text": "Enjoy free shipping and follow your order from dispatch through to arrival." } }
+        "feature_1": {
+          "type": "feature",
+          "settings": {
+            "icon": "shield",
+            "title": "Built to Last",
+            "text": "Selected for quality materials, finishes and everyday durability."
+          }
+        },
+        "feature_2": {
+          "type": "feature",
+          "settings": {
+            "icon": "glow",
+            "title": "Premium Ambience",
+            "text": "Create a warm, inviting glow that makes your space feel polished and welcoming."
+          }
+        },
+        "feature_3": {
+          "type": "feature",
+          "settings": {
+            "icon": "columns",
+            "title": "Architectural Finish",
+            "text": "Clean silhouettes and refined details chosen to complement both classic and contemporary homes."
+          }
+        },
+        "feature_4": {
+          "type": "feature",
+          "settings": {
+            "icon": "truck",
+            "title": "Tracked Delivery",
+            "text": "Enjoy free shipping and follow your order from dispatch through to arrival."
+          }
+        }
       },
-      "block_order": ["feature_1", "feature_2", "feature_3", "feature_4"],
+      "block_order": [
+        "feature_1",
+        "feature_2",
+        "feature_3",
+        "feature_4"
+      ],
       "settings": {
         "badge_title": "Thoughtfully Selected",
         "badge_text": "Lighting chosen for warm ambience, clean form and elevated interior styling.",
@@ -117,13 +186,54 @@
     "icon_row": {
       "type": "heitz-pdp-icon-row",
       "blocks": {
-        "icon_1": { "type": "item", "settings": { "icon": "boxes", "title": "Free Shipping", "text": "Enjoy free shipping on every order." } },
-        "icon_2": { "type": "item", "settings": { "icon": "truck", "title": "Tracked Delivery", "text": "Follow your order from dispatch to arrival." } },
-        "icon_3": { "type": "item", "settings": { "icon": "chat", "title": "Have a Question?", "text": "Our team is here to help, 5 days a week." } },
-        "icon_4": { "type": "item", "settings": { "icon": "shield", "title": "Secure Payments", "text": "Your safety and convenience are our priority." } }
+        "icon_1": {
+          "type": "item",
+          "settings": {
+            "icon": "boxes",
+            "title": "Free Shipping",
+            "text": "Enjoy free shipping on every order."
+          }
+        },
+        "icon_2": {
+          "type": "item",
+          "settings": {
+            "icon": "truck",
+            "title": "Tracked Delivery",
+            "text": "Follow your order from dispatch to arrival."
+          }
+        },
+        "icon_3": {
+          "type": "item",
+          "settings": {
+            "icon": "chat",
+            "title": "Have a Question?",
+            "text": "Our team is here to help, 5 days a week."
+          }
+        },
+        "icon_4": {
+          "type": "item",
+          "settings": {
+            "icon": "shield",
+            "title": "Secure Payments",
+            "text": "Your safety and convenience are our priority."
+          }
+        }
       },
-      "block_order": ["icon_1", "icon_2", "icon_3", "icon_4"]
+      "block_order": [
+        "icon_1",
+        "icon_2",
+        "icon_3",
+        "icon_4"
+      ],
+      "settings": {}
     }
   },
-  "order": ["scrollspy", "main", "advice", "recommendations", "story", "icon_row"]
+  "order": [
+    "scrollspy",
+    "main",
+    "advice",
+    "recommendations",
+    "story",
+    "icon_row"
+  ]
 }

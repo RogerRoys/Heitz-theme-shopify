@@ -1,0 +1,52 @@
+{%- comment -%}
+  Heitz TF CTA button — centered dark "Shop now" band below a product grid.
+{%- endcomment -%}
+{%- assign sid = section.id -%}
+<style>
+  .htf-cta-{{ sid }} {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 16px;
+    padding-bottom: 40px;
+  }
+  .htf-cta-{{ sid }} .htf-cta__link {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    padding: 14px 28px;
+    background-color: #2a3743;
+    color: #ffffff;
+    border: none;
+    border-radius: 0;
+    font-family: var(--htf-font-body);
+    font-size: 16px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    width: 30%;
+    max-width: 100%;
+    text-align: center;
+  }
+  .htf-cta-{{ sid }} .htf-cta__link:hover { background-color: #1c2630; color: #ffffff; }
+  @media screen and (max-width: 749px) {
+    .htf-cta-{{ sid }} { padding-left: 17px; padding-right: 17px; }
+    .htf-cta-{{ sid }} .htf-cta__link { width: 100%; }
+  }
+</style>
+
+<div class="htf-cta-{{ sid }}">
+  <a href="{{ section.settings.link }}" class="htf-cta__link">{{ section.settings.label | default: 'Shop now' }}</a>
+</div>
+
+{% schema %}
+{
+  "name": "Heitz TF CTA Button",
+  "settings": [
+    { "type": "text", "id": "label", "label": "Label", "default": "Shop now" },
+    { "type": "url", "id": "link", "label": "Link" }
+  ],
+  "presets": [{ "name": "Heitz TF CTA Button" }]
+}
+{% endschema %}

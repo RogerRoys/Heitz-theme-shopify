@@ -1,0 +1,82 @@
+{%- comment -%}
+  Heitz TF base — fonts + design tokens shared by all heitz-* sections.
+  Rendered once by heitz-header (present on every page via header-group).
+  Palette/typography ported from the Impulse-based reference design.
+{%- endcomment -%}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fahkwang:wght@300;400&family=Fustat:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --htf-font-heading: 'Fahkwang', sans-serif;
+    --htf-font-body: 'Fustat', sans-serif;
+    --htf-color-text: #2a3743;
+    --htf-color-body: #f9f9f9;
+    --htf-color-border: #e0dfdf;
+    --htf-color-border-light: #e8e8e8;
+    --htf-color-btn: #2a3743;
+    --htf-color-btn-light: #3e5162;
+    --htf-color-btn-text: #ffffff;
+    --htf-color-footer: #2a3743;
+    --htf-color-footer-text: #ffffff;
+    --htf-color-announcement: #2a3743;
+    --htf-color-announcement-text: #ffffff;
+    --htf-color-beige: #f5f3ee;
+    --htf-type-base: 17px;
+    --htf-uppercase-spacing: 0.2em;
+  }
+  body {
+    background-color: var(--htf-color-body);
+  }
+  .htf-btn {
+    -webkit-appearance: none;
+    appearance: none;
+    background: var(--htf-color-btn);
+    border: 1px solid transparent;
+    border-radius: 0;
+    color: var(--htf-color-btn-text);
+    cursor: pointer;
+    display: inline-block;
+    font-family: var(--htf-font-body);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: var(--htf-uppercase-spacing);
+    line-height: 1.42;
+    padding: 11px 20px;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    vertical-align: middle;
+    white-space: normal;
+    transition: background .2s ease 0s;
+  }
+  .htf-btn:hover { background: var(--htf-color-btn-light); color: var(--htf-color-btn-text); }
+  .htf-btn--secondary {
+    background-color: transparent;
+    border: 1px solid var(--htf-color-border);
+    color: var(--htf-color-text);
+  }
+  .htf-btn--secondary:hover { background-color: transparent; color: var(--htf-color-text); border-color: #b9bcbe; }
+  .htf-btn--small {
+    font-size: 12px;
+    min-width: 90px;
+    padding: 8px 14px;
+  }
+  .htf-btn--inverse {
+    background-color: transparent;
+    border: 2px solid #fff;
+    color: #fff;
+  }
+  .htf-btn--inverse:hover { background-color: rgba(255,255,255,0.12); color: #fff; }
+  @media only screen and (max-width: 768px) {
+    .htf-btn { font-size: 12px; padding: 9px 17px; }
+  }
+  .htf-page-width {
+    margin: 0 auto;
+    max-width: 1500px;
+    padding: 0 17px;
+  }
+  @media only screen and (min-width: 769px) {
+    .htf-page-width { padding: 0 40px; }
+  }
+</style>

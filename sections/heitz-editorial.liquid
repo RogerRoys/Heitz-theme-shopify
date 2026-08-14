@@ -1,0 +1,113 @@
+{%- comment -%}
+  Heitz TF editorial — "Behind the Design" feature row: text left,
+  two overlapping portrait images right (40% / 60%).
+{%- endcomment -%}
+<style>
+  .htf-editorial { padding: 55px 0; }
+  .htf-editorial__row {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+  }
+  .htf-editorial__text { flex: 0 1 50%; text-align: left; }
+  .htf-editorial__text h2 {
+    font-family: var(--htf-font-heading);
+    font-weight: 400;
+    font-size: 26px;
+    letter-spacing: 0.025em;
+    line-height: 1.1;
+    color: var(--htf-color-text);
+    margin: 0 0 20px;
+  }
+  .htf-editorial__text h2 strong { font-weight: 400; }
+  .htf-editorial__text p {
+    font-family: var(--htf-font-body);
+    font-size: 17px;
+    line-height: 1.4;
+    color: var(--htf-color-text);
+    margin: 0 0 25px;
+  }
+  .htf-editorial__images {
+    flex: 0 1 50%;
+    display: flex;
+    align-items: center;
+    position: relative;
+  }
+  .htf-editorial__img-wrap { position: relative; overflow: hidden; }
+  .htf-editorial__img-wrap .htf-ratio {
+    height: 0;
+    padding-bottom: 133.33%;
+    position: relative;
+    background: #ececec;
+  }
+  .htf-editorial__img-wrap img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .htf-editorial__first {
+    width: 40%;
+    z-index: 2;
+    margin-right: -8%;
+    box-shadow: 0 10px 30px rgba(0,0,0,.12);
+  }
+  .htf-editorial__second { width: 60%; }
+  @media only screen and (max-width: 768px) {
+    .htf-editorial { padding: 35px 0; }
+    .htf-editorial__row { flex-direction: column-reverse; }
+    .htf-editorial__text, .htf-editorial__images { flex: 1 1 100%; width: 100%; }
+    .htf-editorial__text h2 { font-size: 22px; }
+    .htf-editorial__text p { font-size: 16px; }
+  }
+</style>
+
+<div class="htf-editorial">
+  <div class="htf-page-width">
+    <div class="htf-editorial__row">
+      <div class="htf-editorial__text">
+        <h2><strong>{{ section.settings.title | escape }}</strong></h2>
+        <p>{{ section.settings.text | escape }}</p>
+        {%- if section.settings.button_label != blank -%}
+          <a href="{{ section.settings.link | default: routes.collections_url }}" class="htf-btn">{{ section.settings.button_label | escape }}</a>
+        {%- endif -%}
+      </div>
+      <div class="htf-editorial__images">
+        <div class="htf-editorial__img-wrap htf-editorial__first">
+          <a href="{{ section.settings.link | default: routes.collections_url }}">
+            <div class="htf-ratio">
+              {%- if section.settings.image_1 != blank -%}
+                {{ section.settings.image_1 | image_url: width: 1080 | image_tag: alt: section.settings.title, loading: 'lazy' }}
+              {%- endif -%}
+            </div>
+          </a>
+        </div>
+        <div class="htf-editorial__img-wrap htf-editorial__second">
+          <a href="{{ section.settings.link | default: routes.collections_url }}">
+            <div class="htf-ratio">
+              {%- if section.settings.image_2 != blank -%}
+                {{ section.settings.image_2 | image_url: width: 1080 | image_tag: alt: section.settings.title, loading: 'lazy' }}
+              {%- endif -%}
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Heitz TF Editorial",
+  "settings": [
+    { "type": "text", "id": "title", "label": "Heading", "default": "Behind the Design" },
+    { "type": "textarea", "id": "text", "label": "Text", "default": "Explore lighting inspiration, styling ideas, and thoughtful design stories made to help you create a more beautiful home." },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Explore Collections" },
+    { "type": "url", "id": "link", "label": "Link" },
+    { "type": "image_picker", "id": "image_1", "label": "Front image (small, portrait)" },
+    { "type": "image_picker", "id": "image_2", "label": "Back image (large, portrait)" }
+  ],
+  "presets": [{ "name": "Heitz TF Editorial" }]
+}
+{% endschema %}

@@ -1,0 +1,492 @@
+{%- comment -%}
+  Heitz TF header — sticky white header, center logo, icon row + centered nav
+  with hover dropdowns and third-level flyouts, search overlay, mobile drawer.
+{%- endcomment -%}
+{% render 'heitz-tf-base' %}
+
+{%- assign menu = linklists[section.settings.menu] -%}
+{%- assign logo_svg = section.settings.logo | default: settings.logo -%}
+
+<style>
+  .htf-section-header-wrap { position: sticky; top: 0; z-index: 29; }
+  .htf-header {
+    background-color: #ffffff;
+    border-bottom: 1px solid rgba(42, 55, 67, 0.1);
+    padding: 20px 0 0;
+    position: relative;
+  }
+  .htf-header a { text-decoration: none; }
+  .htf-header__layout {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .htf-header__item--left, .htf-header__item--icons { flex: 0 1 130px; }
+  .htf-header__item--logo { flex: 0 1 auto; text-align: center; }
+  @media only screen and (min-width: 769px) {
+    .htf-header__item--left, .htf-header__item--icons { flex: 0 0 200px; }
+  }
+  .htf-header__icon-link {
+    color: var(--htf-color-text);
+    display: inline-block;
+    padding: 7.5px 11px;
+    background: none;
+    border: 0;
+    cursor: pointer;
+    vertical-align: middle;
+    position: relative;
+  }
+  .htf-header__icon-link svg {
+    width: 28px;
+    height: 28px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 4px;
+    stroke-miterlimit: 10;
+    vertical-align: middle;
+  }
+  .htf-header__item--icons { text-align: right; }
+  .htf-cart-bubble {
+    background-color: var(--htf-color-btn);
+    border-radius: 50%;
+    display: none;
+    height: 10px;
+    width: 10px;
+    position: absolute;
+    right: 5px;
+    top: 8px;
+  }
+  .htf-cart-bubble.is-visible { display: block; }
+  .htf-logo { margin: 0; display: block; line-height: 0; }
+  .htf-logo a { display: inline-block; width: 130px; }
+  .htf-logo img, .htf-logo svg { width: 100%; height: auto; display: block; }
+  .htf-logo__text {
+    font-family: var(--htf-font-heading);
+    font-size: 26px;
+    letter-spacing: 0.05em;
+    color: var(--htf-color-text);
+    line-height: 1.2;
+  }
+  @media only screen and (min-width: 769px) {
+    .htf-logo a { width: 200px; }
+    .htf-logo__text { font-size: 30px; }
+  }
+
+  /* ── desktop nav ─────────────────────────────── */
+  .htf-nav-row { text-align: center; }
+  .htf-nav {
+    display: inline-flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .htf-nav__item { position: relative; margin: 0; }
+  .htf-nav__link {
+    color: var(--htf-color-text);
+    display: inline-block;
+    font-family: var(--htf-font-heading);
+    font-weight: 400;
+    font-size: 15px;
+    letter-spacing: 0.025em;
+    line-height: 1.1;
+    padding: 12px 15px;
+    white-space: nowrap;
+    position: relative;
+  }
+  .htf-nav__link:after {
+    content: '';
+    position: absolute;
+    left: 15px;
+    right: 15px;
+    bottom: 8px;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform .25s ease;
+  }
+  .htf-nav__item:hover > .htf-nav__link:after { transform: scaleX(1); }
+  .htf-nav__link .htf-chevron {
+    width: 10px;
+    height: 6px;
+    margin-left: 4px;
+    vertical-align: middle;
+  }
+  .htf-dropdown {
+    background-color: #ffffff;
+    box-shadow: 0 10px 20px #00000017;
+    list-style: none;
+    margin: 0;
+    min-width: 220px;
+    padding: 10px 0 5px;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    text-align: left;
+    opacity: 0;
+    visibility: hidden;
+    transform: translate3d(0, -12px, 0);
+    transition: all .3s cubic-bezier(.2,.06,.05,.95);
+    z-index: 5;
+  }
+  .htf-nav__item:hover > .htf-dropdown,
+  .htf-nav__item:focus-within > .htf-dropdown {
+    opacity: 1;
+    visibility: visible;
+    transform: translateZ(0);
+  }
+  .htf-dropdown li { margin: 0; position: relative; }
+  .htf-dropdown__link {
+    color: var(--htf-color-text);
+    display: block;
+    font-family: var(--htf-font-body);
+    font-size: 15px;
+    padding: 8px 20px;
+    white-space: nowrap;
+  }
+  .htf-dropdown__link:hover { color: #0d1014; }
+  .htf-dropdown__link--parent:after {
+    content: '';
+    border: solid var(--htf-color-text);
+    border-width: 0 1px 1px 0;
+    display: inline-block;
+    padding: 3px;
+    margin-left: 10px;
+    transform: rotate(-45deg);
+    vertical-align: middle;
+  }
+  .htf-flyout {
+    background-color: #ffffff;
+    box-shadow: 0 10px 20px #00000017;
+    list-style: none;
+    margin: 0;
+    min-width: 200px;
+    padding: 10px 0 5px;
+    position: absolute;
+    top: -10px;
+    left: 100%;
+    opacity: 0;
+    visibility: hidden;
+    transition: all .25s ease;
+    z-index: 6;
+  }
+  .htf-dropdown li:hover > .htf-flyout {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  /* ── search overlay ──────────────────────────── */
+  .htf-search {
+    background: #ffffff;
+    border-bottom: 1px solid var(--htf-color-border-light);
+    display: none;
+    left: 0;
+    right: 0;
+    padding: 25px 0;
+    position: absolute;
+    top: 100%;
+    z-index: 28;
+  }
+  .htf-search.is-open { display: block; }
+  .htf-search form { display: flex; align-items: center; gap: 12px; max-width: 700px; margin: 0 auto; }
+  .htf-search input[type="search"] {
+    background: transparent;
+    border: 0;
+    border-bottom: 2px solid var(--htf-color-text);
+    border-radius: 0;
+    color: var(--htf-color-text);
+    flex: 1 1 auto;
+    font-family: var(--htf-font-body);
+    font-size: 18px;
+    padding: 8px 0;
+    outline: none;
+  }
+  .htf-search button { background: none; border: 0; cursor: pointer; color: var(--htf-color-text); padding: 6px; }
+  .htf-search button svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 4px; }
+
+  /* ── mobile drawer ───────────────────────────── */
+  .htf-drawer {
+    background: #ffffff;
+    bottom: 0;
+    left: 0;
+    max-width: 350px;
+    overflow-y: auto;
+    position: fixed;
+    top: 0;
+    transform: translateX(-102%);
+    transition: transform .35s cubic-bezier(.26,.54,.32,1);
+    width: 88vw;
+    z-index: 60;
+  }
+  .htf-drawer.is-open { transform: translateX(0); }
+  .htf-drawer__overlay {
+    background: rgba(42, 55, 67, 0.5);
+    inset: 0;
+    opacity: 0;
+    pointer-events: none;
+    position: fixed;
+    transition: opacity .35s ease;
+    z-index: 59;
+  }
+  .htf-drawer__overlay.is-open { opacity: 1; pointer-events: auto; }
+  .htf-drawer__header {
+    display: flex;
+    justify-content: flex-end;
+    padding: 12px 15px;
+    border-bottom: 1px solid var(--htf-color-border-light);
+  }
+  .htf-drawer__close { background: none; border: 0; cursor: pointer; color: var(--htf-color-text); padding: 6px; }
+  .htf-drawer__close svg { width: 26px; height: 26px; fill: none; stroke: currentColor; stroke-width: 4px; }
+  .htf-drawer__nav { list-style: none; margin: 0; padding: 10px 0 40px; }
+  .htf-drawer__nav li { margin: 0; }
+  .htf-drawer__link,
+  .htf-drawer__toggle {
+    align-items: center;
+    background: none;
+    border: 0;
+    color: var(--htf-color-text);
+    cursor: pointer;
+    display: flex;
+    font-family: var(--htf-font-heading);
+    font-size: 17px;
+    justify-content: space-between;
+    padding: 14px 25px;
+    text-align: left;
+    width: 100%;
+  }
+  .htf-drawer__sub .htf-drawer__link,
+  .htf-drawer__sub .htf-drawer__toggle {
+    font-family: var(--htf-font-body);
+    font-size: 15px;
+    padding: 10px 25px 10px 40px;
+  }
+  .htf-drawer__sub .htf-drawer__sub .htf-drawer__link {
+    font-size: 14px;
+    padding-left: 55px;
+  }
+  .htf-drawer__toggle .htf-chevron {
+    width: 14px;
+    height: 8px;
+    transition: transform .25s ease;
+  }
+  .htf-drawer__toggle[aria-expanded="true"] .htf-chevron { transform: rotate(180deg); }
+  .htf-drawer__sub {
+    display: none;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .htf-drawer__sub.is-open { display: block; }
+
+  .htf-mobile-only { display: none; }
+  @media only screen and (max-width: 768px) {
+    .htf-mobile-only { display: inline-block; }
+    .htf-desktop-only, .htf-nav-row { display: none; }
+    .htf-header { padding: 14px 0 14px; }
+  }
+</style>
+
+<div class="htf-header" data-htf-header>
+  <div class="htf-page-width">
+    <div class="htf-header__layout">
+      <div class="htf-header__item htf-header__item--left">
+        <button type="button" class="htf-header__icon-link htf-desktop-only" data-htf-search-toggle aria-label="Search">
+          <svg viewBox="0 0 64 64"><path d="M47.16 28.58A18.58 18.58 0 1 1 28.58 10a18.58 18.58 0 0 1 18.58 18.58ZM54 54 41.94 42"/></svg>
+        </button>
+        <button type="button" class="htf-header__icon-link htf-mobile-only" data-htf-drawer-open aria-label="Menu">
+          <svg viewBox="0 0 64 64"><path d="M7 15h51"/><path d="M7 32h43"/><path d="M7 49h51"/></svg>
+        </button>
+      </div>
+
+      <div class="htf-header__item htf-header__item--logo">
+        <h1 class="htf-logo">
+          <a href="{{ routes.root_url }}" aria-label="{{ shop.name | escape }}">
+            {%- if logo_svg != blank -%}
+              {{ logo_svg | image_url: width: 400 | image_tag: alt: shop.name, loading: 'eager' }}
+            {%- else -%}
+              <span class="htf-logo__text">{{ shop.name }}</span>
+            {%- endif -%}
+          </a>
+        </h1>
+      </div>
+
+      <div class="htf-header__item htf-header__item--icons">
+        <a href="{{ routes.account_url }}" class="htf-header__icon-link htf-desktop-only" aria-label="Account">
+          <svg viewBox="0 0 64 64"><path d="M35 39.84v-2.53c3.3-1.91 6-6.66 6-11.41 0-7.63 0-13.82-9-13.82s-9 6.19-9 13.82c0 4.75 2.7 9.51 6 11.41v2.53c-10.18.85-18 6-18 12.16h42c0-6.19-7.82-11.31-18-12.16Z"/></svg>
+        </a>
+        <button type="button" class="htf-header__icon-link htf-mobile-only" data-htf-search-toggle aria-label="Search">
+          <svg viewBox="0 0 64 64"><path d="M47.16 28.58A18.58 18.58 0 1 1 28.58 10a18.58 18.58 0 0 1 18.58 18.58ZM54 54 41.94 42"/></svg>
+        </button>
+        <a href="{{ routes.cart_url }}" class="htf-header__icon-link" aria-label="Cart">
+          <svg viewBox="0 0 64 64"><path d="M11.375 17.863h41.25v36.75h-41.25z"/><path d="M22.25 18c0-7.105 4.35-9 9.75-9s9.75 1.895 9.75 9"/></svg>
+          <span class="htf-cart-bubble{% if cart.item_count > 0 %} is-visible{% endif %}" data-htf-cart-bubble></span>
+        </a>
+      </div>
+    </div>
+
+    {%- if menu != blank -%}
+      <div class="htf-nav-row">
+        <ul class="htf-nav">
+          {%- for link in menu.links -%}
+            <li class="htf-nav__item">
+              <a href="{{ link.url }}" class="htf-nav__link">
+                {{ link.title }}
+                {%- if link.links != blank -%}
+                  <svg class="htf-chevron" viewBox="0 0 28 16"><path d="m1.57 1.59 12.76 12.77L27.1 1.59" stroke-width="2" stroke="currentColor" fill="none"/></svg>
+                {%- endif -%}
+              </a>
+              {%- if link.links != blank -%}
+                <ul class="htf-dropdown">
+                  {%- for child in link.links -%}
+                    <li>
+                      <a href="{{ child.url }}" class="htf-dropdown__link{% if child.links != blank %} htf-dropdown__link--parent{% endif %}">{{ child.title }}</a>
+                      {%- if child.links != blank -%}
+                        <ul class="htf-flyout">
+                          {%- for grandchild in child.links -%}
+                            <li><a href="{{ grandchild.url }}" class="htf-dropdown__link">{{ grandchild.title }}</a></li>
+                          {%- endfor -%}
+                        </ul>
+                      {%- endif -%}
+                    </li>
+                  {%- endfor -%}
+                </ul>
+              {%- endif -%}
+            </li>
+          {%- endfor -%}
+        </ul>
+      </div>
+    {%- endif -%}
+  </div>
+
+  <div class="htf-search" data-htf-search>
+    <div class="htf-page-width">
+      <form action="{{ routes.search_url }}" method="get" role="search">
+        <input type="search" name="q" placeholder="Search" aria-label="Search">
+        <button type="submit" aria-label="Submit search">
+          <svg viewBox="0 0 64 64"><path d="M47.16 28.58A18.58 18.58 0 1 1 28.58 10a18.58 18.58 0 0 1 18.58 18.58ZM54 54 41.94 42"/></svg>
+        </button>
+        <button type="button" data-htf-search-close aria-label="Close search">
+          <svg viewBox="0 0 64 64"><path d="m19 17.61 27.12 27.13m0-27.12L19 44.74"/></svg>
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="htf-drawer__overlay" data-htf-drawer-overlay></div>
+<div class="htf-drawer" data-htf-drawer aria-hidden="true">
+  <div class="htf-drawer__header">
+    <button type="button" class="htf-drawer__close" data-htf-drawer-close aria-label="Close menu">
+      <svg viewBox="0 0 64 64"><path d="m19 17.61 27.12 27.13m0-27.12L19 44.74"/></svg>
+    </button>
+  </div>
+  {%- if menu != blank -%}
+    <ul class="htf-drawer__nav">
+      {%- for link in menu.links -%}
+        <li>
+          {%- if link.links != blank -%}
+            <button type="button" class="htf-drawer__toggle" aria-expanded="false" data-htf-drawer-toggle>
+              <span>{{ link.title }}</span>
+              <svg class="htf-chevron" viewBox="0 0 28 16"><path d="m1.57 1.59 12.76 12.77L27.1 1.59" stroke-width="2" stroke="currentColor" fill="none"/></svg>
+            </button>
+            <ul class="htf-drawer__sub">
+              {%- for child in link.links -%}
+                <li>
+                  {%- if child.links != blank -%}
+                    <button type="button" class="htf-drawer__toggle" aria-expanded="false" data-htf-drawer-toggle>
+                      <span>{{ child.title }}</span>
+                      <svg class="htf-chevron" viewBox="0 0 28 16"><path d="m1.57 1.59 12.76 12.77L27.1 1.59" stroke-width="2" stroke="currentColor" fill="none"/></svg>
+                    </button>
+                    <ul class="htf-drawer__sub">
+                      {%- for grandchild in child.links -%}
+                        <li><a href="{{ grandchild.url }}" class="htf-drawer__link">{{ grandchild.title }}</a></li>
+                      {%- endfor -%}
+                    </ul>
+                  {%- else -%}
+                    <a href="{{ child.url }}" class="htf-drawer__link">{{ child.title }}</a>
+                  {%- endif -%}
+                </li>
+              {%- endfor -%}
+            </ul>
+          {%- else -%}
+            <a href="{{ link.url }}" class="htf-drawer__link">{{ link.title }}</a>
+          {%- endif -%}
+        </li>
+      {%- endfor -%}
+    </ul>
+  {%- endif -%}
+</div>
+
+<script>
+  (function () {
+    var header = document.querySelector('[data-htf-header]');
+    if (!header) return;
+
+    var search = header.querySelector('[data-htf-search]');
+    header.querySelectorAll('[data-htf-search-toggle]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        search.classList.toggle('is-open');
+        if (search.classList.contains('is-open')) search.querySelector('input').focus();
+      });
+    });
+    var searchClose = header.querySelector('[data-htf-search-close]');
+    if (searchClose) searchClose.addEventListener('click', function () { search.classList.remove('is-open'); });
+
+    var drawer = document.querySelector('[data-htf-drawer]');
+    var overlay = document.querySelector('[data-htf-drawer-overlay]');
+    function setDrawer(open) {
+      drawer.classList.toggle('is-open', open);
+      overlay.classList.toggle('is-open', open);
+      drawer.setAttribute('aria-hidden', open ? 'false' : 'true');
+      document.documentElement.style.overflow = open ? 'hidden' : '';
+    }
+    document.querySelectorAll('[data-htf-drawer-open]').forEach(function (btn) {
+      btn.addEventListener('click', function () { setDrawer(true); });
+    });
+    document.querySelectorAll('[data-htf-drawer-close]').forEach(function (btn) {
+      btn.addEventListener('click', function () { setDrawer(false); });
+    });
+    overlay.addEventListener('click', function () { setDrawer(false); });
+
+    drawer.querySelectorAll('[data-htf-drawer-toggle]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var open = btn.getAttribute('aria-expanded') === 'true';
+        btn.setAttribute('aria-expanded', open ? 'false' : 'true');
+        var sub = btn.nextElementSibling;
+        if (sub) sub.classList.toggle('is-open', !open);
+      });
+    });
+
+    function refreshCartBubble() {
+      fetch('/cart.js')
+        .then(function (r) { return r.json(); })
+        .then(function (c) {
+          document.querySelectorAll('[data-htf-cart-bubble]').forEach(function (b) {
+            b.classList.toggle('is-visible', c.item_count > 0);
+          });
+        })
+        .catch(function () {});
+    }
+    window.addEventListener('pageshow', refreshCartBubble);
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Heitz TF Header",
+  "class": "htf-section-header-wrap",
+  "settings": [
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu",
+      "default": "main-menu"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo (falls back to theme logo, then shop name)"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,273 @@
+{%- comment -%}
+  Heitz TF footer — dark footer: contact info (40%) + two menus (25% each)
+  + newsletter with social (40%), payment icons row. Mobile: collapsibles.
+{%- endcomment -%}
+<style>
+  .htf-footer {
+    background-color: var(--htf-color-footer, #2a3743);
+    color: var(--htf-color-footer-text, #ffffff);
+    font-family: var(--htf-font-body);
+    padding-bottom: 30px;
+  }
+  @media only screen and (min-width: 769px) {
+    .htf-footer { padding-top: 60px; padding-bottom: 60px; }
+  }
+  .htf-footer a { color: currentColor; text-decoration: none; }
+  .htf-footer__grid {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .htf-footer__item { width: 100%; }
+  @media only screen and (min-width: 769px) {
+    .htf-footer__item { padding-top: 40px; padding-right: 30px; }
+    .htf-footer__item--contact, .htf-footer__item--newsletter { width: 40%; }
+    .htf-footer__item--menu { width: 25%; }
+  }
+  .htf-footer__title {
+    color: var(--htf-color-footer-text);
+    font-family: var(--htf-font-heading);
+    font-weight: 400;
+    font-size: 17px;
+    letter-spacing: 0.025em;
+    margin: 0 0 20px;
+  }
+  .htf-footer__content { font-size: 14px; line-height: 1.5; }
+  .htf-footer__content p { margin: 0 0 12px; }
+  .htf-footer__linklist { list-style: none; margin: 0; padding: 0; }
+  .htf-footer__linklist a { display: inline-block; padding: 4px 0; font-size: 14px; }
+  .htf-footer__linklist a:hover { text-decoration: underline; }
+  .htf-footer__newsletter { display: inline-block; max-width: 300px; position: relative; width: 100%; }
+  .htf-footer__newsletter-input {
+    background-color: transparent;
+    border: 0;
+    border-bottom: 2px solid var(--htf-color-footer-text);
+    border-radius: 0;
+    color: var(--htf-color-footer-text);
+    font-family: var(--htf-font-body);
+    font-size: 15px;
+    max-width: 300px;
+    padding: 10px 45px 10px 0;
+    width: 100%;
+    outline: none;
+  }
+  .htf-footer__newsletter-input::placeholder { color: var(--htf-color-footer-text); opacity: 1; }
+  .htf-footer__newsletter-btn {
+    background: none;
+    border: 0;
+    color: var(--htf-color-footer-text);
+    cursor: pointer;
+    padding: 8px 0;
+    position: absolute;
+    right: 0;
+    top: 2px;
+  }
+  .htf-footer__newsletter-btn svg {
+    width: 24px;
+    height: 24px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 4px;
+  }
+  .htf-footer__social {
+    display: flex;
+    gap: 15px;
+    list-style: none;
+    margin: 25px 0 0;
+    padding: 0;
+  }
+  .htf-footer__social svg { width: 22px; height: 22px; }
+  .htf-footer__social svg path { fill: var(--htf-color-footer-text); }
+  .htf-payments {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    justify-content: flex-start;
+    list-style: none;
+    margin: 45px 0 0;
+    padding: 0;
+  }
+  .htf-payments li { margin: 0; line-height: 0; }
+  .htf-payments svg { height: 24px; width: 38px; }
+
+  .htf-footer__toggle { display: none; }
+  @media only screen and (max-width: 768px) {
+    .htf-footer__item { border-bottom: 1px solid rgba(255,255,255,0.15); }
+    .htf-footer__title.htf-desktop-title { display: none; }
+    .htf-footer__toggle {
+      align-items: center;
+      background: none;
+      border: 0;
+      color: var(--htf-color-footer-text);
+      cursor: pointer;
+      display: flex;
+      font-family: var(--htf-font-heading);
+      font-size: 16px;
+      justify-content: space-between;
+      padding: 18px 0;
+      text-align: left;
+      width: 100%;
+    }
+    .htf-footer__toggle svg { width: 14px; height: 8px; transition: transform .25s ease; fill: none; }
+    .htf-footer__toggle[aria-expanded="true"] svg { transform: rotate(180deg); }
+    .htf-footer__collapsible { display: none; padding-bottom: 18px; }
+    .htf-footer__collapsible.is-open { display: block; }
+    .htf-footer__item--newsletter { border-bottom: 0; }
+    .htf-footer__item--newsletter .htf-footer__collapsible { display: block; padding-top: 20px; }
+  }
+</style>
+
+<footer class="htf-footer">
+  <div class="htf-page-width">
+    <div class="htf-footer__grid">
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+
+          {%- when 'contact' -%}
+            <div class="htf-footer__item htf-footer__item--contact" {{ block.shopify_attributes }}>
+              <h2 class="htf-footer__title htf-desktop-title">{{ block.settings.title | escape }}</h2>
+              <button type="button" class="htf-footer__toggle" aria-expanded="false" data-htf-footer-toggle>
+                {{ block.settings.title | escape }}
+                <svg viewBox="0 0 28 16"><path d="m1.57 1.59 12.76 12.77L27.1 1.59" stroke-width="2" stroke="currentColor" fill="none"/></svg>
+              </button>
+              <div class="htf-footer__collapsible">
+                <div class="htf-footer__content">
+                  {%- if block.settings.text != blank -%}
+                    {{ block.settings.text }}
+                  {%- else -%}
+                    <p><strong>Business Name: </strong>{{ shop.name }}</p>
+                    <p><strong>Business Email: </strong>{{ shop.email }}</p>
+                  {%- endif -%}
+                </div>
+              </div>
+            </div>
+
+          {%- when 'menu' -%}
+            <div class="htf-footer__item htf-footer__item--menu" {{ block.shopify_attributes }}>
+              <h2 class="htf-footer__title htf-desktop-title">{{ block.settings.title | escape }}</h2>
+              <button type="button" class="htf-footer__toggle" aria-expanded="false" data-htf-footer-toggle>
+                {{ block.settings.title | escape }}
+                <svg viewBox="0 0 28 16"><path d="m1.57 1.59 12.76 12.77L27.1 1.59" stroke-width="2" stroke="currentColor" fill="none"/></svg>
+              </button>
+              <div class="htf-footer__collapsible">
+                <ul class="htf-footer__linklist">
+                  {%- for link in linklists[block.settings.menu].links -%}
+                    <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+                  {%- endfor -%}
+                </ul>
+              </div>
+            </div>
+
+          {%- when 'newsletter' -%}
+            <div class="htf-footer__item htf-footer__item--newsletter" {{ block.shopify_attributes }}>
+              <div class="htf-footer__collapsible">
+                <div class="htf-footer__content">
+                  <p>{{ block.settings.text | escape }}</p>
+                </div>
+                {%- form 'customer' -%}
+                  {%- if form.posted_successfully? -%}
+                    <p>Thanks for subscribing!</p>
+                  {%- else -%}
+                    <input type="hidden" name="contact[tags]" value="prospect,newsletter">
+                    <div class="htf-footer__newsletter">
+                      <input type="email"
+                        name="contact[email]"
+                        class="htf-footer__newsletter-input"
+                        placeholder="Enter your email"
+                        autocorrect="off"
+                        autocapitalize="off"
+                        required>
+                      <button type="submit" class="htf-footer__newsletter-btn" aria-label="Subscribe">
+                        <svg viewBox="0 0 64 64"><path d="M63 52H1V12h62ZM1 12l25.68 24h9.72L63 12M21.82 31.68 1.56 51.16m60.78.78L41.27 31.68"/></svg>
+                      </button>
+                    </div>
+                  {%- endif -%}
+                {%- endform -%}
+                {%- if block.settings.show_social -%}
+                  <ul class="htf-footer__social">
+                    {%- if settings.social_instagram_link != blank or block.settings.instagram_link != blank -%}
+                      <li>
+                        <a target="_blank" rel="noopener" href="{{ block.settings.instagram_link | default: settings.social_instagram_link }}" title="{{ shop.name }} on Instagram">
+                          <svg viewBox="0 0 32 32"><path d="M16 3.094c4.206 0 4.7.019 6.363.094 1.538.069 2.369.325 2.925.544.738.287 1.262.625 1.813 1.175s.894 1.075 1.175 1.813c.212.556.475 1.387.544 2.925.075 1.662.094 2.156.094 6.363s-.019 4.7-.094 6.363c-.069 1.538-.325 2.369-.544 2.925-.288.738-.625 1.262-1.175 1.813s-1.075.894-1.813 1.175c-.556.212-1.387.475-2.925.544-1.663.075-2.156.094-6.363.094s-4.7-.019-6.363-.094c-1.537-.069-2.369-.325-2.925-.544-.737-.288-1.263-.625-1.813-1.175s-.894-1.075-1.175-1.813c-.212-.556-.475-1.387-.544-2.925-.075-1.663-.094-2.156-.094-6.363s.019-4.7.094-6.363c.069-1.537.325-2.369.544-2.925.287-.737.625-1.263 1.175-1.813s1.075-.894 1.813-1.175c.556-.212 1.388-.475 2.925-.544 1.662-.081 2.156-.094 6.363-.094zm0-2.838c-4.275 0-4.813.019-6.494.094-1.675.075-2.819.344-3.819.731-1.037.4-1.913.944-2.788 1.819S1.486 4.656 1.08 5.688c-.387 1-.656 2.144-.731 3.825-.075 1.675-.094 2.213-.094 6.488s.019 4.813.094 6.494c.075 1.675.344 2.819.731 3.825.4 1.038.944 1.913 1.819 2.788s1.756 1.413 2.788 1.819c1 .387 2.144.656 3.825.731s2.213.094 6.494.094 4.813-.019 6.494-.094c1.675-.075 2.819-.344 3.825-.731 1.038-.4 1.913-.944 2.788-1.819s1.413-1.756 1.819-2.788c.387-1 .656-2.144.731-3.825s.094-2.212.094-6.494-.019-4.813-.094-6.494c-.075-1.675-.344-2.819-.731-3.825-.4-1.038-.944-1.913-1.819-2.788s-1.756-1.413-2.788-1.819c-1-.387-2.144-.656-3.825-.731C20.812.275 20.275.256 16 .256z"/><path d="M16 7.912a8.088 8.088 0 0 0 0 16.175c4.463 0 8.087-3.625 8.087-8.088s-3.625-8.088-8.088-8.088zm0 13.338a5.25 5.25 0 1 1 0-10.5 5.25 5.25 0 1 1 0 10.5z"/><path d="M26.294 7.594a1.887 1.887 0 1 1-3.774.002 1.887 1.887 0 0 1 3.774-.003z"/></svg>
+                        </a>
+                      </li>
+                    {%- endif -%}
+                  </ul>
+                {%- endif -%}
+              </div>
+            </div>
+
+        {%- endcase -%}
+      {%- endfor -%}
+    </div>
+
+    {%- if section.settings.show_payment_icons -%}
+      <ul class="htf-payments">
+        {%- for type in shop.enabled_payment_types -%}
+          <li>{{ type | payment_type_svg_tag }}</li>
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+  </div>
+</footer>
+
+<script>
+  (function () {
+    document.querySelectorAll('[data-htf-footer-toggle]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var open = btn.getAttribute('aria-expanded') === 'true';
+        btn.setAttribute('aria-expanded', open ? 'false' : 'true');
+        var panel = btn.nextElementSibling;
+        if (panel) panel.classList.toggle('is-open', !open);
+      });
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Heitz TF Footer",
+  "settings": [
+    { "type": "checkbox", "id": "show_payment_icons", "label": "Show payment icons", "default": true }
+  ],
+  "blocks": [
+    {
+      "type": "contact",
+      "name": "Contact info",
+      "limit": 1,
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title", "default": "Contact Information" },
+        { "type": "richtext", "id": "text", "label": "Text (falls back to shop name + email)" }
+      ]
+    },
+    {
+      "type": "menu",
+      "name": "Menu",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title", "default": "Customer Support" },
+        { "type": "link_list", "id": "menu", "label": "Menu", "default": "footer" }
+      ]
+    },
+    {
+      "type": "newsletter",
+      "name": "Newsletter",
+      "limit": 1,
+      "settings": [
+        { "type": "text", "id": "text", "label": "Text", "default": "Be the first to know about our biggest and best sales. We'll never send more than one email a month." },
+        { "type": "checkbox", "id": "show_social", "label": "Show social icons", "default": true },
+        { "type": "url", "id": "instagram_link", "label": "Instagram link (falls back to theme setting)" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Heitz TF Footer",
+      "blocks": [
+        { "type": "contact" },
+        { "type": "menu", "settings": { "title": "Customer Support" } },
+        { "type": "menu", "settings": { "title": "Our Policies" } },
+        { "type": "newsletter" }
+      ]
+    }
+  ]
+}
+{% endschema %}

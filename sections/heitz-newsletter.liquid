@@ -1,0 +1,89 @@
+{%- comment -%}
+  Heitz TF newsletter — "Sign up and save" centered email capture.
+  Posts to the Shopify customer form (tags: prospect, newsletter).
+{%- endcomment -%}
+<style>
+  .htf-newsletter {
+    background-color: #f9f9f9;
+    color: #1c1d1d;
+    padding: 55px 0;
+    text-align: center;
+  }
+  .htf-newsletter__title {
+    font-family: var(--htf-font-heading);
+    font-weight: 400;
+    font-size: 26px;
+    letter-spacing: 0.025em;
+    color: var(--htf-color-text);
+    margin: 0 0 15px;
+  }
+  .htf-newsletter__text {
+    font-family: var(--htf-font-body);
+    font-size: 19px;
+    line-height: 1.4;
+    color: var(--htf-color-text);
+    margin: 0 0 25px;
+  }
+  .htf-newsletter__group {
+    display: flex;
+    margin: 0 auto;
+    max-width: 400px;
+  }
+  .htf-newsletter__input {
+    background: transparent;
+    border: 1px solid var(--htf-color-text);
+    border-right: 0;
+    border-radius: 0;
+    color: var(--htf-color-text);
+    flex: 1 1 auto;
+    font-family: var(--htf-font-body);
+    font-size: 15px;
+    min-width: 0;
+    padding: 10px 15px;
+  }
+  .htf-newsletter__input::placeholder { color: #1c1d1d; opacity: 1; }
+  .htf-newsletter__success {
+    font-family: var(--htf-font-body);
+    font-size: 15px;
+    color: var(--htf-color-text);
+    margin-top: 15px;
+  }
+</style>
+
+<div class="htf-newsletter">
+  <div class="htf-page-width">
+    <p class="htf-newsletter__title">{{ section.settings.title | escape }}</p>
+    <div class="htf-newsletter__text">{{ section.settings.text | escape }}</div>
+    {%- form 'customer' -%}
+      {%- if form.posted_successfully? -%}
+        <p class="htf-newsletter__success">Thanks for subscribing!</p>
+      {%- else -%}
+        <input type="hidden" name="contact[tags]" value="prospect,newsletter">
+        <div class="htf-newsletter__group">
+          <input type="email"
+            name="contact[email]"
+            id="HtfNewsletterEmail-{{ section.id }}"
+            class="htf-newsletter__input"
+            placeholder="{{ section.settings.placeholder | default: 'Enter your email' }}"
+            autocorrect="off"
+            autocapitalize="off"
+            required>
+          <button type="submit" class="htf-btn">{{ section.settings.button_label | default: 'Subscribe' }}</button>
+        </div>
+      {%- endif -%}
+    {%- endform -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Heitz TF Newsletter",
+  "settings": [
+    { "type": "text", "id": "title", "label": "Heading", "default": "Sign up and save" },
+    { "type": "text", "id": "text", "label": "Text", "default": "Be the first to know about new arrivals and special offers." },
+    { "type": "text", "id": "placeholder", "label": "Input placeholder", "default": "Enter your email" },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Subscribe" }
+  ],
+  "presets": [{ "name": "Heitz TF Newsletter" }]
+}
+{% endschema %}

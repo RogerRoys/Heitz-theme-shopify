@@ -1,0 +1,267 @@
+{%- comment -%}
+  Heitz TF category accordion — "Shop by Collection" / "Shop by Room" beige
+  accordion. Desktop: 3-up carousel cards with round arrows; mobile: 160x200
+  scroll cards with dots. One accordion item open at a time.
+{%- endcomment -%}
+<style>
+  .htfa {
+    background: #f5f3ee;
+    font-family: var(--htf-font-heading, 'Fahkwang', sans-serif);
+  }
+  .htfa__item { border-bottom: 1px solid #ddd; }
+  .htfa__item:first-child { border-top: 1px solid #ddd; }
+  .htfa__trigger {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 28px 40px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+  }
+  .htfa__title {
+    font-size: 26px;
+    font-weight: 300;
+    color: #1a1a1a;
+    letter-spacing: 0.04em;
+    font-family: var(--htf-font-heading, 'Fahkwang', sans-serif);
+    margin: 0;
+  }
+  .htfa__icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #1a1a1a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: background 0.2s;
+  }
+  .htfa__icon svg {
+    width: 16px;
+    height: 16px;
+    stroke: #fff;
+    fill: none;
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    transition: transform 0.3s ease;
+  }
+  .htfa__item.is-open .htfa__icon { background: #888; }
+  .htfa__item.is-open .htfa__icon svg { transform: rotate(45deg); }
+  .htfa__body { display: none; padding: 0 40px 42px; }
+  .htfa__item.is-open .htfa__body { display: block; }
+  .htfa__carousel-wrap { position: relative; }
+  .htfa__grid {
+    display: flex;
+    gap: 24px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 6px;
+    scrollbar-width: none;
+  }
+  .htfa__grid::-webkit-scrollbar { display: none; }
+  .htfa__card {
+    flex: 0 0 calc((100% - 48px) / 3);
+    text-decoration: none;
+    display: block;
+    overflow: hidden;
+    position: relative;
+    scroll-snap-align: start;
+    background: #ddd;
+  }
+  .htfa__card img {
+    width: 100%;
+    aspect-ratio: 1.35 / 1;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s ease;
+  }
+  .htfa__card:hover img { transform: scale(1.04); }
+  .htfa__card-label {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 76px 24px 26px;
+    background: linear-gradient(to top, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.38) 45%, transparent 100%);
+    color: #fff;
+    font-size: 26px;
+    font-weight: 400;
+    letter-spacing: 0.03em;
+    line-height: 1.2;
+    text-align: center;
+    font-family: var(--htf-font-heading, 'Fahkwang', sans-serif);
+  }
+  .htfa__arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 3;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(26, 26, 26, 0.72);
+    color: #fff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 34px;
+    line-height: 1;
+  }
+  .htfa__arrow--prev { left: -23px; }
+  .htfa__arrow--next { right: -23px; }
+  .htfa__dots {
+    display: none;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 14px;
+    padding: 0 16px;
+  }
+  .htfa__dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #ccc;
+    transition: background 0.2s;
+  }
+  .htfa__dot.is-active { background: #1a1a1a; }
+
+  @media (max-width: 768px) {
+    .htfa__trigger { padding: 20px 16px; }
+    .htfa__title { font-size: 22px; }
+    .htfa__icon { width: 36px; height: 36px; }
+    .htfa__body { padding: 0 0 20px; }
+    .htfa__grid { gap: 10px; padding-left: 16px; padding-right: 16px; scroll-snap-type: none; }
+    .htfa__card { flex: 0 0 160px; border-radius: 10px; }
+    .htfa__card img { width: 160px; height: 200px; aspect-ratio: auto; }
+    .htfa__card:hover img { transform: none; }
+    .htfa__card-label {
+      padding: 28px 12px 12px;
+      background: linear-gradient(to top, rgba(0,0,0,0.65) 0%, transparent 100%);
+      font-size: 12px;
+      font-weight: 300;
+      letter-spacing: 0.06em;
+      line-height: 1.3;
+      text-align: left;
+    }
+    .htfa__arrow { display: none; }
+    .htfa__dots { display: flex; }
+  }
+</style>
+
+<div class="htfa" data-htfa>
+  {%- for block in section.blocks -%}
+    <div class="htfa__item{% if forloop.first %} is-open{% endif %}" {{ block.shopify_attributes }}>
+      <button class="htfa__trigger" type="button">
+        <span class="htfa__title">{{ block.settings.title | escape }}</span>
+        <span class="htfa__icon">
+          <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </span>
+      </button>
+      <div class="htfa__body">
+        <div class="htfa__carousel-wrap">
+          <button class="htfa__arrow htfa__arrow--prev" type="button" aria-label="Previous">&#8249;</button>
+          <div class="htfa__grid" data-htfa-grid>
+            {%- for col in block.settings.collections -%}
+              <a href="{{ col.url }}" class="htfa__card">
+                {%- if col.featured_image -%}
+                  {{ col.featured_image | image_url: width: 800 | image_tag: alt: col.title, loading: 'lazy' }}
+                {%- endif -%}
+                <span class="htfa__card-label">{{ col.title }}</span>
+              </a>
+            {%- endfor -%}
+          </div>
+          <button class="htfa__arrow htfa__arrow--next" type="button" aria-label="Next">&#8250;</button>
+        </div>
+        <div class="htfa__dots" data-htfa-dots></div>
+      </div>
+    </div>
+  {%- endfor -%}
+</div>
+
+<script>
+  (function () {
+    var root = document.currentScript.previousElementSibling;
+    if (!root || !root.matches('[data-htfa]')) return;
+    var items = root.querySelectorAll('.htfa__item');
+
+    items.forEach(function (item) {
+      item.querySelector('.htfa__trigger').addEventListener('click', function () {
+        var isOpen = item.classList.contains('is-open');
+        items.forEach(function (i) { i.classList.remove('is-open'); });
+        if (!isOpen) { item.classList.add('is-open'); initDots(item); }
+      });
+
+      var grid = item.querySelector('[data-htfa-grid]');
+      item.querySelectorAll('.htfa__arrow').forEach(function (arrow) {
+        arrow.addEventListener('click', function () {
+          var card = grid.querySelector('.htfa__card');
+          if (!card) return;
+          var step = card.getBoundingClientRect().width + 24;
+          grid.scrollBy({ left: arrow.classList.contains('htfa__arrow--next') ? step : -step, behavior: 'smooth' });
+        });
+      });
+    });
+
+    function initDots(item) {
+      var grid = item.querySelector('[data-htfa-grid]');
+      var dotsEl = item.querySelector('[data-htfa-dots]');
+      if (!grid || !dotsEl) return;
+      var total = grid.querySelectorAll('.htfa__card').length;
+      var visible = Math.max(1, Math.round(grid.clientWidth / 170));
+      var pages = Math.max(1, Math.ceil(total / visible));
+      dotsEl.innerHTML = '';
+      for (var i = 0; i < pages; i++) {
+        var dot = document.createElement('span');
+        dot.className = 'htfa__dot' + (i === 0 ? ' is-active' : '');
+        dotsEl.appendChild(dot);
+      }
+      grid.addEventListener('scroll', function () {
+        var dots = dotsEl.querySelectorAll('.htfa__dot');
+        var maxScroll = grid.scrollWidth - grid.clientWidth;
+        var progress = maxScroll > 0 ? grid.scrollLeft / maxScroll : 0;
+        var page = Math.round(progress * (pages - 1));
+        dots.forEach(function (d, i) { d.classList.toggle('is-active', i === page); });
+      });
+    }
+
+    var firstOpen = root.querySelector('.htfa__item.is-open');
+    if (firstOpen) initDots(firstOpen);
+    window.addEventListener('resize', function () {
+      var open = root.querySelector('.htfa__item.is-open');
+      if (open) initDots(open);
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Heitz TF Category Accordion",
+  "blocks": [
+    {
+      "type": "group",
+      "name": "Accordion group",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title", "default": "Shop by Collection" },
+        { "type": "collection_list", "id": "collections", "label": "Collections", "limit": 12 }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "presets": [
+    {
+      "name": "Heitz TF Category Accordion",
+      "blocks": [
+        { "type": "group", "settings": { "title": "Shop by Collection" } },
+        { "type": "group", "settings": { "title": "Shop by Room" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

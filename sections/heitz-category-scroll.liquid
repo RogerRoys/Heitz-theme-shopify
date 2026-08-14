@@ -1,0 +1,123 @@
+{%- comment -%}
+  Heitz TF category scroller — one section covering both reference variants:
+  desktop 160px square tiles (tf-colscroll) and mobile 80px rounded circles row.
+  Blocks pick a collection; image falls back to the collection image.
+{%- endcomment -%}
+<style>
+  .htf-colscroll {
+    background: #F9F9F9;
+    padding: 12px 0;
+    border-bottom: 1px solid #ebebeb;
+    border-top: 1px solid #ebebeb;
+  }
+  .htf-colscroll__inner {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    padding: 0 40px;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    justify-content: safe center;
+  }
+  .htf-colscroll__inner::-webkit-scrollbar { display: none; }
+  .htf-colscroll__item {
+    flex: 0 0 160px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+  }
+  .htf-colscroll__img {
+    width: 160px;
+    height: 160px;
+    border-radius: 6px;
+    overflow: hidden;
+    background: #f5f5f5;
+  }
+  .htf-colscroll__img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+  }
+  .htf-colscroll__item:hover .htf-colscroll__img img { transform: scale(1.05); }
+  .htf-colscroll__label {
+    font-size: 13px;
+    color: #1a1a1a;
+    text-align: center;
+    line-height: 1.4;
+    font-family: var(--htf-font-body, inherit);
+  }
+  @media (max-width: 768px) {
+    .htf-colscroll {
+      padding: 20px 0 16px;
+      border-top: 0;
+      border-bottom: 1px solid #e8e8e8;
+    }
+    .htf-colscroll__inner {
+      gap: 14px;
+      padding: 0 16px;
+      justify-content: flex-start;
+    }
+    .htf-colscroll__item { flex: 0 0 80px; }
+    .htf-colscroll__img {
+      width: 80px;
+      height: 80px;
+      border-radius: 10px;
+      background: #efefef;
+    }
+    .htf-colscroll__item:hover .htf-colscroll__img img { transform: none; }
+    .htf-colscroll__label { font-size: 11px; color: #222; line-height: 1.3; }
+  }
+</style>
+
+<div class="htf-colscroll">
+  <div class="htf-colscroll__inner">
+    {%- for block in section.blocks -%}
+      {%- assign col = collections[block.settings.collection] -%}
+      {%- assign img = block.settings.image | default: col.featured_image -%}
+      {%- assign label = block.settings.label | default: col.title -%}
+      <a href="{{ col.url | default: routes.all_products_collection_url }}" class="htf-colscroll__item" {{ block.shopify_attributes }}>
+        <div class="htf-colscroll__img">
+          {%- if img != blank -%}
+            {{ img | image_url: width: 320 | image_tag: alt: label, loading: 'lazy' }}
+          {%- endif -%}
+        </div>
+        <span class="htf-colscroll__label">{{ label }}</span>
+      </a>
+    {%- endfor -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Heitz TF Category Scroll",
+  "blocks": [
+    {
+      "type": "category",
+      "name": "Category",
+      "settings": [
+        { "type": "collection", "id": "collection", "label": "Collection" },
+        { "type": "image_picker", "id": "image", "label": "Image (falls back to collection image)" },
+        { "type": "text", "id": "label", "label": "Label (falls back to collection title)" }
+      ]
+    }
+  ],
+  "max_blocks": 12,
+  "presets": [
+    {
+      "name": "Heitz TF Category Scroll",
+      "blocks": [
+        { "type": "category" },
+        { "type": "category" },
+        { "type": "category" },
+        { "type": "category" },
+        { "type": "category" },
+        { "type": "category" }
+      ]
+    }
+  ]
+}
+{% endschema %}

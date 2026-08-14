@@ -2,13 +2,10 @@
   Heitz PDP base — Jost + Cabin fonts and tokens for the product page,
   ported from the Be Yours-based reference design.
 {%- endcomment -%}
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cabin:wght@500;600;700&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --hpdp-font-heading: 'Cabin', sans-serif;
-    --hpdp-font-body: 'Jost', sans-serif;
+    --hpdp-font-heading: var(--font-heading--family, 'Cabin', sans-serif);
+    --hpdp-font-body: var(--font-body--family, 'Jost', sans-serif);
     --hpdp-text: #212326;
     --hpdp-heading: #1a1b18;
     --hpdp-muted: #555555;

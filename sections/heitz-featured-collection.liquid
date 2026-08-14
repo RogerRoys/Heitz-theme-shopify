@@ -1,12 +1,13 @@
 {%- comment -%}
-  Heitz TF featured collection — Impulse-style product grid:
-  heading + "View all" outline button, 5 columns desktop / 2 mobile,
-  square images, hover swaps to second image, hover Quick View button.
+  Heitz TF featured collection — reference-style section header (title +
+  "View all" outline button) with the THEME's own product cards inside
+  (Horizon _product-card static block), so cards match the rest of the
+  store and follow the theme color schemes.
 {%- endcomment -%}
 {%- assign col = collections[section.settings.collection] -%}
 {%- assign limit = section.settings.limit | default: 5 -%}
 <style>
-  .htf-fc { padding: 40px 0 20px; }
+  .htf-fc { padding: 40px 0 20px; background: var(--color-background, transparent); }
   .htf-fc__header {
     display: flex;
     align-items: center;
@@ -16,11 +17,11 @@
   }
   .htf-fc__title {
     font-family: var(--htf-font-heading);
-    font-weight: 400;
+    font-weight: var(--font-heading--weight, 400);
     font-size: 24px;
     letter-spacing: 0.025em;
     line-height: 1.1;
-    color: var(--htf-color-text);
+    color: var(--color-foreground-heading, var(--htf-color-text));
     margin: 0;
     flex: 1 1 auto;
     min-width: 0;
@@ -36,77 +37,13 @@
   @media only screen and (min-width: 769px) {
     .htf-fc__grid { grid-template-columns: repeat({{ section.settings.columns | default: 5 }}, 1fr); }
   }
-  .htf-fc__card { position: relative; }
-  .htf-fc__card a { text-decoration: none; }
-  .htf-fc__image-mask { position: relative; overflow: hidden; }
-  .htf-fc__image-ratio {
-    position: relative;
-    padding-bottom: 100%;
-    background: #ffffff;
-  }
-  .htf-fc__image-ratio img,
-  .htf-fc__secondary-image img {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  .htf-fc__secondary-image {
-    background-color: #f9f9f9;
-    position: absolute;
-    inset: -1px;
-    opacity: 0;
-  }
-  .htf-fc__card:hover .htf-fc__secondary-image { opacity: 1; transition: opacity .2s cubic-bezier(.26,.54,.32,1); }
-  .htf-fc__quick {
-    background-color: var(--htf-color-btn);
-    color: var(--htf-color-btn-text);
-    border: 0;
-    bottom: 10px;
-    left: 10px;
-    right: 10px;
-    cursor: pointer;
-    font-family: var(--htf-font-body);
-    font-size: 14px;
-    opacity: 0;
-    padding: 8px 5px;
-    position: absolute;
-    text-align: center;
-    transform: translateY(5px);
-    transition: opacity .25s ease, transform .25s ease-out, background .4s ease;
-    width: calc(100% - 20px);
-    z-index: 2;
-    display: block;
-    text-decoration: none;
-  }
-  .htf-fc__card:hover .htf-fc__quick { opacity: 1; transform: translateY(0); }
-  .htf-fc__quick:hover { background: var(--htf-color-btn-light); color: var(--htf-color-btn-text); }
-  @media only screen and (max-width: 768px) {
-    .htf-fc__quick, .htf-fc__secondary-image { display: none; }
-  }
-  .htf-fc__meta { margin-top: 10px; }
-  .htf-fc__card-title {
-    color: var(--htf-color-text);
-    font-family: var(--htf-font-body);
-    font-size: 15px;
-    line-height: 1.4;
-  }
-  .htf-fc__price {
-    color: var(--htf-color-text);
-    font-family: var(--htf-font-body);
-    font-size: 14px;
-    margin-top: 5px;
-  }
-  .htf-fc__price--compare { text-decoration: line-through; margin-right: 5px; opacity: .7; }
-  .htf-fc__placeholder {
-    background: linear-gradient(100deg, #ffffff 40%, #f0f0f0 63%, #ffffff 79%);
-    position: absolute;
-    inset: 0;
+  .htf-fc .htf-btn--secondary {
+    color: var(--color-foreground, var(--htf-color-text));
+    border-color: var(--color-border, var(--htf-color-border));
   }
 </style>
 
-<div class="htf-fc">
+<div class="htf-fc color-{{ section.settings.color_scheme }}">
   <div class="htf-page-width">
     <div class="htf-fc__header">
       <h2 class="htf-fc__title">{{ section.settings.title | default: col.title }}</h2>
@@ -118,45 +55,14 @@
     <div class="htf-fc__grid">
       {%- if col != blank and col.products.size > 0 -%}
         {%- for product in col.products limit: limit -%}
-          <div class="htf-fc__card">
-            <div class="htf-fc__image-mask">
-              <div class="htf-fc__image-ratio">
-                {%- if product.featured_media -%}
-                  {{ product.featured_media | image_url: width: 1080 | image_tag: alt: product.title, loading: 'lazy', sizes: '(min-width: 769px) 20vw, 39vw', widths: '360, 540, 720, 1080' }}
-                {%- else -%}
-                  <div class="htf-fc__placeholder"></div>
-                {%- endif -%}
-              </div>
-              {%- if product.media[1] -%}
-                <div class="htf-fc__secondary-image">
-                  {{ product.media[1] | image_url: width: 1000 | image_tag: alt: product.title, loading: 'lazy', sizes: '(min-width: 769px) 20vw, 39vw', widths: '360, 540, 720, 1000' }}
-                </div>
-              {%- endif -%}
-              <a href="{{ product.url }}" class="htf-fc__quick">Quick View</a>
-            </div>
-            <a href="{{ product.url }}">
-              <div class="htf-fc__meta">
-                <div class="htf-fc__card-title">{{ product.title }}</div>
-                <div class="htf-fc__price">
-                  {%- if product.compare_at_price > product.price -%}
-                    <span class="htf-fc__price--compare">{{ product.compare_at_price | money }}</span>
-                  {%- endif -%}
-                  {%- if product.price_varies -%}from {% endif -%}{{ product.price | money }}
-                </div>
-              </div>
-            </a>
+          <div class="htf-fc__item">
+            {% content_for 'block', type: '_product-card', id: 'static-product-card', closest.product: product %}
           </div>
         {%- endfor -%}
       {%- else -%}
         {%- for i in (1..limit) -%}
-          <div class="htf-fc__card">
-            <div class="htf-fc__image-mask">
-              <div class="htf-fc__image-ratio"><div class="htf-fc__placeholder"></div></div>
-            </div>
-            <div class="htf-fc__meta">
-              <div class="htf-fc__card-title">Product title</div>
-              <div class="htf-fc__price">$0.00</div>
-            </div>
+          <div class="htf-fc__item">
+            {% content_for 'block', type: '_product-card', id: 'static-product-card', closest.product: null %}
           </div>
         {%- endfor -%}
       {%- endif -%}
@@ -172,7 +78,8 @@
     { "type": "text", "id": "title", "label": "Heading (falls back to collection title)" },
     { "type": "text", "id": "link_label", "label": "Link label", "default": "View all" },
     { "type": "range", "id": "limit", "min": 2, "max": 10, "step": 1, "label": "Products to show", "default": 5 },
-    { "type": "range", "id": "columns", "min": 3, "max": 5, "step": 1, "label": "Desktop columns", "default": 5 }
+    { "type": "range", "id": "columns", "min": 3, "max": 5, "step": 1, "label": "Desktop columns", "default": 5 },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" }
   ],
   "presets": [{ "name": "Heitz TF Product Grid" }]
 }

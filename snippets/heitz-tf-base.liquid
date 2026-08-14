@@ -3,13 +3,10 @@
   Rendered once by heitz-header (present on every page via header-group).
   Palette/typography ported from the Impulse-based reference design.
 {%- endcomment -%}
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fahkwang:wght@300;400&family=Fustat:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --htf-font-heading: 'Fahkwang', sans-serif;
-    --htf-font-body: 'Fustat', sans-serif;
+    --htf-font-heading: var(--font-heading--family, 'Cabin', sans-serif);
+    --htf-font-body: var(--font-body--family, 'Jost', sans-serif);
     --htf-color-text: #2a3743;
     --htf-color-body: #f9f9f9;
     --htf-color-border: #e0dfdf;

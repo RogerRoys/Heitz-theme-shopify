@@ -10,7 +10,17 @@
 {%- assign sid = section.id -%}
 
 <style>
-  .hpdp { font-family: var(--hpdp-font-body); color: var(--hpdp-text); }
+  .hpdp {
+    font-family: var(--hpdp-font-body);
+    /* theme color scheme drives the palette; reference values are fallbacks */
+    --hpdp-text: var(--color-foreground, #212326);
+    --hpdp-heading: var(--color-foreground-heading, #1a1b18);
+    --hpdp-muted: var(--color-foreground-muted, #555555);
+    --hpdp-border: var(--color-border, #d2d5d9);
+    --hpdp-price: var(--color-primary, #1a1b18);
+    color: var(--hpdp-text);
+    background: var(--color-background, transparent);
+  }
   .hpdp a { text-decoration: none; }
   .hpdp-grid {
     display: grid;
@@ -244,21 +254,23 @@
     justify-content: center;
     align-items: center;
     padding: 12px 30px;
-    background: #ffffff;
-    border: 1px solid var(--hpdp-heading);
+    background: var(--color-primary-button-background, #ffffff);
+    border: 1px solid var(--color-primary-button-border, #1a1b18);
     border-radius: 0;
-    color: var(--hpdp-heading);
+    color: var(--color-primary-button-text, #1a1b18);
     font-family: var(--hpdp-font-body);
     font-size: 12px;
     font-weight: 500;
     letter-spacing: .2em;
     text-transform: uppercase;
     cursor: pointer;
-    transition: background .3s ease, color .3s ease;
-    --color-button: 255, 255, 255;
-    --color-button-text: 26, 27, 24;
+    transition: background .3s ease, color .3s ease, border-color .3s ease;
   }
-  .hpdp .hpdp-atc.button:hover { background: var(--hpdp-heading); color: #ffffff; }
+  .hpdp .hpdp-atc.button:hover {
+    background: var(--color-primary-button-hover-background, #1a1b18);
+    border-color: var(--color-primary-button-hover-border, #1a1b18);
+    color: var(--color-primary-button-hover-text, #ffffff);
+  }
   .hpdp .shopify-payment-button { margin-top: 10px; }
   .hpdp .shopify-payment-button__button--unbranded {
     border-radius: 0;
@@ -392,71 +404,6 @@
   .hpdp-faq__trigger[aria-expanded="true"] .hpdp-icon-v { transform: scaleY(0); opacity: 0; }
   .hpdp-faq__a p { font-weight: 300; font-size: 13.5px; line-height: 1.7; color: var(--hpdp-soft); margin: 0; padding: 0 0 16px; }
 
-  /* ── sticky bar ─────────────────────────────── */
-  .hpdp-sticky {
-    position: fixed;
-    bottom: 0; left: 0;
-    width: 100%;
-    z-index: 90;
-    background: #ffffff;
-    box-shadow: 0 -4px 30px rgba(33,35,38,.14);
-    transform: translateY(100%);
-    opacity: 0;
-    transition: transform .25s ease, opacity .25s ease;
-  }
-  .hpdp-sticky.is-visible { transform: translateY(0); opacity: 1; }
-  .hpdp-sticky__inner {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 20px;
-    padding: 10px 24px;
-    margin: 0 auto;
-    max-width: 1600px;
-  }
-  .hpdp-sticky__left { display: flex; align-items: center; gap: 14px; min-width: 0; }
-  .hpdp-sticky__img { width: 48px; height: 48px; object-fit: cover; flex: 0 0 48px; }
-  .hpdp-sticky__title {
-    font-family: var(--hpdp-font-heading);
-    font-weight: 600;
-    font-size: 14px;
-    color: var(--hpdp-heading);
-    margin: 0;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 380px;
-  }
-  .hpdp-sticky__price { font-family: var(--hpdp-font-heading); font-size: 14px; letter-spacing: .5px; }
-  .hpdp-sticky__form { display: flex; align-items: center; gap: 10px; }
-  .hpdp-sticky select {
-    font-family: var(--hpdp-font-body);
-    font-size: 13px;
-    padding: 9px 30px 9px 12px;
-    border: 1px solid var(--hpdp-border);
-    border-radius: 0;
-    background: #fff;
-    color: var(--hpdp-heading);
-  }
-  .hpdp-sticky__atc {
-    min-height: 42px;
-    padding: 10px 26px;
-    background: var(--hpdp-heading);
-    border: 1px solid var(--hpdp-heading);
-    color: #fff;
-    font-family: var(--hpdp-font-body);
-    font-size: 12px;
-    letter-spacing: .18em;
-    text-transform: uppercase;
-    cursor: pointer;
-  }
-  @media screen and (max-width: 749px) {
-    .hpdp-sticky__img, .hpdp-sticky__title, .hpdp-sticky select { display: none; }
-    .hpdp-sticky__inner { padding: 10px 16px; }
-    .hpdp-sticky__form { flex: 1 1 auto; }
-    .hpdp-sticky__atc { width: 100%; }
-  }
-
   /* ── zoom modal ─────────────────────────────── */
   .hpdp-modal {
     position: fixed;
@@ -483,7 +430,7 @@
   .hpdp-modal__content img { width: 100%; height: auto; display: block; margin-bottom: 16px; }
 </style>
 
-<section class="hpdp" data-hpdp
+<section class="hpdp color-{{ section.settings.color_scheme }}" data-hpdp
   data-section-id="{{ sid }}"
   data-product-id="{{ product.id }}">
   <div class="hpdp-page-width">
@@ -650,27 +597,7 @@
     </div>
   </div>
 
-  <div class="hpdp-sticky" data-hpdp-sticky>
-    <div class="hpdp-sticky__inner">
-      <div class="hpdp-sticky__left">
-        {%- if product.featured_media -%}
-          <img class="hpdp-sticky__img" src="{{ product.featured_media | image_url: width: 96 }}" alt="" loading="lazy" data-hpdp-sticky-img>
-        {%- endif -%}
-        <p class="hpdp-sticky__title">{{ product.title }}</p>
-        <span class="hpdp-sticky__price" data-hpdp-sticky-price>{{ current_variant.price | money }}</span>
-      </div>
-      <div class="hpdp-sticky__form">
-        {%- unless product.has_only_default_variant -%}
-          <select data-hpdp-sticky-select aria-label="Variant">
-            {%- for variant in product.variants -%}
-              <option value="{{ variant.id }}" {% if variant == current_variant %}selected{% endif %} {% unless variant.available %}disabled{% endunless %}>{{ variant.title }}</option>
-            {%- endfor -%}
-          </select>
-        {%- endunless -%}
-        <button type="submit" class="hpdp-sticky__atc" form="hpdp-form">Add to cart</button>
-      </div>
-    </div>
-  </div>
+  {% content_for 'block', type: 'sticky_cart_bar', id: 'sticky-cart-bar' %}
 
   <div class="hpdp-modal" data-hpdp-modal aria-hidden="true">
     <button type="button" class="hpdp-modal__close" data-hpdp-zoom-close aria-label="Close">&times;</button>
@@ -755,9 +682,6 @@
     var optionsWrap = root.querySelector('[data-hpdp-options]');
     var variantInput = root.querySelector('[data-hpdp-variant-input]');
     var priceEl = root.querySelector('[data-hpdp-price]');
-    var stickyPrice = root.querySelector('[data-hpdp-sticky-price]');
-    var stickySelect = root.querySelector('[data-hpdp-sticky-select]');
-    var stickyImg = root.querySelector('[data-hpdp-sticky-img]');
     var atcBtn = root.querySelector('#hpdp-atc-btn');
 
     function selectedOptions() {
@@ -783,31 +707,15 @@
       var onSale = v.compare_at_price && v.compare_at_price > v.price;
       priceEl.classList.toggle('hpdp-price--on-sale', !!onSale);
       if (onSale) cmp.textContent = moneyFormat(v.compare_at_price);
-      if (stickyPrice) stickyPrice.textContent = moneyFormat(v.price);
-      if (stickySelect && stickySelect.value !== String(v.id)) stickySelect.value = String(v.id);
       if (atcBtn) atcBtn.disabled = !v.available;
       if (v.featured_media) {
         var idx = slides.findIndex(function (s) { return s.getAttribute('data-media-id') === String(v.featured_media.id); });
         if (idx >= 0) goTo(idx);
-        if (stickyImg && v.featured_media.preview_image) stickyImg.src = v.featured_media.preview_image.src + '&width=96';
       }
     }
     if (optionsWrap) {
       optionsWrap.addEventListener('change', function () {
         applyVariant(findVariant(selectedOptions()));
-      });
-    }
-    if (stickySelect) {
-      stickySelect.addEventListener('change', function () {
-        var v = variants.find(function (x) { return String(x.id) === stickySelect.value; });
-        if (!v) return;
-        if (optionsWrap) {
-          optionsWrap.querySelectorAll('fieldset').forEach(function (fs, i) {
-            var input = fs.querySelector('input[value="' + (v.options[i] || '').replace(/"/g, '\\"') + '"]');
-            if (input) input.checked = true;
-          });
-        }
-        applyVariant(v);
       });
     }
 
@@ -829,14 +737,6 @@
       });
     });
 
-    /* sticky bar */
-    var sticky = root.querySelector('[data-hpdp-sticky]');
-    if (sticky && atcBtn) {
-      var observer = new IntersectionObserver(function (entries) {
-        sticky.classList.toggle('is-visible', !entries[0].isIntersecting && entries[0].boundingClientRect.top < 0);
-      }, { threshold: 0 });
-      observer.observe(atcBtn);
-    }
   })();
 </script>
 
@@ -844,6 +744,7 @@
 {
   "name": "Heitz PDP Main",
   "settings": [
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
     { "type": "checkbox", "id": "show_dynamic_checkout", "label": "Show dynamic checkout button", "default": true },
     { "type": "checkbox", "id": "show_payment_icons", "label": "Show payment icons", "default": true },
     { "type": "text", "id": "faq_eyebrow", "label": "FAQ eyebrow (falls back to first collection)" },

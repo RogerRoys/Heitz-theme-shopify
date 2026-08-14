@@ -12,14 +12,14 @@
     "hero": {
       "type": "heitz-hero",
       "settings": {
+        "color_scheme": "scheme-heitz-dark",
         "image": "shopify://shop_images/New_2_75abb9e3-f69a-46c1-87b2-4a5892594838.jpg",
         "mobile_ratio": 125,
         "overlay_opacity": 4,
         "title": "Lighting That Defines the Space",
         "subtitle": "Thoughtfully designed pieces for refined, modern interiors.",
         "button_label": "Explore",
-        "link": "shopify://collections/all",
-        "color_scheme": "scheme-heitz-dark"
+        "link": "shopify://collections/all"
       }
     },
     "trust_badges": {
@@ -266,9 +266,9 @@
     "cta_pendant": {
       "type": "heitz-cta-button",
       "settings": {
+        "color_scheme": "scheme-1",
         "label": "Shop now",
-        "link": "shopify://collections/pendant-lights",
-        "color_scheme": "scheme-heitz-light"
+        "link": "shopify://collections/pendant-lights"
       }
     },
     "featured_outdoor": {
@@ -437,27 +437,27 @@
         "group_room"
       ],
       "settings": {
-        "color_scheme": "scheme-heitz-beige"
+        "color_scheme": "scheme-2"
       }
     },
     "editorial": {
       "type": "heitz-editorial",
       "settings": {
+        "color_scheme": "scheme-heitz-light",
         "title": "Behind the Design",
         "text": "Explore lighting inspiration, styling ideas, and thoughtful design stories made to help you create a more beautiful home.",
         "button_label": "Explore Collections",
-        "link": "shopify://collections",
-        "color_scheme": "scheme-heitz-light"
+        "link": "shopify://collections"
       }
     },
     "newsletter": {
       "type": "heitz-newsletter",
       "settings": {
+        "color_scheme": "scheme-heitz-light",
         "title": "Sign up and save",
         "text": "Be the first to know about new arrivals and special offers.",
         "placeholder": "Enter your email",
-        "button_label": "Subscribe",
-        "color_scheme": "scheme-heitz-light"
+        "button_label": "Subscribe"
       }
     }
   },

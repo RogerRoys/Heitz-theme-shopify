@@ -51,8 +51,8 @@
         "newsletter"
       ],
       "settings": {
-        "show_payment_icons": true,
-        "color_scheme": "scheme-heitz-dark"
+        "color_scheme": "scheme-3",
+        "show_payment_icons": true
       }
     }
   },

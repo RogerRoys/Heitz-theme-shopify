@@ -45,7 +45,7 @@
     z-index: 4;
   }
   .htf-hero-{{ sid }} .htf-hero__text-wrap {
-    color: #ffffff;
+    color: var(--color-foreground, #ffffff);
     height: 100%;
     position: absolute;
     inset: 0;
@@ -97,7 +97,7 @@
   }
 </style>
 
-<div class="htf-hero-{{ sid }}">
+<div class="htf-hero-{{ sid }} color-{{ section.settings.color_scheme }}">
   <div class="htf-hero__image-wrapper">
     {%- if section.settings.image != blank -%}
       {{ section.settings.image | image_url: width: 2400 | image_tag: alt: section.settings.title, class: 'htf-hero__img--desktop', loading: 'eager', sizes: '100vw', widths: '832, 1200, 1920, 2400' }}
@@ -141,6 +141,7 @@
 {
   "name": "Heitz TF Hero",
   "settings": [
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
     { "type": "image_picker", "id": "image", "label": "Desktop image" },
     { "type": "image_picker", "id": "image_mobile", "label": "Mobile image (portrait)" },
     { "type": "range", "id": "mobile_ratio", "min": 80, "max": 150, "step": 5, "unit": "%", "label": "Mobile height ratio", "default": 125 },

@@ -3,7 +3,7 @@
   two overlapping portrait images right (40% / 60%).
 {%- endcomment -%}
 <style>
-  .htf-editorial { padding: 55px 0; }
+  .htf-editorial { padding: 55px 0; background: var(--color-background, transparent); }
   .htf-editorial__row {
     display: flex;
     align-items: center;
@@ -16,7 +16,7 @@
     font-size: 26px;
     letter-spacing: 0.025em;
     line-height: 1.1;
-    color: var(--htf-color-text);
+    color: var(--color-foreground-heading, var(--htf-color-text));
     margin: 0 0 20px;
   }
   .htf-editorial__text h2 strong { font-weight: 400; }
@@ -24,7 +24,7 @@
     font-family: var(--htf-font-body);
     font-size: 17px;
     line-height: 1.4;
-    color: var(--htf-color-text);
+    color: var(--color-foreground, var(--htf-color-text));
     margin: 0 0 25px;
   }
   .htf-editorial__images {
@@ -63,7 +63,7 @@
   }
 </style>
 
-<div class="htf-editorial">
+<div class="htf-editorial color-{{ section.settings.color_scheme }}">
   <div class="htf-page-width">
     <div class="htf-editorial__row">
       <div class="htf-editorial__text">
@@ -101,6 +101,7 @@
 {
   "name": "Heitz TF Editorial",
   "settings": [
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
     { "type": "text", "id": "title", "label": "Heading", "default": "Behind the Design" },
     { "type": "textarea", "id": "text", "label": "Text", "default": "Explore lighting inspiration, styling ideas, and thoughtful design stories made to help you create a more beautiful home." },
     { "type": "text", "id": "button_label", "label": "Button label", "default": "Explore Collections" },

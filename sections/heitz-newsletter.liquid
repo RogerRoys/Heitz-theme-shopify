@@ -4,8 +4,8 @@
 {%- endcomment -%}
 <style>
   .htf-newsletter {
-    background-color: #f9f9f9;
-    color: #1c1d1d;
+    background-color: var(--color-background, #f9f9f9);
+    color: var(--color-foreground, #1c1d1d);
     padding: 55px 0;
     text-align: center;
   }
@@ -14,14 +14,14 @@
     font-weight: 400;
     font-size: 26px;
     letter-spacing: 0.025em;
-    color: var(--htf-color-text);
+    color: var(--color-foreground, var(--htf-color-text));
     margin: 0 0 15px;
   }
   .htf-newsletter__text {
     font-family: var(--htf-font-body);
     font-size: 19px;
     line-height: 1.4;
-    color: var(--htf-color-text);
+    color: var(--color-foreground, var(--htf-color-text));
     margin: 0 0 25px;
   }
   .htf-newsletter__group {
@@ -31,26 +31,26 @@
   }
   .htf-newsletter__input {
     background: transparent;
-    border: 1px solid var(--htf-color-text);
+    border: 1px solid var(--color-foreground, var(--htf-color-text));
     border-right: 0;
     border-radius: 0;
-    color: var(--htf-color-text);
+    color: var(--color-foreground, var(--htf-color-text));
     flex: 1 1 auto;
     font-family: var(--htf-font-body);
     font-size: 15px;
     min-width: 0;
     padding: 10px 15px;
   }
-  .htf-newsletter__input::placeholder { color: #1c1d1d; opacity: 1; }
+  .htf-newsletter__input::placeholder { color: var(--color-foreground, #1c1d1d); opacity: 1; }
   .htf-newsletter__success {
     font-family: var(--htf-font-body);
     font-size: 15px;
-    color: var(--htf-color-text);
+    color: var(--color-foreground, var(--htf-color-text));
     margin-top: 15px;
   }
 </style>
 
-<div class="htf-newsletter">
+<div class="htf-newsletter color-{{ section.settings.color_scheme }}">
   <div class="htf-page-width">
     <p class="htf-newsletter__title">{{ section.settings.title | escape }}</p>
     <div class="htf-newsletter__text">{{ section.settings.text | escape }}</div>
@@ -79,6 +79,7 @@
 {
   "name": "Heitz TF Newsletter",
   "settings": [
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
     { "type": "text", "id": "title", "label": "Heading", "default": "Sign up and save" },
     { "type": "text", "id": "text", "label": "Text", "default": "Be the first to know about new arrivals and special offers." },
     { "type": "text", "id": "placeholder", "label": "Input placeholder", "default": "Enter your email" },

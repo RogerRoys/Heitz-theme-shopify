@@ -4,7 +4,7 @@
 {%- endcomment -%}
 {% render 'heitz-pdp-base' %}
 <style>
-  .hpdp-advice { width: 100%; padding: 30px 20px; font-family: var(--hpdp-font-body); }
+  .hpdp-advice { width: 100%; padding: 30px 20px; font-family: var(--hpdp-font-body); background: var(--color-background, transparent); }
   .hpdp-advice__inner {
     width: 100%;
     max-width: 1320px;
@@ -122,7 +122,7 @@
   }
 </style>
 
-<div class="hpdp-advice">
+<div class="hpdp-advice color-{{ section.settings.color_scheme }}">
   <div class="hpdp-advice__inner">
     <div class="hpdp-advice__panel">
       <div class="hpdp-advice__icon" aria-hidden="true">
@@ -148,6 +148,7 @@
 {
   "name": "Heitz PDP Advice",
   "settings": [
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
     { "type": "text", "id": "panel_label", "label": "Panel label", "default": "Complimentary Service" },
     { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Personal Lighting Guidance" },
     { "type": "text", "id": "heading", "label": "Heading", "default": "Not Sure Which Light Will Suit Your Space?" },

@@ -3,7 +3,7 @@
 {%- endcomment -%}
 <style>
   .htf-features {
-    background-color: #F9F9F9;
+    background-color: var(--color-background, #F9F9F9);
     padding: 12px 0;
     border-top: 1px solid #e8e8e8;
     border-bottom: 1px solid #e8e8e8;
@@ -29,7 +29,7 @@
     flex-shrink: 0;
     width: 18px;
     height: 18px;
-    stroke: #1a1a1a;
+    stroke: var(--color-foreground, #1a1a1a);
     fill: none;
     stroke-width: 1.5;
     stroke-linecap: round;
@@ -38,7 +38,7 @@
   .htf-features__title {
     font-size: 11px;
     font-weight: 400;
-    color: #1a1a1a;
+    color: var(--color-foreground, #1a1a1a);
     margin: 0;
     letter-spacing: 0.12em;
     text-transform: uppercase;
@@ -66,7 +66,7 @@
   }
 </style>
 
-<div class="htf-features">
+<div class="htf-features color-{{ section.settings.color_scheme }}">
   <div class="htf-features__grid">
     {%- for block in section.blocks -%}
       <div class="htf-features__item" {{ block.shopify_attributes }}>
@@ -91,6 +91,9 @@
 {% schema %}
 {
   "name": "Heitz TF Trust Badges",
+  "settings": [
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" }
+  ],
   "blocks": [
     {
       "type": "badge",

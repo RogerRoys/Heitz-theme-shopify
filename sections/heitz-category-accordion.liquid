@@ -5,11 +5,11 @@
 {%- endcomment -%}
 <style>
   .htfa {
-    background: #f5f3ee;
+    background: var(--color-background, #f5f3ee);
     font-family: var(--htf-font-heading, 'Fahkwang', sans-serif);
   }
-  .htfa__item { border-bottom: 1px solid #ddd; }
-  .htfa__item:first-child { border-top: 1px solid #ddd; }
+  .htfa__item { border-bottom: 1px solid var(--color-border, #ddd); }
+  .htfa__item:first-child { border-top: 1px solid var(--color-border, #ddd); }
   .htfa__trigger {
     width: 100%;
     display: flex;
@@ -24,7 +24,7 @@
   .htfa__title {
     font-size: 26px;
     font-weight: 300;
-    color: #1a1a1a;
+    color: var(--color-foreground-heading, #1a1a1a);
     letter-spacing: 0.04em;
     font-family: var(--htf-font-heading, 'Fahkwang', sans-serif);
     margin: 0;
@@ -33,7 +33,7 @@
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background: #1a1a1a;
+    background: var(--color-foreground-heading, #1a1a1a);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -130,7 +130,7 @@
     background: #ccc;
     transition: background 0.2s;
   }
-  .htfa__dot.is-active { background: #1a1a1a; }
+  .htfa__dot.is-active { background: var(--color-foreground-heading, #1a1a1a); }
 
   @media (max-width: 768px) {
     .htfa__trigger { padding: 20px 16px; }
@@ -155,7 +155,7 @@
   }
 </style>
 
-<div class="htfa" data-htfa>
+<div class="htfa color-{{ section.settings.color_scheme }}" data-htfa>
   {%- for block in section.blocks -%}
     <div class="htfa__item{% if forloop.first %} is-open{% endif %}" {{ block.shopify_attributes }}>
       <button class="htfa__trigger" type="button">
@@ -243,6 +243,9 @@
 {% schema %}
 {
   "name": "Heitz TF Accordion",
+  "settings": [
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" }
+  ],
   "blocks": [
     {
       "type": "group",

@@ -6,7 +6,7 @@
 <style>
   .hpdp-icons {
     width: 100%;
-    background: #ffffff;
+    background: var(--color-background, #ffffff);
     padding: 28px 18px 32px;
     font-family: var(--hpdp-font-body);
   }
@@ -18,7 +18,7 @@
     gap: 26px;
     text-align: center;
   }
-  .hpdp-icons__item { color: var(--hpdp-brown); }
+  .hpdp-icons__item { color: var(--color-foreground-heading, var(--hpdp-brown)); }
   .hpdp-icons__icon {
     width: 24px; height: 24px;
     margin: 0 auto 12px;
@@ -26,7 +26,7 @@
     align-items: center;
     justify-content: center;
   }
-  .hpdp-icons__icon svg { width: 24px; height: 24px; stroke: var(--hpdp-brown); stroke-width: 1.8; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+  .hpdp-icons__icon svg { width: 24px; height: 24px; stroke: var(--color-foreground-heading, var(--hpdp-brown)); stroke-width: 1.8; fill: none; stroke-linecap: round; stroke-linejoin: round; }
   .hpdp-icons__title {
     font-family: var(--hpdp-font-heading);
     font-size: 13px;
@@ -60,7 +60,7 @@
   }
 </style>
 
-<section class="hpdp-icons">
+<section class="hpdp-icons color-{{ section.settings.color_scheme }}">
   <div class="hpdp-icons__inner">
     {%- for block in section.blocks -%}
       <div class="hpdp-icons__item" {{ block.shopify_attributes }}>
@@ -86,6 +86,9 @@
 {% schema %}
 {
   "name": "Heitz PDP Icon Row",
+  "settings": [
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" }
+  ],
   "blocks": [
     {
       "type": "item",

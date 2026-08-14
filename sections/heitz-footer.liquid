@@ -4,8 +4,8 @@
 {%- endcomment -%}
 <style>
   .htf-footer {
-    background-color: var(--htf-color-footer, #2a3743);
-    color: var(--htf-color-footer-text, #ffffff);
+    background-color: var(--color-background, #2a3743);
+    color: var(--color-foreground, #ffffff);
     font-family: var(--htf-font-body);
     padding-bottom: 30px;
   }
@@ -116,7 +116,7 @@
   }
 </style>
 
-<footer class="htf-footer">
+<footer class="htf-footer color-{{ section.settings.color_scheme }}">
   <div class="htf-page-width">
     <div class="htf-footer__grid">
       {%- for block in section.blocks -%}
@@ -227,6 +227,7 @@
 {
   "name": "Heitz TF Footer",
   "settings": [
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
     { "type": "checkbox", "id": "show_payment_icons", "label": "Show payment icons", "default": true }
   ],
   "blocks": [

@@ -10,7 +10,7 @@
     top: 0;
     left: 0;
     right: 0;
-    background: {{ section.settings.bg | default: '#fbf7f1' }};
+    background: var(--color-background, {{ section.settings.bg | default: '#fbf7f1' }});
     box-shadow: 0 2px 14px rgba(0,0,0,.08);
     z-index: 80;
     opacity: 0;
@@ -46,7 +46,7 @@
     align-items: center;
     gap: 5px;
     padding: .75em 0;
-    color: {{ section.settings.text | default: '#1a1b18' }};
+    color: var(--color-foreground, {{ section.settings.text | default: '#1a1b18' }});
     font-family: var(--hpdp-font-body);
     font-weight: 500;
     font-size: 12px;
@@ -64,7 +64,7 @@
   }
 </style>
 
-<nav class="hpdp-spybar" data-hpdp-spybar aria-label="Page sections">
+<nav class="hpdp-spybar color-{{ section.settings.color_scheme }}" data-hpdp-spybar aria-label="Page sections">
   <span class="hpdp-spybar__indicator" data-hpdp-spy-indicator></span>
   <div class="hpdp-spybar__menu" data-hpdp-spy-menu></div>
 </nav>
@@ -129,6 +129,7 @@
 {
   "name": "Heitz PDP Scrollspy",
   "settings": [
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
     { "type": "color", "id": "bg", "label": "Bar background", "default": "#fbf7f1" },
     { "type": "color", "id": "text", "label": "Text", "default": "#1a1b18" },
     { "type": "color", "id": "accent", "label": "Active accent", "default": "#d9b97a" }

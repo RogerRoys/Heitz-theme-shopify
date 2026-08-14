@@ -10,7 +10,7 @@
 <style>
   .htf-section-header-wrap { position: sticky; top: 0; z-index: 29; }
   .htf-header {
-    background-color: #ffffff;
+    background-color: var(--color-background, #ffffff);
     border-bottom: 1px solid rgba(42, 55, 67, 0.1);
     padding: 20px 0 0;
     position: relative;
@@ -46,6 +46,11 @@
     vertical-align: middle;
   }
   /* Horizon action components (search / account / cart) restyled to match */
+  .htf-header .account-popover,
+  .htf-header .account-drawer { display: none !important; }
+  .htf-header .header-actions__action svg,
+  .htf-header .search-modal__button svg,
+  .htf-header .htf-account-link svg { width: 28px; height: 28px; }
   .htf-header {
     --icon-size-sm: 26px;
     --icon-size-xs: 22px;
@@ -269,7 +274,7 @@
   }
 </style>
 
-<div class="htf-header" data-htf-header>
+<div class="htf-header color-{{ section.settings.color_scheme }}" data-htf-header>
   <div class="htf-page-width">
     <div class="htf-header__layout">
       <div class="htf-header__item htf-header__item--left">
@@ -414,6 +419,7 @@
   "name": "Heitz TF Header",
   "class": "htf-section-header-wrap",
   "settings": [
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
     {
       "type": "link_list",
       "id": "menu",

@@ -6,7 +6,7 @@
 <style>
   .hpdp-story {
     width: 100%;
-    background: var(--hpdp-warm);
+    background: var(--color-background, var(--hpdp-warm));
     padding: 78px 20px;
     overflow: hidden;
     font-family: var(--hpdp-font-body);
@@ -149,7 +149,7 @@
   }
 </style>
 
-<section class="hpdp-story">
+<section class="hpdp-story color-{{ section.settings.color_scheme }}">
   <div class="hpdp-story__wrap">
     <div class="hpdp-story__media">
       {%- if section.settings.image != blank -%}
@@ -194,6 +194,7 @@
 {
   "name": "Heitz PDP Story",
   "settings": [
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
     { "type": "image_picker", "id": "image", "label": "Image" },
     { "type": "text", "id": "badge_title", "label": "Badge title", "default": "Thoughtfully Selected" },
     { "type": "textarea", "id": "badge_text", "label": "Badge text", "default": "Lighting chosen for warm ambience, clean form and elevated interior styling." },

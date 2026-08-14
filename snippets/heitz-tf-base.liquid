@@ -28,10 +28,10 @@
   .htf-btn {
     -webkit-appearance: none;
     appearance: none;
-    background: var(--htf-color-btn);
+    background: var(--color-primary-button-background, var(--htf-color-btn));
     border: 1px solid transparent;
     border-radius: 0;
-    color: var(--htf-color-btn-text);
+    color: var(--color-primary-button-text, var(--htf-color-btn-text));
     cursor: pointer;
     display: inline-block;
     font-family: var(--htf-font-body);
@@ -47,7 +47,7 @@
     white-space: normal;
     transition: background .2s ease 0s;
   }
-  .htf-btn:hover { background: var(--htf-color-btn-light); color: var(--htf-color-btn-text); }
+  .htf-btn:hover { background: var(--color-primary-button-hover-background, var(--htf-color-btn-light)); color: var(--color-primary-button-hover-text, var(--htf-color-btn-text)); }
   .htf-btn--secondary {
     background-color: transparent;
     border: 1px solid var(--htf-color-border);

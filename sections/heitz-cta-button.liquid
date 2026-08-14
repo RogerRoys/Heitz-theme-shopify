@@ -16,8 +16,8 @@
     justify-content: center;
     align-items: center;
     padding: 14px 28px;
-    background-color: #2a3743;
-    color: #ffffff;
+    background-color: var(--color-primary-button-background, #2a3743);
+    color: var(--color-primary-button-text, #ffffff);
     border: none;
     border-radius: 0;
     font-family: var(--htf-font-body);
@@ -29,14 +29,14 @@
     max-width: 100%;
     text-align: center;
   }
-  .htf-cta-{{ sid }} .htf-cta__link:hover { background-color: #1c2630; color: #ffffff; }
+  .htf-cta-{{ sid }} .htf-cta__link:hover { background-color: var(--color-primary-button-hover-background, #1c2630); color: var(--color-primary-button-hover-text, #ffffff); }
   @media screen and (max-width: 749px) {
     .htf-cta-{{ sid }} { padding-left: 17px; padding-right: 17px; }
     .htf-cta-{{ sid }} .htf-cta__link { width: 100%; }
   }
 </style>
 
-<div class="htf-cta-{{ sid }}">
+<div class="htf-cta-{{ sid }} color-{{ section.settings.color_scheme }}">
   <a href="{{ section.settings.link }}" class="htf-cta__link">{{ section.settings.label | default: 'Shop now' }}</a>
 </div>
 
@@ -44,6 +44,7 @@
 {
   "name": "Heitz TF CTA Button",
   "settings": [
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
     { "type": "text", "id": "label", "label": "Label", "default": "Shop now" },
     { "type": "url", "id": "link", "label": "Link" }
   ],

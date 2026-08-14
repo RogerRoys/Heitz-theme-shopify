@@ -390,6 +390,9 @@
           ]
         }
       },
+      "custom_css": [
+        ".htf-fc {padding: 40px 0px 54px;}"
+      ],
       "settings": {
         "collection": "outdoor-wall-lights",
         "title": "Outdoor Wall Lighting",

@@ -74,6 +74,8 @@
     display: flex;
     align-items: center;
   }
+  .htf-header dropdown-localization-component,
+  .htf-header .dropdown-localization { display: flex; align-items: center; }
   .htf-logo { margin: 0; display: block; line-height: 0; }
   .htf-logo a { display: inline-block; width: 130px; }
   .htf-logo img, .htf-logo svg { width: 100%; height: auto; display: block; }
@@ -301,6 +303,19 @@
 
       <div class="htf-header__item htf-header__item--icons">
         {% render 'search', class: 'desktop:hidden' %}
+        {%- liquid
+          assign loc_show_language = section.settings.show_language
+          if localization.available_languages.size <= 1
+            assign loc_show_language = false
+          endif
+          assign loc_show_country = section.settings.show_country
+          if localization.available_countries.size <= 1
+            assign loc_show_country = false
+          endif
+        -%}
+        {%- if loc_show_country or loc_show_language -%}
+          {% render 'dropdown-localization', show_country: loc_show_country, show_language: loc_show_language, country_style: section.settings.country_selector_style, localization_position: section.settings.localization_position %}
+        {%- endif -%}
         {% render 'header-actions' %}
       </div>
     </div>
@@ -439,7 +454,14 @@
     { "type": "checkbox", "id": "enable_custom_account_icon", "label": "Use custom account icon", "default": false },
     { "type": "html", "id": "custom_account_svg", "label": "Custom account icon SVG" },
     { "type": "checkbox", "id": "enable_custom_cart_icon", "label": "Use custom cart icon", "default": false },
-    { "type": "html", "id": "custom_cart_icon_svg", "label": "Custom cart icon SVG" }
+    { "type": "html", "id": "custom_cart_icon_svg", "label": "Custom cart icon SVG" },
+    { "type": "header", "content": "Localization" },
+    { "type": "checkbox", "id": "show_country", "label": "Show country/region selector", "default": true },
+    { "type": "checkbox", "id": "country_selector_style", "label": "Show flag", "default": true },
+    { "type": "checkbox", "id": "show_language", "label": "Show language selector", "default": false },
+    { "type": "select", "id": "localization_font", "label": "Localization font", "options": [ { "value": "heading", "label": "Heading" }, { "value": "subheading", "label": "Subheading" }, { "value": "body", "label": "Body" }, { "value": "accent", "label": "Accent" } ], "default": "heading" },
+    { "type": "select", "id": "localization_font_size", "label": "Localization size", "options": [ { "value": "0.625rem", "label": "10px" }, { "value": "0.75rem", "label": "12px" }, { "value": "0.875rem", "label": "14px" }, { "value": "1rem", "label": "16px" } ], "default": "0.75rem" },
+    { "type": "select", "id": "localization_position", "label": "Localization dropdown direction", "options": [ { "value": "left", "label": "Left" }, { "value": "right", "label": "Right" } ], "default": "right" }
   ]
 }
 {% endschema %}

@@ -9,6 +9,7 @@
     align-items: center;
     gap: 30px;
   }
+  .htf-editorial--img-left .htf-editorial__row { flex-direction: row-reverse; }
   .htf-editorial__text { flex: 0 1 50%; text-align: left; }
   .htf-editorial__text h2 {
     font-family: var(--htf-font-heading);
@@ -56,14 +57,15 @@
   .htf-editorial__second { width: 60%; }
   @media only screen and (max-width: 768px) {
     .htf-editorial { padding: 35px 0; }
-    .htf-editorial__row { flex-direction: column-reverse; }
+    .htf-editorial__row,
+    .htf-editorial--img-left .htf-editorial__row { flex-direction: column-reverse; }
     .htf-editorial__text, .htf-editorial__images { flex: 1 1 100%; width: 100%; }
     .htf-editorial__text h2 { font-size: 22px; }
     .htf-editorial__text p { font-size: 16px; }
   }
 </style>
 
-<div class="htf-editorial color-{{ section.settings.color_scheme }}">
+<div class="htf-editorial color-{{ section.settings.color_scheme }}{% if section.settings.image_position == 'left' %} htf-editorial--img-left{% endif %}">
   <div class="htf-page-width">
     <div class="htf-editorial__row">
       <div class="htf-editorial__text">
@@ -102,6 +104,16 @@
   "name": "Heitz TF Editorial",
   "settings": [
     { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Image position",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "right"
+    },
     { "type": "text", "id": "title", "label": "Heading", "default": "Behind the Design" },
     { "type": "textarea", "id": "text", "label": "Text", "default": "Explore lighting inspiration, styling ideas, and thoughtful design stories made to help you create a more beautiful home." },
     { "type": "text", "id": "button_label", "label": "Button label", "default": "Explore Collections" },

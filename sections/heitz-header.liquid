@@ -239,7 +239,9 @@
   .htf-drawer__footer {
     border-top: 1px solid var(--htf-color-border-light);
     margin-top: 10px;
-    padding: 6px 0 40px;
+    /* generous bottom padding so the country list clears Shopify's
+       fixed cookie/privacy banner on mobile */
+    padding: 6px 0 140px;
   }
   .htf-drawer__account svg {
     width: 22px;

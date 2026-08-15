@@ -44,7 +44,7 @@
   }
   .htf-colscroll__item:hover .htf-colscroll__img img { transform: scale(1.05); }
   .htf-colscroll__label {
-    font-size: 13px;
+    font-size: {{ section.settings.text_size | default: 13 }}px;
     color: var(--color-foreground, #1a1a1a);
     text-align: center;
     line-height: 1.4;

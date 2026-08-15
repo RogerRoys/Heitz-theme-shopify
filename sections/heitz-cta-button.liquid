@@ -21,7 +21,7 @@
     border: none;
     border-radius: 0;
     font-family: var(--htf-font-body);
-    font-size: 16px;
+    font-size: {{ section.settings.text_size | default: 16 }}px;
     text-decoration: none;
     cursor: pointer;
     transition: background-color 0.3s ease, color 0.3s ease;

@@ -79,7 +79,7 @@
   }
   .hpdp-story__title {
     font-family: var(--hpdp-font-heading);
-    font-size: 40px;
+    font-size: {{ section.settings.heading_size | default: 40 }}px;
     line-height: 1.14;
     font-weight: 600;
     letter-spacing: .7px;
@@ -90,7 +90,7 @@
   .hpdp-story__subtitle {
     max-width: 610px;
     margin: 18px 0 0;
-    font-size: 16px;
+    font-size: {{ section.settings.text_size | default: 16 }}px;
     line-height: 1.75;
     letter-spacing: .4px;
     color: var(--hpdp-brown-text);
@@ -139,14 +139,14 @@
     .hpdp-story--img-right .hpdp-story__content { order: 0; }
     .hpdp-story__media, .hpdp-story__media img { min-height: 480px; }
     .hpdp-story__content { padding: 0; }
-    .hpdp-story__title { font-size: 32px; }
+    .hpdp-story__title { font-size: {{ section.settings.heading_size | default: 40 | times: 0.8 | round }}px; }
   }
   @media screen and (max-width: 620px) {
     .hpdp-story { padding: 42px 16px; }
     .hpdp-story__wrap { gap: 28px; }
     .hpdp-story__media, .hpdp-story__media img { min-height: 360px; }
     .hpdp-story__badge { left: 16px; right: 16px; bottom: 16px; max-width: none; padding: 15px 16px; }
-    .hpdp-story__title { font-size: 26px; line-height: 1.18; }
+    .hpdp-story__title { font-size: {{ section.settings.heading_size | default: 40 | times: 0.65 | round }}px; line-height: 1.18; }
     .hpdp-story__subtitle { font-size: 14.5px; line-height: 1.65; }
     .hpdp-story__list { grid-template-columns: 1fr; gap: 13px; margin-top: 26px; }
     .hpdp-story__item { min-height: auto; padding: 21px 19px; }
@@ -168,8 +168,8 @@
     </div>
     <div class="hpdp-story__content">
       <div class="hpdp-story__kicker">{{ section.settings.kicker | escape }}</div>
-      <h2 class="hpdp-story__title" data-hpdp-spy="{{ section.settings.kicker | default: section.settings.title | escape }}">{{ section.settings.title | escape }}</h2>
-      <p class="hpdp-story__subtitle">{{ section.settings.subtitle | escape }}</p>
+      <h2 class="hpdp-story__title" data-hpdp-spy="{{ section.settings.kicker | default: section.settings.title | strip_html | escape }}">{{ section.settings.title }}</h2>
+      <p class="hpdp-story__subtitle">{{ section.settings.subtitle }}</p>
       <div class="hpdp-story__list">
         {%- for block in section.blocks -%}
           <div class="hpdp-story__item" {{ block.shopify_attributes }}>
@@ -213,7 +213,7 @@
     { "type": "text", "id": "badge_title", "label": "Badge title", "default": "Thoughtfully Selected" },
     { "type": "textarea", "id": "badge_text", "label": "Badge text", "default": "Lighting chosen for warm ambience, clean form and elevated interior styling." },
     { "type": "text", "id": "kicker", "label": "Kicker", "default": "Lighting, Elevated" },
-    { "type": "text", "id": "title", "label": "Heading", "default": "Refined Lighting for a More Beautiful Home" },
+    { "type": "inline_richtext", "id": "title", "label": "Heading", "default": "Refined Lighting for a More Beautiful Home" },
     { "type": "textarea", "id": "subtitle", "label": "Subtitle", "default": "Heitz Living brings together pendant lights, wall lights and outdoor lighting designed to add warmth, structure and a premium architectural finish to your home." }
   ],
   "blocks": [

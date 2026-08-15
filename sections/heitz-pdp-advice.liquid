@@ -62,7 +62,7 @@
     margin: 0 0 11px;
     font-family: var(--hpdp-font-heading);
     font-weight: 600;
-    font-size: 25px;
+    font-size: {{ section.settings.heading_size | default: 25 }}px;
     line-height: 1.25;
     letter-spacing: .5px;
     color: var(--hpdp-ink);
@@ -70,7 +70,7 @@
   .hpdp-advice__text {
     max-width: 760px;
     margin: 0;
-    font-size: 15px;
+    font-size: {{ section.settings.text_size | default: 15 }}px;
     line-height: 1.65;
     letter-spacing: .2px;
     color: #555555;
@@ -133,8 +133,8 @@
     <div class="hpdp-advice__content">
       <div>
         <p class="hpdp-advice__eyebrow">{{ section.settings.eyebrow | escape }}</p>
-        <h2 class="hpdp-advice__heading" data-hpdp-spy="{{ section.settings.heading | escape }}">{{ section.settings.heading | escape }}</h2>
-        <p class="hpdp-advice__text">{{ section.settings.text | escape }}</p>
+        <h2 class="hpdp-advice__heading" data-hpdp-spy="{{ section.settings.heading | strip_html | escape }}">{{ section.settings.heading }}</h2>
+        <p class="hpdp-advice__text">{{ section.settings.text }}</p>
       </div>
       <a href="{{ section.settings.link | default: '/pages/contact' }}" class="hpdp-advice__button">
         {{ section.settings.button_label | escape }}
@@ -151,7 +151,7 @@
     { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
     { "type": "text", "id": "panel_label", "label": "Panel label", "default": "Complimentary Service" },
     { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Personal Lighting Guidance" },
-    { "type": "text", "id": "heading", "label": "Heading", "default": "Not Sure Which Light Will Suit Your Space?" },
+    { "type": "inline_richtext", "id": "heading", "label": "Heading", "default": "Not Sure Which Light Will Suit Your Space?" },
     { "type": "textarea", "id": "text", "label": "Text", "default": "Share a photo, wall dimensions or details about your entrance, pathway or garden. Our team will help you compare suitable sizes, finishes and lighting styles." },
     { "type": "text", "id": "button_label", "label": "Button label", "default": "Ask for Advice" },
     { "type": "url", "id": "link", "label": "Button link" }

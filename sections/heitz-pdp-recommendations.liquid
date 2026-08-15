@@ -8,7 +8,7 @@
   .hpdp-recs__title {
     font-family: var(--hpdp-font-heading);
     font-weight: 600;
-    font-size: clamp(22px, 18px + 1.2vw, 30px);
+    font-size: clamp(22px, 18px + 1.2vw, {{ section.settings.heading_size | default: 30 }}px);
     color: var(--hpdp-heading);
     letter-spacing: -.01em;
     margin: 0 0 24px;
@@ -97,6 +97,7 @@
 {
   "name": "Heitz PDP Recommendations",
   "settings": [
+    { "type": "range", "id": "heading_size", "min": 10, "max": 72, "step": 1, "unit": "px", "label": "Heading size", "default": 30 },
     { "type": "text", "id": "title", "label": "Heading", "default": "You may also like" },
     { "type": "range", "id": "limit", "min": 2, "max": 8, "step": 1, "label": "Products to show", "default": 4 }
   ],

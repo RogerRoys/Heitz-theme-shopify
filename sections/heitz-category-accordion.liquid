@@ -22,7 +22,7 @@
     text-align: left;
   }
   .htfa__title {
-    font-size: 26px;
+    font-size: {{ section.settings.heading_size | default: 26 }}px;
     font-weight: 300;
     color: var(--color-foreground-heading, #1a1a1a);
     letter-spacing: 0.04em;
@@ -134,7 +134,7 @@
 
   @media (max-width: 768px) {
     .htfa__trigger { padding: 20px 16px; }
-    .htfa__title { font-size: 22px; }
+    .htfa__title { font-size: {{ section.settings.heading_size | default: 26 | times: 0.85 | round }}px; }
     .htfa__icon { width: 36px; height: 36px; }
     .htfa__body { padding: 0 0 20px; }
     .htfa__grid { gap: 10px; padding-left: 16px; padding-right: 16px; scroll-snap-type: none; }

@@ -73,13 +73,13 @@
   .htf-hero__subtitle {
     display: block;
     font-family: var(--htf-font-body);
-    font-size: 17px;
+    font-size: {{ section.settings.text_size | default: 22 | times: 0.77 | round }}px;
     margin-top: 15px;
     margin-bottom: 30px;
     text-shadow: 0 0 4px rgba(0,0,0,0.2);
   }
   @media only screen and (min-width: 769px) {
-    .htf-hero__subtitle { font-size: 22px; }
+    .htf-hero__subtitle { font-size: {{ section.settings.text_size | default: 22 }}px; }
   }
   .htf-hero__rise {
     overflow: hidden;
@@ -120,12 +120,12 @@
     <div class="htf-page-width">
       {%- if section.settings.title != blank -%}
         <h2 class="htf-hero__title">
-          <span class="htf-hero__rise"><span>{{ section.settings.title | escape }}</span></span>
+          <span class="htf-hero__rise"><span>{{ section.settings.title }}</span></span>
         </h2>
       {%- endif -%}
       {%- if section.settings.subtitle != blank -%}
         <div class="htf-hero__subtitle">
-          <span class="htf-hero__rise htf-hero__rise--sub"><span>{{ section.settings.subtitle | escape }}</span></span>
+          <span class="htf-hero__rise htf-hero__rise--sub"><span>{{ section.settings.subtitle }}</span></span>
         </div>
       {%- endif -%}
       {%- if section.settings.button_label != blank -%}
@@ -142,12 +142,14 @@
   "name": "Heitz TF Hero",
   "settings": [
     { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+    { "type": "range", "id": "heading_size", "min": 10, "max": 72, "step": 1, "unit": "px", "label": "Heading size", "default": 47 },
+    { "type": "range", "id": "text_size", "min": 8, "max": 32, "step": 1, "unit": "px", "label": "Text size", "default": 22 },
     { "type": "image_picker", "id": "image", "label": "Desktop image" },
     { "type": "image_picker", "id": "image_mobile", "label": "Mobile image (portrait)" },
     { "type": "range", "id": "mobile_ratio", "min": 80, "max": 150, "step": 5, "unit": "%", "label": "Mobile height ratio", "default": 125 },
     { "type": "range", "id": "overlay_opacity", "min": 0, "max": 60, "step": 2, "unit": "%", "label": "Overlay opacity", "default": 4 },
-    { "type": "text", "id": "title", "label": "Heading", "default": "Lighting That Defines the Space" },
-    { "type": "text", "id": "subtitle", "label": "Subheading", "default": "Thoughtfully designed pieces for refined, modern interiors." },
+    { "type": "inline_richtext", "id": "title", "label": "Heading", "default": "Lighting That Defines the Space" },
+    { "type": "inline_richtext", "id": "subtitle", "label": "Subheading", "default": "Thoughtfully designed pieces for refined, modern interiors." },
     { "type": "text", "id": "button_label", "label": "Button label", "default": "Explore" },
     { "type": "url", "id": "link", "label": "Link" }
   ],

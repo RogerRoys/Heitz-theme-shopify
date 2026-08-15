@@ -36,7 +36,7 @@
     stroke-linejoin: round;
   }
   .htf-features__title {
-    font-size: 11px;
+    font-size: {{ section.settings.text_size | default: 11 }}px;
     font-weight: 400;
     color: var(--color-foreground, #1a1a1a);
     margin: 0;

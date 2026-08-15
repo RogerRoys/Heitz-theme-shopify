@@ -5,7 +5,7 @@
   .htf-announcement {
     background-color: var(--color-background, #2a3743);
     color: var(--color-foreground, #ffffff);
-    font-size: 12.75px;
+    font-size: {{ section.settings.text_size | default: 13 }}px;
     padding: 10px 0;
     position: relative;
     text-align: center;
@@ -42,7 +42,7 @@
       {%- for block in section.blocks -%}
         <span class="htf-announcement__slide{% if forloop.first %} is-active{% endif %}" {{ block.shopify_attributes }}>
           {%- if block.settings.link != blank -%}
-            <a href="{{ block.settings.link }}">{{ block.settings.text | escape }}</a>
+            <a href="{{ block.settings.link }}">{{ block.settings.text }}</a>
           {%- else -%}
             {{ block.settings.text | escape }}
           {%- endif -%}
@@ -73,6 +73,7 @@
   "class": "htf-section-announcement",
   "settings": [
     { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+    { "type": "range", "id": "text_size", "min": 8, "max": 32, "step": 1, "unit": "px", "label": "Text size", "default": 13 },
     {
       "type": "range",
       "id": "speed",
@@ -89,7 +90,7 @@
       "type": "message",
       "name": "Message",
       "settings": [
-        { "type": "text", "id": "text", "label": "Text", "default": "Free shipping on all orders" },
+        { "type": "inline_richtext", "id": "text", "label": "Text", "default": "Free shipping on all orders" },
         { "type": "url", "id": "link", "label": "Link" }
       ]
     }

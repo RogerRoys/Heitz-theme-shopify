@@ -110,7 +110,7 @@
     align-items: center;
     font-family: var(--htf-font-heading);
     font-weight: 400;
-    font-size: 15px;
+    font-size: {{ section.settings.nav_size | default: 15 }}px;
     letter-spacing: 0.025em;
     line-height: 1.1;
     padding: 12px 15px;

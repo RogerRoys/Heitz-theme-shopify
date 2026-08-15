@@ -12,14 +12,14 @@
   .htf-newsletter__title {
     font-family: var(--htf-font-heading);
     font-weight: 400;
-    font-size: 26px;
+    font-size: {{ section.settings.heading_size | default: 26 }}px;
     letter-spacing: 0.025em;
     color: var(--color-foreground, var(--htf-color-text));
     margin: 0 0 15px;
   }
   .htf-newsletter__text {
     font-family: var(--htf-font-body);
-    font-size: 19px;
+    font-size: {{ section.settings.text_size | default: 19 }}px;
     line-height: 1.4;
     color: var(--color-foreground, var(--htf-color-text));
     margin: 0 0 25px;
@@ -52,8 +52,8 @@
 
 <div class="htf-newsletter color-{{ section.settings.color_scheme }}">
   <div class="htf-page-width">
-    <p class="htf-newsletter__title">{{ section.settings.title | escape }}</p>
-    <div class="htf-newsletter__text">{{ section.settings.text | escape }}</div>
+    <p class="htf-newsletter__title">{{ section.settings.title }}</p>
+    <div class="htf-newsletter__text">{{ section.settings.text }}</div>
     {%- form 'customer' -%}
       {%- if form.posted_successfully? -%}
         <p class="htf-newsletter__success">Thanks for subscribing!</p>
@@ -80,8 +80,8 @@
   "name": "Heitz TF Newsletter",
   "settings": [
     { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
-    { "type": "text", "id": "title", "label": "Heading", "default": "Sign up and save" },
-    { "type": "text", "id": "text", "label": "Text", "default": "Be the first to know about new arrivals and special offers." },
+    { "type": "inline_richtext", "id": "title", "label": "Heading", "default": "Sign up and save" },
+    { "type": "inline_richtext", "id": "text", "label": "Text", "default": "Be the first to know about new arrivals and special offers." },
     { "type": "text", "id": "placeholder", "label": "Input placeholder", "default": "Enter your email" },
     { "type": "text", "id": "button_label", "label": "Button label", "default": "Subscribe" }
   ],

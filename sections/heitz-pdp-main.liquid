@@ -136,7 +136,7 @@
   .hpdp-title {
     font-family: var(--hpdp-font-heading);
     font-weight: 600;
-    font-size: clamp(24px, 19.5px + 1.5vw, 35px);
+    font-size: clamp(24px, 19.5px + 1.5vw, {{ section.settings.heading_size | default: 35 }}px);
     line-height: 1.2;
     letter-spacing: .3px;
     color: var(--hpdp-heading);
@@ -298,7 +298,7 @@
   .hpdp-description { margin-top: 6px; }
   .hpdp-description h2 { font-family: var(--hpdp-font-heading); font-weight: 600; font-size: 22px; letter-spacing: -.02em; color: var(--hpdp-heading); margin: 18px 0 10px; }
   .hpdp-description h3 { font-family: var(--hpdp-font-heading); font-weight: 600; font-size: 17px; color: var(--hpdp-heading); margin: 16px 0 8px; }
-  .hpdp-description p, .hpdp-description li { font-size: 15px; font-weight: 400; line-height: 1.7; letter-spacing: .2px; color: var(--hpdp-muted); }
+  .hpdp-description p, .hpdp-description li { font-size: {{ section.settings.text_size | default: 15 }}px; font-weight: 400; line-height: 1.7; letter-spacing: .2px; color: var(--hpdp-muted); }
   .hpdp-description ul { padding-left: 20px; margin: 8px 0; }
   .hpdp-description img { max-width: 100%; height: auto; margin-top: 10px; }
 

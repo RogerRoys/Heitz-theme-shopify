@@ -14,7 +14,7 @@
   .htf-editorial__text h2 {
     font-family: var(--htf-font-heading);
     font-weight: 400;
-    font-size: 26px;
+    font-size: {{ section.settings.heading_size | default: 26 }}px;
     letter-spacing: 0.025em;
     line-height: 1.1;
     color: var(--color-foreground-heading, var(--htf-color-text));
@@ -23,7 +23,7 @@
   .htf-editorial__text h2 strong { font-weight: 400; }
   .htf-editorial__text p {
     font-family: var(--htf-font-body);
-    font-size: 17px;
+    font-size: {{ section.settings.text_size | default: 17 }}px;
     line-height: 1.4;
     color: var(--color-foreground, var(--htf-color-text));
     margin: 0 0 25px;
@@ -60,8 +60,8 @@
     .htf-editorial__row,
     .htf-editorial--img-left .htf-editorial__row { flex-direction: column-reverse; }
     .htf-editorial__text, .htf-editorial__images { flex: 1 1 100%; width: 100%; }
-    .htf-editorial__text h2 { font-size: 22px; }
-    .htf-editorial__text p { font-size: 16px; }
+    .htf-editorial__text h2 { font-size: {{ section.settings.heading_size | default: 26 | times: 0.85 | round }}px; }
+    .htf-editorial__text p { font-size: {{ section.settings.text_size | default: 17 | minus: 1 }}px; }
   }
 </style>
 
@@ -69,8 +69,8 @@
   <div class="htf-page-width">
     <div class="htf-editorial__row">
       <div class="htf-editorial__text">
-        <h2><strong>{{ section.settings.title | escape }}</strong></h2>
-        <p>{{ section.settings.text | escape }}</p>
+        <h2><strong>{{ section.settings.title }}</strong></h2>
+        <p>{{ section.settings.text }}</p>
         {%- if section.settings.button_label != blank -%}
           <a href="{{ section.settings.link | default: routes.collections_url }}" class="htf-btn">{{ section.settings.button_label | escape }}</a>
         {%- endif -%}
@@ -114,7 +114,7 @@
       ],
       "default": "right"
     },
-    { "type": "text", "id": "title", "label": "Heading", "default": "Behind the Design" },
+    { "type": "inline_richtext", "id": "title", "label": "Heading", "default": "Behind the Design" },
     { "type": "textarea", "id": "text", "label": "Text", "default": "Explore lighting inspiration, styling ideas, and thoughtful design stories made to help you create a more beautiful home." },
     { "type": "text", "id": "button_label", "label": "Button label", "default": "Explore Collections" },
     { "type": "url", "id": "link", "label": "Link" },

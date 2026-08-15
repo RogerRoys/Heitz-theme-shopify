@@ -46,6 +46,10 @@
     vertical-align: middle;
   }
   /* Horizon action components (search / account / cart) restyled to match */
+  /* Mobile: account lives in the menu drawer, so hide the header's
+     mobile account trigger (the bottom-sheet dialog version). The
+     desktop popover version is unaffected. */
+  .htf-header .account-drawer { display: none !important; }
   .htf-header .header-actions__action svg,
   .htf-header .account-button__icon svg,
   .htf-header .search-modal__button svg { width: 28px; height: 28px; }

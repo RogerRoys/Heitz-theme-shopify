@@ -451,6 +451,7 @@
       "type": "heitz-editorial",
       "settings": {
         "color_scheme": "scheme-1",
+        "image_position": "left",
         "title": "Behind the Design",
         "text": "Explore lighting inspiration, styling ideas, and thoughtful design stories made to help you create a more beautiful home.",
         "button_label": "Explore Collections",

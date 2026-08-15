@@ -12,10 +12,10 @@
     "scrollspy": {
       "type": "heitz-pdp-scrollspy",
       "settings": {
+        "color_scheme": "scheme-heitz-cream",
         "bg": "#fbf7f1",
         "text": "#1a1b18",
-        "accent": "#d9b97a",
-        "color_scheme": "scheme-heitz-cream"
+        "accent": "#d9b97a"
       }
     },
     "main": {
@@ -112,21 +112,24 @@
         "faq_6"
       ],
       "settings": {
+        "color_scheme": "scheme-1",
+        "enable_sticky_add_to_cart": true,
         "show_dynamic_checkout": true,
         "show_payment_icons": true,
-        "faq_title": "Common Questions",
-        "color_scheme": "scheme-1"
+        "faq_eyebrow": "",
+        "faq_title": "Common Questions"
       }
     },
     "advice": {
       "type": "heitz-pdp-advice",
       "settings": {
+        "color_scheme": "scheme-1",
         "panel_label": "Complimentary Service",
         "eyebrow": "Personal Lighting Guidance",
         "heading": "Not Sure Which Light Will Suit Your Space?",
         "text": "Share a photo, wall dimensions or details about your room, entrance or garden. Our team will help you compare suitable sizes, finishes and lighting styles.",
         "button_label": "Ask for Advice",
-        "color_scheme": "scheme-1"
+        "link": ""
       }
     },
     "recommendations": {
@@ -135,8 +138,27 @@
         "header": {
           "type": "text",
           "settings": {
-            "text": "<h2>You may also like</h2>"
-          }
+            "text": "<h2>You may also like</h2>",
+            "width": "fit-content",
+            "max_width": "normal",
+            "alignment": "left",
+            "type_preset": "rte",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "color": "var(--color-foreground)",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
         },
         "static-product-card": {
           "type": "_product-card",
@@ -167,7 +189,8 @@
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
                 "padding-inline-end": 0
-              }
+              },
+              "blocks": {}
             },
             "card_title": {
               "type": "product-title",
@@ -190,7 +213,8 @@
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
                 "padding-inline-end": 0
-              }
+              },
+              "blocks": {}
             },
             "card_price": {
               "type": "price",
@@ -222,7 +246,8 @@
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
                 "padding-inline-end": 0
-              }
+              },
+              "blocks": {}
             },
             "card_swatches": {
               "type": "swatches",
@@ -235,7 +260,8 @@
                 "product_swatches_padding_bottom": 0,
                 "product_swatches_padding_left": 0,
                 "product_swatches_padding_right": 0
-              }
+              },
+              "blocks": {}
             }
           },
           "block_order": [
@@ -311,12 +337,13 @@
         "feature_4"
       ],
       "settings": {
+        "color_scheme": "scheme-2",
+        "image_position": "right",
         "badge_title": "Thoughtfully Selected",
         "badge_text": "Lighting chosen for warm ambience, clean form and elevated interior styling.",
         "kicker": "Lighting, Elevated",
         "title": "Refined Lighting for a More Beautiful Home",
-        "subtitle": "Heitz Living brings together pendant lights, wall lights and outdoor lighting designed to add warmth, structure and a premium architectural finish to your home.",
-        "color_scheme": "scheme-heitz-warm"
+        "subtitle": "Heitz Living brings together pendant lights, wall lights and outdoor lighting designed to add warmth, structure and a premium architectural finish to your home."
       }
     },
     "icon_row": {
@@ -362,7 +389,7 @@
         "icon_4"
       ],
       "settings": {
-        "color_scheme": "scheme-heitz-brown"
+        "color_scheme": "scheme-1"
       }
     }
   },

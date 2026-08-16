@@ -494,7 +494,6 @@
     -%}
     {%- if drawer_show_country -%}
       {%- form 'localization', id: 'HtfDrawerLocForm', class: 'htf-drawer__loc-form' -%}
-        <input type="hidden" name="country_code" value="{{ localization.country.iso_code }}" data-htf-loc-input>
         <details class="htf-drawer__loc">
           <summary>
             {%- if section.settings.country_selector_style -%}
@@ -505,7 +504,7 @@
           </summary>
           <div class="htf-drawer__loc-list">
             {%- for country in localization.available_countries -%}
-              <button type="button" data-htf-country="{{ country.iso_code }}" class="{% if country.iso_code == localization.country.iso_code %}is-active{% endif %}">
+              <button type="submit" name="country_code" value="{{ country.iso_code }}" class="{% if country.iso_code == localization.country.iso_code %}is-active{% endif %}">
                 {{ country.name }} ({{ country.currency.iso_code }})
               </button>
             {%- endfor -%}
@@ -546,21 +545,6 @@
       });
     });
 
-    /* drawer country picker: set hidden input then submit (reliable on
-       every mobile browser, unlike submit-button name/value pairs) */
-    drawer.querySelectorAll('[data-htf-country]').forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        var form = document.getElementById('HtfDrawerLocForm');
-        if (!form) return;
-        var input = form.querySelector('[data-htf-loc-input]');
-        if (input) input.value = btn.getAttribute('data-htf-country');
-        if (typeof form.requestSubmit === 'function') {
-          form.requestSubmit();
-        } else {
-          form.submit();
-        }
-      });
-    });
   })();
 </script>
 

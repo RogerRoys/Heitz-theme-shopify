@@ -170,7 +170,14 @@
     padding: 8px 20px;
     white-space: nowrap;
   }
-  .htf-dropdown__link:hover { color: #0d1014; }
+  .htf-dropdown__link {
+    transition: background-color .2s ease, color .2s ease;
+  }
+  .htf-dropdown__link:hover,
+  .htf-dropdown__link:focus-visible {
+    background-color: rgba(42, 55, 67, 0.06);
+    color: #0d1014;
+  }
   .htf-dropdown__link--parent:after {
     content: '';
     border: solid var(--htf-color-text);

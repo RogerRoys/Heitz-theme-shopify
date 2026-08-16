@@ -554,7 +554,11 @@
         if (!form) return;
         var input = form.querySelector('[data-htf-loc-input]');
         if (input) input.value = btn.getAttribute('data-htf-country');
-        form.submit();
+        if (typeof form.requestSubmit === 'function') {
+          form.requestSubmit();
+        } else {
+          form.submit();
+        }
       });
     });
   })();

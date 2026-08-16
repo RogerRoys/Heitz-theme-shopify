@@ -33,7 +33,16 @@
   }
 
   /* ── gallery (Impulse "beside/left" layout) ──── */
-  .hpdp-media { position: relative; }
+  .hpdp-media {
+    position: relative;
+    min-width: 0;
+    max-width: 100%;
+  }
+  .hpdp-media__sticky,
+  .hpdp-gallery-flex {
+    min-width: 0;
+    max-width: 100%;
+  }
   @media screen and (min-width: 750px) {
     .hpdp-media__sticky { position: sticky; top: 20px; }
   }
@@ -88,9 +97,14 @@
   .hpdp-zoom-btn svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 4; stroke-miterlimit: 10; }
   .hpdp-dots {
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     gap: 6px;
     margin-top: 12px;
+    max-width: 100%;
+    padding-inline: 12px;
+    box-sizing: border-box;
+    overflow: hidden;
   }
   .hpdp-dots span {
     width: 7px; height: 7px;

@@ -309,48 +309,6 @@
     width: 100%;
   }
   .htf-drawer__loc-list button.is-active { font-weight: 600; text-decoration: underline; }
-  .htf-drawer__oldloc { display: block; }
-  .htf-drawer__oldloc .drawer-localization { display: block; }
-  .htf-drawer__loc-summary {
-    align-items: center;
-    color: var(--htf-color-text);
-    cursor: pointer;
-    display: flex;
-    font-family: var(--htf-font-heading);
-    font-size: 15px;
-    justify-content: space-between;
-    list-style: none;
-    padding: 14px 25px;
-  }
-  .htf-drawer__loc-summary::-webkit-details-marker { display: none; }
-  .htf-drawer__localization-panel {
-    border-top: 1px solid var(--htf-color-border-light);
-    padding: 12px 16px 18px;
-  }
-  .htf-drawer__localization-heading {
-    color: var(--htf-color-text);
-    font-family: var(--htf-font-heading);
-    font-size: 16px;
-    font-weight: 600;
-    padding: 6px 8px 10px;
-  }
-  .htf-drawer__oldloc localization-form-component {
-    display: block;
-    height: auto;
-    width: 100%;
-  }
-  .htf-drawer__oldloc .localization-form {
-    display: block;
-    height: auto;
-    position: static;
-    width: 100%;
-  }
-  .htf-drawer__oldloc .country-selector-form__wrapper {
-    max-height: 280px;
-  }
-  .htf-drawer__oldloc .localization-form__list {
-    padding: 0;
-  }
   .htf-drawer__loc-list button:hover { background: rgba(0,0,0,.04); }
   .htf-drawer__link,
   .htf-drawer__toggle {
@@ -536,38 +494,31 @@
       endif
     -%}
     {%- if drawer_show_country -%}
-      <drawer-localization-component class="htf-drawer__oldloc menu-drawer__localization">
-        <details
-          id="drawer-localization"
-          class="htf-drawer__loc drawer-localization"
-          on:toggle="/toggle"
-        >
-          <summary class="drawer-localization__button htf-drawer__loc-summary">
-            <div class="drawer-localization__button--label">
-              <div class="mobile-localization mobile-localization--country">
-                {%- if section.settings.country_selector_style -%}
-                  <span
-                    class="htf-drawer__loc-flag icon-flag"
-                    style="background-image: url({{ localization.country | image_url: width: 32 }});"
-                  ></span>
-                {%- endif -%}
-                <span class="currency-code">{{ localization.country.currency.iso_code }}</span>
-              </div>
-            </div>
-            <svg class="htf-chevron" viewBox="0 0 28 16"><path d="m1.57 1.59 12.76 12.77L27.1 1.59" stroke-width="2" stroke="currentColor" fill="none"/></svg>
-          </summary>
-
-          <div class="htf-drawer__localization-panel">
-            <div class="htf-drawer__localization-heading">Localization</div>
-            {% render 'localization-form',
-              show_country: true,
-              show_language: false,
-              localization_style: 'drawer',
-              block_id: section.id
-            %}
-          </div>
-        </details>
-      </drawer-localization-component>
+      <details class="htf-drawer__loc">
+        <summary>
+          {%- if section.settings.country_selector_style -%}
+            <span
+              class="htf-drawer__loc-flag"
+              style="background-image: url({{ localization.country | image_url: width: 32 }});"
+            ></span>
+          {%- endif -%}
+          <span>{{ localization.country.iso_code }} ({{ localization.country.currency.iso_code }})</span>
+          <svg class="htf-chevron" viewBox="0 0 28 16"><path d="m1.57 1.59 12.76 12.77L27.1 1.59" stroke-width="2" stroke="currentColor" fill="none"/></svg>
+        </summary>
+        <div class="htf-drawer__loc-list">
+          {%- for country in localization.available_countries -%}
+            {%- form 'localization', class: 'htf-drawer__country-form' -%}
+              <input type="hidden" name="country_code" value="{{ country.iso_code }}">
+              <button
+                type="submit"
+                class="{% if country.iso_code == localization.country.iso_code %}is-active{% endif %}"
+              >
+                {{ country.iso_code }} ({{ country.currency.iso_code }})
+              </button>
+            {%- endform -%}
+          {%- endfor -%}
+        </div>
+      </details>
     {%- endif -%}
   </div>
 </div>

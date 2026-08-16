@@ -493,24 +493,24 @@
       endif
     -%}
     {%- if drawer_show_country -%}
-      {%- form 'localization', id: 'HtfDrawerLocForm', class: 'htf-drawer__loc-form' -%}
-        <details class="htf-drawer__loc">
-          <summary>
-            {%- if section.settings.country_selector_style -%}
-              <span class="htf-drawer__loc-flag" style="background-image: url({{ localization.country | image_url: width: 32 }});"></span>
-            {%- endif -%}
-            <span>{{ localization.country.name }} ({{ localization.country.currency.iso_code }})</span>
-            <svg class="htf-chevron" viewBox="0 0 28 16"><path d="m1.57 1.59 12.76 12.77L27.1 1.59" stroke-width="2" stroke="currentColor" fill="none"/></svg>
-          </summary>
-          <div class="htf-drawer__loc-list">
-            {%- for country in localization.available_countries -%}
-              <button type="submit" name="country_code" value="{{ country.iso_code }}" class="{% if country.iso_code == localization.country.iso_code %}is-active{% endif %}">
-                {{ country.name }} ({{ country.currency.iso_code }})
-              </button>
-            {%- endfor -%}
-          </div>
-        </details>
-      {%- endform -%}
+      <details class="htf-drawer__loc">
+        <summary>
+          {%- if section.settings.country_selector_style -%}
+            <span class="htf-drawer__loc-flag" style="background-image: url({{ localization.country | image_url: width: 32 }});"></span>
+          {%- endif -%}
+          <span>{{ localization.country.name }} ({{ localization.country.currency.iso_code }})</span>
+          <svg class="htf-chevron" viewBox="0 0 28 16"><path d="m1.57 1.59 12.76 12.77L27.1 1.59" stroke-width="2" stroke="currentColor" fill="none"/></svg>
+        </summary>
+        <div class="htf-drawer__loc-list">
+          {% render 'localization-form',
+            show_country: true,
+            show_language: false,
+            localization_style: 'drawer',
+            block_id: section.id,
+            form_id: 'HtfDrawerLocalizationForm'
+          %}
+        </div>
+      </details>
     {%- endif -%}
   </div>
 </div>

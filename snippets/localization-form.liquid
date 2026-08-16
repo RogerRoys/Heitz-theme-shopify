@@ -6,6 +6,7 @@
   @param {string} block_id - The block ID
   @param {string} [form_style] - The style tag string to be applied to the form
   @param {string} [localization_style] - The style of the localization form
+  @param {string} [form_id] - Optional unique form ID
 
   @example
   {% render 'localization-form', show_country: true, show_language: true, block_id: block.id %}
@@ -44,8 +45,9 @@
 >
   {% assign localization_label = 'content.localization_region_and_language' | t %}
 
+  {% assign localization_form_id = form_id | default: 'LocalizationForm' %}
   {%- form 'localization',
-    id: 'LocalizationForm',
+    id: localization_form_id,
     class: 'localization-form',
     ref: 'form',
     return_to: back,

@@ -93,10 +93,16 @@ class LocalizationFormComponent extends Component {
    */
   selectCountry = (countryName, event) => {
     event.preventDefault();
-    const { countryInput, form } = this.refs;
+
+    const component =
+      event.target instanceof Element ? event.target.closest('localization-form-component') : this;
+    const form = component?.querySelector('form');
+    const countryInput = form?.querySelector('input[name="country_code"]');
+
+    if (!form || !countryInput) return;
 
     countryInput.value = countryName;
-    form?.submit();
+    form.submit();
   };
 
   /**

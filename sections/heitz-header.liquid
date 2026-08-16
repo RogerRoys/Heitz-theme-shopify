@@ -295,6 +295,7 @@
     overflow-y: auto;
     padding: 0 0 10px;
   }
+  .htf-drawer__country-form { margin: 0; }
   .htf-drawer__loc-list button {
     background: none;
     border: 0;
@@ -502,13 +503,15 @@
           <svg class="htf-chevron" viewBox="0 0 28 16"><path d="m1.57 1.59 12.76 12.77L27.1 1.59" stroke-width="2" stroke="currentColor" fill="none"/></svg>
         </summary>
         <div class="htf-drawer__loc-list">
-          {% render 'localization-form',
-            show_country: true,
-            show_language: false,
-            localization_style: 'drawer',
-            block_id: section.id,
-            form_id: 'HtfDrawerLocalizationForm'
-          %}
+          {%- for country in localization.available_countries -%}
+            {%- capture mobile_loc_form_id -%}HtfDrawerLocForm-{{ country.iso_code }}{%- endcapture -%}
+            {%- form 'localization', id: mobile_loc_form_id, class: 'htf-drawer__country-form' -%}
+              <input type="hidden" name="country_code" value="{{ country.iso_code }}">
+              <button type="submit" class="{% if country.iso_code == localization.country.iso_code %}is-active{% endif %}">
+                {{ country.name }} ({{ country.currency.iso_code }})
+              </button>
+            {%- endform -%}
+          {%- endfor -%}
         </div>
       </details>
     {%- endif -%}

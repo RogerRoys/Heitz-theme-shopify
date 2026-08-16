@@ -583,23 +583,48 @@
           </div>
         {%- endif -%}
 
-        {%- assign faq_blocks = section.blocks | where: 'type', 'faq_item' -%}
-        {%- if faq_blocks.size > 0 -%}
+        {%- liquid
+          assign collection_faqs = blank
+          assign faq_collection = blank
+          for product_collection in product.collections
+            if product_collection.metafields.custom.faq_items.value != blank
+              assign collection_faqs = product_collection.metafields.custom.faq_items.value
+              assign faq_collection = product_collection
+              break
+            endif
+          endfor
+          assign faq_blocks = section.blocks | where: 'type', 'faq_item'
+        -%}
+        {%- if collection_faqs != blank or faq_blocks.size > 0 -%}
           <div class="hpdp-faq">
-            <p class="hpdp-faq__eyebrow">{{ section.settings.faq_eyebrow | default: product.collections.first.title | default: 'FAQs' }}</p>
+            <p class="hpdp-faq__eyebrow">{{ section.settings.faq_eyebrow | default: faq_collection.title | default: product.collections.first.title | default: 'FAQs' }}</p>
             <h2 class="hpdp-faq__title" data-hpdp-spy="Common Questions">{{ section.settings.faq_title | default: 'Common Questions' }}</h2>
             <div class="hpdp-faq__list">
-              {%- for block in faq_blocks -%}
-                <div class="hpdp-faq__item" {{ block.shopify_attributes }}>
-                  <button class="hpdp-faq__trigger" aria-expanded="false" data-hpdp-acc>
-                    <span class="hpdp-faq__q">{{ block.settings.question | escape }}</span>
-                    <span class="hpdp-faq__icon">
-                      <svg viewBox="0 0 16 16"><line x1="2" y1="8" x2="14" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line class="hpdp-icon-v" x1="8" y1="2" x2="8" y2="14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-                    </span>
-                  </button>
-                  <div class="hpdp-faq__a" hidden><p>{{ block.settings.answer }}</p></div>
-                </div>
-              {%- endfor -%}
+              {%- if collection_faqs != blank -%}
+                {%- for faq in collection_faqs -%}
+                  <div class="hpdp-faq__item">
+                    <button class="hpdp-faq__trigger" aria-expanded="false" data-hpdp-acc>
+                      <span class="hpdp-faq__q">{{ faq.question.value | escape }}</span>
+                      <span class="hpdp-faq__icon">
+                        <svg viewBox="0 0 16 16"><line x1="2" y1="8" x2="14" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line class="hpdp-icon-v" x1="8" y1="2" x2="8" y2="14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                      </span>
+                    </button>
+                    <div class="hpdp-faq__a" hidden><p>{{ faq.answer.value | escape | newline_to_br }}</p></div>
+                  </div>
+                {%- endfor -%}
+              {%- else -%}
+                {%- for block in faq_blocks -%}
+                  <div class="hpdp-faq__item" {{ block.shopify_attributes }}>
+                    <button class="hpdp-faq__trigger" aria-expanded="false" data-hpdp-acc>
+                      <span class="hpdp-faq__q">{{ block.settings.question | escape }}</span>
+                      <span class="hpdp-faq__icon">
+                        <svg viewBox="0 0 16 16"><line x1="2" y1="8" x2="14" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line class="hpdp-icon-v" x1="8" y1="2" x2="8" y2="14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                      </span>
+                    </button>
+                    <div class="hpdp-faq__a" hidden><p>{{ block.settings.answer }}</p></div>
+                  </div>
+                {%- endfor -%}
+              {%- endif -%}
             </div>
           </div>
         {%- endif -%}

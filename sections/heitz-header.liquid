@@ -300,13 +300,17 @@
     bottom: 0;
     left: 0;
     max-width: 350px;
-    overflow-y: auto;
+    overflow: hidden;
     position: fixed;
     top: 0;
     transform: translateX(-102%);
     transition: transform .35s cubic-bezier(.26,.54,.32,1);
     width: 88vw;
     z-index: 60;
+  }
+  @supports (height: 100dvh) {
+    /* iOS: bottom: 0 sits under the collapsing browser toolbar; dvh tracks it */
+    .htf-drawer { height: 100dvh; bottom: auto; }
   }
   .htf-drawer.is-open { transform: translateX(0); }
   .htf-drawer__overlay {
@@ -327,7 +331,7 @@
   }
   .htf-drawer__close { background: none; border: 0; cursor: pointer; color: var(--htf-color-text); padding: 6px; }
   .htf-drawer__close svg { width: 26px; height: 26px; fill: none; stroke: currentColor; stroke-width: 4px; }
-  .htf-drawer__nav { list-style: none; margin: 0; padding: 10px 0 10px; }
+  .htf-drawer__nav { list-style: none; margin: 0; padding: 10px 0 10px; flex: 1 1 auto; overflow-y: auto; min-height: 0; }
   .htf-drawer__nav li { margin: 0; }
   .htf-drawer__footer {
     border-top: 1px solid var(--htf-color-border-light);
@@ -335,7 +339,7 @@
     margin-top: auto;
     /* --htf-bottom-clearance is set by JS when a bottom overlay
        (Shopify preview bar / cookie bar) covers the viewport bottom */
-    padding: 6px 0 calc(10px + var(--htf-bottom-clearance, 0px));
+    padding: 6px 0 calc(10px + env(safe-area-inset-bottom, 0px) + var(--htf-bottom-clearance, 0px));
   }
   .htf-drawer__account svg {
     width: 22px;
@@ -362,12 +366,8 @@
   .htf-drawer__localization .drawer-localization__button::-webkit-details-marker { display: none; }
   /* country panel slides over the drawer, like the old theme's submenu */
   .htf-drawer .menu-drawer__submenu {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    width: 88vw;
-    max-width: 350px;
+    position: absolute;
+    inset: 0;
     background: var(--color-background, #ffffff);
     z-index: 62;
     display: flex;
@@ -852,6 +852,17 @@
     });
     overlay.addEventListener('click', function () { setDrawer(false); });
 
+    if (locDetails) {
+      var locSummary = locDetails.querySelector('summary');
+      locSummary.addEventListener('click', function () {
+        var wasOpen = locDetails.open;
+        setTimeout(function () {
+          /* native toggle should have flipped it; if something on the page
+             prevented it, flip it ourselves */
+          if (locDetails.open === wasOpen) locDetails.open = !wasOpen;
+        }, 80);
+      });
+    }
     drawer.querySelectorAll('[data-htf-loc-back]').forEach(function (btn) {
       btn.addEventListener('click', function () {
         if (locDetails) locDetails.removeAttribute('open');

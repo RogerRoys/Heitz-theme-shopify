@@ -365,6 +365,7 @@
   }
   .htf-drawer__localization .drawer-localization__button::-webkit-details-marker { display: none; }
   /* country panel slides over the drawer, like the old theme's submenu */
+  .htf-drawer .drawer-localization { display: block; position: static; }
   .htf-drawer .menu-drawer__submenu {
     position: absolute;
     inset: 0;
@@ -376,6 +377,9 @@
     padding: 0 0 calc(15px + var(--htf-bottom-clearance, 0px));
   }
   .htf-drawer .drawer-localization[open] > .menu-drawer__submenu {
+    visibility: visible;
+    opacity: 1;
+    transform: none;
     animation: htf-loc-slide-in .3s cubic-bezier(.26,.54,.32,1) both;
   }
   @keyframes htf-loc-slide-in {

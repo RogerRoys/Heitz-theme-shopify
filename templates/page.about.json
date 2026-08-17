@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "about": {
@@ -29,19 +38,27 @@
         },
         "ship1": {
           "type": "ship_item",
-          "settings": { "text": "Shipping available across the United States" }
+          "settings": {
+            "text": "Shipping available across the United States"
+          }
         },
         "ship2": {
           "type": "ship_item",
-          "settings": { "text": "Pricing displayed in USD and GBP" }
+          "settings": {
+            "text": "Pricing displayed in USD and GBP"
+          }
         },
         "ship3": {
           "type": "ship_item",
-          "settings": { "text": "Order tracking provided on every shipment" }
+          "settings": {
+            "text": "Order tracking provided on every shipment"
+          }
         },
         "ship4": {
           "type": "ship_item",
-          "settings": { "text": "Customer support available via email" }
+          "settings": {
+            "text": "Customer support available via email"
+          }
         },
         "promise1": {
           "type": "promise_item",
@@ -90,6 +107,8 @@
         "hero_eyebrow": "About Heitz",
         "hero_heading": "Lighting should shape how a home <em>feels.</em>",
         "hero_text": "We started with a simple idea — lighting should do more than just illuminate a space. It should shape how you feel within it.",
+        "hero_image": "shopify://shop_images/Luminara___Elegant_Crystal_Wall_Light_Fixture_with_Gold_Finish_2.jpg",
+        "hero_image_alt": "",
         "identity_scheme": "scheme-heitz-beige",
         "identity_quote": "Simplicity, balance, and intentional living.",
         "identity_heading": "A different approach to lighting",
@@ -119,5 +138,7 @@
       }
     }
   },
-  "order": ["about"]
+  "order": [
+    "about"
+  ]
 }

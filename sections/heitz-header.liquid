@@ -770,7 +770,12 @@
           /* Lock the compact header at its hidden start position without
              transition, then run the complete slower reveal animation. */
           if (!wrapper.classList.contains('htf-smart-sticky--revealing')) {
-            wrapper.classList.add('htf-smart-sticky--compact', 'htf-smart-sticky--preparing');
+            /* Always start the reveal from the hidden position. A slow
+               scroll down (small deltas) never adds --hidden, so without
+               this the first reveal pops in with no animation. The forced
+               reflow commits the hidden start state before transitioning. */
+            wrapper.classList.add('htf-smart-sticky--compact', 'htf-smart-sticky--preparing', 'htf-smart-sticky--hidden');
+            void wrapper.offsetHeight;
 
             if (revealTimer) window.clearTimeout(revealTimer);
             window.requestAnimationFrame(function () {

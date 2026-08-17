@@ -12,7 +12,7 @@
     "header": {
       "type": "heitz-faq-header",
       "settings": {
-        "color_scheme": "scheme-heitz-cream",
+        "color_scheme": "scheme-2",
         "align": "left",
         "heading_size": 40,
         "text_size": 15,
@@ -24,32 +24,155 @@
     "faq": {
       "type": "heitz-faq-list",
       "blocks": {
-        "cat_brand": { "type": "category", "settings": { "title": "Brand related queries", "intro": "<p>HEITZ is about creating lighting that does more than brighten a room. We thoughtfully select pieces that bring softness, balance, and quiet beauty into everyday spaces — helping your home feel more warm, natural, and complete.</p>" } },
-        "q_brand1": { "type": "question", "settings": { "question": "1. What is the brand all about?", "answer": "<p>Heitz is a design-led lighting brand built on one simple belief: light should do more than brighten a room — it should bring warmth, balance, and calm into everyday spaces. Inspired by Scandinavian simplicity and Japandi balance, we curate every piece against the same standard — clean form, honest materials, and a soft, considered glow — choosing only lighting we'd happily live with ourselves.</p><p>We'd rather offer one light that's right than ten that are loud — pieces that feel timeless, intentional, and at home for years to come. <a href=\"/pages/brand-story\" title=\"Brand Story\">Discover our full story.</a></p>" } },
-        "q_brand2": { "type": "question", "settings": { "question": "2. Where are you based?", "answer": "<p>We are based in the <strong>United States</strong> and currently serve customers across the <strong>USA and UK</strong>. As we continue to grow, we’re looking forward to expanding into more regions soon.</p>" } },
-        "q_brand3": { "type": "question", "settings": { "question": "3. What makes your lighting different?", "answer": "<p>Our collections are selected with a clear design direction — clean forms, soft glow, natural warmth, and pieces that feel easy to live with. Before anything joins our collection, we experience it ourselves — testing the light and living with each piece — so we only offer lighting we'd genuinely choose for our own homes. The goal is to enhance a room without overpowering it.</p>" } },
-        "q_brand4": { "type": "question", "settings": { "question": "4. What design style inspires your products?", "answer": "<p>Our style is inspired by <strong>Scandinavian simplicity</strong> and <strong>Japandi balance</strong> — minimal forms, warm materials, calm spaces, and intentional design choices that feel timeless rather than trend-focused.</p>" } },
-        "q_brand5": { "type": "question", "settings": { "question": "5. Are your products suitable for different rooms?", "answer": "<p>Yes. Our lighting is selected for everyday spaces such as living rooms, dining areas, bedrooms, kitchens, bathrooms, and quiet corners of the home. Each piece is chosen to support both function and atmosphere. If you'd like help choosing the right piece for a specific space, our support team is always happy to offer personalized guidance — <a href=\"/pages/contact\" title=\"Contact\">just reach out.</a></p>" } },
-        "cat_shipping": { "type": "category", "settings": { "title": "Shipping & delivery", "intro": "<p>We keep delivery simple, reliable, and easy to follow. Every order includes tracking, so you can stay updated from the moment your lighting piece leaves our hands until it arrives at your home.</p>" } },
-        "q_ship1": { "type": "question", "settings": { "question": "1. Where do you ship from?", "answer": "<p>Your order ships directly from our makers and fulfilment partners overseas, sent straight to your door. Shipping from the source lets us keep both our quality and our prices honest, without unnecessary middle steps. Every order is fully tracked, so you can follow your piece the whole way.</p>" } },
-        "q_ship2": { "type": "question", "settings": { "question": "2. How long does it take to process my order?", "answer": "<p>Orders are usually processed within <strong>1–3 business days.</strong> Before anything ships, each piece goes through a careful quality check to make sure it reaches you in perfect condition. Once your order is prepared and shipped, you'll receive a confirmation email with your tracking details.</p>" } },
-        "q_ship3": { "type": "question", "settings": { "question": "3. When will I receive my tracking number?", "answer": "<p>You’ll receive your tracking number by email as soon as your order has been shipped. This allows you to follow your delivery every step of the way.</p>" } },
-        "q_ship4": { "type": "question", "settings": { "question": "4. How long does shipping take?", "answer": "<p>We currently offer free shipping to the <strong>United States</strong> and the <strong>United Kingdom</strong>.</p><p><strong>USA:</strong> 8–15 business days<br><strong>UK:</strong> 5–10 business days</p><p>Delivery times may vary slightly depending on your location and local courier conditions.</p>" } },
-        "q_ship5": { "type": "question", "settings": { "question": "5. Do you ship internationally?", "answer": "<p>At the moment, we mainly serve customers in the <strong>USA and UK</strong>. We’re looking forward to expanding into more regions soon as we continue to grow.</p>" } },
-        "cat_returns": { "type": "category", "settings": { "title": "Refund & return", "intro": "<p>We want every piece to feel right in your home. If something isn’t quite right, we keep the return process simple and supportive. All products also include a <strong>1-year warranty</strong> covering manufacturing defects.</p>" } },
-        "q_ret1": { "type": "question", "settings": { "question": "1. What’s your return policy?", "answer": "<p>We offer a <strong>30-day return policy</strong>. If you’re not completely satisfied with your order, you can contact us within 30 days of receiving your item, and we’ll guide you through the return process.</p><p>To be eligible for a return, the item should be unused, in its original condition, and returned with its original packaging where possible. Find more information <a href=\"/policies/refund-policy\" title=\"Refund Policy\">here.</a></p>" } },
-        "q_ret2": { "type": "question", "settings": { "question": "2. How do I start a return?", "answer": "<p>To start a return, simply email us at <a href=\"mailto:support@heitz.shop\"><strong>support@heitz.shop</strong></a> with your order number and the reason for your return. Our support team will review your request and guide you through the next steps.</p>" } },
-        "q_ret3": { "type": "question", "settings": { "question": "3. What items are non-returnable?", "answer": "<p>Items may not be eligible for return if they have been used, installed, damaged after delivery, or returned without proper packaging.</p><p>If you're unsure, <a href=\"/pages/contact\" title=\"Contact\">contact us</a> and we'll be happy to help.</p>" } },
-        "q_ret4": { "type": "question", "settings": { "question": "4. Do you offer exchanges?", "answer": "<p>We do not offer direct exchanges at this time.</p><p>If you would like a different item, you can return your original purchase for a refund or store credit, then place a new order for the piece that better suits your space.</p><p>For help with this process, please contact us at <a href=\"mailto:support@heitz.shop\"><strong>support@heitz.shop</strong></a>, and our team will guide you through the next steps.</p>" } },
-        "q_ret5": { "type": "question", "settings": { "question": "5. Do your products include a warranty?", "answer": "<p>Yes. Every product includes a <strong>1-year warranty</strong> covering manufacturing defects. If your item has a fault caused by the manufacturing process, please contact us with your order details and photos of the issue, and we’ll help with a suitable solution.</p><p>The warranty does not cover damage caused by incorrect installation, misuse, accidental damage, normal wear and tear, or changes made to the product after purchase. For full details, see our <a href=\"/pages/warranty\" title=\"1-Year Warranty\"><strong>1-Year Warranty page.</strong></a></p>" } }
+        "cat_brand": {
+          "type": "category",
+          "settings": {
+            "title": "Brand related queries",
+            "intro": "<p>HEITZ is about creating lighting that does more than brighten a room. We thoughtfully select pieces that bring softness, balance, and quiet beauty into everyday spaces — helping your home feel more warm, natural, and complete.</p>"
+          }
+        },
+        "q_brand1": {
+          "type": "question",
+          "settings": {
+            "question": "1. What is the brand all about?",
+            "answer": "<p>Heitz is a design-led lighting brand built on one simple belief: light should do more than brighten a room — it should bring warmth, balance, and calm into everyday spaces. Inspired by Scandinavian simplicity and Japandi balance, we curate every piece against the same standard — clean form, honest materials, and a soft, considered glow — choosing only lighting we'd happily live with ourselves.</p><p>We'd rather offer one light that's right than ten that are loud — pieces that feel timeless, intentional, and at home for years to come. <a href=\"/pages/brand-story\" title=\"Brand Story\">Discover our full story.</a></p>"
+          }
+        },
+        "q_brand2": {
+          "type": "question",
+          "settings": {
+            "question": "2. Where are you based?",
+            "answer": "<p>We are based in the <strong>United States</strong> and currently serve customers across the <strong>USA and UK</strong>. As we continue to grow, we’re looking forward to expanding into more regions soon.</p>"
+          }
+        },
+        "q_brand3": {
+          "type": "question",
+          "settings": {
+            "question": "3. What makes your lighting different?",
+            "answer": "<p>Our collections are selected with a clear design direction — clean forms, soft glow, natural warmth, and pieces that feel easy to live with. Before anything joins our collection, we experience it ourselves — testing the light and living with each piece — so we only offer lighting we'd genuinely choose for our own homes. The goal is to enhance a room without overpowering it.</p>"
+          }
+        },
+        "q_brand4": {
+          "type": "question",
+          "settings": {
+            "question": "4. What design style inspires your products?",
+            "answer": "<p>Our style is inspired by <strong>Scandinavian simplicity</strong> and <strong>Japandi balance</strong> — minimal forms, warm materials, calm spaces, and intentional design choices that feel timeless rather than trend-focused.</p>"
+          }
+        },
+        "q_brand5": {
+          "type": "question",
+          "settings": {
+            "question": "5. Are your products suitable for different rooms?",
+            "answer": "<p>Yes. Our lighting is selected for everyday spaces such as living rooms, dining areas, bedrooms, kitchens, bathrooms, and quiet corners of the home. Each piece is chosen to support both function and atmosphere. If you'd like help choosing the right piece for a specific space, our support team is always happy to offer personalized guidance — <a href=\"/pages/contact\" title=\"Contact\">just reach out.</a></p>"
+          }
+        },
+        "cat_shipping": {
+          "type": "category",
+          "settings": {
+            "title": "Shipping & delivery",
+            "intro": "<p>We keep delivery simple, reliable, and easy to follow. Every order includes tracking, so you can stay updated from the moment your lighting piece leaves our hands until it arrives at your home.</p>"
+          }
+        },
+        "q_ship1": {
+          "type": "question",
+          "settings": {
+            "question": "1. Where do you ship from?",
+            "answer": "<p>Your order ships directly from our makers and fulfilment partners overseas, sent straight to your door. Shipping from the source lets us keep both our quality and our prices honest, without unnecessary middle steps. Every order is fully tracked, so you can follow your piece the whole way.</p>"
+          }
+        },
+        "q_ship2": {
+          "type": "question",
+          "settings": {
+            "question": "2. How long does it take to process my order?",
+            "answer": "<p>Orders are usually processed within <strong>1–3 business days.</strong> Before anything ships, each piece goes through a careful quality check to make sure it reaches you in perfect condition. Once your order is prepared and shipped, you'll receive a confirmation email with your tracking details.</p>"
+          }
+        },
+        "q_ship3": {
+          "type": "question",
+          "settings": {
+            "question": "3. When will I receive my tracking number?",
+            "answer": "<p>You’ll receive your tracking number by email as soon as your order has been shipped. This allows you to follow your delivery every step of the way.</p>"
+          }
+        },
+        "q_ship4": {
+          "type": "question",
+          "settings": {
+            "question": "4. How long does shipping take?",
+            "answer": "<p>We currently offer free shipping to the <strong>United States</strong> and the <strong>United Kingdom</strong>.</p><p><strong>USA:</strong> 8–15 business days<br><strong>UK:</strong> 5–10 business days</p><p>Delivery times may vary slightly depending on your location and local courier conditions.</p>"
+          }
+        },
+        "q_ship5": {
+          "type": "question",
+          "settings": {
+            "question": "5. Do you ship internationally?",
+            "answer": "<p>At the moment, we mainly serve customers in the <strong>USA and UK</strong>. We’re looking forward to expanding into more regions soon as we continue to grow.</p>"
+          }
+        },
+        "cat_returns": {
+          "type": "category",
+          "settings": {
+            "title": "Refund & return",
+            "intro": "<p>We want every piece to feel right in your home. If something isn’t quite right, we keep the return process simple and supportive. All products also include a <strong>1-year warranty</strong> covering manufacturing defects.</p>"
+          }
+        },
+        "q_ret1": {
+          "type": "question",
+          "settings": {
+            "question": "1. What’s your return policy?",
+            "answer": "<p>We offer a <strong>30-day return policy</strong>. If you’re not completely satisfied with your order, you can contact us within 30 days of receiving your item, and we’ll guide you through the return process.</p><p>To be eligible for a return, the item should be unused, in its original condition, and returned with its original packaging where possible. Find more information <a href=\"/policies/refund-policy\" title=\"Refund Policy\">here.</a></p>"
+          }
+        },
+        "q_ret2": {
+          "type": "question",
+          "settings": {
+            "question": "2. How do I start a return?",
+            "answer": "<p>To start a return, simply email us at <a href=\"mailto:support@heitz.shop\"><strong>support@heitz.shop</strong></a> with your order number and the reason for your return. Our support team will review your request and guide you through the next steps.</p>"
+          }
+        },
+        "q_ret3": {
+          "type": "question",
+          "settings": {
+            "question": "3. What items are non-returnable?",
+            "answer": "<p>Items may not be eligible for return if they have been used, installed, damaged after delivery, or returned without proper packaging.</p><p>If you're unsure, <a href=\"/pages/contact\" title=\"Contact\">contact us</a> and we'll be happy to help.</p>"
+          }
+        },
+        "q_ret4": {
+          "type": "question",
+          "settings": {
+            "question": "4. Do you offer exchanges?",
+            "answer": "<p>We do not offer direct exchanges at this time.</p><p>If you would like a different item, you can return your original purchase for a refund or store credit, then place a new order for the piece that better suits your space.</p><p>For help with this process, please contact us at <a href=\"mailto:support@heitz.shop\"><strong>support@heitz.shop</strong></a>, and our team will guide you through the next steps.</p>"
+          }
+        },
+        "q_ret5": {
+          "type": "question",
+          "settings": {
+            "question": "5. Do your products include a warranty?",
+            "answer": "<p>Yes. Every product includes a <strong>1-year warranty</strong> covering manufacturing defects. If your item has a fault caused by the manufacturing process, please contact us with your order details and photos of the issue, and we’ll help with a suitable solution.</p><p>The warranty does not cover damage caused by incorrect installation, misuse, accidental damage, normal wear and tear, or changes made to the product after purchase. For full details, see our <a href=\"/pages/warranty\" title=\"1-Year Warranty\"><strong>1-Year Warranty page.</strong></a></p>"
+          }
+        }
       },
       "block_order": [
-        "cat_brand", "q_brand1", "q_brand2", "q_brand3", "q_brand4", "q_brand5",
-        "cat_shipping", "q_ship1", "q_ship2", "q_ship3", "q_ship4", "q_ship5",
-        "cat_returns", "q_ret1", "q_ret2", "q_ret3", "q_ret4", "q_ret5"
+        "cat_brand",
+        "q_brand1",
+        "q_brand2",
+        "q_brand3",
+        "q_brand4",
+        "q_brand5",
+        "cat_shipping",
+        "q_ship1",
+        "q_ship2",
+        "q_ship3",
+        "q_ship4",
+        "q_ship5",
+        "cat_returns",
+        "q_ret1",
+        "q_ret2",
+        "q_ret3",
+        "q_ret4",
+        "q_ret5"
       ],
       "settings": {
-        "color_scheme": "scheme-heitz-warm",
+        "color_scheme": "scheme-1",
         "layout": "sidebar",
         "nav_title": "Browse by topic",
         "category_size": 22,
@@ -60,16 +183,21 @@
     "contact": {
       "type": "heitz-faq-contact",
       "settings": {
-        "color_scheme": "scheme-heitz-beige",
+        "color_scheme": "scheme-2",
         "heading_size": 30,
         "text_size": 14,
         "eyebrow": "Still have questions?",
         "heading": "We’re here to help",
         "text": "If your question isn’t answered here, reach out — we’re happy to help and always ready to make it right. We aim to respond within 12–24 hours.",
         "button_label": "Contact us",
+        "button_link": "",
         "note": "Or email us directly at support@heitz.shop"
       }
     }
   },
-  "order": ["header", "faq", "contact"]
+  "order": [
+    "header",
+    "faq",
+    "contact"
+  ]
 }

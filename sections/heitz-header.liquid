@@ -720,6 +720,21 @@
     var scrollTicking = false;
     var revealTimer = null;
 
+    /* When the wrapper goes position:fixed it leaves the document flow and
+       the whole page shifts up by the header height — a visible jump on the
+       first reveal. The spacer holds that space while the header is fixed. */
+    var stickySpacer = null;
+    if (wrapper && wrapper.parentNode) {
+      stickySpacer = document.createElement('div');
+      stickySpacer.style.display = 'none';
+      wrapper.parentNode.insertBefore(stickySpacer, wrapper.nextSibling);
+    }
+    function setStickySpacer(on) {
+      if (!stickySpacer) return;
+      stickySpacer.style.height = on ? fullHeaderHeight + 'px' : '';
+      stickySpacer.style.display = on ? 'block' : 'none';
+    }
+
     function setCompactMenu(open) {
       if (!wrapper || !compactMenuToggle) return;
       wrapper.classList.toggle('htf-smart-sticky--menu-open', open);
@@ -739,7 +754,9 @@
           'htf-smart-sticky--revealing',
           'htf-smart-sticky--preparing'
         );
-        wrapper.classList.toggle('htf-mobile-sticky--fixed', window.scrollY > fullHeaderHeight);
+        var mobileFixed = window.scrollY > fullHeaderHeight;
+        wrapper.classList.toggle('htf-mobile-sticky--fixed', mobileFixed);
+        setStickySpacer(mobileFixed);
         if (compactMenuToggle) compactMenuToggle.setAttribute('aria-expanded', 'false');
         lastScrollY = window.scrollY;
         return;
@@ -754,6 +771,7 @@
 
       if (atTop) {
         wrapper.classList.remove('htf-smart-sticky--compact', 'htf-smart-sticky--hidden', 'htf-smart-sticky--revealing', 'htf-smart-sticky--preparing');
+        setStickySpacer(false);
         setCompactMenu(false);
       } else if (currentScrollY > fullHeaderHeight) {
         if (scrollingDown) {
@@ -775,6 +793,7 @@
                this the first reveal pops in with no animation. The forced
                reflow commits the hidden start state before transitioning. */
             wrapper.classList.add('htf-smart-sticky--compact', 'htf-smart-sticky--preparing', 'htf-smart-sticky--hidden');
+            setStickySpacer(true);
             void wrapper.offsetHeight;
 
             if (revealTimer) window.clearTimeout(revealTimer);

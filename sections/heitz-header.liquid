@@ -8,7 +8,53 @@
 {%- assign logo_svg = section.settings.logo | default: settings.logo -%}
 
 <style>
-  .htf-section-header-wrap { position: sticky; top: 0; z-index: 29; }
+  .htf-section-header-wrap {
+    position: sticky;
+    top: 0;
+    z-index: 29;
+  }
+  .htf-compact-menu-toggle { display: none; }
+  .htf-compact-menu-toggle .htf-compact-menu-toggle__close { display: none; }
+
+  @media only screen and (min-width: 769px) {
+    .htf-section-header-wrap {
+      transition: transform .25s ease;
+      will-change: transform;
+    }
+    .htf-section-header-wrap.htf-smart-sticky--hidden {
+      transform: translateY(-100%);
+    }
+    .htf-section-header-wrap.htf-smart-sticky--compact .htf-header {
+      padding: 8px 0;
+    }
+    .htf-section-header-wrap.htf-smart-sticky--compact .htf-logo a {
+      width: 130px;
+    }
+    .htf-section-header-wrap.htf-smart-sticky--compact .htf-nav-row {
+      display: none;
+    }
+    .htf-section-header-wrap.htf-smart-sticky--compact .htf-compact-menu-toggle {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .htf-section-header-wrap.htf-smart-sticky--compact.htf-smart-sticky--menu-open .htf-header {
+      padding-bottom: 0;
+    }
+    .htf-section-header-wrap.htf-smart-sticky--compact.htf-smart-sticky--menu-open .htf-nav-row {
+      display: block;
+    }
+    .htf-section-header-wrap.htf-smart-sticky--menu-open .htf-compact-menu-toggle__hamburger {
+      display: none;
+    }
+    .htf-section-header-wrap.htf-smart-sticky--menu-open .htf-compact-menu-toggle__close {
+      display: block;
+    }
+    .htf-header,
+    .htf-logo a {
+      transition: padding .25s ease, width .25s ease;
+    }
+  }
   .htf-header {
     background-color: var(--color-background, #ffffff);
     border-bottom: 1px solid rgba(42, 55, 67, 0.1);
@@ -365,6 +411,17 @@
   <div class="htf-page-width">
     <div class="htf-header__layout">
       <div class="htf-header__item htf-header__item--left">
+        <button
+          type="button"
+          class="htf-header__icon-link htf-compact-menu-toggle"
+          data-htf-compact-menu-toggle
+          aria-label="Menu"
+          aria-expanded="false"
+          aria-controls="htf-desktop-nav-{{ section.id }}"
+        >
+          <svg class="htf-compact-menu-toggle__hamburger" viewBox="0 0 64 64" aria-hidden="true"><path d="M7 15h51"/><path d="M7 32h43"/><path d="M7 49h51"/></svg>
+          <svg class="htf-compact-menu-toggle__close" viewBox="0 0 64 64" aria-hidden="true"><path d="m19 17.61 27.12 27.13m0-27.12L19 44.74"/></svg>
+        </button>
         {% render 'search', class: 'mobile:hidden' %}
         <button type="button" class="htf-header__icon-link htf-mobile-only" data-htf-drawer-open aria-label="Menu">
           <svg viewBox="0 0 64 64"><path d="M7 15h51"/><path d="M7 32h43"/><path d="M7 49h51"/></svg>
@@ -403,7 +460,7 @@
     </div>
 
     {%- if menu != blank -%}
-      <div class="htf-nav-row">
+      <div class="htf-nav-row" id="htf-desktop-nav-{{ section.id }}">
         <ul class="htf-nav">
           {%- for link in menu.links -%}
             <li class="htf-nav__item">
@@ -528,8 +585,76 @@
     var header = document.querySelector('[data-htf-header]');
     if (!header) return;
 
+    var wrapper = header.closest('.htf-section-header-wrap');
     var drawer = document.querySelector('[data-htf-drawer]');
     var overlay = document.querySelector('[data-htf-drawer-overlay]');
+    var compactMenuToggle = header.querySelector('[data-htf-compact-menu-toggle]');
+    var lastScrollY = window.scrollY;
+    var fullHeaderHeight = wrapper ? wrapper.offsetHeight : header.offsetHeight;
+    var scrollTicking = false;
+
+    function setCompactMenu(open) {
+      if (!wrapper || !compactMenuToggle) return;
+      wrapper.classList.toggle('htf-smart-sticky--menu-open', open);
+      compactMenuToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      compactMenuToggle.setAttribute('aria-label', open ? 'Close menu' : 'Menu');
+    }
+
+    function updateSmartStickyHeader() {
+      scrollTicking = false;
+      if (!wrapper || window.matchMedia('(max-width: 768px)').matches) {
+        if (wrapper) {
+          wrapper.classList.remove('htf-smart-sticky--compact', 'htf-smart-sticky--hidden', 'htf-smart-sticky--menu-open');
+        }
+        if (compactMenuToggle) compactMenuToggle.setAttribute('aria-expanded', 'false');
+        lastScrollY = window.scrollY;
+        return;
+      }
+
+      var currentScrollY = Math.max(window.scrollY, 0);
+      var atTop = currentScrollY <= 10;
+      var scrollingDown = currentScrollY > lastScrollY;
+
+      if (atTop) {
+        wrapper.classList.remove('htf-smart-sticky--compact', 'htf-smart-sticky--hidden');
+        setCompactMenu(false);
+      } else if (currentScrollY > fullHeaderHeight) {
+        wrapper.classList.add('htf-smart-sticky--compact');
+
+        if (scrollingDown) {
+          wrapper.classList.add('htf-smart-sticky--hidden');
+          setCompactMenu(false);
+        } else if (currentScrollY < lastScrollY) {
+          wrapper.classList.remove('htf-smart-sticky--hidden');
+        }
+      }
+
+      lastScrollY = currentScrollY;
+    }
+
+    function requestStickyUpdate() {
+      if (scrollTicking) return;
+      scrollTicking = true;
+      window.requestAnimationFrame(updateSmartStickyHeader);
+    }
+
+    if (compactMenuToggle) {
+      compactMenuToggle.addEventListener('click', function () {
+        var open = wrapper.classList.contains('htf-smart-sticky--menu-open');
+        wrapper.classList.remove('htf-smart-sticky--hidden');
+        setCompactMenu(!open);
+      });
+    }
+
+    window.addEventListener('scroll', requestStickyUpdate, { passive: true });
+    window.addEventListener('resize', function () {
+      if (window.scrollY <= 10 && wrapper) fullHeaderHeight = wrapper.offsetHeight;
+      requestStickyUpdate();
+    });
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape') setCompactMenu(false);
+    });
+    updateSmartStickyHeader();
     function setDrawer(open) {
       drawer.classList.toggle('is-open', open);
       overlay.classList.toggle('is-open', open);

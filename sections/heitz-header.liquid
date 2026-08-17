@@ -294,6 +294,8 @@
 
   /* ── mobile drawer ───────────────────────────── */
   .htf-drawer {
+    display: flex;
+    flex-direction: column;
     background: #ffffff;
     bottom: 0;
     left: 0;
@@ -329,10 +331,9 @@
   .htf-drawer__nav li { margin: 0; }
   .htf-drawer__footer {
     border-top: 1px solid var(--htf-color-border-light);
-    margin-top: 10px;
-    /* generous bottom padding so the country list clears Shopify's
-       fixed cookie/privacy banner on mobile */
-    padding: 6px 0 140px;
+    /* pinned to the drawer bottom, like the old theme */
+    margin-top: auto;
+    padding: 6px 0 10px;
   }
   .htf-drawer__account svg {
     width: 22px;
@@ -350,16 +351,58 @@
   .htf-drawer__localization .drawer-localization__button {
     align-items: center;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     gap: 10px;
     list-style: none;
     padding: 14px 25px;
     cursor: pointer;
   }
   .htf-drawer__localization .drawer-localization__button::-webkit-details-marker { display: none; }
-  .htf-drawer__localization .icon-caret { transition: transform .25s ease; }
-  .htf-drawer__localization .drawer-localization[open] > summary .icon-caret { transform: rotate(90deg); }
-  .htf-drawer__loc-panel { padding: 0 10px 10px; }
+  /* country panel slides over the drawer, like the old theme's submenu */
+  .htf-drawer .menu-drawer__submenu {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 88vw;
+    max-width: 350px;
+    background: var(--color-background, #ffffff);
+    z-index: 62;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    padding: 0 0 15px;
+  }
+  .htf-drawer .drawer-localization[open] > .menu-drawer__submenu {
+    animation: htf-loc-slide-in .3s cubic-bezier(.26,.54,.32,1) both;
+  }
+  @keyframes htf-loc-slide-in {
+    from { transform: translateX(-10%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+  }
+  .htf-drawer .menu-drawer__submenu localization-form-component { flex: 1 1 auto; min-height: 0; }
+  .htf-drawer__nav-buttons {
+    align-items: center;
+    border-bottom: 1px solid var(--htf-color-border-light);
+    display: flex;
+    flex: 0 0 auto;
+    justify-content: space-between;
+    padding: 10px 15px 10px 20px;
+  }
+  .htf-drawer__back-button {
+    align-items: center;
+    background: none;
+    border: 0;
+    color: var(--htf-color-text);
+    cursor: pointer;
+    display: flex;
+    font-family: var(--htf-font-heading);
+    font-size: 15px;
+    gap: 10px;
+    padding: 6px 0;
+  }
+  .htf-drawer__back-button .svg-wrapper,
+  .htf-drawer__back-button .svg-wrapper svg { width: 14px; height: 14px; display: inline-block; }
   .htf-drawer__link,
   .htf-drawer__toggle {
     align-items: center;
@@ -572,6 +615,7 @@
         <details
           id="drawer-localization"
           class="drawer-localization"
+          on:toggle="/toggle"
         >
           <summary
             id="HeaderDrawer-localization"
@@ -610,7 +654,18 @@
               {{- 'icon-caret.svg' | inline_asset_content -}}
             </span>
           </summary>
-          <div class="htf-drawer__loc-panel color-{{ settings.drawer_color_scheme }}">
+          <div class="menu-drawer__submenu htf-drawer__submenu color-{{ settings.drawer_color_scheme }}">
+            <div class="menu-drawer__nav-buttons htf-drawer__nav-buttons">
+              <button type="button" class="htf-drawer__back-button" data-htf-loc-back aria-expanded="true">
+                <span class="svg-wrapper icon-caret icon-caret--backward">
+                  {{- 'icon-caret.svg' | inline_asset_content -}}
+                </span>
+                {{ 'content.localization_region_and_language' | t }}
+              </button>
+              <button type="button" class="htf-drawer__close" data-htf-drawer-close aria-label="Close menu">
+                <svg viewBox="0 0 64 64"><path d="m19 17.61 27.12 27.13m0-27.12L19 44.74"/></svg>
+              </button>
+            </div>
             {% render 'localization-form',
               show_country: drawer_show_country,
               show_language: drawer_show_language,
@@ -733,7 +788,9 @@
       if (event.key === 'Escape') setCompactMenu(false);
     });
     updateSmartStickyHeader();
+    var locDetails = drawer.querySelector('.drawer-localization');
     function setDrawer(open) {
+      if (!open && locDetails) locDetails.removeAttribute('open');
       drawer.classList.toggle('is-open', open);
       overlay.classList.toggle('is-open', open);
       drawer.setAttribute('aria-hidden', open ? 'false' : 'true');
@@ -746,6 +803,12 @@
       btn.addEventListener('click', function () { setDrawer(false); });
     });
     overlay.addEventListener('click', function () { setDrawer(false); });
+
+    drawer.querySelectorAll('[data-htf-loc-back]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        if (locDetails) locDetails.removeAttribute('open');
+      });
+    });
 
     drawer.querySelectorAll('[data-htf-drawer-toggle]').forEach(function (btn) {
       btn.addEventListener('click', function () {

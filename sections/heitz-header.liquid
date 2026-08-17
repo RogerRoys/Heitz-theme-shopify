@@ -31,6 +31,9 @@
     .htf-section-header-wrap.htf-smart-sticky--hidden {
       transform: translateY(-100%);
     }
+    .htf-section-header-wrap.htf-smart-sticky--preparing {
+      transition: none !important;
+    }
     .htf-section-header-wrap.htf-smart-sticky--revealing {
       transition-duration: .8s;
       transition-timing-function: cubic-bezier(.16, 1, .3, 1);
@@ -654,13 +657,13 @@
       var scrollingUp = scrollDelta < -4;
 
       if (atTop) {
-        wrapper.classList.remove('htf-smart-sticky--compact', 'htf-smart-sticky--hidden', 'htf-smart-sticky--revealing');
+        wrapper.classList.remove('htf-smart-sticky--compact', 'htf-smart-sticky--hidden', 'htf-smart-sticky--revealing', 'htf-smart-sticky--preparing');
         setCompactMenu(false);
       } else if (currentScrollY > fullHeaderHeight) {
         if (scrollingDown) {
           /* The first downward pass keeps the full header dimensions and
              slides the whole header away. This avoids a visible size jump. */
-          wrapper.classList.remove('htf-smart-sticky--revealing');
+          wrapper.classList.remove('htf-smart-sticky--revealing', 'htf-smart-sticky--preparing');
           if (revealTimer) {
             window.clearTimeout(revealTimer);
             revealTimer = null;
@@ -668,24 +671,30 @@
           wrapper.classList.add('htf-smart-sticky--hidden');
           setCompactMenu(false);
         } else if (scrollingUp) {
-          /* Use a dedicated slower transition for the downward reveal. */
-          wrapper.classList.add('htf-smart-sticky--compact', 'htf-smart-sticky--revealing');
+          /* Lock the compact header at its hidden start position without
+             transition, then run the complete slower reveal animation. */
+          if (!wrapper.classList.contains('htf-smart-sticky--revealing')) {
+            wrapper.classList.add('htf-smart-sticky--compact', 'htf-smart-sticky--preparing');
 
-          if (revealTimer) window.clearTimeout(revealTimer);
-          window.requestAnimationFrame(function () {
+            if (revealTimer) window.clearTimeout(revealTimer);
             window.requestAnimationFrame(function () {
-              if (
-                wrapper.classList.contains('htf-smart-sticky--compact') &&
-                window.scrollY <= currentScrollY
-              ) {
-                wrapper.classList.remove('htf-smart-sticky--hidden');
-                revealTimer = window.setTimeout(function () {
-                  wrapper.classList.remove('htf-smart-sticky--revealing');
-                  revealTimer = null;
-                }, 850);
-              }
+              wrapper.classList.remove('htf-smart-sticky--preparing');
+              wrapper.classList.add('htf-smart-sticky--revealing');
+
+              window.requestAnimationFrame(function () {
+                if (
+                  wrapper.classList.contains('htf-smart-sticky--compact') &&
+                  window.scrollY <= currentScrollY
+                ) {
+                  wrapper.classList.remove('htf-smart-sticky--hidden');
+                  revealTimer = window.setTimeout(function () {
+                    wrapper.classList.remove('htf-smart-sticky--revealing');
+                    revealTimer = null;
+                  }, 850);
+                }
+              });
             });
-          });
+          }
         }
       }
 

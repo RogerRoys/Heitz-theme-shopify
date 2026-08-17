@@ -12,8 +12,8 @@
     "header": {
       "type": "heitz-faq-header",
       "settings": {
-        "color_scheme": "scheme-heitz-cream",
-        "align": "left",
+        "color_scheme": "scheme-2",
+        "align": "center",
         "heading_size": 40,
         "text_size": 15,
         "eyebrow": "Contact",
@@ -57,9 +57,14 @@
           }
         }
       },
-      "block_order": ["info_email", "info_phone", "info_address", "info_hours"],
+      "block_order": [
+        "info_email",
+        "info_phone",
+        "info_address",
+        "info_hours"
+      ],
       "settings": {
-        "color_scheme": "scheme-heitz-warm",
+        "color_scheme": "scheme-1",
         "form_position": "right",
         "heading_size": 30,
         "text_size": 14,
@@ -72,5 +77,8 @@
       }
     }
   },
-  "order": ["header", "contact"]
+  "order": [
+    "header",
+    "contact"
+  ]
 }

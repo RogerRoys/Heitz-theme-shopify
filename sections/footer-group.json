@@ -18,7 +18,7 @@
           "type": "contact",
           "settings": {
             "title": "Contact Information",
-            "text": ""
+            "text": "<p>Business Name: HEITZ LLC<br/>Business Address: 30 N Gould St. Ste R<br/>Sheridan, Wyoming, 82801<br/>USA<br/>Email:<a href=\"mailto:support@heitz.shop\" target=\"_blank\">support@heitz.shop</a>Phone:<a href=\"tel:+1%20(917)%20341-2265\" target=\"_blank\">+1 (917) 341-2265</a>Opening hours: Monday to Friday, 09:00-17:00 (EST)<br/>Response time: 12-24 hours</p>"
           }
         },
         "menu_support": {

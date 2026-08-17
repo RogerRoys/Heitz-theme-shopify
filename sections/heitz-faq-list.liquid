@@ -1,0 +1,218 @@
+{%- comment -%}
+  Heitz FAQ List — category-grouped accordions. Layout switchable:
+  centered column, or category quick-links sidebar (left/right).
+  Blocks: "category" starts a new group; "question" items belong to
+  the group above them.
+{%- endcomment -%}
+{% render 'heitz-tf-base' %}
+
+<style>
+  .hfql {
+    padding: 56px 64px 72px;
+    background: var(--color-background, #f8f5f0);
+    border-bottom: 1px solid var(--color-border, #ddd5c4);
+    font-family: var(--font-body--family, var(--htf-font-body));
+  }
+  .hfql * { box-sizing: border-box; }
+  .hfql__wrap { display: block; max-width: 800px; margin: 0 auto; }
+  .hfql--sidebar .hfql__wrap,
+  .hfql--sidebar-right .hfql__wrap {
+    display: grid;
+    grid-template-columns: 220px minmax(0, 1fr);
+    gap: 64px;
+    max-width: 1100px;
+    align-items: start;
+  }
+  .hfql--sidebar-right .hfql__wrap { grid-template-columns: minmax(0, 1fr) 220px; }
+  .hfql--sidebar-right .hfql__nav { order: 2; }
+  .hfql--sidebar-right .hfql__main { order: 1; }
+  .hfql__nav { position: sticky; top: 90px; }
+  .hfql__nav-title {
+    display: block;
+    margin-bottom: 14px;
+    color: var(--color-primary, #b8913f);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.28em;
+    line-height: 1.4;
+    text-transform: uppercase;
+  }
+  .hfql__nav ul { list-style: none; margin: 0; padding: 0; }
+  .hfql__nav a {
+    display: block;
+    padding: 7px 0;
+    color: var(--color-foreground, #7a6e5e);
+    font-size: 14px;
+    font-weight: 300;
+    text-decoration: none;
+    border-bottom: 1px solid var(--color-border, #ddd5c4);
+  }
+  .hfql__nav a:hover { color: var(--color-foreground-heading, var(--htf-color-text)); }
+  .hfql__group { margin-bottom: 36px; scroll-margin-top: 90px; }
+  .hfql__group:last-child { margin-bottom: 0; }
+  .hfql__group-title {
+    margin: 0 0 14px;
+    color: var(--color-foreground-heading, var(--htf-color-text));
+    font-family: var(--font-heading--family, var(--htf-font-heading));
+    font-size: {{ section.settings.category_size | default: 22 }}px;
+    font-weight: 400;
+    line-height: 1.3;
+  }
+  .hfql__items {
+    background: var(--color-background, #f8f5f0);
+    background-image: linear-gradient(rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.55));
+    border: 1px solid var(--color-border, #ddd5c4);
+  }
+  .hfql__item { border-bottom: 1px solid var(--color-border, #ddd5c4); }
+  .hfql__item:last-child { border-bottom: 0; }
+  .hfql__item summary {
+    align-items: center;
+    cursor: pointer;
+    display: flex;
+    gap: 16px;
+    justify-content: space-between;
+    list-style: none;
+    padding: 18px 22px;
+    color: var(--color-foreground-heading, var(--htf-color-text));
+    font-size: {{ section.settings.question_size | default: 15 }}px;
+    font-weight: 500;
+    line-height: 1.45;
+  }
+  .hfql__item summary::-webkit-details-marker { display: none; }
+  .hfql__icon {
+    flex: 0 0 auto;
+    position: relative;
+    width: 12px;
+    height: 12px;
+    color: var(--color-primary, #b8913f);
+  }
+  .hfql__icon:before, .hfql__icon:after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    background: currentColor;
+  }
+  .hfql__icon:before { width: 12px; height: 1.5px; }
+  .hfql__icon:after { width: 1.5px; height: 12px; transition: transform .25s ease; }
+  .hfql__item[open] .hfql__icon:after { transform: rotate(90deg); }
+  .hfql__answer {
+    padding: 0 22px 20px;
+    color: var(--color-foreground, #7a6e5e);
+    font-size: {{ section.settings.answer_size | default: 14 }}px;
+    font-weight: 300;
+    line-height: 1.85;
+  }
+  .hfql__answer p { margin: 0 0 10px; }
+  .hfql__answer p:last-child { margin-bottom: 0; }
+  .hfql__answer a { color: var(--color-primary, #b8913f); }
+  @media only screen and (max-width: 768px) {
+    .hfql { padding: 40px 24px 52px; }
+    .hfql--sidebar .hfql__wrap,
+    .hfql--sidebar-right .hfql__wrap { display: block; }
+    .hfql__nav { display: none; }
+    .hfql__item summary { padding: 16px 16px; }
+    .hfql__answer { padding: 0 16px 16px; }
+  }
+</style>
+
+{%- assign has_categories = false -%}
+{%- for block in section.blocks -%}
+  {%- if block.type == 'category' -%}{%- assign has_categories = true -%}{%- endif -%}
+{%- endfor -%}
+
+<section class="hfql color-{{ section.settings.color_scheme }}{% if section.settings.layout == 'sidebar' %} hfql--sidebar{% elsif section.settings.layout == 'sidebar_right' %} hfql--sidebar-right{% endif %}">
+  <div class="hfql__wrap">
+    {%- if section.settings.layout != 'centered' and has_categories -%}
+      <nav class="hfql__nav" aria-label="FAQ categories">
+        <span class="hfql__nav-title">{{ section.settings.nav_title }}</span>
+        <ul>
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'category' -%}
+              <li><a href="#faq-{{ section.id }}-{{ forloop.index }}">{{ block.settings.title | strip_html }}</a></li>
+            {%- endif -%}
+          {%- endfor -%}
+        </ul>
+      </nav>
+    {%- endif -%}
+    <div class="hfql__main">
+      {%- assign group_open = false -%}
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'category' -%}
+          {%- if group_open -%}</div></div>{%- endif -%}
+          {%- assign group_open = true -%}
+          <div class="hfql__group" id="faq-{{ section.id }}-{{ forloop.index }}" {{ block.shopify_attributes }}>
+            <h2 class="hfql__group-title">{{ block.settings.title }}</h2>
+            <div class="hfql__items">
+        {%- elsif block.type == 'question' -%}
+          {%- unless group_open -%}
+            {%- assign group_open = true -%}
+            <div class="hfql__group"><div class="hfql__items">
+          {%- endunless -%}
+          <details class="hfql__item" {{ block.shopify_attributes }}>
+            <summary>
+              {{ block.settings.question }}
+              <span class="hfql__icon" aria-hidden="true"></span>
+            </summary>
+            <div class="hfql__answer">{{ block.settings.answer }}</div>
+          </details>
+        {%- endif -%}
+      {%- endfor -%}
+      {%- if group_open -%}</div></div>{%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Heitz FAQ List",
+  "settings": [
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-heitz-warm" },
+    { "type": "select", "id": "layout", "label": "Layout", "options": [ { "value": "sidebar", "label": "Category links left" }, { "value": "sidebar_right", "label": "Category links right" }, { "value": "centered", "label": "Centered column" } ], "default": "sidebar" },
+    { "type": "text", "id": "nav_title", "label": "Sidebar title", "default": "Browse by topic" },
+    { "type": "header", "content": "Font sizes" },
+    { "type": "range", "id": "category_size", "label": "Category heading size", "min": 16, "max": 32, "step": 1, "unit": "px", "default": 22 },
+    { "type": "range", "id": "question_size", "label": "Question size", "min": 12, "max": 20, "step": 1, "unit": "px", "default": 15 },
+    { "type": "range", "id": "answer_size", "label": "Answer size", "min": 11, "max": 18, "step": 1, "unit": "px", "default": 14 }
+  ],
+  "blocks": [
+    {
+      "type": "category",
+      "name": "Category",
+      "settings": [
+        { "type": "inline_richtext", "id": "title", "label": "Category title", "default": "Orders & Shipping" }
+      ]
+    },
+    {
+      "type": "question",
+      "name": "Question",
+      "settings": [
+        { "type": "inline_richtext", "id": "question", "label": "Question", "default": "How long does shipping take?" },
+        { "type": "richtext", "id": "answer", "label": "Answer", "default": "<p>Orders are processed within 1–3 business days and ship with full tracking.</p>" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Heitz FAQ List",
+      "blocks": [
+        { "type": "category", "settings": { "title": "Orders & Shipping" } },
+        { "type": "question", "settings": { "question": "How long does it take to receive my order?", "answer": "<p>Orders are processed within 1–3 business days. Once your order ships, you’ll receive a confirmation email with full tracking so you always know where it stands.</p>" } },
+        { "type": "question", "settings": { "question": "Do you provide order tracking?", "answer": "<p>Yes — tracking is provided on every shipment. As soon as your order is on its way, we’ll email you the tracking details.</p>" } },
+        { "type": "question", "settings": { "question": "Where do you ship?", "answer": "<p>We ship across the United States, to all states and territories. Prices can be viewed in USD or GBP using the currency selector.</p>" } },
+        { "type": "category", "settings": { "title": "Returns & Warranty" } },
+        { "type": "question", "settings": { "question": "What is your return policy?", "answer": "<p>If something isn’t right within the first 30 days of delivery, your order is covered by our standard returns process — which may include a replacement, store credit, or refund where applicable.</p>" } },
+        { "type": "question", "settings": { "question": "Is there a warranty on your lights?", "answer": "<p>Yes — every Heitz light is covered by a 1-year warranty against genuine manufacturing defects, running 12 months from the date of delivery. See our warranty page for full details.</p>" } },
+        { "type": "question", "settings": { "question": "How do I make a warranty claim?", "answer": "<p>Email <a href=\"mailto:support@heitz.shop\">support@heitz.shop</a> with your order number, a short description of the issue, and clear photos or a video where possible. We aim to respond within 12–24 hours.</p>" } },
+        { "type": "category", "settings": { "title": "Payments" } },
+        { "type": "question", "settings": { "question": "What payment methods do you accept?", "answer": "<p>We accept Visa, Mastercard, American Express, Discover, and Diners Club, as well as Apple Pay, Google Pay, Shop Pay, and PayPal. All available options are shown at checkout.</p>" } },
+        { "type": "question", "settings": { "question": "Which currencies can I pay in?", "answer": "<p>Prices are displayed in US Dollars ($) and British Pounds (£). Choose your region with the selector on our site — you’ll be charged in the currency shown at checkout.</p>" } },
+        { "type": "question", "settings": { "question": "Is checkout secure?", "answer": "<p>Yes — payments are processed through trusted, PCI-DSS-compliant providers over an encrypted (SSL) connection. We never see or store your full card number.</p>" } },
+        { "type": "category", "settings": { "title": "Products & Installation" } },
+        { "type": "question", "settings": { "question": "Are bulbs included with the fixtures?", "answer": "<p>Most fixtures do not include bulbs unless stated on the product page. The recommended bulb type and base (for example E27) are listed in each product’s specifications.</p>" } },
+        { "type": "question", "settings": { "question": "Can I install the light myself?", "answer": "<p>For hardwired fixtures we recommend installation by a licensed electrician. Please note that installation errors, wiring mistakes, or incorrect voltage are not covered by the warranty.</p>" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

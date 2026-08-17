@@ -1,0 +1,73 @@
+{%- comment -%}
+  Heitz FAQ Header — eyebrow + page heading + intro text.
+  Alignment switchable left/center.
+{%- endcomment -%}
+{% render 'heitz-tf-base' %}
+
+<style>
+  .hfqh {
+    padding: 72px 64px 56px;
+    background: var(--color-background, #fbf7f1);
+    border-bottom: 1px solid var(--color-border, #ddd5c4);
+    font-family: var(--font-body--family, var(--htf-font-body));
+  }
+  .hfqh * { box-sizing: border-box; }
+  .hfqh__inner { max-width: 720px; }
+  .hfqh--center { text-align: center; }
+  .hfqh--center .hfqh__inner { margin: 0 auto; }
+  .hfqh__eyebrow {
+    display: block;
+    margin-bottom: 14px;
+    color: var(--color-primary, #b8913f);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.28em;
+    line-height: 1.4;
+    text-transform: uppercase;
+  }
+  .hfqh h1 {
+    margin: 0 0 16px;
+    color: var(--color-foreground-heading, var(--htf-color-text));
+    font-family: var(--font-heading--family, var(--htf-font-heading));
+    font-size: {{ section.settings.heading_size | default: 40 }}px;
+    font-weight: 400;
+    line-height: 1.15;
+  }
+  .hfqh h1 em { color: var(--color-primary, #b8913f); font-style: italic; font-weight: 400; }
+  .hfqh p {
+    margin: 0 0 12px;
+    color: var(--color-foreground, #7a6e5e);
+    font-size: {{ section.settings.text_size | default: 15 }}px;
+    font-weight: 300;
+    line-height: 1.85;
+  }
+  .hfqh p:last-child { margin-bottom: 0; }
+  @media only screen and (max-width: 768px) {
+    .hfqh { padding: 48px 24px 40px; }
+    .hfqh h1 { font-size: {{ section.settings.heading_size | default: 40 | times: 0.75 | round }}px; }
+  }
+</style>
+
+<section class="hfqh color-{{ section.settings.color_scheme }}{% if section.settings.align == 'center' %} hfqh--center{% endif %}">
+  <div class="hfqh__inner">
+    <span class="hfqh__eyebrow">{{ section.settings.eyebrow }}</span>
+    <h1>{{ section.settings.heading }}</h1>
+    {{ section.settings.text }}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Heitz FAQ Header",
+  "settings": [
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-heitz-cream" },
+    { "type": "select", "id": "align", "label": "Alignment", "options": [ { "value": "left", "label": "Left" }, { "value": "center", "label": "Center" } ], "default": "left" },
+    { "type": "range", "id": "heading_size", "label": "Heading size", "min": 24, "max": 64, "step": 2, "unit": "px", "default": 40 },
+    { "type": "range", "id": "text_size", "label": "Text size", "min": 12, "max": 20, "step": 1, "unit": "px", "default": 15 },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Support" },
+    { "type": "inline_richtext", "id": "heading", "label": "Heading", "default": "Frequently asked <em>questions</em>" },
+    { "type": "richtext", "id": "text", "label": "Intro text", "default": "<p>Find answers to the most common questions about our products, orders, and services. We’ve kept everything clear and simple to help you make confident decisions before and after your purchase.</p>" }
+  ],
+  "presets": [{ "name": "Heitz FAQ Header" }]
+}
+{% endschema %}

@@ -1,0 +1,96 @@
+{%- comment -%}
+  Heitz FAQ Contact — "Still have questions?" strip with a button.
+{%- endcomment -%}
+{% render 'heitz-tf-base' %}
+
+<style>
+  .hfqc {
+    padding: 64px;
+    background: var(--color-background, #f5f3ee);
+    border-bottom: 1px solid var(--color-border, #ddd5c4);
+    text-align: center;
+    font-family: var(--font-body--family, var(--htf-font-body));
+  }
+  .hfqc * { box-sizing: border-box; }
+  .hfqc__eyebrow {
+    display: block;
+    margin-bottom: 14px;
+    color: var(--color-primary, #b8913f);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.28em;
+    line-height: 1.4;
+    text-transform: uppercase;
+  }
+  .hfqc h2 {
+    margin: 0 0 12px;
+    color: var(--color-foreground-heading, var(--htf-color-text));
+    font-family: var(--font-heading--family, var(--htf-font-heading));
+    font-size: {{ section.settings.heading_size | default: 30 }}px;
+    font-weight: 400;
+    line-height: 1.2;
+  }
+  .hfqc p {
+    max-width: 520px;
+    margin: 0 auto 24px;
+    color: var(--color-foreground, #7a6e5e);
+    font-size: {{ section.settings.text_size | default: 14 }}px;
+    font-weight: 300;
+    line-height: 1.85;
+  }
+  .hfqc__btn {
+    background: var(--color-primary-button-background, var(--color-primary, #2a3743));
+    border: 1px solid var(--color-primary-button-border, transparent);
+    color: var(--color-primary-button-text, #ffffff);
+    cursor: pointer;
+    display: inline-block;
+    font-family: var(--font-heading--family, var(--htf-font-heading));
+    font-size: 14px;
+    letter-spacing: 0.06em;
+    padding: 14px 34px;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: opacity .2s ease;
+  }
+  .hfqc__btn:hover { opacity: 0.85; }
+  .hfqc__note {
+    display: block;
+    margin-top: 16px;
+    color: var(--color-foreground, #7a6e5e);
+    font-size: 12px;
+    font-weight: 300;
+  }
+  @media only screen and (max-width: 768px) {
+    .hfqc { padding: 48px 24px; }
+  }
+</style>
+
+<section class="hfqc color-{{ section.settings.color_scheme }}">
+  <span class="hfqc__eyebrow">{{ section.settings.eyebrow }}</span>
+  <h2>{{ section.settings.heading }}</h2>
+  <p>{{ section.settings.text }}</p>
+  {%- if section.settings.button_label != blank -%}
+    <a class="hfqc__btn" href="{{ section.settings.button_link | default: '/pages/contact' }}">{{ section.settings.button_label | escape }}</a>
+  {%- endif -%}
+  {%- if section.settings.note != blank -%}
+    <span class="hfqc__note">{{ section.settings.note }}</span>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Heitz FAQ Contact",
+  "settings": [
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-heitz-beige" },
+    { "type": "range", "id": "heading_size", "label": "Heading size", "min": 20, "max": 44, "step": 1, "unit": "px", "default": 30 },
+    { "type": "range", "id": "text_size", "label": "Text size", "min": 12, "max": 18, "step": 1, "unit": "px", "default": 14 },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Still have questions?" },
+    { "type": "inline_richtext", "id": "heading", "label": "Heading", "default": "We’re here to help" },
+    { "type": "textarea", "id": "text", "label": "Text", "default": "Whether it’s about an order, product details, or general inquiries, feel free to reach out — we aim to respond within 12–24 hours." },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Contact us" },
+    { "type": "url", "id": "button_link", "label": "Button link" },
+    { "type": "inline_richtext", "id": "note", "label": "Small note", "default": "Or email us directly at support@heitz.shop" }
+  ],
+  "presets": [{ "name": "Heitz FAQ Contact" }]
+}
+{% endschema %}

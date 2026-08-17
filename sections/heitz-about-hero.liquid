@@ -1,0 +1,104 @@
+{%- comment -%}
+  Heitz About Hero — editorial statement with a half-width background
+  image; image side switchable left/right.
+{%- endcomment -%}
+{% render 'heitz-tf-base' %}
+
+<style>
+  .habh { position: relative; isolation: isolate; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: stretch; overflow: hidden; background: var(--color-background, #fbf7f1); border-bottom: 1px solid var(--color-border, #ddd5c4); font-family: var(--font-body--family, var(--htf-font-body)); }
+  .habh * { box-sizing: border-box; }
+  .habh__eyebrow {
+    display: block;
+    margin-bottom: 14px;
+    color: var(--color-primary, #b8913f);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.28em;
+    line-height: 1.4;
+    text-transform: uppercase;
+  }
+  .habh__image {
+    position: absolute;
+    z-index: 0;
+    top: 0; right: 0; bottom: 0; left: 50%;
+    pointer-events: none;
+    background-color: var(--color-background, #fbf7f1);
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+  }
+  .habh--img-left .habh__image { left: 0; right: 50%; }
+  .habh__text {
+    position: relative;
+    z-index: 2;
+    grid-column: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 0;
+    padding: 64px 56px 64px 64px;
+    background: var(--color-background, #fbf7f1);
+  }
+  .habh--img-left .habh__text { grid-column: 2; padding: 64px 64px 64px 56px; }
+  .habh__space { position: relative; z-index: 1; grid-column: 2; min-width: 0; min-height: 1px; pointer-events: none; }
+  .habh--img-left .habh__space { grid-column: 1; grid-row: 1; }
+  .habh h1 {
+    margin: 0 0 20px;
+    color: var(--color-foreground-heading, var(--htf-color-text));
+    font-family: var(--font-heading--family, var(--htf-font-heading));
+    font-size: clamp(34px, 4.5vw, 54px);
+    font-weight: 400;
+    line-height: 1.12;
+  }
+  .habh h1 em { color: var(--color-primary, #b8913f); font-style: italic; font-weight: 400; }
+  .habh p { max-width: 400px; margin: 0; color: var(--color-foreground, #7a6e5e); font-size: 15px; font-weight: 300; line-height: 1.85; }
+  @media only screen and (max-width: 768px) {
+    .habh, .habh--img-left { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto auto; }
+    .habh__text, .habh--img-left .habh__text { grid-column: 1; grid-row: 1; padding: 44px 24px 40px; }
+    .habh__image, .habh--img-left .habh__image {
+      position: relative;
+      z-index: 1;
+      inset: auto;
+      grid-column: 1;
+      grid-row: 2;
+      width: 100%;
+      height: auto;
+      min-height: 0;
+      aspect-ratio: 4 / 3;
+    }
+    .habh__space { display: none; }
+  }
+</style>
+
+<section class="habh color-{{ section.settings.color_scheme }}{% if section.settings.image_position == 'left' %} habh--img-left{% endif %}">
+  <div
+    class="habh__image"
+    role="img"
+    aria-label="{{ section.settings.image_alt | default: 'Heitz lighting in a calm modern home' | escape }}"
+    {% if section.settings.image != blank %}
+      style="background-image: url({{ section.settings.image | image_url: width: 1600 }});"
+    {% endif %}
+  ></div>
+  <div class="habh__text">
+    <span class="habh__eyebrow">{{ section.settings.eyebrow }}</span>
+    <h1>{{ section.settings.heading }}</h1>
+    <p>{{ section.settings.text }}</p>
+  </div>
+  <div class="habh__space" aria-hidden="true"></div>
+</section>
+
+{% schema %}
+{
+  "name": "Heitz About Hero",
+  "settings": [
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-heitz-cream" },
+    { "type": "select", "id": "image_position", "label": "Image position", "options": [ { "value": "right", "label": "Right" }, { "value": "left", "label": "Left" } ], "default": "right" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "About Heitz" },
+    { "type": "inline_richtext", "id": "heading", "label": "Heading", "default": "Lighting should shape how a home <em>feels.</em>" },
+    { "type": "textarea", "id": "text", "label": "Text", "default": "We started with a simple idea — lighting should do more than just illuminate a space. It should shape how you feel within it." },
+    { "type": "image_picker", "id": "image", "label": "Image" },
+    { "type": "text", "id": "image_alt", "label": "Image alt text" }
+  ],
+  "presets": [{ "name": "Heitz About Hero" }]
+}
+{% endschema %}

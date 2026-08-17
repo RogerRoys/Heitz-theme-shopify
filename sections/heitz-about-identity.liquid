@@ -1,0 +1,74 @@
+{%- comment -%}
+  Heitz About Identity — italic pull-quote beside story paragraphs;
+  quote side switchable left/right.
+{%- endcomment -%}
+{% render 'heitz-tf-base' %}
+
+<style>
+  .habi {
+    display: flex;
+    align-items: flex-start;
+    gap: 72px;
+    padding: 56px 64px;
+    background: var(--color-background, #f5f3ee);
+    border-bottom: 1px solid var(--color-border, #ddd5c4);
+    font-family: var(--font-body--family, var(--htf-font-body));
+  }
+  .habi * { box-sizing: border-box; }
+  .habi--quote-right { flex-direction: row-reverse; }
+  .habi__quote { flex: 0 0 200px; }
+  .habi__quote p {
+    margin: 0;
+    color: var(--color-primary, #b8913f);
+    font-family: var(--font-heading--family, var(--htf-font-heading));
+    font-size: 25px;
+    font-style: italic;
+    font-weight: 300;
+    line-height: 1.35;
+  }
+  .habi__body { flex: 1; min-width: 0; }
+  .habi__body h2 {
+    margin: 0 0 14px;
+    color: var(--color-foreground-heading, var(--htf-color-text));
+    font-family: var(--font-heading--family, var(--htf-font-heading));
+    font-size: 28px;
+    font-weight: 400;
+    line-height: 1.25;
+  }
+  .habi__body p {
+    margin: 0 0 12px;
+    color: var(--color-foreground, #7a6e5e);
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 1.9;
+  }
+  .habi__body p:last-child { margin-bottom: 0; }
+  @media only screen and (max-width: 768px) {
+    .habi, .habi--quote-right { flex-direction: column; gap: 28px; padding: 44px 24px; }
+    .habi__quote { flex: none; }
+  }
+</style>
+
+<section class="habi color-{{ section.settings.color_scheme }}{% if section.settings.quote_position == 'right' %} habi--quote-right{% endif %}">
+  <div class="habi__quote">
+    <p>{{ section.settings.quote }}</p>
+  </div>
+  <div class="habi__body">
+    <h2>{{ section.settings.heading }}</h2>
+    {{ section.settings.text }}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Heitz About Identity",
+  "settings": [
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-heitz-beige" },
+    { "type": "select", "id": "quote_position", "label": "Quote position", "options": [ { "value": "left", "label": "Left" }, { "value": "right", "label": "Right" } ], "default": "left" },
+    { "type": "inline_richtext", "id": "quote", "label": "Side quote", "default": "Simplicity, balance, and intentional living." },
+    { "type": "inline_richtext", "id": "heading", "label": "Heading", "default": "A different approach to lighting" },
+    { "type": "richtext", "id": "text", "label": "Text", "default": "<p>In a world filled with noise and excess, we were drawn to a different approach. Inspired by Scandinavian and Japandi design, we believe in simplicity, balance, and intentional living.</p><p>Every piece we offer reflects this philosophy — clean lines, soft light, and a focus on what truly matters.</p>" }
+  ],
+  "presets": [{ "name": "Heitz About Identity" }]
+}
+{% endschema %}

@@ -1,0 +1,136 @@
+{%- comment -%}
+  Heitz About Promise — intro text beside a checkmark list;
+  checklist side switchable left/right.
+{%- endcomment -%}
+{% render 'heitz-tf-base' %}
+
+<style>
+  .habpr {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: center;
+    gap: 72px;
+    padding: 64px;
+    background: var(--color-background, #f8f5f0);
+    border-bottom: 1px solid var(--color-border, #ddd5c4);
+    font-family: var(--font-body--family, var(--htf-font-body));
+  }
+  .habpr * { box-sizing: border-box; }
+  @media only screen and (min-width: 769px) {
+    .habpr--list-left .habpr__intro { order: 2; }
+    .habpr--list-left .habpr__list { order: 1; }
+  }
+  .habpr__eyebrow {
+    display: block;
+    margin-bottom: 14px;
+    color: var(--color-primary, #b8913f);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.28em;
+    line-height: 1.4;
+    text-transform: uppercase;
+  }
+  .habpr__intro h2 {
+    margin: 0 0 16px;
+    color: var(--color-foreground-heading, var(--htf-color-text));
+    font-family: var(--font-heading--family, var(--htf-font-heading));
+    font-size: 32px;
+    font-weight: 400;
+    line-height: 1.2;
+  }
+  .habpr__intro p {
+    margin: 0 0 12px;
+    color: var(--color-foreground, #7a6e5e);
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 1.9;
+  }
+  .habpr__intro p:last-child { margin-bottom: 0; }
+  .habpr__list { display: flex; flex-direction: column; gap: 22px; }
+  .habpr__item { display: flex; align-items: flex-start; gap: 14px; }
+  .habpr__icon {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    margin-top: 2px;
+    color: var(--color-foreground, #7a6e5e);
+    border: 1px solid var(--color-border, #ddd5c4);
+  }
+  .habpr__icon svg { display: block; opacity: 0.55; }
+  .habpr__copy h4 {
+    margin: 0 0 3px;
+    color: var(--color-foreground-heading, var(--htf-color-text));
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.4;
+    letter-spacing: 0.01em;
+  }
+  .habpr__copy p {
+    margin: 0;
+    color: var(--color-foreground, #7a6e5e);
+    font-size: 12px;
+    font-weight: 300;
+    line-height: 1.7;
+  }
+  @media only screen and (max-width: 768px) {
+    .habpr { grid-template-columns: minmax(0, 1fr); gap: 36px; padding: 48px 24px; }
+  }
+</style>
+
+<section class="habpr color-{{ section.settings.color_scheme }}{% if section.settings.list_position == 'left' %} habpr--list-left{% endif %}">
+  <div class="habpr__intro">
+    <span class="habpr__eyebrow">{{ section.settings.eyebrow }}</span>
+    <h2>{{ section.settings.heading }}</h2>
+    {{ section.settings.text }}
+  </div>
+  <div class="habpr__list">
+    {%- for block in section.blocks -%}
+      <div class="habpr__item" {{ block.shopify_attributes }}>
+        <div class="habpr__icon">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg>
+        </div>
+        <div class="habpr__copy">
+          <h4>{{ block.settings.title }}</h4>
+          <p>{{ block.settings.text }}</p>
+        </div>
+      </div>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Heitz About Promise",
+  "settings": [
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-heitz-warm" },
+    { "type": "select", "id": "list_position", "label": "Checklist position", "options": [ { "value": "left", "label": "Left" }, { "value": "right", "label": "Right" } ], "default": "left" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Our promise" },
+    { "type": "inline_richtext", "id": "heading", "label": "Heading", "default": "What you can expect when you shop with us" },
+    { "type": "richtext", "id": "text", "label": "Text", "default": "<p>We are a small team and we act like one — attentive, accountable, and genuinely invested in your experience. Shopping for lighting should feel considered, not overwhelming.</p><p>We are here to help you find the right piece, and to make sure it arrives as expected.</p>" }
+  ],
+  "blocks": [
+    {
+      "type": "promise_item",
+      "name": "Promise item",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title", "default": "Curated selection" },
+        { "type": "textarea", "id": "text", "label": "Text", "default": "Promise text." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Heitz About Promise",
+      "blocks": [
+        { "type": "promise_item", "settings": { "title": "Curated selection", "text": "Every product is individually reviewed. Nothing makes it into the collection without meeting our standards for design and quality." } },
+        { "type": "promise_item", "settings": { "title": "Real customer support", "text": "Questions before or after purchase are answered by people who know the products — we aim to respond within 12–24 hours." } },
+        { "type": "promise_item", "settings": { "title": "1-year warranty", "text": "Every Heitz light is covered for 12 months against manufacturing defects, so the calm it brings is something you can trust." } },
+        { "type": "promise_item", "settings": { "title": "We make it right", "text": "If something arrives damaged or not as described, we resolve it. No runaround, no excessive back-and-forth." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

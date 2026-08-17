@@ -1,0 +1,104 @@
+{%- comment -%}
+  Heitz About Split — full-bleed photo beside a text panel;
+  image side switchable left/right.
+{%- endcomment -%}
+{% render 'heitz-tf-base' %}
+
+<style>
+  .habsp {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    min-height: 460px;
+    border-bottom: 1px solid var(--color-border, #ddd5c4);
+    font-family: var(--font-body--family, var(--htf-font-body));
+  }
+  .habsp * { box-sizing: border-box; }
+  .habsp__photo {
+    position: relative;
+    min-width: 0;
+    min-height: 460px;
+    overflow: hidden;
+    background: linear-gradient(135deg, #e8e2d5, #d5ccba);
+  }
+  .habsp--img-right .habsp__photo { order: 2; }
+  .habsp--img-right .habsp__text { order: 1; }
+  .habsp__photo img {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    max-width: none;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+  .habsp__text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 0;
+    padding: 60px 52px;
+    background: var(--color-background, #f8f5f0);
+  }
+  .habsp__eyebrow {
+    display: block;
+    margin-bottom: 14px;
+    color: var(--color-primary, #b8913f);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.28em;
+    line-height: 1.4;
+    text-transform: uppercase;
+  }
+  .habsp__text h2 {
+    margin: 0 0 16px;
+    color: var(--color-foreground-heading, var(--htf-color-text));
+    font-family: var(--font-heading--family, var(--htf-font-heading));
+    font-size: 32px;
+    font-weight: 400;
+    line-height: 1.2;
+  }
+  .habsp__text p {
+    margin: 0 0 12px;
+    color: var(--color-foreground, #7a6e5e);
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 1.9;
+  }
+  .habsp__text p:last-child { margin-bottom: 0; }
+  @media only screen and (max-width: 768px) {
+    .habsp { grid-template-columns: minmax(0, 1fr); min-height: 0; }
+    .habsp--img-right .habsp__photo { order: 1; }
+    .habsp--img-right .habsp__text { order: 2; }
+    .habsp__photo { min-height: 0; aspect-ratio: 4 / 3; }
+    .habsp__text { padding: 40px 24px; }
+  }
+</style>
+
+<section class="habsp{% if section.settings.image_position == 'right' %} habsp--img-right{% endif %}">
+  <div class="habsp__photo">
+    {%- if section.settings.image != blank -%}
+      {{ section.settings.image | image_url: width: 1400 | image_tag: alt: section.settings.heading, loading: 'lazy' }}
+    {%- endif -%}
+  </div>
+  <div class="habsp__text color-{{ section.settings.color_scheme }}">
+    <span class="habsp__eyebrow">{{ section.settings.eyebrow }}</span>
+    <h2>{{ section.settings.heading }}</h2>
+    {{ section.settings.text }}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Heitz About Split",
+  "settings": [
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-heitz-warm" },
+    { "type": "select", "id": "image_position", "label": "Image position", "options": [ { "value": "left", "label": "Left" }, { "value": "right", "label": "Right" } ], "default": "left" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Our approach" },
+    { "type": "inline_richtext", "id": "heading", "label": "Heading", "default": "Calm, natural, and timeless" },
+    { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Our goal is to create lighting that feels calm, natural, and timeless. Pieces that don’t compete for attention, but quietly enhance the atmosphere of your home.</p><p>We carefully select designs that blend functionality with aesthetic clarity. From living rooms to bedrooms, each product is chosen to support a more thoughtful and comfortable way of living.</p>" },
+    { "type": "image_picker", "id": "image", "label": "Photo" }
+  ],
+  "presets": [{ "name": "Heitz About Split" }]
+}
+{% endschema %}

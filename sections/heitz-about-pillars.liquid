@@ -1,0 +1,136 @@
+{%- comment -%}
+  Heitz About Pillars — numbered value cards in a bordered grid.
+{%- endcomment -%}
+{% render 'heitz-tf-base' %}
+
+<style>
+  .habp {
+    padding: 64px;
+    background: var(--color-background, #fbf7f1);
+    border-bottom: 1px solid var(--color-border, #ddd5c4);
+    font-family: var(--font-body--family, var(--htf-font-body));
+  }
+  .habp * { box-sizing: border-box; }
+  .habp__header { max-width: 520px; margin-bottom: 40px; }
+  .habp--center .habp__header { max-width: none; text-align: center; }
+  .habp__eyebrow {
+    display: block;
+    margin-bottom: 14px;
+    color: var(--color-primary, #b8913f);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.28em;
+    line-height: 1.4;
+    text-transform: uppercase;
+  }
+  .habp__header h2 {
+    margin: 0 0 8px;
+    color: var(--color-foreground-heading, var(--htf-color-text));
+    font-family: var(--font-heading--family, var(--htf-font-heading));
+    font-size: 32px;
+    font-weight: 400;
+    line-height: 1.2;
+  }
+  .habp__header p {
+    margin: 0;
+    color: var(--color-foreground, #7a6e5e);
+    font-size: 13px;
+    font-weight: 300;
+    line-height: 1.7;
+  }
+  .habp__grid {
+    display: grid;
+    grid-template-columns: repeat({{ section.blocks.size | at_least: 1 | at_most: 4 }}, minmax(0, 1fr));
+    gap: 1px;
+    overflow: hidden;
+    background: var(--color-border, #ddd5c4);
+    border: 1px solid var(--color-border, #ddd5c4);
+  }
+  .habp__pillar {
+    padding: 36px 28px;
+    background: var(--color-background, #fbf7f1);
+    background-image: linear-gradient(rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.55));
+  }
+  .habp__number {
+    margin-bottom: 14px;
+    color: var(--color-primary, #cfa958);
+    font-family: var(--font-heading--family, var(--htf-font-heading));
+    font-size: 36px;
+    font-style: italic;
+    font-weight: 300;
+    line-height: 1;
+    opacity: 0.4;
+  }
+  .habp__pillar h3 {
+    margin: 0 0 10px;
+    color: var(--color-foreground-heading, var(--htf-color-text));
+    font-family: var(--font-heading--family, var(--htf-font-heading));
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 1.3;
+  }
+  .habp__pillar p {
+    margin: 0;
+    color: var(--color-foreground, #7a6e5e);
+    font-size: 13px;
+    font-weight: 300;
+    line-height: 1.85;
+  }
+  @media only screen and (max-width: 768px) {
+    .habp { padding: 48px 24px; }
+    .habp__grid { grid-template-columns: minmax(0, 1fr); }
+    .habp__pillar { padding: 32px 24px; }
+  }
+</style>
+
+<section class="habp color-{{ section.settings.color_scheme }}{% if section.settings.header_align == 'center' %} habp--center{% endif %}">
+  <div class="habp__header">
+    <span class="habp__eyebrow">{{ section.settings.eyebrow }}</span>
+    <h2>{{ section.settings.heading }}</h2>
+    <p>{{ section.settings.text }}</p>
+  </div>
+  <div class="habp__grid">
+    {%- for block in section.blocks -%}
+      <div class="habp__pillar" {{ block.shopify_attributes }}>
+        <div class="habp__number">{{ block.settings.numeral }}</div>
+        <h3>{{ block.settings.title }}</h3>
+        <p>{{ block.settings.text }}</p>
+      </div>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Heitz About Pillars",
+  "settings": [
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-heitz-cream" },
+    { "type": "select", "id": "header_align", "label": "Header alignment", "options": [ { "value": "left", "label": "Left" }, { "value": "center", "label": "Center" } ], "default": "left" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "What guides us" },
+    { "type": "inline_richtext", "id": "heading", "label": "Heading", "default": "Three things we never compromise on" },
+    { "type": "textarea", "id": "text", "label": "Text", "default": "Every piece we offer is measured against these before it earns a place in your home." }
+  ],
+  "blocks": [
+    {
+      "type": "pillar",
+      "name": "Pillar",
+      "settings": [
+        { "type": "text", "id": "numeral", "label": "Numeral", "default": "I" },
+        { "type": "text", "id": "title", "label": "Title", "default": "Considered design" },
+        { "type": "textarea", "id": "text", "label": "Text", "default": "Pillar text." }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "presets": [
+    {
+      "name": "Heitz About Pillars",
+      "blocks": [
+        { "type": "pillar", "settings": { "numeral": "I", "title": "Simplicity", "text": "Clean lines and soft light. We choose pieces that are confident in their form and resolved in their details — never assembled to follow a passing style." } },
+        { "type": "pillar", "settings": { "numeral": "II", "title": "Balance", "text": "Inspired by Scandinavian and Japandi design, every fixture is chosen to bring calm and harmony to a room, not to compete for attention." } },
+        { "type": "pillar", "settings": { "numeral": "III", "title": "Intention", "text": "A focus on what truly matters. Each product is selected to support a more thoughtful and comfortable way of living." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

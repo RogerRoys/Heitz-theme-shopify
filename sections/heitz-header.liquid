@@ -18,7 +18,7 @@
 
   @media only screen and (min-width: 769px) {
     .htf-section-header-wrap {
-      transition: transform .25s ease;
+      transition: transform .42s cubic-bezier(.22, 1, .36, 1);
       will-change: transform;
     }
     .htf-section-header-wrap.htf-smart-sticky--compact {
@@ -38,7 +38,12 @@
       width: 130px;
     }
     .htf-section-header-wrap.htf-smart-sticky--compact .htf-nav-row {
-      display: none;
+      display: block;
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      pointer-events: none;
+      transform: translateY(-6px);
     }
     .htf-section-header-wrap.htf-smart-sticky--compact .htf-header .htf-compact-menu-toggle {
       display: inline-flex;
@@ -49,7 +54,11 @@
       padding-bottom: 0;
     }
     .htf-section-header-wrap.htf-smart-sticky--compact.htf-smart-sticky--menu-open .htf-nav-row {
-      display: block;
+      max-height: 72px;
+      opacity: 1;
+      overflow: visible;
+      pointer-events: auto;
+      transform: translateY(0);
     }
     .htf-section-header-wrap.htf-smart-sticky--menu-open .htf-compact-menu-toggle__hamburger {
       display: none;
@@ -59,7 +68,22 @@
     }
     .htf-header,
     .htf-logo a {
-      transition: padding .25s ease, width .25s ease;
+      transition: padding .38s cubic-bezier(.22, 1, .36, 1), width .38s cubic-bezier(.22, 1, .36, 1);
+    }
+    .htf-nav-row {
+      transition:
+        max-height .42s cubic-bezier(.22, 1, .36, 1),
+        opacity .28s ease,
+        transform .42s cubic-bezier(.22, 1, .36, 1);
+      will-change: max-height, opacity, transform;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .htf-section-header-wrap,
+      .htf-header,
+      .htf-logo a,
+      .htf-nav-row {
+        transition-duration: .01ms !important;
+      }
     }
   }
   .htf-header {
@@ -620,7 +644,9 @@
 
       var currentScrollY = Math.max(window.scrollY, 0);
       var atTop = currentScrollY <= 10;
-      var scrollingDown = currentScrollY > lastScrollY;
+      var scrollDelta = currentScrollY - lastScrollY;
+      var scrollingDown = scrollDelta > 4;
+      var scrollingUp = scrollDelta < -4;
 
       if (atTop) {
         wrapper.classList.remove('htf-smart-sticky--compact', 'htf-smart-sticky--hidden');
@@ -631,12 +657,14 @@
         if (scrollingDown) {
           wrapper.classList.add('htf-smart-sticky--hidden');
           setCompactMenu(false);
-        } else if (currentScrollY < lastScrollY) {
+        } else if (scrollingUp) {
           wrapper.classList.remove('htf-smart-sticky--hidden');
         }
       }
 
-      lastScrollY = currentScrollY;
+      if (Math.abs(scrollDelta || 0) > 4 || atTop) {
+        lastScrollY = currentScrollY;
+      }
     }
 
     function requestStickyUpdate() {

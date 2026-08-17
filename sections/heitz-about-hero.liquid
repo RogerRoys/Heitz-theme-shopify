@@ -52,6 +52,9 @@
   }
   .habh h1 em { color: var(--color-primary, #b8913f); font-style: italic; font-weight: 400; }
   .habh p { max-width: 400px; margin: 0; color: var(--color-foreground, #7a6e5e); font-size: 15px; font-weight: 300; line-height: 1.85; }
+  @media only screen and (min-width: 769px) {
+    .habh { min-height: {{ section.settings.image_height | default: 460 }}px; }
+  }
   @media only screen and (max-width: 768px) {
     .habh, .habh--img-left { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto auto; }
     .habh__text, .habh--img-left .habh__text { grid-column: 1; grid-row: 1; padding: 44px 24px 40px; }
@@ -64,7 +67,7 @@
       width: 100%;
       height: auto;
       min-height: 0;
-      aspect-ratio: 4 / 3;
+      aspect-ratio: {{ section.settings.mobile_ratio | default: '4 / 3' }};
     }
     .habh__space { display: none; }
   }
@@ -93,6 +96,8 @@
   "settings": [
     { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-heitz-cream" },
     { "type": "select", "id": "image_position", "label": "Image position", "options": [ { "value": "right", "label": "Right" }, { "value": "left", "label": "Left" } ], "default": "right" },
+    { "type": "range", "id": "image_height", "label": "Image height (desktop)", "min": 350, "max": 800, "step": 10, "unit": "px", "default": 460 },
+    { "type": "select", "id": "mobile_ratio", "label": "Image ratio (mobile)", "options": [ { "value": "4 / 3", "label": "Landscape (4:3)" }, { "value": "1 / 1", "label": "Square" }, { "value": "16 / 9", "label": "Wide (16:9)" } ], "default": "4 / 3" },
     { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "About Heitz" },
     { "type": "inline_richtext", "id": "heading", "label": "Heading", "default": "Lighting should shape how a home <em>feels.</em>" },
     { "type": "textarea", "id": "text", "label": "Text", "default": "We started with a simple idea — lighting should do more than just illuminate a space. It should shape how you feel within it." },

@@ -88,6 +88,17 @@
   }
   .htf-payments li { margin: 0; line-height: 0; }
   .htf-payments svg { height: 24px; width: 38px; }
+  .htf-footer__copyright {
+    border-top: 1px solid var(--color-border, rgba(255, 255, 255, 0.15));
+    color: var(--color-foreground, #ffffff);
+    font-size: {{ section.settings.copyright_size | default: 12 }}px;
+    line-height: 1.6;
+    margin-top: 35px;
+    opacity: 0.75;
+    padding-top: 20px;
+    text-align: center;
+  }
+  .htf-footer__copyright a { text-decoration: underline; }
 
   .htf-footer__toggle { display: none; }
   @media only screen and (max-width: 768px) {
@@ -207,6 +218,16 @@
         {%- endfor -%}
       </ul>
     {%- endif -%}
+
+    {%- if section.settings.show_copyright -%}
+      <div class="htf-footer__copyright">
+        {%- if section.settings.copyright_text != blank -%}
+          {{ section.settings.copyright_text }}
+        {%- else -%}
+          &copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. All rights reserved.
+        {%- endif -%}
+      </div>
+    {%- endif -%}
   </div>
 </footer>
 
@@ -228,7 +249,14 @@
   "name": "Heitz TF Footer",
   "settings": [
     { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
-    { "type": "checkbox", "id": "show_payment_icons", "label": "Show payment icons", "default": true }
+    { "type": "checkbox", "id": "show_payment_icons", "label": "Show payment icons", "default": true },
+    { "type": "header", "content": "Font sizes" },
+    { "type": "range", "id": "heading_size", "label": "Column heading size", "min": 12, "max": 26, "step": 1, "unit": "px", "default": 17 },
+    { "type": "range", "id": "text_size", "label": "Text and link size", "min": 11, "max": 20, "step": 1, "unit": "px", "default": 14 },
+    { "type": "header", "content": "Copyright" },
+    { "type": "checkbox", "id": "show_copyright", "label": "Show copyright line", "default": true },
+    { "type": "inline_richtext", "id": "copyright_text", "label": "Copyright text (blank = © year + shop name)" },
+    { "type": "range", "id": "copyright_size", "label": "Copyright size", "min": 10, "max": 16, "step": 1, "unit": "px", "default": 12 }
   ],
   "blocks": [
     {

@@ -8,7 +8,7 @@
   .habsp {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    min-height: 460px;
+    min-height: {{ section.settings.image_height | default: 460 }}px;
     border-bottom: 1px solid var(--color-border, #ddd5c4);
     font-family: var(--font-body--family, var(--htf-font-body));
   }
@@ -16,7 +16,7 @@
   .habsp__photo {
     position: relative;
     min-width: 0;
-    min-height: 460px;
+    min-height: {{ section.settings.image_height | default: 460 }}px;
     overflow: hidden;
     background: linear-gradient(135deg, #e8e2d5, #d5ccba);
   }
@@ -70,7 +70,7 @@
     .habsp { grid-template-columns: minmax(0, 1fr); min-height: 0; }
     .habsp--img-right .habsp__photo { order: 1; }
     .habsp--img-right .habsp__text { order: 2; }
-    .habsp__photo { min-height: 0; aspect-ratio: 4 / 3; }
+    .habsp__photo { min-height: 0; aspect-ratio: {{ section.settings.mobile_ratio | default: '4 / 3' }}; }
     .habsp__text { padding: 40px 24px; }
   }
 </style>
@@ -94,6 +94,8 @@
   "settings": [
     { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-heitz-warm" },
     { "type": "select", "id": "image_position", "label": "Image position", "options": [ { "value": "left", "label": "Left" }, { "value": "right", "label": "Right" } ], "default": "left" },
+    { "type": "range", "id": "image_height", "label": "Image height (desktop)", "min": 300, "max": 800, "step": 10, "unit": "px", "default": 460 },
+    { "type": "select", "id": "mobile_ratio", "label": "Image ratio (mobile)", "options": [ { "value": "4 / 3", "label": "Landscape (4:3)" }, { "value": "1 / 1", "label": "Square" }, { "value": "16 / 9", "label": "Wide (16:9)" } ], "default": "4 / 3" },
     { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Our approach" },
     { "type": "inline_richtext", "id": "heading", "label": "Heading", "default": "Calm, natural, and timeless" },
     { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Our goal is to create lighting that feels calm, natural, and timeless. Pieces that don’t compete for attention, but quietly enhance the atmosphere of your home.</p><p>We carefully select designs that blend functionality with aesthetic clarity. From living rooms to bedrooms, each product is chosen to support a more thoughtful and comfortable way of living.</p>" },

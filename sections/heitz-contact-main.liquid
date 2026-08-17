@@ -1,0 +1,274 @@
+{%- comment -%}
+  Heitz Contact — info panel ("Let's connect" + detail rows) beside the
+  native Shopify contact form; form side switchable left/right.
+{%- endcomment -%}
+{% render 'heitz-tf-base' %}
+
+<style>
+  .hcm {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: 72px;
+    align-items: start;
+    padding: 64px;
+    background: var(--color-background, #f8f5f0);
+    border-bottom: 1px solid var(--color-border, #ddd5c4);
+    font-family: var(--font-body--family, var(--htf-font-body));
+  }
+  .hcm * { box-sizing: border-box; }
+  @media only screen and (min-width: 769px) {
+    .hcm--form-left .hcm__info { order: 2; }
+    .hcm--form-left .hcm__form { order: 1; }
+  }
+  .hcm__eyebrow {
+    display: block;
+    margin-bottom: 14px;
+    color: var(--color-primary, #b8913f);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.28em;
+    line-height: 1.4;
+    text-transform: uppercase;
+  }
+  .hcm__info h2 {
+    margin: 0 0 14px;
+    color: var(--color-foreground-heading, var(--htf-color-text));
+    font-family: var(--font-heading--family, var(--htf-font-heading));
+    font-size: {{ section.settings.heading_size | default: 30 }}px;
+    font-weight: 400;
+    line-height: 1.2;
+  }
+  .hcm__info > p {
+    margin: 0 0 26px;
+    color: var(--color-foreground, #7a6e5e);
+    font-size: {{ section.settings.text_size | default: 14 }}px;
+    font-weight: 300;
+    line-height: 1.9;
+  }
+  .hcm__rows { display: flex; flex-direction: column; gap: 18px; }
+  .hcm__row { display: flex; align-items: flex-start; gap: 14px; }
+  .hcm__row-icon {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    margin-top: 1px;
+    color: var(--color-primary, #b8913f);
+    border: 1px solid var(--color-border, #ddd5c4);
+  }
+  .hcm__row-icon svg { width: 15px; height: 15px; }
+  .hcm__row-copy h4 {
+    margin: 0 0 2px;
+    color: var(--color-foreground-heading, var(--htf-color-text));
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    line-height: 1.4;
+    text-transform: uppercase;
+  }
+  .hcm__row-copy p,
+  .hcm__row-copy a {
+    margin: 0;
+    color: var(--color-foreground, #7a6e5e);
+    font-size: {{ section.settings.text_size | default: 14 }}px;
+    font-weight: 300;
+    line-height: 1.7;
+    text-decoration: none;
+  }
+  .hcm__row-copy a:hover { text-decoration: underline; }
+
+  .hcm__form-card {
+    padding: 40px 36px;
+    background: var(--color-background, #f8f5f0);
+    background-image: linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6));
+    border: 1px solid var(--color-border, #ddd5c4);
+  }
+  .hcm__form-card h3 {
+    margin: 0 0 20px;
+    color: var(--color-foreground-heading, var(--htf-color-text));
+    font-family: var(--font-heading--family, var(--htf-font-heading));
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 1.3;
+  }
+  .hcm__grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .hcm__field { margin-bottom: 14px; }
+  .hcm__field label {
+    display: block;
+    margin-bottom: 6px;
+    color: var(--color-foreground, #7a6e5e);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .hcm__field input,
+  .hcm__field textarea {
+    width: 100%;
+    padding: 12px 14px;
+    background: transparent;
+    border: 1px solid var(--color-border, #ddd5c4);
+    border-radius: 0;
+    color: var(--color-foreground-heading, var(--htf-color-text));
+    font-family: var(--font-body--family, var(--htf-font-body));
+    font-size: 14px;
+    font-weight: 300;
+    outline: none;
+  }
+  .hcm__field input:focus,
+  .hcm__field textarea:focus { border-color: var(--color-primary, #b8913f); }
+  .hcm__field textarea { min-height: 140px; resize: vertical; }
+  .hcm__submit {
+    background: var(--color-primary-button-background, var(--color-primary, #2a3743));
+    border: 1px solid var(--color-primary-button-border, transparent);
+    color: var(--color-primary-button-text, #ffffff);
+    cursor: pointer;
+    display: inline-block;
+    font-family: var(--font-heading--family, var(--htf-font-heading));
+    font-size: 14px;
+    letter-spacing: 0.06em;
+    padding: 14px 38px;
+    text-transform: uppercase;
+    transition: opacity .2s ease;
+  }
+  .hcm__submit:hover { opacity: 0.85; }
+  .hcm__success {
+    margin: 0 0 16px;
+    padding: 14px 16px;
+    border: 1px solid var(--color-primary, #b8913f);
+    color: var(--color-foreground-heading, var(--htf-color-text));
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 1.6;
+  }
+  .hcm__errors {
+    margin: 0 0 16px;
+    padding: 14px 16px;
+    border: 1px solid #b04a3f;
+    color: #b04a3f;
+    font-size: 13px;
+    font-weight: 300;
+    line-height: 1.6;
+  }
+  .hcm__errors ul { margin: 6px 0 0; padding-left: 18px; }
+  @media only screen and (max-width: 768px) {
+    .hcm { grid-template-columns: minmax(0, 1fr); gap: 40px; padding: 48px 24px; }
+    .hcm__form-card { padding: 28px 20px; }
+    .hcm__grid2 { grid-template-columns: 1fr; gap: 0; }
+  }
+</style>
+
+<section class="hcm color-{{ section.settings.color_scheme }}{% if section.settings.form_position == 'left' %} hcm--form-left{% endif %}">
+  <div class="hcm__info">
+    <span class="hcm__eyebrow">{{ section.settings.eyebrow }}</span>
+    <h2>{{ section.settings.heading }}</h2>
+    <p>{{ section.settings.text }}</p>
+    <div class="hcm__rows">
+      {%- for block in section.blocks -%}
+        <div class="hcm__row" {{ block.shopify_attributes }}>
+          <div class="hcm__row-icon">
+            {%- case block.settings.icon -%}
+              {%- when 'phone' -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              {%- when 'pin' -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              {%- when 'clock' -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+              {%- else -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="m22 6-10 7L2 6"/></svg>
+            {%- endcase -%}
+          </div>
+          <div class="hcm__row-copy">
+            <h4>{{ block.settings.label }}</h4>
+            <p>{{ block.settings.value }}</p>
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+
+  <div class="hcm__form">
+    <div class="hcm__form-card">
+      <h3>{{ section.settings.form_heading }}</h3>
+      {%- form 'contact' -%}
+        {%- if form.posted_successfully? -%}
+          <p class="hcm__success">{{ section.settings.success_text }}</p>
+        {%- endif -%}
+        {%- if form.errors -%}
+          <div class="hcm__errors">
+            Please correct the following and try again:
+            <ul>
+              {%- for field in form.errors -%}
+                <li>{{ form.errors.translated_fields[field] | capitalize }} {{ form.errors.messages[field] }}</li>
+              {%- endfor -%}
+            </ul>
+          </div>
+        {%- endif -%}
+        <div class="hcm__grid2">
+          <div class="hcm__field">
+            <label for="HcmName-{{ section.id }}">Name</label>
+            <input type="text" id="HcmName-{{ section.id }}" name="contact[name]" value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}" autocomplete="name">
+          </div>
+          <div class="hcm__field">
+            <label for="HcmEmail-{{ section.id }}">Email *</label>
+            <input type="email" id="HcmEmail-{{ section.id }}" name="contact[email]" value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}" autocomplete="email" required>
+          </div>
+        </div>
+        <div class="hcm__field">
+          <label for="HcmPhone-{{ section.id }}">Phone (optional)</label>
+          <input type="tel" id="HcmPhone-{{ section.id }}" name="contact[phone]" value="{{ form.phone }}" autocomplete="tel">
+        </div>
+        <div class="hcm__field">
+          <label for="HcmBody-{{ section.id }}">Message *</label>
+          <textarea id="HcmBody-{{ section.id }}" name="contact[body]" required>{{ form.body }}</textarea>
+        </div>
+        <button type="submit" class="hcm__submit">{{ section.settings.button_label | default: 'Send message' | escape }}</button>
+      {%- endform -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Heitz Contact",
+  "settings": [
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-heitz-warm" },
+    { "type": "select", "id": "form_position", "label": "Form position", "options": [ { "value": "right", "label": "Right" }, { "value": "left", "label": "Left" } ], "default": "right" },
+    { "type": "header", "content": "Font sizes" },
+    { "type": "range", "id": "heading_size", "label": "Heading size", "min": 20, "max": 44, "step": 1, "unit": "px", "default": 30 },
+    { "type": "range", "id": "text_size", "label": "Text size", "min": 12, "max": 18, "step": 1, "unit": "px", "default": 14 },
+    { "type": "header", "content": "Info panel" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Contact" },
+    { "type": "inline_richtext", "id": "heading", "label": "Heading", "default": "Let’s connect" },
+    { "type": "textarea", "id": "text", "label": "Text", "default": "Whether it’s about an order, product details, or general inquiries, feel free to reach out to our team. We aim to respond as quickly as possible and provide clear, helpful support." },
+    { "type": "header", "content": "Form" },
+    { "type": "inline_richtext", "id": "form_heading", "label": "Form heading", "default": "Send us a message" },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Send message" },
+    { "type": "textarea", "id": "success_text", "label": "Success message", "default": "Thanks for reaching out — we’ve received your message and will get back to you within 12–24 hours." }
+  ],
+  "blocks": [
+    {
+      "type": "info_item",
+      "name": "Info row",
+      "settings": [
+        { "type": "select", "id": "icon", "label": "Icon", "options": [ { "value": "email", "label": "Email" }, { "value": "phone", "label": "Phone" }, { "value": "pin", "label": "Address" }, { "value": "clock", "label": "Hours" } ], "default": "email" },
+        { "type": "text", "id": "label", "label": "Label", "default": "Email" },
+        { "type": "richtext", "id": "value", "label": "Value", "default": "<p>support@heitz.shop</p>" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Heitz Contact",
+      "blocks": [
+        { "type": "info_item", "settings": { "icon": "email", "label": "Email", "value": "<p><a href=\"mailto:support@heitz.shop\">support@heitz.shop</a></p>" } },
+        { "type": "info_item", "settings": { "icon": "phone", "label": "Phone", "value": "<p><a href=\"tel:+19173412265\">+1 (917) 341-2265</a></p>" } },
+        { "type": "info_item", "settings": { "icon": "pin", "label": "Address", "value": "<p>HEITZ LLC<br>30 N Gould St. Ste R<br>Sheridan, Wyoming 82801, USA</p>" } },
+        { "type": "info_item", "settings": { "icon": "clock", "label": "Opening hours", "value": "<p>Monday to Friday, 09:00–17:00 (EST)<br>Response time: 12–24 hours</p>" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

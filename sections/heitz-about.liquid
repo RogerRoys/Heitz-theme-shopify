@@ -326,6 +326,11 @@
   }
   .hab-promise__left p:last-child { margin-bottom: 0; }
   .hab-promise__right { display: flex; flex-direction: column; gap: 22px; }
+  /* desktop: checklist left, text right (mobile keeps the heading first) */
+  @media only screen and (min-width: 769px) {
+    .hab-promise__left { order: 2; }
+    .hab-promise__right { order: 1; }
+  }
   .hab-promise__item { display: flex; align-items: flex-start; gap: 14px; }
   .hab-promise__icon {
     display: flex;

@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "header": {
@@ -16,86 +25,20 @@
       "type": "heitz-faq-list",
       "blocks": {
         "cat_orders": { "type": "category", "settings": { "title": "Orders & Shipping" } },
-        "q_delivery": {
-          "type": "question",
-          "settings": {
-            "question": "How long does it take to receive my order?",
-            "answer": "<p>Orders are processed within 1–3 business days. Once your order ships, you’ll receive a confirmation email with full tracking so you always know where it stands.</p>"
-          }
-        },
-        "q_tracking": {
-          "type": "question",
-          "settings": {
-            "question": "Do you provide order tracking?",
-            "answer": "<p>Yes — tracking is provided on every shipment. As soon as your order is on its way, we’ll email you the tracking details.</p>"
-          }
-        },
-        "q_where": {
-          "type": "question",
-          "settings": {
-            "question": "Where do you ship?",
-            "answer": "<p>We ship across the United States, to all states and territories. Prices can be viewed in USD or GBP using the currency selector.</p>"
-          }
-        },
+        "q_delivery": { "type": "question", "settings": { "question": "How long does it take to receive my order?", "answer": "<p>Orders are processed within 1–3 business days. Once your order ships, you’ll receive a confirmation email with full tracking so you always know where it stands.</p>" } },
+        "q_tracking": { "type": "question", "settings": { "question": "Do you provide order tracking?", "answer": "<p>Yes — tracking is provided on every shipment. As soon as your order is on its way, we’ll email you the tracking details.</p>" } },
+        "q_where": { "type": "question", "settings": { "question": "Where do you ship?", "answer": "<p>We ship across the United States, to all states and territories. Prices can be viewed in USD or GBP using the currency selector.</p>" } },
         "cat_returns": { "type": "category", "settings": { "title": "Returns & Warranty" } },
-        "q_returns": {
-          "type": "question",
-          "settings": {
-            "question": "What is your return policy?",
-            "answer": "<p>If something isn’t right within the first 30 days of delivery, your order is covered by our standard returns process — which may include a replacement, store credit, or refund where applicable.</p>"
-          }
-        },
-        "q_warranty": {
-          "type": "question",
-          "settings": {
-            "question": "Is there a warranty on your lights?",
-            "answer": "<p>Yes — every Heitz light is covered by a 1-year warranty against genuine manufacturing defects, running 12 months from the date of delivery. See our <a href=\"/pages/warranty\">warranty page</a> for full details.</p>"
-          }
-        },
-        "q_claim": {
-          "type": "question",
-          "settings": {
-            "question": "How do I make a warranty claim?",
-            "answer": "<p>Email <a href=\"mailto:support@heitz.shop\">support@heitz.shop</a> with your order number, a short description of the issue, and clear photos or a video where possible. We aim to respond within 12–24 hours.</p>"
-          }
-        },
+        "q_returns": { "type": "question", "settings": { "question": "What is your return policy?", "answer": "<p>If something isn’t right within the first 30 days of delivery, your order is covered by our standard returns process — which may include a replacement, store credit, or refund where applicable.</p>" } },
+        "q_warranty": { "type": "question", "settings": { "question": "Is there a warranty on your lights?", "answer": "<p>Yes — every Heitz light is covered by a 1-year warranty against genuine manufacturing defects, running 12 months from the date of delivery. See our <a href=\"/pages/warranty\">warranty page</a> for full details.</p>" } },
+        "q_claim": { "type": "question", "settings": { "question": "How do I make a warranty claim?", "answer": "<p>Email <a href=\"mailto:support@heitz.shop\">support@heitz.shop</a> with your order number, a short description of the issue, and clear photos or a video where possible. We aim to respond within 12–24 hours.</p>" } },
         "cat_payments": { "type": "category", "settings": { "title": "Payments" } },
-        "q_methods": {
-          "type": "question",
-          "settings": {
-            "question": "What payment methods do you accept?",
-            "answer": "<p>We accept Visa, Mastercard, American Express, Discover, and Diners Club, as well as Apple Pay, Google Pay, Shop Pay, and PayPal. All available options are shown at checkout.</p>"
-          }
-        },
-        "q_currency": {
-          "type": "question",
-          "settings": {
-            "question": "Which currencies can I pay in?",
-            "answer": "<p>Prices are displayed in US Dollars ($) and British Pounds (£). Choose your region with the selector on our site — you’ll be charged in the currency shown at checkout.</p>"
-          }
-        },
-        "q_secure": {
-          "type": "question",
-          "settings": {
-            "question": "Is checkout secure?",
-            "answer": "<p>Yes — payments are processed through trusted, PCI-DSS-compliant providers over an encrypted (SSL) connection. We never see or store your full card number.</p>"
-          }
-        },
+        "q_methods": { "type": "question", "settings": { "question": "What payment methods do you accept?", "answer": "<p>We accept Visa, Mastercard, American Express, Discover, and Diners Club, as well as Apple Pay, Google Pay, Shop Pay, and PayPal. All available options are shown at checkout.</p>" } },
+        "q_currency": { "type": "question", "settings": { "question": "Which currencies can I pay in?", "answer": "<p>Prices are displayed in US Dollars ($) and British Pounds (£). Choose your region with the selector on our site — you’ll be charged in the currency shown at checkout.</p>" } },
+        "q_secure": { "type": "question", "settings": { "question": "Is checkout secure?", "answer": "<p>Yes — payments are processed through trusted, PCI-DSS-compliant providers over an encrypted (SSL) connection. We never see or store your full card number.</p>" } },
         "cat_products": { "type": "category", "settings": { "title": "Products & Installation" } },
-        "q_bulbs": {
-          "type": "question",
-          "settings": {
-            "question": "Are bulbs included with the fixtures?",
-            "answer": "<p>Most fixtures do not include bulbs unless stated on the product page. The recommended bulb type and base (for example E27) are listed in each product’s specifications.</p>"
-          }
-        },
-        "q_install": {
-          "type": "question",
-          "settings": {
-            "question": "Can I install the light myself?",
-            "answer": "<p>For hardwired fixtures we recommend installation by a licensed electrician. Please note that installation errors, wiring mistakes, or incorrect voltage are not covered by the warranty.</p>"
-          }
-        }
+        "q_bulbs": { "type": "question", "settings": { "question": "Are bulbs included with the fixtures?", "answer": "<p>Most fixtures do not include bulbs unless stated on the product page. The recommended bulb type and base (for example E27) are listed in each product’s specifications.</p>" } },
+        "q_install": { "type": "question", "settings": { "question": "Can I install the light myself?", "answer": "<p>For hardwired fixtures we recommend installation by a licensed electrician. Please note that installation errors, wiring mistakes, or incorrect voltage are not covered by the warranty.</p>" } }
       },
       "block_order": [
         "cat_orders", "q_delivery", "q_tracking", "q_where",

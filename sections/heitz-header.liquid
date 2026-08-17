@@ -652,29 +652,15 @@
         wrapper.classList.remove('htf-smart-sticky--compact', 'htf-smart-sticky--hidden');
         setCompactMenu(false);
       } else if (currentScrollY > fullHeaderHeight) {
-        var enteringCompact = !wrapper.classList.contains('htf-smart-sticky--compact');
-        wrapper.classList.add('htf-smart-sticky--compact');
-
         if (scrollingDown) {
+          /* The first downward pass keeps the full header dimensions and
+             slides the whole header away. This avoids a visible size jump. */
+          wrapper.classList.add('htf-smart-sticky--hidden');
           setCompactMenu(false);
-
-          if (enteringCompact) {
-            /* Let the fixed compact state paint first, then animate it away.
-               This prevents the first downward hide from jumping. */
-            window.requestAnimationFrame(function () {
-              window.requestAnimationFrame(function () {
-                if (
-                  wrapper.classList.contains('htf-smart-sticky--compact') &&
-                  window.scrollY >= currentScrollY
-                ) {
-                  wrapper.classList.add('htf-smart-sticky--hidden');
-                }
-              });
-            });
-          } else {
-            wrapper.classList.add('htf-smart-sticky--hidden');
-          }
         } else if (scrollingUp) {
+          /* Only convert to the compact fixed header when it is requested
+             again by an upward scroll. */
+          wrapper.classList.add('htf-smart-sticky--compact');
           wrapper.classList.remove('htf-smart-sticky--hidden');
         }
       }

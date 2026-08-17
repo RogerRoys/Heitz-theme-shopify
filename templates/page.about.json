@@ -1,0 +1,123 @@
+{
+  "sections": {
+    "about": {
+      "type": "heitz-about",
+      "blocks": {
+        "pillar1": {
+          "type": "pillar",
+          "settings": {
+            "numeral": "I",
+            "title": "Simplicity",
+            "text": "Clean lines and soft light. We choose pieces that are confident in their form and resolved in their details — never assembled to follow a passing style."
+          }
+        },
+        "pillar2": {
+          "type": "pillar",
+          "settings": {
+            "numeral": "II",
+            "title": "Balance",
+            "text": "Inspired by Scandinavian and Japandi design, every fixture is chosen to bring calm and harmony to a room, not to compete for attention."
+          }
+        },
+        "pillar3": {
+          "type": "pillar",
+          "settings": {
+            "numeral": "III",
+            "title": "Intention",
+            "text": "A focus on what truly matters. Each product is selected to support a more thoughtful and comfortable way of living."
+          }
+        },
+        "ship1": {
+          "type": "ship_item",
+          "settings": { "text": "Shipping available across the United States" }
+        },
+        "ship2": {
+          "type": "ship_item",
+          "settings": { "text": "Pricing displayed in USD and GBP" }
+        },
+        "ship3": {
+          "type": "ship_item",
+          "settings": { "text": "Order tracking provided on every shipment" }
+        },
+        "ship4": {
+          "type": "ship_item",
+          "settings": { "text": "Customer support available via email" }
+        },
+        "promise1": {
+          "type": "promise_item",
+          "settings": {
+            "title": "Curated selection",
+            "text": "Every product is individually reviewed. Nothing makes it into the collection without meeting our standards for design and quality."
+          }
+        },
+        "promise2": {
+          "type": "promise_item",
+          "settings": {
+            "title": "Real customer support",
+            "text": "Questions before or after purchase are answered by people who know the products — we aim to respond within 12–24 hours."
+          }
+        },
+        "promise3": {
+          "type": "promise_item",
+          "settings": {
+            "title": "1-year warranty",
+            "text": "Every Heitz light is covered for 12 months against manufacturing defects, so the calm it brings is something you can trust."
+          }
+        },
+        "promise4": {
+          "type": "promise_item",
+          "settings": {
+            "title": "We make it right",
+            "text": "If something arrives damaged or not as described, we resolve it. No runaround, no excessive back-and-forth."
+          }
+        }
+      },
+      "block_order": [
+        "pillar1",
+        "pillar2",
+        "pillar3",
+        "ship1",
+        "ship2",
+        "ship3",
+        "ship4",
+        "promise1",
+        "promise2",
+        "promise3",
+        "promise4"
+      ],
+      "settings": {
+        "hero_scheme": "scheme-heitz-cream",
+        "hero_eyebrow": "About Heitz",
+        "hero_heading": "Lighting should shape how a home <em>feels.</em>",
+        "hero_text": "We started with a simple idea — lighting should do more than just illuminate a space. It should shape how you feel within it.",
+        "identity_scheme": "scheme-heitz-beige",
+        "identity_quote": "Simplicity, balance, and intentional living.",
+        "identity_heading": "A different approach to lighting",
+        "identity_text": "<p>In a world filled with noise and excess, we were drawn to a different approach. Inspired by Scandinavian and Japandi design, we believe in simplicity, balance, and intentional living.</p><p>Every piece we offer reflects this philosophy — clean lines, soft light, and a focus on what truly matters.</p>",
+        "split_scheme": "scheme-heitz-warm",
+        "split_eyebrow": "Our approach",
+        "split_heading": "Calm, natural, and timeless",
+        "split_text": "<p>Our goal is to create lighting that feels calm, natural, and timeless. Pieces that don’t compete for attention, but quietly enhance the atmosphere of your home.</p><p>We carefully select designs that blend functionality with aesthetic clarity. From living rooms to bedrooms, each product is chosen to support a more thoughtful and comfortable way of living.</p>",
+        "pillars_scheme": "scheme-heitz-cream",
+        "pillars_eyebrow": "What guides us",
+        "pillars_heading": "Three things we never compromise on",
+        "pillars_text": "Every piece we offer is measured against these before it earns a place in your home.",
+        "shipping_scheme": "scheme-heitz-beige",
+        "shipping_eyebrow": "Where we ship",
+        "shipping_heading": "Serving homes across the United States",
+        "shipping_text": "Heitz ships nationwide with care taken at every stage of fulfilment. Shipping information and order details are communicated clearly, so you always know where your order stands.",
+        "card_flag": "🇺🇸",
+        "card_heading": "United States",
+        "card_text": "From city apartments to family homes, our collection is built around calm, light-filled spaces — chosen to bring balance and warmth to the way you live.",
+        "promise_scheme": "scheme-heitz-warm",
+        "promise_eyebrow": "Our promise",
+        "promise_heading": "What you can expect when you shop with us",
+        "promise_text": "<p>We are a small team and we act like one — attentive, accountable, and genuinely invested in your experience. Shopping for lighting should feel considered, not overwhelming.</p><p>We are here to help you find the right piece, and to make sure it arrives as expected.</p>",
+        "closing_scheme": "scheme-heitz-beige",
+        "closing_quote": "“This is not just about lighting. It’s about creating spaces that feel right — balanced, warm, and intentional.”",
+        "closing_signature": "The Heitz Team"
+      }
+    }
+  },
+  "order": ["about"]
+}

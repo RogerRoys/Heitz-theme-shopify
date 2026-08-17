@@ -1,10 +1,19 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "hero": {
       "type": "heitz-about-hero",
       "settings": {
-        "color_scheme": "scheme-heitz-cream",
-        "image_position": "right",
+        "color_scheme": "scheme-2",
+        "image_position": "left",
         "eyebrow": "About Heitz",
         "heading": "Lighting should shape how a home <em>feels.</em>",
         "text": "We started with a simple idea — lighting should do more than just illuminate a space. It should shape how you feel within it.",
@@ -15,7 +24,7 @@
     "identity": {
       "type": "heitz-about-identity",
       "settings": {
-        "color_scheme": "scheme-heitz-beige",
+        "color_scheme": "scheme-1",
         "quote_position": "left",
         "quote": "Simplicity, balance, and intentional living.",
         "heading": "A different approach to lighting",
@@ -25,8 +34,8 @@
     "split": {
       "type": "heitz-about-split",
       "settings": {
-        "color_scheme": "scheme-heitz-warm",
-        "image_position": "left",
+        "color_scheme": "scheme-2",
+        "image_position": "right",
         "eyebrow": "Our approach",
         "heading": "Calm, natural, and timeless",
         "text": "<p>Our goal is to create lighting that feels calm, natural, and timeless. Pieces that don’t compete for attention, but quietly enhance the atmosphere of your home.</p><p>We carefully select designs that blend functionality with aesthetic clarity. From living rooms to bedrooms, each product is chosen to support a more thoughtful and comfortable way of living.</p>"
@@ -60,9 +69,13 @@
           }
         }
       },
-      "block_order": ["pillar1", "pillar2", "pillar3"],
+      "block_order": [
+        "pillar1",
+        "pillar2",
+        "pillar3"
+      ],
       "settings": {
-        "color_scheme": "scheme-heitz-cream",
+        "color_scheme": "scheme-2",
         "header_align": "left",
         "eyebrow": "What guides us",
         "heading": "Three things we never compromise on",
@@ -72,14 +85,39 @@
     "shipping": {
       "type": "heitz-about-shipping",
       "blocks": {
-        "ship1": { "type": "ship_item", "settings": { "text": "Shipping available across the United States" } },
-        "ship2": { "type": "ship_item", "settings": { "text": "Pricing displayed in USD and GBP" } },
-        "ship3": { "type": "ship_item", "settings": { "text": "Order tracking provided on every shipment" } },
-        "ship4": { "type": "ship_item", "settings": { "text": "Customer support available via email" } }
+        "ship1": {
+          "type": "ship_item",
+          "settings": {
+            "text": "Shipping available across the United States"
+          }
+        },
+        "ship2": {
+          "type": "ship_item",
+          "settings": {
+            "text": "Pricing displayed in USD and GBP"
+          }
+        },
+        "ship3": {
+          "type": "ship_item",
+          "settings": {
+            "text": "Order tracking provided on every shipment"
+          }
+        },
+        "ship4": {
+          "type": "ship_item",
+          "settings": {
+            "text": "Customer support available via email"
+          }
+        }
       },
-      "block_order": ["ship1", "ship2", "ship3", "ship4"],
+      "block_order": [
+        "ship1",
+        "ship2",
+        "ship3",
+        "ship4"
+      ],
       "settings": {
-        "color_scheme": "scheme-heitz-beige",
+        "color_scheme": "scheme-1",
         "card_position": "right",
         "eyebrow": "Where we ship",
         "heading": "Serving homes across the United States",
@@ -121,9 +159,14 @@
           }
         }
       },
-      "block_order": ["promise1", "promise2", "promise3", "promise4"],
+      "block_order": [
+        "promise1",
+        "promise2",
+        "promise3",
+        "promise4"
+      ],
       "settings": {
-        "color_scheme": "scheme-heitz-warm",
+        "color_scheme": "scheme-2",
         "list_position": "left",
         "eyebrow": "Our promise",
         "heading": "What you can expect when you shop with us",
@@ -133,11 +176,19 @@
     "closing": {
       "type": "heitz-about-closing",
       "settings": {
-        "color_scheme": "scheme-heitz-beige",
+        "color_scheme": "scheme-1",
         "quote": "“This is not just about lighting. It’s about creating spaces that feel right — balanced, warm, and intentional.”",
         "signature": "The Heitz Team"
       }
     }
   },
-  "order": ["hero", "identity", "split", "pillars", "shipping", "promise", "closing"]
+  "order": [
+    "hero",
+    "identity",
+    "split",
+    "pillars",
+    "shipping",
+    "promise",
+    "closing"
+  ]
 }

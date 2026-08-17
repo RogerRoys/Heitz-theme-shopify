@@ -867,6 +867,24 @@
         }, 80);
       });
     }
+    /* Country selection fallback: the stock component's declarative
+       on:click binding has proven unreliable on some phones — set the
+       hidden input and submit the form directly. Capture phase so it
+       runs even if another handler stops propagation. */
+    var locPanel = drawer.querySelector('.htf-drawer__submenu');
+    if (locPanel) {
+      locPanel.addEventListener('click', function (e) {
+        var item = e.target && e.target.closest ? e.target.closest('.localization-form__list-item[data-value]') : null;
+        if (!item || !locPanel.contains(item)) return;
+        var form = locPanel.querySelector('form');
+        var input = form && form.querySelector('input[name="country_code"]');
+        if (!form || !input) return;
+        input.value = item.getAttribute('data-value');
+        setTimeout(function () {
+          try { form.submit(); } catch (err) {}
+        }, 120);
+      }, true);
+    }
     drawer.querySelectorAll('[data-htf-loc-back]').forEach(function (btn) {
       btn.addEventListener('click', function () {
         if (locDetails) locDetails.removeAttribute('open');

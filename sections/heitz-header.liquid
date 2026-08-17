@@ -658,10 +658,25 @@
           wrapper.classList.add('htf-smart-sticky--hidden');
           setCompactMenu(false);
         } else if (scrollingUp) {
-          /* Only convert to the compact fixed header when it is requested
-             again by an upward scroll. */
+          /* Prepare a newly compacted header above the viewport first,
+             then reveal it on the next painted frame for a true slide-in. */
+          var enteringCompact = !wrapper.classList.contains('htf-smart-sticky--compact');
           wrapper.classList.add('htf-smart-sticky--compact');
-          wrapper.classList.remove('htf-smart-sticky--hidden');
+
+          if (enteringCompact) {
+            window.requestAnimationFrame(function () {
+              window.requestAnimationFrame(function () {
+                if (
+                  wrapper.classList.contains('htf-smart-sticky--compact') &&
+                  window.scrollY <= currentScrollY
+                ) {
+                  wrapper.classList.remove('htf-smart-sticky--hidden');
+                }
+              });
+            });
+          } else {
+            wrapper.classList.remove('htf-smart-sticky--hidden');
+          }
         }
       }
 

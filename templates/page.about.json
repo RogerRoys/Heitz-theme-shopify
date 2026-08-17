@@ -14,6 +14,8 @@
       "settings": {
         "color_scheme": "scheme-2",
         "image_position": "left",
+        "image_height": 550,
+        "mobile_ratio": "4 / 3",
         "eyebrow": "About Heitz",
         "heading": "Lighting should shape how a home <em>feels.</em>",
         "text": "We started with a simple idea — lighting should do more than just illuminate a space. It should shape how you feel within it.",
@@ -36,9 +38,12 @@
       "settings": {
         "color_scheme": "scheme-2",
         "image_position": "right",
+        "image_height": 550,
+        "mobile_ratio": "4 / 3",
         "eyebrow": "Our approach",
         "heading": "Calm, natural, and timeless",
-        "text": "<p>Our goal is to create lighting that feels calm, natural, and timeless. Pieces that don’t compete for attention, but quietly enhance the atmosphere of your home.</p><p>We carefully select designs that blend functionality with aesthetic clarity. From living rooms to bedrooms, each product is chosen to support a more thoughtful and comfortable way of living.</p>"
+        "text": "<p>Our goal is to create lighting that feels calm, natural, and timeless. Pieces that don’t compete for attention, but quietly enhance the atmosphere of your home.</p><p>We carefully select designs that blend functionality with aesthetic clarity. From living rooms to bedrooms, each product is chosen to support a more thoughtful and comfortable way of living.</p>",
+        "image": "shopify://shop_images/Resistant_Outdoor_Wall_Lantern_Light_9.jpg"
       }
     },
     "pillars": {

@@ -52,7 +52,12 @@
       ],
       "settings": {
         "color_scheme": "scheme-3",
-        "show_payment_icons": true
+        "show_payment_icons": true,
+        "heading_size": 22,
+        "text_size": 15,
+        "show_copyright": true,
+        "copyright_text": "",
+        "copyright_size": 12
       }
     }
   },

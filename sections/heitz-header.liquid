@@ -345,55 +345,21 @@
     flex: 0 0 auto;
   }
   .htf-drawer__account { justify-content: flex-start !important; }
-  .htf-drawer__loc-form { display: block; }
-  .htf-drawer__loc summary {
+  /* stock Horizon drawer localization, adapted to the htf drawer */
+  .htf-drawer__localization { display: block; }
+  .htf-drawer__localization .drawer-localization__button {
     align-items: center;
-    color: var(--htf-color-text);
-    cursor: pointer;
     display: flex;
-    font-family: var(--htf-font-heading);
-    font-size: 15px;
+    justify-content: space-between;
     gap: 10px;
     list-style: none;
     padding: 14px 25px;
-  }
-  .htf-drawer__loc summary::-webkit-details-marker { display: none; }
-  .htf-drawer__loc summary .htf-chevron {
-    width: 12px;
-    height: 7px;
-    margin-left: auto;
-    transition: transform .25s ease;
-  }
-  .htf-drawer__loc[open] summary .htf-chevron { transform: rotate(180deg); }
-  .htf-drawer__loc-flag {
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background-size: cover;
-    background-position: center;
-    flex: 0 0 auto;
-    box-shadow: 0 0 0 1px rgba(0,0,0,.08);
-  }
-  .htf-drawer__loc-list {
-    max-height: 260px;
-    overflow-y: auto;
-    padding: 0 0 10px;
-  }
-  .htf-drawer__country-form { margin: 0; }
-  .htf-drawer__loc-list button {
-    background: none;
-    border: 0;
-    color: var(--htf-color-text);
     cursor: pointer;
-    display: block;
-    font-family: var(--htf-font-body);
-    font-size: 14px;
-    padding: 9px 25px 9px 55px;
-    text-align: left;
-    width: 100%;
   }
-  .htf-drawer__loc-list button.is-active { font-weight: 600; text-decoration: underline; }
-  .htf-drawer__loc-list button:hover { background: rgba(0,0,0,.04); }
+  .htf-drawer__localization .drawer-localization__button::-webkit-details-marker { display: none; }
+  .htf-drawer__localization .icon-caret { transition: transform .25s ease; }
+  .htf-drawer__localization .drawer-localization[open] > summary .icon-caret { transform: rotate(90deg); }
+  .htf-drawer__loc-panel { padding: 0 10px 10px; }
   .htf-drawer__link,
   .htf-drawer__toggle {
     align-items: center;
@@ -438,6 +404,10 @@
     .htf-mobile-only { display: inline-block; }
     .htf-desktop-only, .htf-nav-row { display: none; }
     .htf-header { padding: 14px 0 14px; }
+    /* desktop localization selector hides on mobile; the drawer has its own */
+    .htf-header__item--icons dropdown-localization-component,
+    .htf-header__item--icons .dropdown-localization,
+    .htf-header__item--icons .localization-wrapper { display: none !important; }
     /* tighter icon spacing on mobile, like the reference */
     .htf-header__item--icons { gap: 0; }
     .htf-header .header-actions__action,
@@ -587,33 +557,70 @@
       if localization.available_countries.size <= 1
         assign drawer_show_country = false
       endif
+      assign drawer_show_language = section.settings.show_language
+      if localization.available_languages.size <= 1
+        assign drawer_show_language = false
+      endif
     -%}
-    {%- if drawer_show_country -%}
-      <details class="htf-drawer__loc">
-        <summary>
-          {%- if section.settings.country_selector_style -%}
-            <span
-              class="htf-drawer__loc-flag"
-              style="background-image: url({{ localization.country | image_url: width: 32 }});"
-            ></span>
-          {%- endif -%}
-          <span>{{ localization.country.iso_code }} ({{ localization.country.currency.iso_code }})</span>
-          <svg class="htf-chevron" viewBox="0 0 28 16"><path d="m1.57 1.59 12.76 12.77L27.1 1.59" stroke-width="2" stroke="currentColor" fill="none"/></svg>
-        </summary>
-        <div class="htf-drawer__loc-list">
-          {%- for country in localization.available_countries -%}
-            {%- form 'localization', class: 'htf-drawer__country-form' -%}
-              <input type="hidden" name="country_code" value="{{ country.iso_code }}">
-              <button
-                type="submit"
-                class="{% if country.iso_code == localization.country.iso_code %}is-active{% endif %}"
-              >
-                {{ country.iso_code }} ({{ country.currency.iso_code }})
-              </button>
-            {%- endform -%}
-          {%- endfor -%}
-        </div>
-      </details>
+    {%- if drawer_show_country or drawer_show_language -%}
+      {%- liquid
+        assign localization_font = '--menu-localization-font: var(--font-[localization_font]--family); ' | replace: '[localization_font]', section.settings.localization_font
+        assign color_shadow = '--color-shadow: rgb(var(--color-foreground-rgb) / var(--opacity-10-25));'
+        assign form_style = localization_font | append: color_shadow
+      -%}
+      <drawer-localization-component class="menu-drawer__localization htf-drawer__localization">
+        <details
+          id="drawer-localization"
+          class="drawer-localization"
+        >
+          <summary
+            id="HeaderDrawer-localization"
+            class="drawer-localization__button h3 link link--text focus-inset"
+            aria-expanded="false"
+            style="{{ form_style }}"
+          >
+            <div class="drawer-localization__button--label h6">
+              {%- if drawer_show_country -%}
+                <div class="mobile-localization mobile-localization--country link link--text">
+                  {%- if section.settings.country_selector_style == true -%}
+                    <span
+                      class="icon-flag"
+                      style="
+                        background-image: url({{- localization.country | image_url: width: 32 }});
+                        --size-shadow: 2px;
+                        --color-shadow: rgb(var(--color-foreground-rgb) / var(--opacity-30-60));
+                      "
+                    ></span>
+                  {%- endif -%}
+                  <span class="currency-code">
+                    {{- localization.country.currency.iso_code -}}
+                  </span>
+                </div>
+              {%- endif -%}
+              {%- if drawer_show_country and drawer_show_language -%}
+                <span>/</span>
+              {%- endif -%}
+              {%- if drawer_show_language -%}
+                <div class="mobile-localization mobile-localization--country link link--text">
+                  <span>{{ localization.language.iso_code | upcase }}</span>
+                </div>
+              {%- endif -%}
+            </div>
+            <span class="svg-wrapper icon-caret icon-caret--forward">
+              {{- 'icon-caret.svg' | inline_asset_content -}}
+            </span>
+          </summary>
+          <div class="htf-drawer__loc-panel color-{{ settings.drawer_color_scheme }}">
+            {% render 'localization-form',
+              show_country: drawer_show_country,
+              show_language: drawer_show_language,
+              localization_style: 'drawer',
+              form_style: form_style,
+              block_id: 'htfdrawer'
+            %}
+          </div>
+        </details>
+      </drawer-localization-component>
     {%- endif -%}
   </div>
 </div>

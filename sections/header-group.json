@@ -41,6 +41,9 @@
     },
     "heitz_header": {
       "type": "heitz-header",
+      "custom_css": [
+        ".drawer-localization .mobile-localization, .drawer-localization .drawer-localization__button--label {border-bottom: 0px;}"
+      ],
       "settings": {
         "color_scheme": "scheme-1",
         "menu": "heitz-menu-v2",

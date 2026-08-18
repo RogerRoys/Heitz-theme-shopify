@@ -413,6 +413,7 @@
   .htf-loc-native__form { margin: 0; }
   .htf-loc-native__btn {
     align-items: center;
+    text-decoration: none;
     background: none;
     border: 0;
     border-bottom: 1px solid rgba(0, 0, 0, 0.08);
@@ -723,16 +724,14 @@
             </div>
             <div class="htf-loc-native">
               {%- for country in localization.available_countries -%}
-                {%- assign loc_form_id = 'HtfLoc-' | append: country.iso_code -%}
-                {%- form 'localization', id: loc_form_id, class: 'htf-loc-native__form' -%}
-                  <input type="hidden" name="country_code" value="{{ country.iso_code }}">
-                  <input type="hidden" name="return_to" value="{{ request.path }}">
-                  <button type="submit" class="htf-loc-native__btn{% if country.iso_code == localization.country.iso_code %} is-current{% endif %}">
-                    <span class="htf-loc-native__flag" style="background-image: url({{ country | image_url: width: 64 }});"></span>
-                    <span class="htf-loc-native__name">{{ country.name }}</span>
-                    <span class="htf-loc-native__cur">{{ country.currency.iso_code }} {{ country.currency.symbol }}</span>
-                  </button>
-                {%- endform -%}
+                <a
+                  class="htf-loc-native__btn{% if country.iso_code == localization.country.iso_code %} is-current{% endif %}"
+                  href="{{ request.path }}?country={{ country.iso_code }}"
+                >
+                  <span class="htf-loc-native__flag" style="background-image: url({{ country | image_url: width: 64 }});"></span>
+                  <span class="htf-loc-native__name">{{ country.name }}</span>
+                  <span class="htf-loc-native__cur">{{ country.currency.iso_code }} {{ country.currency.symbol }}</span>
+                </a>
               {%- endfor -%}
             </div>
           </div>

@@ -58,7 +58,8 @@
   }
   @media only screen and (max-width: 768px) {
     .habh__frame { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto auto; }
-    .habh__text, .habh--img-left .habh__text { grid-column: 1; grid-row: 1; padding: {{ section.settings.padding_top | default: 80 }}px 24px {{ section.settings.padding_bottom | default: 80 }}px; }
+    /* mobile: no extra inline padding — the page-width frame already insets 17px */
+    .habh__text, .habh--img-left .habh__text { grid-column: 1; grid-row: 1; padding: {{ section.settings.padding_top | default: 80 }}px 0 {{ section.settings.padding_bottom | default: 80 }}px; }
     .habh__image, .habh--img-left .habh__image {
       position: relative;
       z-index: 1;

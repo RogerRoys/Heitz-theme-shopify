@@ -37,15 +37,9 @@
     flex-direction: column;
     justify-content: center;
     min-width: 0;
-    /* full-bleed section: the outer-edge padding aligns the text content
-       with the 1500px page grid */
-    padding: {{ section.settings.padding_top | default: 80 }}px max(52px, calc((100vw - 1420px) / 2)) {{ section.settings.padding_bottom | default: 80 }}px 52px;
+    padding: {{ section.settings.padding_top | default: 80 }}px 52px {{ section.settings.padding_bottom | default: 80 }}px;
     background: var(--color-background, #f8f5f0);
   }
-  .habsp--img-right .habsp__text {
-    padding: {{ section.settings.padding_top | default: 80 }}px 52px {{ section.settings.padding_bottom | default: 80 }}px max(52px, calc((100vw - 1420px) / 2));
-  }
-  .habsp__text > * { max-width: 640px; }
   .habsp__eyebrow {
     display: block;
     margin-bottom: 14px;
@@ -77,13 +71,13 @@
     .habsp--img-right .habsp__photo { order: 1; }
     .habsp--img-right .habsp__text { order: 2; }
     .habsp__photo { min-height: 0; aspect-ratio: {{ section.settings.mobile_ratio | default: '4 / 3' }}; }
-    /* mobile: minimal inline padding, matches the hero text alignment */
-    .habsp__text, .habsp--img-right .habsp__text { padding: {{ section.settings.padding_top | default: 80 }}px 17px {{ section.settings.padding_bottom | default: 80 }}px; }
+    /* mobile: no extra inline padding — the page-width frame already insets 17px */
+    .habsp__text, .habsp--img-right .habsp__text { padding: {{ section.settings.padding_top | default: 80 }}px 0 {{ section.settings.padding_bottom | default: 80 }}px; }
   }
 </style>
 
 <section class="habsp{% if section.settings.image_position == 'right' %} habsp--img-right{% endif %}">
-  <div class="habsp__frame">
+  <div class="htf-page-width habsp__frame">
   <div class="habsp__photo">
     {%- if section.settings.image != blank -%}
       {{ section.settings.image | image_url: width: 1400 | image_tag: alt: section.settings.heading, loading: 'lazy' }}

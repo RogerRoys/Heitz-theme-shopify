@@ -6,16 +6,13 @@
 
 <style>
   .habpr {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    align-items: center;
-    gap: 72px;
-    padding: 64px;
+    padding: 64px 0;
     background: var(--color-background, #f8f5f0);
     border-bottom: 1px solid var(--color-border, #ddd5c4);
     font-family: var(--font-body--family, var(--htf-font-body));
   }
   .habpr * { box-sizing: border-box; }
+  .habpr__inner { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; gap: 72px; }
   @media only screen and (min-width: 769px) {
     .habpr--list-left .habpr__intro { order: 2; }
     .habpr--list-left .habpr__list { order: 1; }
@@ -76,11 +73,13 @@
     line-height: 1.7;
   }
   @media only screen and (max-width: 768px) {
-    .habpr { grid-template-columns: minmax(0, 1fr); gap: 36px; padding: 48px 24px; }
+    .habpr { padding: 48px 0; }
+    .habpr__inner { grid-template-columns: minmax(0, 1fr); gap: 36px; }
   }
 </style>
 
 <section class="habpr color-{{ section.settings.color_scheme }}{% if section.settings.list_position == 'left' %} habpr--list-left{% endif %}">
+  <div class="htf-page-width habpr__inner">
   <div class="habpr__intro">
     <span class="habpr__eyebrow">{{ section.settings.eyebrow }}</span>
     <h2>{{ section.settings.heading }}</h2>
@@ -98,6 +97,7 @@
         </div>
       </div>
     {%- endfor -%}
+  </div>
   </div>
 </section>
 

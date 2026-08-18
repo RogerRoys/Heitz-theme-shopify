@@ -5,7 +5,8 @@
 {% render 'heitz-tf-base' %}
 
 <style>
-  .habh { position: relative; isolation: isolate; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: stretch; overflow: hidden; background: var(--color-background, #fbf7f1); border-bottom: 1px solid var(--color-border, #ddd5c4); font-family: var(--font-body--family, var(--htf-font-body)); }
+  .habh { overflow: hidden; background: var(--color-background, #fbf7f1); border-bottom: 1px solid var(--color-border, #ddd5c4); font-family: var(--font-body--family, var(--htf-font-body)); }
+  .habh__frame { position: relative; isolation: isolate; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: stretch; }
   .habh * { box-sizing: border-box; }
   .habh__eyebrow {
     display: block;
@@ -53,10 +54,10 @@
   .habh h1 em { color: var(--color-primary, #b8913f); font-style: italic; font-weight: 400; }
   .habh p { max-width: 400px; margin: 0; color: var(--color-foreground, #7a6e5e); font-size: 15px; font-weight: 300; line-height: 1.85; }
   @media only screen and (min-width: 769px) {
-    .habh { min-height: {{ section.settings.image_height | default: 460 }}px; }
+    .habh__frame { min-height: {{ section.settings.image_height | default: 460 }}px; }
   }
   @media only screen and (max-width: 768px) {
-    .habh, .habh--img-left { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto auto; }
+    .habh__frame { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto auto; }
     .habh__text, .habh--img-left .habh__text { grid-column: 1; grid-row: 1; padding: 44px 24px 40px; }
     .habh__image, .habh--img-left .habh__image {
       position: relative;
@@ -74,6 +75,7 @@
 </style>
 
 <section class="habh color-{{ section.settings.color_scheme }}{% if section.settings.image_position == 'left' %} habh--img-left{% endif %}">
+  <div class="htf-page-width habh__frame">
   <div
     class="habh__image"
     role="img"
@@ -88,6 +90,7 @@
     <p>{{ section.settings.text }}</p>
   </div>
   <div class="habh__space" aria-hidden="true"></div>
+  </div>
 </section>
 
 {% schema %}

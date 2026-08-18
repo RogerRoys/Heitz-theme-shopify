@@ -6,16 +6,13 @@
 
 <style>
   .habsh {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    align-items: start;
-    gap: 72px;
-    padding: 64px;
+    padding: 64px 0;
     background: var(--color-background, #f5f3ee);
     border-bottom: 1px solid var(--color-border, #ddd5c4);
     font-family: var(--font-body--family, var(--htf-font-body));
   }
   .habsh * { box-sizing: border-box; }
+  .habsh__inner { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: start; gap: 72px; }
   @media only screen and (min-width: 769px) {
     .habsh--card-left .habsh__intro { order: 2; }
     .habsh--card-left .habsh__card { order: 1; }
@@ -92,12 +89,14 @@
     border-radius: 50%;
   }
   @media only screen and (max-width: 768px) {
-    .habsh { grid-template-columns: minmax(0, 1fr); gap: 36px; padding: 48px 24px; }
+    .habsh { padding: 48px 0; }
+    .habsh__inner { grid-template-columns: minmax(0, 1fr); gap: 36px; }
     .habsh__card { padding: 30px 24px; }
   }
 </style>
 
 <section class="habsh color-{{ section.settings.color_scheme }}{% if section.settings.card_position == 'left' %} habsh--card-left{% endif %}">
+  <div class="htf-page-width habsh__inner">
   <div class="habsh__intro">
     <span class="habsh__eyebrow">{{ section.settings.eyebrow }}</span>
     <h2>{{ section.settings.heading }}</h2>
@@ -115,6 +114,7 @@
         </div>
       {%- endfor -%}
     </div>
+  </div>
   </div>
 </section>
 

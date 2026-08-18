@@ -6,11 +6,13 @@
 
 <style>
   .habsp {
+    border-bottom: 1px solid var(--color-border, #ddd5c4);
+    font-family: var(--font-body--family, var(--htf-font-body));
+  }
+  .habsp__frame {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     min-height: {{ section.settings.image_height | default: 460 }}px;
-    border-bottom: 1px solid var(--color-border, #ddd5c4);
-    font-family: var(--font-body--family, var(--htf-font-body));
   }
   .habsp * { box-sizing: border-box; }
   .habsp__photo {
@@ -67,7 +69,7 @@
   }
   .habsp__text p:last-child { margin-bottom: 0; }
   @media only screen and (max-width: 768px) {
-    .habsp { grid-template-columns: minmax(0, 1fr); min-height: 0; }
+    .habsp__frame { grid-template-columns: minmax(0, 1fr); min-height: 0; }
     .habsp--img-right .habsp__photo { order: 1; }
     .habsp--img-right .habsp__text { order: 2; }
     .habsp__photo { min-height: 0; aspect-ratio: {{ section.settings.mobile_ratio | default: '4 / 3' }}; }
@@ -76,6 +78,7 @@
 </style>
 
 <section class="habsp{% if section.settings.image_position == 'right' %} habsp--img-right{% endif %}">
+  <div class="htf-page-width habsp__frame">
   <div class="habsp__photo">
     {%- if section.settings.image != blank -%}
       {{ section.settings.image | image_url: width: 1400 | image_tag: alt: section.settings.heading, loading: 'lazy' }}
@@ -85,6 +88,7 @@
     <span class="habsp__eyebrow">{{ section.settings.eyebrow }}</span>
     <h2>{{ section.settings.heading }}</h2>
     {{ section.settings.text }}
+  </div>
   </div>
 </section>
 

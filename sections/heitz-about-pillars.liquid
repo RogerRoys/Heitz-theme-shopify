@@ -5,7 +5,7 @@
 
 <style>
   .habp {
-    padding: 64px;
+    padding: 64px 0;
     background: var(--color-background, #fbf7f1);
     border-bottom: 1px solid var(--color-border, #ddd5c4);
     font-family: var(--font-body--family, var(--htf-font-body));
@@ -77,13 +77,14 @@
     line-height: 1.85;
   }
   @media only screen and (max-width: 768px) {
-    .habp { padding: 48px 24px; }
+    .habp { padding: 48px 0; }
     .habp__grid { grid-template-columns: minmax(0, 1fr); }
     .habp__pillar { padding: 32px 24px; }
   }
 </style>
 
 <section class="habp color-{{ section.settings.color_scheme }}{% if section.settings.header_align == 'center' %} habp--center{% endif %}">
+  <div class="htf-page-width">
   <div class="habp__header">
     <span class="habp__eyebrow">{{ section.settings.eyebrow }}</span>
     <h2>{{ section.settings.heading }}</h2>
@@ -97,6 +98,7 @@
         <p>{{ block.settings.text }}</p>
       </div>
     {%- endfor -%}
+  </div>
   </div>
 </section>
 

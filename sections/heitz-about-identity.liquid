@@ -6,16 +6,14 @@
 
 <style>
   .habi {
-    display: flex;
-    align-items: flex-start;
-    gap: 72px;
-    padding: 56px 64px;
+    padding: 56px 0;
     background: var(--color-background, #f5f3ee);
     border-bottom: 1px solid var(--color-border, #ddd5c4);
     font-family: var(--font-body--family, var(--htf-font-body));
   }
   .habi * { box-sizing: border-box; }
-  .habi--quote-right { flex-direction: row-reverse; }
+  .habi__inner { display: flex; align-items: flex-start; gap: 72px; }
+  .habi--quote-right .habi__inner { flex-direction: row-reverse; }
   .habi__quote { flex: 0 0 200px; }
   .habi__quote p {
     margin: 0;
@@ -44,18 +42,21 @@
   }
   .habi__body p:last-child { margin-bottom: 0; }
   @media only screen and (max-width: 768px) {
-    .habi, .habi--quote-right { flex-direction: column; gap: 28px; padding: 44px 24px; }
+    .habi { padding: 36px 0; }
+    .habi__inner, .habi--quote-right .habi__inner { flex-direction: column; gap: 28px; }
     .habi__quote { flex: none; }
   }
 </style>
 
 <section class="habi color-{{ section.settings.color_scheme }}{% if section.settings.quote_position == 'right' %} habi--quote-right{% endif %}">
+  <div class="htf-page-width habi__inner">
   <div class="habi__quote">
     <p>{{ section.settings.quote }}</p>
   </div>
   <div class="habi__body">
     <h2>{{ section.settings.heading }}</h2>
     {{ section.settings.text }}
+  </div>
   </div>
 </section>
 

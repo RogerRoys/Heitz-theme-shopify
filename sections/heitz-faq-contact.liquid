@@ -5,7 +5,7 @@
 
 <style>
   .hfqc {
-    padding: 64px;
+    padding: 64px 0;
     background: var(--color-background, #f5f3ee);
     border-bottom: 1px solid var(--color-border, #ddd5c4);
     text-align: center;
@@ -61,11 +61,12 @@
     font-weight: 300;
   }
   @media only screen and (max-width: 768px) {
-    .hfqc { padding: 48px 24px; }
+    .hfqc { padding: 48px 0; }
   }
 </style>
 
 <section class="hfqc color-{{ section.settings.color_scheme }}">
+  <div class="htf-page-width">
   <span class="hfqc__eyebrow">{{ section.settings.eyebrow }}</span>
   <h2>{{ section.settings.heading }}</h2>
   <p>{{ section.settings.text }}</p>
@@ -75,6 +76,7 @@
   {%- if section.settings.note != blank -%}
     <span class="hfqc__note">{{ section.settings.note }}</span>
   {%- endif -%}
+  </div>
 </section>
 
 {% schema %}

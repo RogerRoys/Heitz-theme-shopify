@@ -13,6 +13,8 @@
       "type": "heitz-about-hero",
       "settings": {
         "color_scheme": "scheme-2",
+        "padding_top": 40,
+        "padding_bottom": 40,
         "image_position": "left",
         "image_height": 550,
         "mobile_ratio": "4 / 3",
@@ -27,6 +29,8 @@
       "type": "heitz-about-identity",
       "settings": {
         "color_scheme": "scheme-1",
+        "padding_top": 120,
+        "padding_bottom": 120,
         "quote_position": "left",
         "quote": "Simplicity, balance, and intentional living.",
         "heading": "A different approach to lighting",
@@ -37,6 +41,8 @@
       "type": "heitz-about-split",
       "settings": {
         "color_scheme": "scheme-2",
+        "padding_top": 40,
+        "padding_bottom": 40,
         "image_position": "right",
         "image_height": 550,
         "mobile_ratio": "4 / 3",
@@ -81,6 +87,8 @@
       ],
       "settings": {
         "color_scheme": "scheme-2",
+        "padding_top": 40,
+        "padding_bottom": 40,
         "header_align": "center",
         "eyebrow": "What guides us",
         "heading": "Three things we never compromise on",
@@ -123,6 +131,8 @@
       ],
       "settings": {
         "color_scheme": "scheme-1",
+        "padding_top": 40,
+        "padding_bottom": 40,
         "card_position": "right",
         "eyebrow": "Where we ship",
         "heading": "Serving homes across the United States",
@@ -172,6 +182,8 @@
       ],
       "settings": {
         "color_scheme": "scheme-2",
+        "padding_top": 40,
+        "padding_bottom": 40,
         "list_position": "left",
         "eyebrow": "Our promise",
         "heading": "What you can expect when you shop with us",
@@ -182,6 +194,8 @@
       "type": "heitz-about-closing",
       "settings": {
         "color_scheme": "scheme-1",
+        "padding_top": 40,
+        "padding_bottom": 40,
         "quote": "“This is not just about lighting. It’s about creating spaces that feel right — balanced, warm, and intentional.”",
         "signature": "The Heitz Team"
       }

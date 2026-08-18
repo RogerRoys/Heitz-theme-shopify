@@ -122,6 +122,9 @@
     scroll-behavior: smooth;
   }
   .hpdp-thumbs::-webkit-scrollbar { width: 0; height: 0; }
+  /* variant switch: quick fade + instant jump instead of a long scroll */
+  .hpdp-stage__track { transition: opacity .16s ease; }
+  .hpdp-stage__track.hpdp-switching { opacity: 0; }
   .hpdp-thumb {
     display: block;
     width: 100%;
@@ -1067,7 +1070,20 @@
       if (atcBtn) atcBtn.disabled = !v.available;
       if (v.featured_media) {
         var idx = slides.findIndex(function (s) { return s.getAttribute('data-media-id') === String(v.featured_media.id); });
-        if (idx >= 0) goTo(idx);
+        if (idx >= 0 && idx !== current) {
+          /* decode the target image first, then swap behind a quick fade —
+             no slow travel across the in-between slides */
+          var img = slides[idx].querySelector('img');
+          if (img) {
+            img.loading = 'eager';
+            if (img.decode) img.decode().catch(function () {});
+          }
+          track.classList.add('hpdp-switching');
+          setTimeout(function () {
+            goTo(idx, false);
+            track.classList.remove('hpdp-switching');
+          }, 170);
+        }
       }
     }
     if (optionsWrap) {

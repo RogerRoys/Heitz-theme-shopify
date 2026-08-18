@@ -65,7 +65,10 @@
       inset: auto;
       grid-column: 1;
       grid-row: 2;
-      width: 100%;
+      /* full-bleed on mobile: cancel the page-width side padding */
+      width: calc(100% + 34px);
+      margin-left: -17px;
+      margin-right: -17px;
       height: auto;
       min-height: 0;
       aspect-ratio: {{ section.settings.mobile_ratio | default: '4 / 3' }};

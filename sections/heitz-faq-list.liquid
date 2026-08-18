@@ -8,7 +8,7 @@
 
 <style>
   .hfql { font-family: var(--font-body--family, var(--htf-font-body)); }
-  .hfql__frame { padding-top: 56px; padding-bottom: 72px; background: var(--color-background, #f8f5f0); border-bottom: 1px solid var(--color-border, #ddd5c4); }
+  .hfql__frame { padding-top: {{ section.settings.padding_top | default: 40 }}px; padding-bottom: {{ section.settings.padding_bottom | default: 40 }}px; background: var(--color-background, #f8f5f0); border-bottom: 1px solid var(--color-border, #ddd5c4); }
   .hfql * { box-sizing: border-box; }
   .hfql__wrap { display: block; max-width: 800px; margin: 0 auto; }
   .hfql--sidebar .hfql__wrap,
@@ -113,7 +113,7 @@
   .hfql__answer p:last-child { margin-bottom: 0; }
   .hfql__answer a { color: var(--color-primary, #b8913f); }
   @media only screen and (max-width: 768px) {
-    .hfql__frame { padding-top: 40px; padding-bottom: 52px; }
+    .hfql__frame { padding-top: {{ section.settings.padding_top | default: 40 }}px; padding-bottom: {{ section.settings.padding_bottom | default: 40 }}px; }
     .hfql--sidebar .hfql__wrap,
     .hfql--sidebar-right .hfql__wrap { display: block; }
     .hfql__nav { display: none; }
@@ -179,6 +179,9 @@
   "name": "Heitz FAQ List",
   "settings": [
     { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-heitz-warm" },
+    { "type": "header", "content": "Padding" },
+    { "type": "range", "id": "padding_top", "label": "Top", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 40 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 40 },
     { "type": "select", "id": "layout", "label": "Layout", "options": [ { "value": "sidebar", "label": "Category links left" }, { "value": "sidebar_right", "label": "Category links right" }, { "value": "centered", "label": "Centered column" } ], "default": "sidebar" },
     { "type": "text", "id": "nav_title", "label": "Sidebar title", "default": "Browse by topic" },
     { "type": "header", "content": "Font sizes" },

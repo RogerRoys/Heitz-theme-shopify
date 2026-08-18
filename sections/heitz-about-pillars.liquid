@@ -5,7 +5,7 @@
 
 <style>
   .habp { font-family: var(--font-body--family, var(--htf-font-body)); }
-  .habp__inner { padding-top: 64px; padding-bottom: 64px; background: var(--color-background, #fbf7f1); border-bottom: 1px solid var(--color-border, #ddd5c4); }
+  .habp__inner { padding-top: {{ section.settings.padding_top | default: 40 }}px; padding-bottom: {{ section.settings.padding_bottom | default: 40 }}px; background: var(--color-background, #fbf7f1); border-bottom: 1px solid var(--color-border, #ddd5c4); }
   .habp * { box-sizing: border-box; }
   .habp__header { max-width: 520px; margin-bottom: 40px; }
   .habp--center .habp__header { max-width: none; text-align: center; }
@@ -73,7 +73,7 @@
     line-height: 1.85;
   }
   @media only screen and (max-width: 768px) {
-    .habp__inner { padding-top: 48px; padding-bottom: 48px; }
+    .habp__inner { padding-top: {{ section.settings.padding_top | default: 40 }}px; padding-bottom: {{ section.settings.padding_bottom | default: 40 }}px; }
     .habp__grid { grid-template-columns: minmax(0, 1fr); }
     .habp__pillar { padding: 32px 24px; }
   }
@@ -103,6 +103,9 @@
   "name": "Heitz About Pillars",
   "settings": [
     { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-heitz-cream" },
+    { "type": "header", "content": "Padding" },
+    { "type": "range", "id": "padding_top", "label": "Top", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 40 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 40 },
     { "type": "select", "id": "header_align", "label": "Header alignment", "options": [ { "value": "left", "label": "Left" }, { "value": "center", "label": "Center" } ], "default": "left" },
     { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "What guides us" },
     { "type": "inline_richtext", "id": "heading", "label": "Heading", "default": "Three things we never compromise on" },

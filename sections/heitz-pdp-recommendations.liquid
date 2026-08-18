@@ -4,7 +4,7 @@
 {%- endcomment -%}
 {% render 'heitz-pdp-base' %}
 <style>
-  .hpdp-recs { padding: 36px 0; font-family: var(--hpdp-font-body); }
+  .hpdp-recs { padding: {{ section.settings.padding_top | default: 40 }}px 0 {{ section.settings.padding_bottom | default: 40 }}px; font-family: var(--hpdp-font-body); }
   .hpdp-recs__title {
     font-family: var(--hpdp-font-heading);
     font-weight: 600;
@@ -99,7 +99,10 @@
   "settings": [
     { "type": "range", "id": "heading_size", "min": 10, "max": 72, "step": 1, "unit": "px", "label": "Heading size", "default": 30 },
     { "type": "text", "id": "title", "label": "Heading", "default": "You may also like" },
-    { "type": "range", "id": "limit", "min": 2, "max": 8, "step": 1, "label": "Products to show", "default": 4 }
+    { "type": "range", "id": "limit", "min": 2, "max": 8, "step": 1, "label": "Products to show", "default": 4 },
+    { "type": "header", "content": "Padding" },
+    { "type": "range", "id": "padding_top", "label": "Top", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 40 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 40 }
   ],
   "presets": [{ "name": "Heitz PDP Recommendations" }]
 }

@@ -60,7 +60,7 @@
   .htf-hero__title {
     font-family: var(--htf-font-heading);
     font-weight: 400;
-    font-size: 23.5px;
+    {% if section.settings.type_preset == 'custom' or section.settings.type_preset == blank %}font-size: var(--font-size, 23.5px); font-family: var(--font-family, var(--htf-font-heading)); font-weight: var(--font-weight, 400); line-height: var(--line-height, 1.1); letter-spacing: var(--letter-spacing, 0.025em); text-transform: var(--text-transform, none);{% endif %} color: var(--color, inherit);
     letter-spacing: 0.025em;
     line-height: 1.1;
     margin: 0;
@@ -68,7 +68,7 @@
     text-shadow: 0 0 4px rgba(0,0,0,0.2);
   }
   @media only screen and (min-width: 769px) {
-    .htf-hero__title { font-size: 47px; }
+    {% if section.settings.type_preset == 'custom' or section.settings.type_preset == blank %}.htf-hero__title { font-size: var(--font-size, 47px); }{% endif %}
   }
   .htf-hero__subtitle {
     display: block;
@@ -119,7 +119,7 @@
   <div class="htf-hero__text-wrap">
     <div class="htf-page-width">
       {%- if section.settings.title != blank -%}
-        <h2 class="htf-hero__title">
+        <h2 class="htf-hero__title{% unless section.settings.type_preset == 'custom' or section.settings.type_preset == blank %} {{ section.settings.type_preset }}{% endunless %}" style="{% render 'typography-style', settings: section.settings %}">
           <span class="htf-hero__rise"><span>{{ section.settings.title }}</span></span>
         </h2>
       {%- endif -%}
@@ -142,7 +142,14 @@
   "name": "Heitz TF Hero",
   "settings": [
     { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
-    { "type": "range", "id": "heading_size", "min": 10, "max": 72, "step": 1, "unit": "px", "label": "Heading size", "default": 47 },
+    { "type": "header", "content": "Typography" },
+    { "type": "select", "id": "type_preset", "label": "Preset", "info": "Edit presets in theme settings", "options": [ { "value": "custom", "label": "Custom" }, { "value": "paragraph", "label": "Paragraph" }, { "value": "h1", "label": "Heading 1" }, { "value": "h2", "label": "Heading 2" }, { "value": "h3", "label": "Heading 3" }, { "value": "h4", "label": "Heading 4" }, { "value": "h5", "label": "Heading 5" }, { "value": "h6", "label": "Heading 6" } ], "default": "custom" },
+    { "type": "select", "id": "font", "label": "Font", "options": [ { "value": "var(--font-body--family)", "label": "Body" }, { "value": "var(--font-subheading--family)", "label": "Subheading" }, { "value": "var(--font-heading--family)", "label": "Heading" }, { "value": "var(--font-accent--family)", "label": "Accent" } ], "default": "var(--font-heading--family)", "visible_if": "{{ section.settings.type_preset == 'custom' }}" },
+    { "type": "select", "id": "font_size", "label": "Size", "options": [ { "value": "", "label": "Default" }, { "value": "0.625rem", "label": "10px" }, { "value": "0.75rem", "label": "12px" }, { "value": "0.875rem", "label": "14px" }, { "value": "1rem", "label": "16px" }, { "value": "1.125rem", "label": "18px" }, { "value": "1.25rem", "label": "20px" }, { "value": "1.5rem", "label": "24px" }, { "value": "2rem", "label": "32px" }, { "value": "2.5rem", "label": "40px" }, { "value": "3rem", "label": "48px" }, { "value": "3.5rem", "label": "56px" }, { "value": "4.5rem", "label": "72px" } ], "default": "", "visible_if": "{{ section.settings.type_preset == 'custom' }}" },
+    { "type": "select", "id": "line_height", "label": "Line height", "options": [ { "value": "tight", "label": "Tight" }, { "value": "normal", "label": "Normal" }, { "value": "loose", "label": "Loose" } ], "default": "normal", "visible_if": "{{ section.settings.type_preset == 'custom' }}" },
+    { "type": "select", "id": "letter_spacing", "label": "Letter spacing", "options": [ { "value": "tight", "label": "Tight" }, { "value": "normal", "label": "Normal" }, { "value": "loose", "label": "Loose" } ], "default": "normal", "visible_if": "{{ section.settings.type_preset == 'custom' }}" },
+    { "type": "select", "id": "case", "label": "Case", "options": [ { "value": "none", "label": "Default" }, { "value": "uppercase", "label": "Uppercase" } ], "default": "none", "visible_if": "{{ section.settings.type_preset == 'custom' }}" },
+    { "type": "select", "id": "color", "label": "Color", "options": [ { "value": "", "label": "Default" }, { "value": "var(--color-foreground)", "label": "Text" }, { "value": "var(--color-foreground-heading)", "label": "Heading" }, { "value": "var(--color-primary)", "label": "Link" } ], "default": "" },
     { "type": "range", "id": "text_size", "min": 8, "max": 32, "step": 1, "unit": "px", "label": "Text size", "default": 22 },
     { "type": "image_picker", "id": "image", "label": "Desktop image" },
     { "type": "image_picker", "id": "image_mobile", "label": "Mobile image (portrait)" },

@@ -7,7 +7,7 @@
 <style>
   .habsh { font-family: var(--font-body--family, var(--htf-font-body)); }
   .habsh * { box-sizing: border-box; }
-  .habsh__inner { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: start; gap: 72px; padding-top: 64px; padding-bottom: 64px; background: var(--color-background, #f5f3ee); border-bottom: 1px solid var(--color-border, #ddd5c4); }
+  .habsh__inner { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: start; gap: 72px; padding-top: {{ section.settings.padding_top | default: 40 }}px; padding-bottom: {{ section.settings.padding_bottom | default: 40 }}px; background: var(--color-background, #f5f3ee); border-bottom: 1px solid var(--color-border, #ddd5c4); }
   @media only screen and (min-width: 769px) {
     .habsh--card-left .habsh__intro { order: 2; }
     .habsh--card-left .habsh__card { order: 1; }
@@ -84,7 +84,7 @@
     border-radius: 50%;
   }
   @media only screen and (max-width: 768px) {
-    .habsh__inner { grid-template-columns: minmax(0, 1fr); gap: 36px; padding-top: 48px; padding-bottom: 48px; }
+    .habsh__inner { grid-template-columns: minmax(0, 1fr); gap: 36px; padding-top: {{ section.settings.padding_top | default: 40 }}px; padding-bottom: {{ section.settings.padding_bottom | default: 40 }}px; }
     .habsh__card { padding: 30px 24px; }
   }
 </style>
@@ -117,6 +117,9 @@
   "name": "Heitz About Shipping",
   "settings": [
     { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-heitz-beige" },
+    { "type": "header", "content": "Padding" },
+    { "type": "range", "id": "padding_top", "label": "Top", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 40 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 40 },
     { "type": "select", "id": "card_position", "label": "Card position", "options": [ { "value": "right", "label": "Right" }, { "value": "left", "label": "Left" } ], "default": "right" },
     { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Where we ship" },
     { "type": "inline_richtext", "id": "heading", "label": "Heading", "default": "Serving homes across the United States" },

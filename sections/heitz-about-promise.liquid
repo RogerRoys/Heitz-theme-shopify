@@ -7,7 +7,7 @@
 <style>
   .habpr { font-family: var(--font-body--family, var(--htf-font-body)); }
   .habpr * { box-sizing: border-box; }
-  .habpr__inner { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; gap: 72px; padding-top: 64px; padding-bottom: 64px; background: var(--color-background, #f8f5f0); border-bottom: 1px solid var(--color-border, #ddd5c4); }
+  .habpr__inner { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; gap: 72px; padding-top: {{ section.settings.padding_top | default: 40 }}px; padding-bottom: {{ section.settings.padding_bottom | default: 40 }}px; background: var(--color-background, #f8f5f0); border-bottom: 1px solid var(--color-border, #ddd5c4); }
   @media only screen and (min-width: 769px) {
     .habpr--list-left .habpr__intro { order: 2; }
     .habpr--list-left .habpr__list { order: 1; }
@@ -68,7 +68,7 @@
     line-height: 1.7;
   }
   @media only screen and (max-width: 768px) {
-    .habpr__inner { grid-template-columns: minmax(0, 1fr); gap: 36px; padding-top: 48px; padding-bottom: 48px; }
+    .habpr__inner { grid-template-columns: minmax(0, 1fr); gap: 36px; padding-top: {{ section.settings.padding_top | default: 40 }}px; padding-bottom: {{ section.settings.padding_bottom | default: 40 }}px; }
   }
 </style>
 
@@ -100,6 +100,9 @@
   "name": "Heitz About Promise",
   "settings": [
     { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-heitz-warm" },
+    { "type": "header", "content": "Padding" },
+    { "type": "range", "id": "padding_top", "label": "Top", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 40 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 40 },
     { "type": "select", "id": "list_position", "label": "Checklist position", "options": [ { "value": "left", "label": "Left" }, { "value": "right", "label": "Right" } ], "default": "left" },
     { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Our promise" },
     { "type": "inline_richtext", "id": "heading", "label": "Heading", "default": "What you can expect when you shop with us" },

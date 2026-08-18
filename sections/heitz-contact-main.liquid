@@ -7,7 +7,7 @@
 <style>
   .hcm { font-family: var(--font-body--family, var(--htf-font-body)); }
   .hcm * { box-sizing: border-box; }
-  .hcm__inner { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 72px; align-items: start; padding-top: 64px; padding-bottom: 64px; background: var(--color-background, #f8f5f0); border-bottom: 1px solid var(--color-border, #ddd5c4); }
+  .hcm__inner { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 72px; align-items: start; padding-top: {{ section.settings.padding_top | default: 40 }}px; padding-bottom: {{ section.settings.padding_bottom | default: 40 }}px; background: var(--color-background, #f8f5f0); border-bottom: 1px solid var(--color-border, #ddd5c4); }
   @media only screen and (min-width: 769px) {
     .hcm--form-left .hcm__info { order: 2; }
     .hcm--form-left .hcm__form { order: 1; }
@@ -146,7 +146,7 @@
   }
   .hcm__errors ul { margin: 6px 0 0; padding-left: 18px; }
   @media only screen and (max-width: 768px) {
-    .hcm__inner { grid-template-columns: minmax(0, 1fr); gap: 40px; padding-top: 48px; padding-bottom: 48px; }
+    .hcm__inner { grid-template-columns: minmax(0, 1fr); gap: 40px; padding-top: {{ section.settings.padding_top | default: 40 }}px; padding-bottom: {{ section.settings.padding_bottom | default: 40 }}px; }
     .hcm__form-card { padding: 28px 20px; }
     .hcm__grid2 { grid-template-columns: 1fr; gap: 0; }
   }
@@ -229,6 +229,9 @@
   "name": "Heitz Contact",
   "settings": [
     { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-heitz-warm" },
+    { "type": "header", "content": "Padding" },
+    { "type": "range", "id": "padding_top", "label": "Top", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 40 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 40 },
     { "type": "select", "id": "form_position", "label": "Form position", "options": [ { "value": "right", "label": "Right" }, { "value": "left", "label": "Left" } ], "default": "right" },
     { "type": "header", "content": "Font sizes" },
     { "type": "range", "id": "heading_size", "label": "Heading size", "min": 20, "max": 44, "step": 1, "unit": "px", "default": 30 },

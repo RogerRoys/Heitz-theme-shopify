@@ -7,7 +7,7 @@
   .hpdp-icons {
     width: 100%;
     background: var(--color-background, #ffffff);
-    padding: 28px 18px 32px;
+    padding: {{ section.settings.padding_top | default: 40 }}px 18px {{ section.settings.padding_bottom | default: 40 }}px;
     font-family: var(--hpdp-font-body);
   }
   .hpdp-icons__inner {
@@ -53,7 +53,7 @@
     .hpdp-icons__text { font-size: 13px; max-width: 190px; }
   }
   @media screen and (max-width: 520px) {
-    .hpdp-icons { padding: 24px 14px 28px; }
+    .hpdp-icons { padding: {{ section.settings.padding_top | default: 40 }}px 14px {{ section.settings.padding_bottom | default: 40 }}px; }
     .hpdp-icons__icon, .hpdp-icons__icon svg { width: 22px; height: 22px; }
     .hpdp-icons__title { font-size: 11px; letter-spacing: 1.3px; }
     .hpdp-icons__text { font-size: 12.5px; line-height: 1.4; max-width: 150px; }
@@ -87,7 +87,10 @@
 {
   "name": "Heitz PDP Icon Row",
   "settings": [
-    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" }
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+    { "type": "header", "content": "Padding" },
+    { "type": "range", "id": "padding_top", "label": "Top", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 40 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 40 }
   ],
   "blocks": [
     {

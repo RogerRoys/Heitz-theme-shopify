@@ -4,7 +4,7 @@
 {%- endcomment -%}
 {% render 'heitz-pdp-base' %}
 <style>
-  .hpdp-advice { width: 100%; padding: 30px 20px; font-family: var(--hpdp-font-body); background: var(--color-background, transparent); }
+  .hpdp-advice { width: 100%; padding: {{ section.settings.padding_top | default: 40 }}px 20px {{ section.settings.padding_bottom | default: 40 }}px; font-family: var(--hpdp-font-body); background: var(--color-background, transparent); }
   .hpdp-advice__inner {
     width: 100%;
     max-width: 1320px;
@@ -149,6 +149,9 @@
   "name": "Heitz PDP Advice",
   "settings": [
     { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+    { "type": "header", "content": "Padding" },
+    { "type": "range", "id": "padding_top", "label": "Top", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 40 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 40 },
     { "type": "text", "id": "panel_label", "label": "Panel label", "default": "Complimentary Service" },
     { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Personal Lighting Guidance" },
     { "type": "inline_richtext", "id": "heading", "label": "Heading", "default": "Not Sure Which Light Will Suit Your Space?" },

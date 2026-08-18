@@ -6,7 +6,7 @@
 <style>
   .htf-colscroll {
     background: var(--color-background, #F9F9F9);
-    padding: 12px 0;
+    padding: {{ section.settings.padding_top | default: 40 }}px 0 {{ section.settings.padding_bottom | default: 40 }}px;
     border-bottom: 1px solid #ebebeb;
     border-top: 1px solid #ebebeb;
   }
@@ -52,7 +52,7 @@
   }
   @media (max-width: 768px) {
     .htf-colscroll {
-      padding: 20px 0 16px;
+      padding: {{ section.settings.padding_top | default: 40 }}px 0 {{ section.settings.padding_bottom | default: 40 }}px;
       border-top: 0;
       border-bottom: 1px solid #e8e8e8;
     }
@@ -95,7 +95,10 @@
 {
   "name": "Heitz TF Category Scroll",
   "settings": [
-    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" }
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+    { "type": "header", "content": "Padding" },
+    { "type": "range", "id": "padding_top", "label": "Top", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 40 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 40 }
   ],
   "blocks": [
     {

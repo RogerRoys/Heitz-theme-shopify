@@ -5,7 +5,7 @@
 
 <style>
   .habc { text-align: center; font-family: var(--font-body--family, var(--htf-font-body)); }
-  .habc__inner { padding-top: 72px; padding-bottom: 72px; background: var(--color-background, #f5f3ee); }
+  .habc__inner { padding-top: {{ section.settings.padding_top | default: 40 }}px; padding-bottom: {{ section.settings.padding_bottom | default: 40 }}px; background: var(--color-background, #f5f3ee); }
   .habc * { box-sizing: border-box; }
   .habc blockquote {
     max-width: 1100px;
@@ -30,7 +30,7 @@
     text-transform: uppercase;
   }
   @media only screen and (max-width: 768px) {
-    .habc__inner { padding-top: 52px; padding-bottom: 52px; }
+    .habc__inner { padding-top: {{ section.settings.padding_top | default: 40 }}px; padding-bottom: {{ section.settings.padding_bottom | default: 40 }}px; }
     .habc blockquote { font-size: 26px; line-height: 1.4; }
   }
 </style>
@@ -47,6 +47,9 @@
   "name": "Heitz About Closing",
   "settings": [
     { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-heitz-beige" },
+    { "type": "header", "content": "Padding" },
+    { "type": "range", "id": "padding_top", "label": "Top", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 40 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 40 },
     { "type": "inline_richtext", "id": "quote", "label": "Quote", "default": "“This is not just about lighting. It’s about creating spaces that feel right — balanced, warm, and intentional.”" },
     { "type": "text", "id": "signature", "label": "Signature", "default": "The Heitz Team" }
   ],

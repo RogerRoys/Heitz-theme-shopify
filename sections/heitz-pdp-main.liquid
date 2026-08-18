@@ -1044,6 +1044,18 @@
     var priceEl = root.querySelector('[data-hpdp-price]');
     var atcBtn = root.querySelector('#hpdp-atc-btn');
 
+    /* open the cart drawer immediately on add-to-cart, so the network
+       round-trip happens inside the drawer instead of on a frozen button */
+    if (atcBtn) {
+      atcBtn.addEventListener('click', function () {
+        if (atcBtn.disabled) return;
+        var cartDrawer = document.querySelector('cart-drawer-component');
+        if (cartDrawer && typeof cartDrawer.open === 'function') {
+          setTimeout(function () { cartDrawer.open(); }, 80);
+        }
+      });
+    }
+
     function selectedOptions() {
       var out = [];
       if (!optionsWrap) return out;

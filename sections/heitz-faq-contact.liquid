@@ -5,7 +5,7 @@
 
 <style>
   .hfqc { text-align: center; font-family: var(--font-body--family, var(--htf-font-body)); }
-  .hfqc__inner { padding-top: {{ section.settings.padding_top | default: 40 }}px; padding-bottom: {{ section.settings.padding_bottom | default: 40 }}px; background: var(--color-background, #f5f3ee); border-bottom: 1px solid var(--color-border, #ddd5c4); }
+  .hfqc__inner { padding-top: {{ section.settings.padding_top | default: 80 }}px; padding-bottom: {{ section.settings.padding_bottom | default: 80 }}px; background: var(--color-background, #f5f3ee); border-bottom: 1px solid var(--color-border, #ddd5c4); }
   .hfqc * { box-sizing: border-box; }
   .hfqc__eyebrow {
     display: block;
@@ -56,7 +56,7 @@
     font-weight: 300;
   }
   @media only screen and (max-width: 768px) {
-    .hfqc__inner { padding-top: {{ section.settings.padding_top | default: 40 }}px; padding-bottom: {{ section.settings.padding_bottom | default: 40 }}px; }
+    .hfqc__inner { padding-top: {{ section.settings.padding_top | default: 80 }}px; padding-bottom: {{ section.settings.padding_bottom | default: 80 }}px; }
   }
 </style>
 
@@ -80,8 +80,8 @@
   "settings": [
     { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-heitz-beige" },
     { "type": "header", "content": "Padding" },
-    { "type": "range", "id": "padding_top", "label": "Top", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 40 },
-    { "type": "range", "id": "padding_bottom", "label": "Bottom", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 40 },
+    { "type": "range", "id": "padding_top", "label": "Top", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 80 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 80 },
     { "type": "range", "id": "heading_size", "label": "Heading size", "min": 20, "max": 44, "step": 1, "unit": "px", "default": 30 },
     { "type": "range", "id": "text_size", "label": "Text size", "min": 12, "max": 18, "step": 1, "unit": "px", "default": 14 },
     { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Still have questions?" },

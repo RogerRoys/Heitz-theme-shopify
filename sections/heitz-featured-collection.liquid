@@ -7,7 +7,7 @@
 {%- assign col = collections[section.settings.collection] -%}
 {%- assign limit = section.settings.limit | default: 5 -%}
 <style>
-  .htf-fc { padding: {{ section.settings.padding_top | default: 40 }}px 0 {{ section.settings.padding_bottom | default: 40 }}px; background: var(--color-background, transparent); }
+  .htf-fc { padding: {{ section.settings.padding_top | default: 80 }}px 0 {{ section.settings.padding_bottom | default: 80 }}px; background: var(--color-background, transparent); }
   .htf-fc__header {
     display: flex;
     align-items: center;
@@ -89,8 +89,8 @@
     { "type": "range", "id": "columns", "min": 3, "max": 5, "step": 1, "label": "Desktop columns", "default": 5 },
     { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
     { "type": "header", "content": "Padding" },
-    { "type": "range", "id": "padding_top", "label": "Top", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 40 },
-    { "type": "range", "id": "padding_bottom", "label": "Bottom", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 40 }
+    { "type": "range", "id": "padding_top", "label": "Top", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 80 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 80 }
   ],
   "presets": [{ "name": "Heitz TF Product Grid" }]
 }

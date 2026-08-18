@@ -6,7 +6,7 @@
 
 <style>
   .hfqh { font-family: var(--font-body--family, var(--htf-font-body)); }
-  .hfqh__frame { padding-top: {{ section.settings.padding_top | default: 40 }}px; padding-bottom: {{ section.settings.padding_bottom | default: 40 }}px; background: var(--color-background, #fbf7f1); border-bottom: 1px solid var(--color-border, #ddd5c4); }
+  .hfqh__frame { padding-top: {{ section.settings.padding_top | default: 80 }}px; padding-bottom: {{ section.settings.padding_bottom | default: 80 }}px; background: var(--color-background, #fbf7f1); border-bottom: 1px solid var(--color-border, #ddd5c4); }
   .hfqh * { box-sizing: border-box; }
   .hfqh__inner { max-width: 720px; }
   .hfqh--center { text-align: center; }
@@ -39,7 +39,7 @@
   }
   .hfqh p:last-child { margin-bottom: 0; }
   @media only screen and (max-width: 768px) {
-    .hfqh__frame { padding-top: {{ section.settings.padding_top | default: 40 }}px; padding-bottom: {{ section.settings.padding_bottom | default: 40 }}px; }
+    .hfqh__frame { padding-top: {{ section.settings.padding_top | default: 80 }}px; padding-bottom: {{ section.settings.padding_bottom | default: 80 }}px; }
     .hfqh h1 { font-size: {{ section.settings.heading_size | default: 40 | times: 0.75 | round }}px; }
   }
 </style>
@@ -60,8 +60,8 @@
   "settings": [
     { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-heitz-cream" },
     { "type": "header", "content": "Padding" },
-    { "type": "range", "id": "padding_top", "label": "Top", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 40 },
-    { "type": "range", "id": "padding_bottom", "label": "Bottom", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 40 },
+    { "type": "range", "id": "padding_top", "label": "Top", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 80 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 80 },
     { "type": "select", "id": "align", "label": "Alignment", "options": [ { "value": "left", "label": "Left" }, { "value": "center", "label": "Center" } ], "default": "left" },
     { "type": "range", "id": "heading_size", "label": "Heading size", "min": 24, "max": 64, "step": 2, "unit": "px", "default": 40 },
     { "type": "range", "id": "text_size", "label": "Text size", "min": 12, "max": 20, "step": 1, "unit": "px", "default": 15 },

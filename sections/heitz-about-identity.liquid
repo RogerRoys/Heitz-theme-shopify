@@ -7,7 +7,7 @@
 <style>
   .habi { font-family: var(--font-body--family, var(--htf-font-body)); }
   .habi * { box-sizing: border-box; }
-  .habi__inner { display: flex; align-items: flex-start; gap: 72px; padding-top: {{ section.settings.padding_top | default: 40 }}px; padding-bottom: {{ section.settings.padding_bottom | default: 40 }}px; background: var(--color-background, #f5f3ee); border-bottom: 1px solid var(--color-border, #ddd5c4); }
+  .habi__inner { display: flex; align-items: flex-start; gap: 72px; padding-top: {{ section.settings.padding_top | default: 80 }}px; padding-bottom: {{ section.settings.padding_bottom | default: 80 }}px; background: var(--color-background, #f5f3ee); border-bottom: 1px solid var(--color-border, #ddd5c4); }
   .habi--quote-right .habi__inner { flex-direction: row-reverse; }
   .habi__quote { flex: 0 0 200px; }
   .habi__quote p {
@@ -37,7 +37,7 @@
   }
   .habi__body p:last-child { margin-bottom: 0; }
   @media only screen and (max-width: 768px) {
-    .habi__inner, .habi--quote-right .habi__inner { flex-direction: column; gap: 28px; padding-top: {{ section.settings.padding_top | default: 40 }}px; padding-bottom: {{ section.settings.padding_bottom | default: 40 }}px; }
+    .habi__inner, .habi--quote-right .habi__inner { flex-direction: column; gap: 28px; padding-top: {{ section.settings.padding_top | default: 80 }}px; padding-bottom: {{ section.settings.padding_bottom | default: 80 }}px; }
     .habi__quote { flex: none; }
   }
 </style>
@@ -60,8 +60,8 @@
   "settings": [
     { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-heitz-beige" },
     { "type": "header", "content": "Padding" },
-    { "type": "range", "id": "padding_top", "label": "Top", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 40 },
-    { "type": "range", "id": "padding_bottom", "label": "Bottom", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 40 },
+    { "type": "range", "id": "padding_top", "label": "Top", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 80 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 80 },
     { "type": "select", "id": "quote_position", "label": "Quote position", "options": [ { "value": "left", "label": "Left" }, { "value": "right", "label": "Right" } ], "default": "left" },
     { "type": "inline_richtext", "id": "quote", "label": "Side quote", "default": "Simplicity, balance, and intentional living." },
     { "type": "inline_richtext", "id": "heading", "label": "Heading", "default": "A different approach to lighting" },

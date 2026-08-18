@@ -3,7 +3,7 @@
   two overlapping portrait images right (40% / 60%).
 {%- endcomment -%}
 <style>
-  .htf-editorial { padding: {{ section.settings.padding_top | default: 40 }}px 0 {{ section.settings.padding_bottom | default: 40 }}px; background: var(--color-background, transparent); }
+  .htf-editorial { padding: {{ section.settings.padding_top | default: 80 }}px 0 {{ section.settings.padding_bottom | default: 80 }}px; background: var(--color-background, transparent); }
   .htf-editorial__row {
     display: flex;
     align-items: center;
@@ -56,7 +56,7 @@
   }
   .htf-editorial__second { width: 60%; }
   @media only screen and (max-width: 768px) {
-    .htf-editorial { padding: {{ section.settings.padding_top | default: 40 }}px 0 {{ section.settings.padding_bottom | default: 40 }}px; }
+    .htf-editorial { padding: {{ section.settings.padding_top | default: 80 }}px 0 {{ section.settings.padding_bottom | default: 80 }}px; }
     .htf-editorial__row,
     .htf-editorial--img-left .htf-editorial__row { flex-direction: column-reverse; }
     .htf-editorial__text, .htf-editorial__images { flex: 1 1 100%; width: 100%; }
@@ -105,8 +105,8 @@
   "settings": [
     { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
     { "type": "header", "content": "Padding" },
-    { "type": "range", "id": "padding_top", "label": "Top", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 40 },
-    { "type": "range", "id": "padding_bottom", "label": "Bottom", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 40 },
+    { "type": "range", "id": "padding_top", "label": "Top", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 80 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 80 },
     { "type": "header", "content": "Typography" },
     { "type": "select", "id": "type_preset", "label": "Preset", "info": "Edit presets in theme settings", "options": [ { "value": "custom", "label": "Custom" }, { "value": "paragraph", "label": "Paragraph" }, { "value": "h1", "label": "Heading 1" }, { "value": "h2", "label": "Heading 2" }, { "value": "h3", "label": "Heading 3" }, { "value": "h4", "label": "Heading 4" }, { "value": "h5", "label": "Heading 5" }, { "value": "h6", "label": "Heading 6" } ], "default": "custom" },
     { "type": "select", "id": "font", "label": "Font", "options": [ { "value": "var(--font-body--family)", "label": "Body" }, { "value": "var(--font-subheading--family)", "label": "Subheading" }, { "value": "var(--font-heading--family)", "label": "Heading" }, { "value": "var(--font-accent--family)", "label": "Accent" } ], "default": "var(--font-heading--family)", "visible_if": "{{ section.settings.type_preset == 'custom' }}" },

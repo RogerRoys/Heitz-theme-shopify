@@ -7,8 +7,8 @@
   .htfa {
     background: var(--color-background, #f5f3ee);
     font-family: var(--htf-font-heading, 'Fahkwang', sans-serif);
-    padding-top: {{ section.settings.padding_top | default: 40 }}px;
-    padding-bottom: {{ section.settings.padding_bottom | default: 40 }}px;
+    padding-top: {{ section.settings.padding_top | default: 80 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | default: 80 }}px;
     width: 100%;
     max-width: 1500px;
     margin-inline: auto;
@@ -33,8 +33,8 @@
     color: var(--color-foreground-heading, #1a1a1a);
     letter-spacing: 0.04em;
     font-family: var(--htf-font-heading, 'Fahkwang', sans-serif);
-    padding-top: {{ section.settings.padding_top | default: 40 }}px;
-    padding-bottom: {{ section.settings.padding_bottom | default: 40 }}px;
+    padding-top: {{ section.settings.padding_top | default: 80 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | default: 80 }}px;
     margin: 0;
   }
   .htfa__icon {
@@ -103,8 +103,8 @@
     line-height: 1.2;
     text-align: center;
     font-family: var(--htf-font-heading, 'Fahkwang', sans-serif);
-    padding-top: {{ section.settings.padding_top | default: 40 }}px;
-    padding-bottom: {{ section.settings.padding_bottom | default: 40 }}px;
+    padding-top: {{ section.settings.padding_top | default: 80 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | default: 80 }}px;
   }
   .htfa__arrow {
     position: absolute;
@@ -256,8 +256,8 @@
   "settings": [
     { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
     { "type": "header", "content": "Padding" },
-    { "type": "range", "id": "padding_top", "label": "Top", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 40 },
-    { "type": "range", "id": "padding_bottom", "label": "Bottom", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 40 }
+    { "type": "range", "id": "padding_top", "label": "Top", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 80 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 80 }
   ],
   "blocks": [
     {

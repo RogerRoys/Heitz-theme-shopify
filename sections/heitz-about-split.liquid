@@ -37,7 +37,7 @@
     flex-direction: column;
     justify-content: center;
     min-width: 0;
-    padding: {{ section.settings.padding_top | default: 40 }}px 52px {{ section.settings.padding_bottom | default: 40 }}px;
+    padding: {{ section.settings.padding_top | default: 80 }}px 52px {{ section.settings.padding_bottom | default: 80 }}px;
     background: var(--color-background, #f8f5f0);
   }
   .habsp__eyebrow {
@@ -71,7 +71,7 @@
     .habsp--img-right .habsp__photo { order: 1; }
     .habsp--img-right .habsp__text { order: 2; }
     .habsp__photo { min-height: 0; aspect-ratio: {{ section.settings.mobile_ratio | default: '4 / 3' }}; }
-    .habsp__text { padding: {{ section.settings.padding_top | default: 40 }}px 24px {{ section.settings.padding_bottom | default: 40 }}px; }
+    .habsp__text { padding: {{ section.settings.padding_top | default: 80 }}px 24px {{ section.settings.padding_bottom | default: 80 }}px; }
   }
 </style>
 
@@ -96,8 +96,8 @@
   "settings": [
     { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-heitz-warm" },
     { "type": "header", "content": "Padding" },
-    { "type": "range", "id": "padding_top", "label": "Top", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 40 },
-    { "type": "range", "id": "padding_bottom", "label": "Bottom", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 40 },
+    { "type": "range", "id": "padding_top", "label": "Top", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 80 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 80 },
     { "type": "select", "id": "image_position", "label": "Image position", "options": [ { "value": "left", "label": "Left" }, { "value": "right", "label": "Right" } ], "default": "left" },
     { "type": "range", "id": "image_height", "label": "Image height (desktop)", "min": 300, "max": 800, "step": 10, "unit": "px", "default": 460 },
     { "type": "select", "id": "mobile_ratio", "label": "Image ratio (mobile)", "options": [ { "value": "4 / 3", "label": "Landscape (4:3)" }, { "value": "1 / 1", "label": "Square" }, { "value": "16 / 9", "label": "Wide (16:9)" } ], "default": "4 / 3" },

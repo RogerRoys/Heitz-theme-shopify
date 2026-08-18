@@ -13,7 +13,7 @@
       "type": "heitz-faq-header",
       "settings": {
         "color_scheme": "scheme-2",
-        "align": "left",
+        "align": "center",
         "heading_size": 40,
         "text_size": 15,
         "eyebrow": "Support",

@@ -77,7 +77,8 @@
     .habsp--img-right .habsp__photo { order: 1; }
     .habsp--img-right .habsp__text { order: 2; }
     .habsp__photo { min-height: 0; aspect-ratio: {{ section.settings.mobile_ratio | default: '4 / 3' }}; }
-    .habsp__text { padding: {{ section.settings.padding_top | default: 80 }}px 24px {{ section.settings.padding_bottom | default: 80 }}px; }
+    /* mobile: minimal inline padding, matches the hero text alignment */
+    .habsp__text, .habsp--img-right .habsp__text { padding: {{ section.settings.padding_top | default: 80 }}px 17px {{ section.settings.padding_bottom | default: 80 }}px; }
   }
 </style>
 

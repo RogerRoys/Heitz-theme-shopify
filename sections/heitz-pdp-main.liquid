@@ -123,7 +123,7 @@
   }
   .hpdp-thumbs::-webkit-scrollbar { width: 0; height: 0; }
   /* variant switch: quick fade + instant jump instead of a long scroll */
-  .hpdp-stage__track { transition: opacity .16s ease; }
+  .hpdp-stage__track { transition: opacity .09s ease; }
   .hpdp-stage__track.hpdp-switching { opacity: 0; }
   .hpdp-thumb {
     display: block;
@@ -1082,7 +1082,7 @@
           setTimeout(function () {
             goTo(idx, false);
             track.classList.remove('hpdp-switching');
-          }, 170);
+          }, 90);
         }
       }
     }

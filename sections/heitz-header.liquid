@@ -409,6 +409,35 @@
   }
   .htf-drawer__back-button .svg-wrapper,
   .htf-drawer__back-button .svg-wrapper svg { width: 14px; height: 14px; display: inline-block; }
+  .htf-loc-native { padding: 8px 12px 20px; }
+  .htf-loc-native__form { margin: 0; }
+  .htf-loc-native__btn {
+    align-items: center;
+    background: none;
+    border: 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    color: var(--htf-color-text);
+    cursor: pointer;
+    display: flex;
+    font-family: var(--htf-font-body);
+    font-size: 15px;
+    gap: 12px;
+    padding: 14px 10px;
+    text-align: left;
+    width: 100%;
+  }
+  .htf-loc-native__btn.is-current { font-weight: 600; }
+  .htf-loc-native__flag {
+    flex: 0 0 auto;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background-size: cover;
+    background-position: center;
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.15);
+  }
+  .htf-loc-native__name { flex: 1 1 auto; }
+  .htf-loc-native__cur { flex: 0 0 auto; opacity: 0.7; font-size: 13px; }
   .htf-drawer__link,
   .htf-drawer__toggle {
     align-items: center;
@@ -692,13 +721,20 @@
                 <svg viewBox="0 0 64 64"><path d="m19 17.61 27.12 27.13m0-27.12L19 44.74"/></svg>
               </button>
             </div>
-            {% render 'localization-form',
-              show_country: drawer_show_country,
-              show_language: drawer_show_language,
-              localization_style: 'drawer',
-              form_style: form_style,
-              block_id: 'htfdrawer'
-            %}
+            <div class="htf-loc-native">
+              {%- for country in localization.available_countries -%}
+                {%- assign loc_form_id = 'HtfLoc-' | append: country.iso_code -%}
+                {%- form 'localization', id: loc_form_id, class: 'htf-loc-native__form' -%}
+                  <input type="hidden" name="country_code" value="{{ country.iso_code }}">
+                  <input type="hidden" name="return_to" value="{{ request.path }}">
+                  <button type="submit" class="htf-loc-native__btn{% if country.iso_code == localization.country.iso_code %} is-current{% endif %}">
+                    <span class="htf-loc-native__flag" style="background-image: url({{ country | image_url: width: 64 }});"></span>
+                    <span class="htf-loc-native__name">{{ country.name }}</span>
+                    <span class="htf-loc-native__cur">{{ country.currency.iso_code }} {{ country.currency.symbol }}</span>
+                  </button>
+                {%- endform -%}
+              {%- endfor -%}
+            </div>
           </div>
         </details>
       </drawer-localization-component>
@@ -890,24 +926,6 @@
           if (locDetails.open === wasOpen) locDetails.open = !wasOpen;
         }, 80);
       });
-    }
-    /* Country selection fallback: the stock component's declarative
-       on:click binding has proven unreliable on some phones — set the
-       hidden input and submit the form directly. Capture phase so it
-       runs even if another handler stops propagation. */
-    var locPanel = drawer.querySelector('.htf-drawer__submenu');
-    if (locPanel) {
-      locPanel.addEventListener('click', function (e) {
-        var item = e.target && e.target.closest ? e.target.closest('.localization-form__list-item[data-value]') : null;
-        if (!item || !locPanel.contains(item)) return;
-        var form = locPanel.querySelector('form');
-        var input = form && form.querySelector('input[name="country_code"]');
-        if (!form || !input) return;
-        input.value = item.getAttribute('data-value');
-        setTimeout(function () {
-          try { form.submit(); } catch (err) {}
-        }, 120);
-      }, true);
     }
     drawer.querySelectorAll('[data-htf-loc-back]').forEach(function (btn) {
       btn.addEventListener('click', function () {

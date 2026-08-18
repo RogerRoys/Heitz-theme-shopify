@@ -292,161 +292,19 @@
     visibility: visible;
   }
 
-  /* ── mobile drawer ───────────────────────────── */
-  .htf-drawer {
-    display: flex;
-    flex-direction: column;
-    background: #ffffff;
-    bottom: 0;
-    left: 0;
-    max-width: 350px;
-    overflow: hidden;
-    position: fixed;
-    top: 0;
-    transform: translateX(-102%);
-    transition: transform .35s cubic-bezier(.26,.54,.32,1);
-    width: 88vw;
-    z-index: 60;
-  }
-  @supports (height: 100dvh) {
-    /* iOS: bottom: 0 sits under the collapsing browser toolbar; dvh tracks it */
-    .htf-drawer { height: 100dvh; bottom: auto; }
-  }
-  .htf-drawer.is-open { transform: translateX(0); }
-  .htf-drawer__overlay {
-    background: rgba(42, 55, 67, 0.5);
-    inset: 0;
-    opacity: 0;
-    pointer-events: none;
-    position: fixed;
-    transition: opacity .35s ease;
-    z-index: 59;
-  }
-  .htf-drawer__overlay.is-open { opacity: 1; pointer-events: auto; }
-  .htf-drawer__header {
-    display: flex;
-    justify-content: flex-end;
-    padding: 12px 15px;
-    border-bottom: 1px solid var(--htf-color-border-light);
-  }
-  .htf-drawer__close { background: none; border: 0; cursor: pointer; color: var(--htf-color-text); padding: 6px; }
-  .htf-drawer__close svg { width: 26px; height: 26px; fill: none; stroke: currentColor; stroke-width: 4px; }
-  .htf-drawer__nav { list-style: none; margin: 0; padding: 10px 0 10px; flex: 1 1 auto; overflow-y: auto; min-height: 0; }
-  .htf-drawer__nav li { margin: 0; }
-  .htf-drawer__footer {
-    border-top: 1px solid var(--htf-color-border-light);
-    /* pinned to the drawer bottom, like the old theme */
-    margin-top: auto;
-    /* --htf-bottom-clearance is set by JS when a bottom overlay
-       (Shopify preview bar / cookie bar) covers the viewport bottom */
-    padding: 6px 0 calc(10px + env(safe-area-inset-bottom, 0px) + var(--htf-bottom-clearance, 0px));
-  }
-  .htf-drawer__account svg {
-    width: 22px;
-    height: 22px;
-    fill: none;
-    stroke: currentColor;
-    stroke-width: 4px;
-    stroke-miterlimit: 10;
-    margin-right: 10px;
-    flex: 0 0 auto;
-  }
-  .htf-drawer__account { justify-content: flex-start !important; }
-  /* stock Horizon drawer localization, adapted to the htf drawer */
-  .htf-drawer__localization { display: block; }
-  .htf-drawer__localization .drawer-localization__button {
-    align-items: center;
-    display: flex;
-    justify-content: flex-start;
-    gap: 10px;
-    list-style: none;
-    padding: 14px 25px;
-    cursor: pointer;
-  }
-  .htf-drawer__localization .drawer-localization__button::-webkit-details-marker { display: none; }
-  /* country panel slides over the drawer, like the old theme's submenu */
-  .htf-drawer .drawer-localization { display: block; position: static; }
-  .htf-drawer .menu-drawer__submenu {
-    position: absolute;
-    inset: 0;
-    background: var(--color-background, #ffffff);
-    z-index: 62;
-    display: flex;
-    flex-direction: column;
-    overflow-y: auto;
-    padding: 0 0 calc(15px + var(--htf-bottom-clearance, 0px));
-  }
-  .htf-drawer .drawer-localization[open] > .menu-drawer__submenu {
-    visibility: visible;
-    opacity: 1;
-    transform: none;
-    animation: htf-loc-slide-in .3s cubic-bezier(.26,.54,.32,1) both;
-  }
-  @keyframes htf-loc-slide-in {
-    from { transform: translateX(-10%); opacity: 0; }
-    to { transform: translateX(0); opacity: 1; }
-  }
-  .htf-drawer .menu-drawer__submenu localization-form-component { flex: 1 1 auto; min-height: 0; }
-  .htf-drawer__nav-buttons {
-    align-items: center;
-    border-bottom: 1px solid var(--htf-color-border-light);
-    display: flex;
-    flex: 0 0 auto;
-    justify-content: space-between;
-    padding: 10px 15px 10px 20px;
-  }
-  .htf-drawer__back-button {
-    align-items: center;
-    background: none;
-    border: 0;
+  /* stock Horizon menu drawer: size its summary icon like our header icons */
+  .htf-header__stock-drawer { display: inline-flex; align-items: center; }
+  .htf-header__stock-drawer .header__icon--summary {
     color: var(--htf-color-text);
     cursor: pointer;
-    display: flex;
-    font-family: var(--htf-font-heading);
-    font-size: 15px;
-    gap: 10px;
-    padding: 6px 0;
-  }
-  .htf-drawer__back-button .svg-wrapper,
-  .htf-drawer__back-button .svg-wrapper svg { width: 14px; height: 14px; display: inline-block; }
-  .htf-drawer__link,
-  .htf-drawer__toggle {
+    display: inline-flex;
     align-items: center;
-    background: none;
-    border: 0;
-    color: var(--htf-color-text);
-    cursor: pointer;
-    display: flex;
-    font-family: var(--htf-font-heading);
-    font-size: 17px;
-    justify-content: space-between;
-    padding: 14px 25px;
-    text-align: left;
-    width: 100%;
-  }
-  .htf-drawer__sub .htf-drawer__link,
-  .htf-drawer__sub .htf-drawer__toggle {
-    font-family: var(--htf-font-body);
-    font-size: 15px;
-    padding: 10px 25px 10px 40px;
-  }
-  .htf-drawer__sub .htf-drawer__sub .htf-drawer__link {
-    font-size: 14px;
-    padding-left: 55px;
-  }
-  .htf-drawer__toggle .htf-chevron {
-    width: 14px;
-    height: 8px;
-    transition: transform .25s ease;
-  }
-  .htf-drawer__toggle[aria-expanded="true"] .htf-chevron { transform: rotate(180deg); }
-  .htf-drawer__sub {
-    display: none;
     list-style: none;
-    margin: 0;
-    padding: 0;
+    padding: 7.5px 4px;
   }
-  .htf-drawer__sub.is-open { display: block; }
+  .htf-header__stock-drawer .header__icon--summary::-webkit-details-marker { display: none; }
+  .htf-header__stock-drawer .header-drawer-icon,
+  .htf-header__stock-drawer .header-drawer-icon svg { width: 28px; height: 28px; }
 
   .htf-mobile-only { display: none; }
   @media only screen and (max-width: 768px) {
@@ -500,9 +358,15 @@
           <svg class="htf-compact-menu-toggle__close" viewBox="0 0 64 64" aria-hidden="true"><path d="m19 17.61 27.12 27.13m0-27.12L19 44.74"/></svg>
         </button>
         {% render 'search', class: 'mobile:hidden' %}
-        <button type="button" class="htf-header__icon-link htf-mobile-only" data-htf-drawer-open aria-label="Menu">
-          <svg viewBox="0 0 64 64"><path d="M7 15h51"/><path d="M7 32h43"/><path d="M7 49h51"/></svg>
-        </button>
+        <div class="htf-mobile-only htf-header__stock-drawer">
+          {% render 'header-drawer',
+            class: 'header__drawer--mobile',
+            linklist: menu,
+            data_header_drawer_type: 'mobile-drawer',
+            section: section,
+            block: section
+          %}
+        </div>
       </div>
 
       <div class="htf-header__item htf-header__item--logo">
@@ -572,148 +436,12 @@
 
 </div>
 
-<div class="htf-drawer__overlay" data-htf-drawer-overlay></div>
-<div class="htf-drawer" data-htf-drawer aria-hidden="true">
-  <div class="htf-drawer__header">
-    <button type="button" class="htf-drawer__close" data-htf-drawer-close aria-label="Close menu">
-      <svg viewBox="0 0 64 64"><path d="m19 17.61 27.12 27.13m0-27.12L19 44.74"/></svg>
-    </button>
-  </div>
-  {%- if menu != blank -%}
-    <ul class="htf-drawer__nav">
-      {%- for link in menu.links -%}
-        <li>
-          {%- if link.links != blank -%}
-            <button type="button" class="htf-drawer__toggle" aria-expanded="false" data-htf-drawer-toggle>
-              <span>{{ link.title }}</span>
-              <svg class="htf-chevron" viewBox="0 0 28 16"><path d="m1.57 1.59 12.76 12.77L27.1 1.59" stroke-width="2" stroke="currentColor" fill="none"/></svg>
-            </button>
-            <ul class="htf-drawer__sub">
-              {%- for child in link.links -%}
-                <li>
-                  {%- if child.links != blank -%}
-                    <button type="button" class="htf-drawer__toggle" aria-expanded="false" data-htf-drawer-toggle>
-                      <span>{{ child.title }}</span>
-                      <svg class="htf-chevron" viewBox="0 0 28 16"><path d="m1.57 1.59 12.76 12.77L27.1 1.59" stroke-width="2" stroke="currentColor" fill="none"/></svg>
-                    </button>
-                    <ul class="htf-drawer__sub">
-                      {%- for grandchild in child.links -%}
-                        <li><a href="{{ grandchild.url }}" class="htf-drawer__link">{{ grandchild.title }}</a></li>
-                      {%- endfor -%}
-                    </ul>
-                  {%- else -%}
-                    <a href="{{ child.url }}" class="htf-drawer__link">{{ child.title }}</a>
-                  {%- endif -%}
-                </li>
-              {%- endfor -%}
-            </ul>
-          {%- else -%}
-            <a href="{{ link.url }}" class="htf-drawer__link">{{ link.title }}</a>
-          {%- endif -%}
-        </li>
-      {%- endfor -%}
-    </ul>
-  {%- endif -%}
-
-  <div class="htf-drawer__footer">
-    <a href="{{ routes.account_url }}" class="htf-drawer__link htf-drawer__account">
-      <svg viewBox="0 0 64 64"><path d="M35 39.84v-2.53c3.3-1.91 6-6.66 6-11.41 0-7.63 0-13.82-9-13.82s-9 6.19-9 13.82c0 4.75 2.7 9.51 6 11.41v2.53c-10.18.85-18 6-18 12.16h42c0-6.19-7.82-11.31-18-12.16Z"/></svg>
-      <span>{% if customer %}Account{% else %}Log in{% endif %}</span>
-    </a>
-
-    {%- liquid
-      assign drawer_show_country = section.settings.show_country
-      if localization.available_countries.size <= 1
-        assign drawer_show_country = false
-      endif
-      assign drawer_show_language = section.settings.show_language
-      if localization.available_languages.size <= 1
-        assign drawer_show_language = false
-      endif
-    -%}
-    {%- if drawer_show_country or drawer_show_language -%}
-      {%- liquid
-        assign localization_font = '--menu-localization-font: var(--font-[localization_font]--family); ' | replace: '[localization_font]', section.settings.localization_font
-        assign color_shadow = '--color-shadow: rgb(var(--color-foreground-rgb) / var(--opacity-10-25));'
-        assign form_style = localization_font | append: color_shadow
-      -%}
-      <drawer-localization-component class="menu-drawer__localization htf-drawer__localization">
-        <details
-          id="drawer-localization"
-          class="drawer-localization"
-          on:toggle="/toggle"
-        >
-          <summary
-            id="HeaderDrawer-localization"
-            class="drawer-localization__button h3 link link--text focus-inset"
-            aria-expanded="false"
-            style="{{ form_style }}"
-          >
-            <div class="drawer-localization__button--label h6">
-              {%- if drawer_show_country -%}
-                <div class="mobile-localization mobile-localization--country link link--text">
-                  {%- if section.settings.country_selector_style == true -%}
-                    <span
-                      class="icon-flag"
-                      style="
-                        background-image: url({{- localization.country | image_url: width: 32 }});
-                        --size-shadow: 2px;
-                        --color-shadow: rgb(var(--color-foreground-rgb) / var(--opacity-30-60));
-                      "
-                    ></span>
-                  {%- endif -%}
-                  <span class="currency-code">
-                    {{- localization.country.currency.iso_code -}}
-                  </span>
-                </div>
-              {%- endif -%}
-              {%- if drawer_show_country and drawer_show_language -%}
-                <span>/</span>
-              {%- endif -%}
-              {%- if drawer_show_language -%}
-                <div class="mobile-localization mobile-localization--country link link--text">
-                  <span>{{ localization.language.iso_code | upcase }}</span>
-                </div>
-              {%- endif -%}
-            </div>
-            <span class="svg-wrapper icon-caret icon-caret--forward">
-              {{- 'icon-caret.svg' | inline_asset_content -}}
-            </span>
-          </summary>
-          <div class="menu-drawer__submenu htf-drawer__submenu color-{{ settings.drawer_color_scheme }}">
-            <div class="menu-drawer__nav-buttons htf-drawer__nav-buttons">
-              <button type="button" class="htf-drawer__back-button" data-htf-loc-back aria-expanded="true">
-                <span class="svg-wrapper icon-caret icon-caret--backward">
-                  {{- 'icon-caret.svg' | inline_asset_content -}}
-                </span>
-                {{ 'content.localization_region_and_language' | t }}
-              </button>
-              <button type="button" class="htf-drawer__close" data-htf-drawer-close aria-label="Close menu">
-                <svg viewBox="0 0 64 64"><path d="m19 17.61 27.12 27.13m0-27.12L19 44.74"/></svg>
-              </button>
-            </div>
-            {% render 'localization-form',
-              show_country: drawer_show_country,
-              show_language: drawer_show_language,
-              localization_style: 'drawer',
-              form_style: form_style,
-              block_id: 'htfdrawer'
-            %}
-          </div>
-        </details>
-      </drawer-localization-component>
-    {%- endif -%}
-  </div>
-</div>
-
 <script>
   (function () {
     var header = document.querySelector('[data-htf-header]');
     if (!header) return;
 
     var wrapper = header.closest('.htf-section-header-wrap');
-    var drawer = document.querySelector('[data-htf-drawer]');
-    var overlay = document.querySelector('[data-htf-drawer-overlay]');
     var compactMenuToggle = header.querySelector('[data-htf-compact-menu-toggle]');
     var lastScrollY = window.scrollY;
     var fullHeaderHeight = wrapper ? wrapper.offsetHeight : header.offsetHeight;
@@ -846,84 +574,6 @@
       if (event.key === 'Escape') setCompactMenu(false);
     });
     updateSmartStickyHeader();
-    var locDetails = drawer.querySelector('.drawer-localization');
-    /* Shopify's preview bar (and similar bottom bars) overlay the viewport
-       bottom and swallow taps on the drawer's last rows. Measure them and
-       pad the drawer bottom so the localization row stays tappable. */
-    function updateBottomClearance() {
-      var pad = 0;
-      var candidates = document.querySelectorAll('#PBarNextFrameWrapper, #preview-bar-iframe, iframe[src*="preview-bar"], #shopify-pc__banner');
-      for (var i = 0; i < candidates.length; i++) {
-        var el = candidates[i];
-        var cs = window.getComputedStyle(el);
-        if (cs.display === 'none' || cs.visibility === 'hidden') continue;
-        var r = el.getBoundingClientRect();
-        var isBottomBar = r.height > 0 && r.height <= 200 && r.bottom > window.innerHeight - 10 && r.top > window.innerHeight / 2;
-        if (isBottomBar) pad = Math.max(pad, Math.round(window.innerHeight - r.top));
-      }
-      drawer.style.setProperty('--htf-bottom-clearance', pad + 'px');
-    }
-    window.addEventListener('resize', updateBottomClearance);
-    function setDrawer(open) {
-      if (open) updateBottomClearance();
-      if (!open && locDetails) locDetails.removeAttribute('open');
-      drawer.classList.toggle('is-open', open);
-      overlay.classList.toggle('is-open', open);
-      drawer.setAttribute('aria-hidden', open ? 'false' : 'true');
-      document.documentElement.style.overflow = open ? 'hidden' : '';
-    }
-    document.querySelectorAll('[data-htf-drawer-open]').forEach(function (btn) {
-      btn.addEventListener('click', function () { setDrawer(true); });
-    });
-    document.querySelectorAll('[data-htf-drawer-close]').forEach(function (btn) {
-      btn.addEventListener('click', function () { setDrawer(false); });
-    });
-    overlay.addEventListener('click', function () { setDrawer(false); });
-
-    if (locDetails) {
-      var locSummary = locDetails.querySelector('summary');
-      locSummary.addEventListener('click', function () {
-        var wasOpen = locDetails.open;
-        setTimeout(function () {
-          /* native toggle should have flipped it; if something on the page
-             prevented it, flip it ourselves */
-          if (locDetails.open === wasOpen) locDetails.open = !wasOpen;
-        }, 80);
-      });
-    }
-    /* Country selection fallback: the stock component's declarative
-       on:click binding has proven unreliable on some phones — set the
-       hidden input and submit the form directly. Capture phase so it
-       runs even if another handler stops propagation. */
-    var locPanel = drawer.querySelector('.htf-drawer__submenu');
-    if (locPanel) {
-      locPanel.addEventListener('click', function (e) {
-        var item = e.target && e.target.closest ? e.target.closest('.localization-form__list-item[data-value]') : null;
-        if (!item || !locPanel.contains(item)) return;
-        var form = locPanel.querySelector('form');
-        var input = form && form.querySelector('input[name="country_code"]');
-        if (!form || !input) return;
-        input.value = item.getAttribute('data-value');
-        setTimeout(function () {
-          try { form.submit(); } catch (err) {}
-        }, 120);
-      }, true);
-    }
-    drawer.querySelectorAll('[data-htf-loc-back]').forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        if (locDetails) locDetails.removeAttribute('open');
-      });
-    });
-
-    drawer.querySelectorAll('[data-htf-drawer-toggle]').forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        var open = btn.getAttribute('aria-expanded') === 'true';
-        btn.setAttribute('aria-expanded', open ? 'false' : 'true');
-        var sub = btn.nextElementSibling;
-        if (sub) sub.classList.toggle('is-open', !open);
-      });
-    });
-
   })();
 </script>
 
@@ -956,7 +606,16 @@
     { "type": "checkbox", "id": "show_language", "label": "Show language selector", "default": false },
     { "type": "select", "id": "localization_font", "label": "Localization font", "options": [ { "value": "heading", "label": "Heading" }, { "value": "subheading", "label": "Subheading" }, { "value": "body", "label": "Body" }, { "value": "accent", "label": "Accent" } ], "default": "heading" },
     { "type": "select", "id": "localization_font_size", "label": "Localization size", "options": [ { "value": "0.625rem", "label": "10px" }, { "value": "0.75rem", "label": "12px" }, { "value": "0.875rem", "label": "14px" }, { "value": "1rem", "label": "16px" } ], "default": "0.75rem" },
-    { "type": "select", "id": "localization_position", "label": "Localization dropdown direction", "options": [ { "value": "left", "label": "Left" }, { "value": "right", "label": "Right" } ], "default": "right" }
+    { "type": "select", "id": "localization_position", "label": "Localization dropdown direction", "options": [ { "value": "left", "label": "Left" }, { "value": "right", "label": "Right" } ], "default": "right" },
+    { "type": "header", "content": "Mobile drawer" },
+    { "type": "color_scheme", "id": "drawer_color_scheme", "label": "Drawer color scheme", "default": "scheme-06e77a65-0969-4f75-95ca-a3ab5732d840" },
+    { "type": "select", "id": "menu_style", "label": "Drawer menu style", "options": [ { "value": "text", "label": "Text only" }, { "value": "collection_images", "label": "Collection images" }, { "value": "featured_products", "label": "Featured products" }, { "value": "featured_collections", "label": "Featured collections" } ], "default": "collection_images" },
+    { "type": "select", "id": "featured_products_aspect_ratio", "label": "Product image ratio", "options": [ { "value": "adapt", "label": "Auto" }, { "value": "4 / 5", "label": "Portrait" }, { "value": "1 / 1", "label": "Square" } ], "default": "4 / 5" },
+    { "type": "select", "id": "featured_collections_aspect_ratio", "label": "Collection image ratio", "options": [ { "value": "adapt", "label": "Auto" }, { "value": "16 / 9", "label": "Landscape" }, { "value": "1 / 1", "label": "Square" } ], "default": "adapt" },
+    { "type": "range", "id": "image_border_radius", "label": "Image border radius", "min": 0, "max": 32, "step": 1, "unit": "px", "default": 0 },
+    { "type": "checkbox", "id": "drawer_accordion", "label": "Accordion submenus", "default": false },
+    { "type": "checkbox", "id": "drawer_accordion_expand_first", "label": "Expand first submenu", "default": false },
+    { "type": "checkbox", "id": "drawer_dividers", "label": "Show dividers", "default": true }
   ]
 }
 {% endschema %}

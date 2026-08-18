@@ -13,6 +13,14 @@
       "type": "heitz-hero",
       "settings": {
         "color_scheme": "scheme-heitz-dark",
+        "type_preset": "custom",
+        "font": "var(--font-heading--family)",
+        "font_size": "",
+        "line_height": "normal",
+        "letter_spacing": "normal",
+        "case": "none",
+        "color": "",
+        "text_size": 22,
         "image": "shopify://shop_images/New_2_75abb9e3-f69a-46c1-87b2-4a5892594838.jpg",
         "mobile_ratio": 125,
         "overlay_opacity": 4,
@@ -69,7 +77,9 @@
         "badge_5"
       ],
       "settings": {
-        "color_scheme": "scheme-heitz-light"
+        "color_scheme": "scheme-heitz-light",
+        "padding_top": 20,
+        "padding_bottom": 20
       }
     },
     "category_scroll": {
@@ -136,7 +146,9 @@
         "cat_7"
       ],
       "settings": {
-        "color_scheme": "scheme-heitz-light"
+        "color_scheme": "scheme-heitz-light",
+        "padding_top": 40,
+        "padding_bottom": 40
       }
     },
     "featured_pendant": {
@@ -257,11 +269,20 @@
       "custom_css": [],
       "settings": {
         "collection": "pendant-lights",
+        "type_preset": "custom",
+        "font": "var(--font-heading--family)",
+        "font_size": "",
+        "line_height": "normal",
+        "letter_spacing": "normal",
+        "case": "none",
+        "color": "",
         "title": "Pendant Lighting",
         "link_label": "View all",
         "limit": 5,
         "columns": 5,
-        "color_scheme": "scheme-1"
+        "color_scheme": "scheme-1",
+        "padding_top": 80,
+        "padding_bottom": 80
       }
     },
     "cta_pendant": {
@@ -271,6 +292,8 @@
       ],
       "settings": {
         "color_scheme": "scheme-1",
+        "padding_top": 80,
+        "padding_bottom": 80,
         "label": "Shop now",
         "link": "shopify://collections/pendant-lights"
       }
@@ -395,11 +418,20 @@
       ],
       "settings": {
         "collection": "outdoor-wall-lights",
+        "type_preset": "custom",
+        "font": "var(--font-heading--family)",
+        "font_size": "",
+        "line_height": "normal",
+        "letter_spacing": "normal",
+        "case": "none",
+        "color": "",
         "title": "Outdoor Wall Lighting",
         "link_label": "View all",
         "limit": 5,
         "columns": 5,
-        "color_scheme": "scheme-1"
+        "color_scheme": "scheme-1",
+        "padding_top": 80,
+        "padding_bottom": 80
       }
     },
     "category_accordion": {
@@ -444,13 +476,24 @@
         "group_room"
       ],
       "settings": {
-        "color_scheme": "scheme-2"
+        "color_scheme": "scheme-2",
+        "padding_top": 20,
+        "padding_bottom": 20
       }
     },
     "editorial": {
       "type": "heitz-editorial",
       "settings": {
         "color_scheme": "scheme-1",
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "type_preset": "custom",
+        "font": "var(--font-heading--family)",
+        "font_size": "",
+        "line_height": "normal",
+        "letter_spacing": "normal",
+        "case": "none",
+        "color": "",
         "image_position": "left",
         "title": "Behind the Design",
         "text": "Explore lighting inspiration, styling ideas, and thoughtful design stories made to help you create a more beautiful home.",
@@ -462,6 +505,15 @@
       "type": "heitz-newsletter",
       "settings": {
         "color_scheme": "scheme-2",
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "type_preset": "custom",
+        "font": "var(--font-heading--family)",
+        "font_size": "",
+        "line_height": "normal",
+        "letter_spacing": "normal",
+        "case": "none",
+        "color": "",
         "title": "Sign up and save",
         "text": "Be the first to know about new arrivals and special offers.",
         "placeholder": "Enter your email",

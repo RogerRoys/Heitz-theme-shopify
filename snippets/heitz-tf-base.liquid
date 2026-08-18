@@ -71,9 +71,11 @@
   .htf-page-width {
     margin: 0 auto;
     max-width: 1500px;
-    padding: 0 17px;
+    /* inline only — the shorthand was stomping sections' own vertical padding */
+    padding-left: 17px;
+    padding-right: 17px;
   }
   @media only screen and (min-width: 769px) {
-    .htf-page-width { padding: 0 40px; }
+    .htf-page-width { padding-left: 40px; padding-right: 40px; }
   }
 </style>

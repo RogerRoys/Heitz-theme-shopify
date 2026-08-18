@@ -4,13 +4,8 @@
 {% render 'heitz-tf-base' %}
 
 <style>
-  .hfqc {
-    padding: 64px 0;
-    background: var(--color-background, #f5f3ee);
-    border-bottom: 1px solid var(--color-border, #ddd5c4);
-    text-align: center;
-    font-family: var(--font-body--family, var(--htf-font-body));
-  }
+  .hfqc { text-align: center; font-family: var(--font-body--family, var(--htf-font-body)); }
+  .hfqc__inner { padding-top: 64px; padding-bottom: 64px; background: var(--color-background, #f5f3ee); border-bottom: 1px solid var(--color-border, #ddd5c4); }
   .hfqc * { box-sizing: border-box; }
   .hfqc__eyebrow {
     display: block;
@@ -61,12 +56,12 @@
     font-weight: 300;
   }
   @media only screen and (max-width: 768px) {
-    .hfqc { padding: 48px 0; }
+    .hfqc__inner { padding-top: 48px; padding-bottom: 48px; }
   }
 </style>
 
 <section class="hfqc color-{{ section.settings.color_scheme }}">
-  <div class="htf-page-width">
+  <div class="htf-page-width hfqc__inner">
   <span class="hfqc__eyebrow">{{ section.settings.eyebrow }}</span>
   <h2>{{ section.settings.heading }}</h2>
   <p>{{ section.settings.text }}</p>

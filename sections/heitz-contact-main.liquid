@@ -5,14 +5,9 @@
 {% render 'heitz-tf-base' %}
 
 <style>
-  .hcm {
-    padding: 64px 0;
-    background: var(--color-background, #f8f5f0);
-    border-bottom: 1px solid var(--color-border, #ddd5c4);
-    font-family: var(--font-body--family, var(--htf-font-body));
-  }
+  .hcm { font-family: var(--font-body--family, var(--htf-font-body)); }
   .hcm * { box-sizing: border-box; }
-  .hcm__inner { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 72px; align-items: start; }
+  .hcm__inner { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 72px; align-items: start; padding-top: 64px; padding-bottom: 64px; background: var(--color-background, #f8f5f0); border-bottom: 1px solid var(--color-border, #ddd5c4); }
   @media only screen and (min-width: 769px) {
     .hcm--form-left .hcm__info { order: 2; }
     .hcm--form-left .hcm__form { order: 1; }
@@ -151,8 +146,7 @@
   }
   .hcm__errors ul { margin: 6px 0 0; padding-left: 18px; }
   @media only screen and (max-width: 768px) {
-    .hcm { padding: 48px 0; }
-    .hcm__inner { grid-template-columns: minmax(0, 1fr); gap: 40px; }
+    .hcm__inner { grid-template-columns: minmax(0, 1fr); gap: 40px; padding-top: 48px; padding-bottom: 48px; }
     .hcm__form-card { padding: 28px 20px; }
     .hcm__grid2 { grid-template-columns: 1fr; gap: 0; }
   }

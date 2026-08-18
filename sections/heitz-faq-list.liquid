@@ -7,12 +7,8 @@
 {% render 'heitz-tf-base' %}
 
 <style>
-  .hfql {
-    padding: 56px 0 72px;
-    background: var(--color-background, #f8f5f0);
-    border-bottom: 1px solid var(--color-border, #ddd5c4);
-    font-family: var(--font-body--family, var(--htf-font-body));
-  }
+  .hfql { font-family: var(--font-body--family, var(--htf-font-body)); }
+  .hfql__frame { padding-top: 56px; padding-bottom: 72px; background: var(--color-background, #f8f5f0); border-bottom: 1px solid var(--color-border, #ddd5c4); }
   .hfql * { box-sizing: border-box; }
   .hfql__wrap { display: block; max-width: 800px; margin: 0 auto; }
   .hfql--sidebar .hfql__wrap,
@@ -117,7 +113,7 @@
   .hfql__answer p:last-child { margin-bottom: 0; }
   .hfql__answer a { color: var(--color-primary, #b8913f); }
   @media only screen and (max-width: 768px) {
-    .hfql { padding: 40px 0 52px; }
+    .hfql__frame { padding-top: 40px; padding-bottom: 52px; }
     .hfql--sidebar .hfql__wrap,
     .hfql--sidebar-right .hfql__wrap { display: block; }
     .hfql__nav { display: none; }
@@ -132,7 +128,8 @@
 {%- endfor -%}
 
 <section class="hfql color-{{ section.settings.color_scheme }}{% if section.settings.layout == 'sidebar' %} hfql--sidebar{% elsif section.settings.layout == 'sidebar_right' %} hfql--sidebar-right{% endif %}">
-  <div class="hfql__wrap htf-page-width">
+  <div class="htf-page-width hfql__frame">
+  <div class="hfql__wrap">
     {%- if section.settings.layout != 'centered' and has_categories -%}
       <nav class="hfql__nav" aria-label="FAQ categories">
         <span class="hfql__nav-title">{{ section.settings.nav_title }}</span>
@@ -173,6 +170,7 @@
       {%- endfor -%}
       {%- if group_open -%}</div></div>{%- endif -%}
     </div>
+  </div>
   </div>
 </section>
 

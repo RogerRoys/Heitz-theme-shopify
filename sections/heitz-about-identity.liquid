@@ -5,14 +5,9 @@
 {% render 'heitz-tf-base' %}
 
 <style>
-  .habi {
-    padding: 56px 0;
-    background: var(--color-background, #f5f3ee);
-    border-bottom: 1px solid var(--color-border, #ddd5c4);
-    font-family: var(--font-body--family, var(--htf-font-body));
-  }
+  .habi { font-family: var(--font-body--family, var(--htf-font-body)); }
   .habi * { box-sizing: border-box; }
-  .habi__inner { display: flex; align-items: flex-start; gap: 72px; }
+  .habi__inner { display: flex; align-items: flex-start; gap: 72px; padding-top: 56px; padding-bottom: 56px; background: var(--color-background, #f5f3ee); border-bottom: 1px solid var(--color-border, #ddd5c4); }
   .habi--quote-right .habi__inner { flex-direction: row-reverse; }
   .habi__quote { flex: 0 0 200px; }
   .habi__quote p {
@@ -42,8 +37,7 @@
   }
   .habi__body p:last-child { margin-bottom: 0; }
   @media only screen and (max-width: 768px) {
-    .habi { padding: 36px 0; }
-    .habi__inner, .habi--quote-right .habi__inner { flex-direction: column; gap: 28px; }
+    .habi__inner, .habi--quote-right .habi__inner { flex-direction: column; gap: 28px; padding-top: 36px; padding-bottom: 36px; }
     .habi__quote { flex: none; }
   }
 </style>

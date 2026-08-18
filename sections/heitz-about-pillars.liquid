@@ -4,12 +4,8 @@
 {% render 'heitz-tf-base' %}
 
 <style>
-  .habp {
-    padding: 64px 0;
-    background: var(--color-background, #fbf7f1);
-    border-bottom: 1px solid var(--color-border, #ddd5c4);
-    font-family: var(--font-body--family, var(--htf-font-body));
-  }
+  .habp { font-family: var(--font-body--family, var(--htf-font-body)); }
+  .habp__inner { padding-top: 64px; padding-bottom: 64px; background: var(--color-background, #fbf7f1); border-bottom: 1px solid var(--color-border, #ddd5c4); }
   .habp * { box-sizing: border-box; }
   .habp__header { max-width: 520px; margin-bottom: 40px; }
   .habp--center .habp__header { max-width: none; text-align: center; }
@@ -77,14 +73,14 @@
     line-height: 1.85;
   }
   @media only screen and (max-width: 768px) {
-    .habp { padding: 48px 0; }
+    .habp__inner { padding-top: 48px; padding-bottom: 48px; }
     .habp__grid { grid-template-columns: minmax(0, 1fr); }
     .habp__pillar { padding: 32px 24px; }
   }
 </style>
 
 <section class="habp color-{{ section.settings.color_scheme }}{% if section.settings.header_align == 'center' %} habp--center{% endif %}">
-  <div class="htf-page-width">
+  <div class="htf-page-width habp__inner">
   <div class="habp__header">
     <span class="habp__eyebrow">{{ section.settings.eyebrow }}</span>
     <h2>{{ section.settings.heading }}</h2>

@@ -5,12 +5,8 @@
 {% render 'heitz-tf-base' %}
 
 <style>
-  .hfqh {
-    padding: 72px 0 56px;
-    background: var(--color-background, #fbf7f1);
-    border-bottom: 1px solid var(--color-border, #ddd5c4);
-    font-family: var(--font-body--family, var(--htf-font-body));
-  }
+  .hfqh { font-family: var(--font-body--family, var(--htf-font-body)); }
+  .hfqh__frame { padding-top: 72px; padding-bottom: 56px; background: var(--color-background, #fbf7f1); border-bottom: 1px solid var(--color-border, #ddd5c4); }
   .hfqh * { box-sizing: border-box; }
   .hfqh__inner { max-width: 720px; }
   .hfqh--center { text-align: center; }
@@ -43,13 +39,13 @@
   }
   .hfqh p:last-child { margin-bottom: 0; }
   @media only screen and (max-width: 768px) {
-    .hfqh { padding: 48px 0 40px; }
+    .hfqh__frame { padding-top: 48px; padding-bottom: 40px; }
     .hfqh h1 { font-size: {{ section.settings.heading_size | default: 40 | times: 0.75 | round }}px; }
   }
 </style>
 
 <section class="hfqh color-{{ section.settings.color_scheme }}{% if section.settings.align == 'center' %} hfqh--center{% endif %}">
-  <div class="htf-page-width">
+  <div class="htf-page-width hfqh__frame">
   <div class="hfqh__inner">
     <span class="hfqh__eyebrow">{{ section.settings.eyebrow }}</span>
     <h1>{{ section.settings.heading }}</h1>

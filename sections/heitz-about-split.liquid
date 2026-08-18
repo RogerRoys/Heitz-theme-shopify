@@ -5,11 +5,9 @@
 {% render 'heitz-tf-base' %}
 
 <style>
-  .habsp {
-    border-bottom: 1px solid var(--color-border, #ddd5c4);
-    font-family: var(--font-body--family, var(--htf-font-body));
-  }
+  .habsp { font-family: var(--font-body--family, var(--htf-font-body)); }
   .habsp__frame {
+    border-bottom: 1px solid var(--color-border, #ddd5c4);
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     min-height: {{ section.settings.image_height | default: 460 }}px;

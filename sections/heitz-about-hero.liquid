@@ -5,8 +5,8 @@
 {% render 'heitz-tf-base' %}
 
 <style>
-  .habh { overflow: hidden; background: var(--color-background, #fbf7f1); border-bottom: 1px solid var(--color-border, #ddd5c4); font-family: var(--font-body--family, var(--htf-font-body)); }
-  .habh__frame { position: relative; isolation: isolate; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: stretch; }
+  .habh { overflow: hidden; font-family: var(--font-body--family, var(--htf-font-body)); }
+  .habh__frame { position: relative; isolation: isolate; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: stretch; background: var(--color-background, #fbf7f1); border-bottom: 1px solid var(--color-border, #ddd5c4); }
   .habh * { box-sizing: border-box; }
   .habh__eyebrow {
     display: block;
@@ -37,10 +37,10 @@
     flex-direction: column;
     justify-content: center;
     min-width: 0;
-    padding: 64px 56px 64px 64px;
+    padding: 64px 56px 64px 24px;
     background: var(--color-background, #fbf7f1);
   }
-  .habh--img-left .habh__text { grid-column: 2; padding: 64px 64px 64px 56px; }
+  .habh--img-left .habh__text { grid-column: 2; padding: 64px 24px 64px 56px; }
   .habh__space { position: relative; z-index: 1; grid-column: 2; min-width: 0; min-height: 1px; pointer-events: none; }
   .habh--img-left .habh__space { grid-column: 1; grid-row: 1; }
   .habh h1 {

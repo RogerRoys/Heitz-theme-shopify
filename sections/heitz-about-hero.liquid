@@ -74,8 +74,8 @@
   }
 </style>
 
-<section class="habh color-{{ section.settings.color_scheme }}{% if section.settings.image_position == 'left' %} habh--img-left{% endif %}">
-  <div class="htf-page-width habh__frame">
+<section class="habh{% if section.settings.image_position == 'left' %} habh--img-left{% endif %}">
+  <div class="htf-page-width habh__frame color-{{ section.settings.color_scheme }}">
   <div
     class="habh__image"
     role="img"

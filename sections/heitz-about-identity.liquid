@@ -42,8 +42,8 @@
   }
 </style>
 
-<section class="habi color-{{ section.settings.color_scheme }}{% if section.settings.quote_position == 'right' %} habi--quote-right{% endif %}">
-  <div class="htf-page-width habi__inner">
+<section class="habi{% if section.settings.quote_position == 'right' %} habi--quote-right{% endif %}">
+  <div class="htf-page-width habi__inner color-{{ section.settings.color_scheme }}">
   <div class="habi__quote">
     <p>{{ section.settings.quote }}</p>
   </div>

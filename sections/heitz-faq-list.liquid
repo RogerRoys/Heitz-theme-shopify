@@ -127,8 +127,8 @@
   {%- if block.type == 'category' -%}{%- assign has_categories = true -%}{%- endif -%}
 {%- endfor -%}
 
-<section class="hfql color-{{ section.settings.color_scheme }}{% if section.settings.layout == 'sidebar' %} hfql--sidebar{% elsif section.settings.layout == 'sidebar_right' %} hfql--sidebar-right{% endif %}">
-  <div class="htf-page-width hfql__frame">
+<section class="hfql{% if section.settings.layout == 'sidebar' %} hfql--sidebar{% elsif section.settings.layout == 'sidebar_right' %} hfql--sidebar-right{% endif %}">
+  <div class="htf-page-width hfql__frame color-{{ section.settings.color_scheme }}">
   <div class="hfql__wrap">
     {%- if section.settings.layout != 'centered' and has_categories -%}
       <nav class="hfql__nav" aria-label="FAQ categories">

@@ -44,8 +44,8 @@
   }
 </style>
 
-<section class="hfqh color-{{ section.settings.color_scheme }}{% if section.settings.align == 'center' %} hfqh--center{% endif %}">
-  <div class="htf-page-width hfqh__frame">
+<section class="hfqh{% if section.settings.align == 'center' %} hfqh--center{% endif %}">
+  <div class="htf-page-width hfqh__frame color-{{ section.settings.color_scheme }}">
   <div class="hfqh__inner">
     <span class="hfqh__eyebrow">{{ section.settings.eyebrow }}</span>
     <h1>{{ section.settings.heading }}</h1>

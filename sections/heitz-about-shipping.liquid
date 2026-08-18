@@ -89,8 +89,8 @@
   }
 </style>
 
-<section class="habsh color-{{ section.settings.color_scheme }}{% if section.settings.card_position == 'left' %} habsh--card-left{% endif %}">
-  <div class="htf-page-width habsh__inner">
+<section class="habsh{% if section.settings.card_position == 'left' %} habsh--card-left{% endif %}">
+  <div class="htf-page-width habsh__inner color-{{ section.settings.color_scheme }}">
   <div class="habsh__intro">
     <span class="habsh__eyebrow">{{ section.settings.eyebrow }}</span>
     <h2>{{ section.settings.heading }}</h2>

@@ -72,8 +72,8 @@
   }
 </style>
 
-<section class="habpr color-{{ section.settings.color_scheme }}{% if section.settings.list_position == 'left' %} habpr--list-left{% endif %}">
-  <div class="htf-page-width habpr__inner">
+<section class="habpr{% if section.settings.list_position == 'left' %} habpr--list-left{% endif %}">
+  <div class="htf-page-width habpr__inner color-{{ section.settings.color_scheme }}">
   <div class="habpr__intro">
     <span class="habpr__eyebrow">{{ section.settings.eyebrow }}</span>
     <h2>{{ section.settings.heading }}</h2>

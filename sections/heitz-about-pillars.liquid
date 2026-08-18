@@ -79,8 +79,8 @@
   }
 </style>
 
-<section class="habp color-{{ section.settings.color_scheme }}{% if section.settings.header_align == 'center' %} habp--center{% endif %}">
-  <div class="htf-page-width habp__inner">
+<section class="habp{% if section.settings.header_align == 'center' %} habp--center{% endif %}">
+  <div class="htf-page-width habp__inner color-{{ section.settings.color_scheme }}">
   <div class="habp__header">
     <span class="habp__eyebrow">{{ section.settings.eyebrow }}</span>
     <h2>{{ section.settings.heading }}</h2>

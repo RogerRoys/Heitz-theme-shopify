@@ -152,8 +152,8 @@
   }
 </style>
 
-<section class="hcm color-{{ section.settings.color_scheme }}{% if section.settings.form_position == 'left' %} hcm--form-left{% endif %}">
-  <div class="htf-page-width hcm__inner">
+<section class="hcm{% if section.settings.form_position == 'left' %} hcm--form-left{% endif %}">
+  <div class="htf-page-width hcm__inner color-{{ section.settings.color_scheme }}">
   <div class="hcm__info">
     <span class="hcm__eyebrow">{{ section.settings.eyebrow }}</span>
     <h2>{{ section.settings.heading }}</h2>

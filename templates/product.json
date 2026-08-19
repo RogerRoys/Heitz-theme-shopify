@@ -1,12 +1,3 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "sections": {
     "scrollspy": {
@@ -352,33 +343,33 @@
         "icon_1": {
           "type": "item",
           "settings": {
-            "icon": "boxes",
-            "title": "Free Shipping",
-            "text": "Enjoy free shipping on every order."
+            "icon": "truck",
+            "title": "Free Tracked Shipping",
+            "text": "Complimentary tracked delivery on every order."
           }
         },
         "icon_2": {
           "type": "item",
           "settings": {
-            "icon": "truck",
-            "title": "Tracked Delivery",
-            "text": "Follow your order from dispatch to arrival."
+            "icon": "return",
+            "title": "30-Day Returns",
+            "text": "Shop confidently with our hassle-free return window."
           }
         },
         "icon_3": {
           "type": "item",
           "settings": {
-            "icon": "chat",
-            "title": "Have a Question?",
-            "text": "Our team is here to help, 5 days a week."
+            "icon": "lock",
+            "title": "Secure Checkout",
+            "text": "Shop safely with encrypted, trusted payment processing."
           }
         },
         "icon_4": {
           "type": "item",
           "settings": {
-            "icon": "shield",
-            "title": "Secure Payments",
-            "text": "Your safety and convenience are our priority."
+            "icon": "chat",
+            "title": "Personal Support",
+            "text": "Friendly assistance before and after your purchase."
           }
         }
       },
@@ -389,7 +380,8 @@
         "icon_4"
       ],
       "settings": {
-        "color_scheme": "scheme-1"
+        "color_scheme": "scheme-1",
+        "eyebrow": "The Heitz Promise"
       }
     }
   },

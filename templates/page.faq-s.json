@@ -121,21 +121,21 @@
           "type": "question",
           "settings": {
             "question": "1. What’s your return policy?",
-            "answer": "<p>We offer a <strong>30-day return policy</strong>. If you’re not completely satisfied with your order, you can contact us within 30 days of receiving your item, and we’ll guide you through the return process.</p><p>To be eligible for a return, the item should be unused, in its original condition, and returned with its original packaging where possible. Find more information <a href=\"/policies/refund-policy\" title=\"Refund Policy\">here.</a></p>"
+            "answer": "<p>We offer a <strong>30-day return policy</strong> — you can request a return within 30 days of receiving your order. Items must be unused, in their original condition, and returned with the original packaging and accessories.</p><p>For change-of-mind returns, return shipping costs and a <strong>40% restocking fee</strong> are the customer’s responsibility, and original shipping costs are non-refundable. If your item arrives damaged, faulty, or incorrect, we cover return shipping and charge no restocking fee. Find more information <a href=\"/policies/refund-policy\" title=\"Refund Policy\">here.</a></p>"
           }
         },
         "q_ret2": {
           "type": "question",
           "settings": {
             "question": "2. How do I start a return?",
-            "answer": "<p>To start a return, simply email us at <a href=\"mailto:support@heitz.shop\"><strong>support@heitz.shop</strong></a> with your order number and the reason for your return. Our support team will review your request and guide you through the next steps.</p>"
+            "answer": "<p>To start a return, email us at <a href=\"mailto:support@heitz.shop\"><strong>support@heitz.shop</strong></a> with your order number, the reason for your return, and photos or videos where applicable. Our support team will review your request and provide return instructions and the return address if eligible.</p><p>All returns must be sent using a trackable shipping service. Once your return is received and inspected, refunds are processed within <strong>14 days</strong> to your original payment method — or as store credit if you prefer.</p>"
           }
         },
         "q_ret3": {
           "type": "question",
           "settings": {
             "question": "3. What items are non-returnable?",
-            "answer": "<p>Items may not be eligible for return if they have been used, installed, damaged after delivery, or returned without proper packaging.</p><p>If you're unsure, <a href=\"/pages/contact\" title=\"Contact\">contact us</a> and we'll be happy to help.</p>"
+            "answer": "<p>Gift cards, and items that have been used, installed, damaged, or altered by the customer, are not eligible for return. Items should also be returned with their original packaging.</p><p>If you're unsure, <a href=\"/pages/contact\" title=\"Contact\">contact us</a> and we'll be happy to help.</p>"
           }
         },
         "q_ret4": {

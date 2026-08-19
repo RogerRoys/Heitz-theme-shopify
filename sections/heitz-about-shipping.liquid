@@ -37,13 +37,8 @@
     font-weight: 300;
     line-height: 1.9;
   }
-  .habsh__card {
-    padding: 36px 32px;
-    background: var(--color-background, #f8f5f0);
-    background-image: linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6));
-    border: 1px solid var(--color-border, #ddd5c4);
-  }
-  .habsh__flag { display: block; margin-bottom: 12px; font-size: 26px; line-height: 1; }
+  .habsh__card { padding: 0; }
+  .habsh__flag { display: none; }
   .habsh__card h3 {
     margin: 0 0 10px;
     color: var(--color-foreground-heading, var(--htf-color-text));
@@ -62,30 +57,31 @@
   .habsh__details {
     display: flex;
     flex-direction: column;
-    gap: 8px;
-    padding-top: 18px;
-    border-top: 1px solid var(--color-border, #ddd5c4);
+    gap: 0;
+    padding-top: 6px;
   }
   .habsh__item {
     display: flex;
     align-items: flex-start;
-    gap: 10px;
+    gap: 12px;
+    padding: 11px 0;
+    border-bottom: 1px solid var(--color-border, #ddd5c4);
     color: var(--color-foreground, #7a6e5e);
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 300;
     line-height: 1.6;
   }
+  .habsh__item:last-child { border-bottom: 0; }
   .habsh__dot {
     flex: 0 0 auto;
-    width: 4px;
-    height: 4px;
-    margin-top: 6px;
+    width: 14px;
+    height: 1px;
+    margin-top: 9px;
     background: var(--color-primary, #b8913f);
-    border-radius: 50%;
   }
   @media only screen and (max-width: 768px) {
     .habsh__inner { grid-template-columns: minmax(0, 1fr); gap: 36px; padding-top: {{ section.settings.padding_top | default: 80 }}px; padding-bottom: {{ section.settings.padding_bottom | default: 80 }}px; }
-    .habsh__card { padding: 30px 24px; }
+    .habsh__card { padding: 0; }
   }
 </style>
 

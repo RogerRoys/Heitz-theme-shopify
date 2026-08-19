@@ -37,25 +37,22 @@
   .habp__grid {
     display: grid;
     grid-template-columns: repeat({{ section.blocks.size | at_least: 1 | at_most: 4 }}, minmax(0, 1fr));
-    gap: 1px;
-    overflow: hidden;
-    background: var(--color-border, #ddd5c4);
-    border: 1px solid var(--color-border, #ddd5c4);
+    gap: 28px;
   }
   .habp__pillar {
-    padding: 36px 28px;
+    padding: 26px 26px 32px;
     background: var(--color-background, #fbf7f1);
     background-image: linear-gradient(rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.55));
+    border-top: 2px solid var(--color-primary, #b8913f);
   }
   .habp__number {
-    margin-bottom: 14px;
-    color: var(--color-primary, #cfa958);
-    font-family: var(--font-heading--family, var(--htf-font-heading));
-    font-size: 36px;
-    font-style: italic;
-    font-weight: 300;
+    margin-bottom: 16px;
+    color: var(--color-primary, #b8913f);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
     line-height: 1;
-    opacity: 0.4;
+    text-transform: uppercase;
   }
   .habp__pillar h3 {
     margin: 0 0 10px;

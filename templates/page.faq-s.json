@@ -44,7 +44,7 @@
           "type": "question",
           "settings": {
             "question": "2. Where are you based?",
-            "answer": "<p>We are based in the <strong>United States</strong> and currently serve customers across the <strong>USA and UK</strong>. As we continue to grow, we’re looking forward to expanding into more regions soon.</p>"
+            "answer": "<p>We are based in the <strong>United States</strong> and currently serve customers across the <strong>USA, UK and Australia</strong>. As we continue to grow, we’re looking forward to expanding into more regions soon.</p>"
           }
         },
         "q_brand3": {
@@ -93,21 +93,21 @@
           "type": "question",
           "settings": {
             "question": "3. When will I receive my tracking number?",
-            "answer": "<p>You’ll receive your tracking number by email as soon as your order has been shipped. This allows you to follow your delivery every step of the way.</p>"
+            "answer": "<p>You’ll receive your tracking number by email as soon as your order has been shipped. You can follow your delivery at any time on our <a href=\"/apps/track123\" title=\"Track Order\">Track Order page</a> — please allow up to 24 hours for tracking updates to appear after dispatch.</p>"
           }
         },
         "q_ship4": {
           "type": "question",
           "settings": {
             "question": "4. How long does shipping take?",
-            "answer": "<p>We currently offer free shipping to the <strong>United States</strong> and the <strong>United Kingdom</strong>.</p><p><strong>USA:</strong> 8–15 business days<br><strong>UK:</strong> 5–10 business days</p><p>Delivery times may vary slightly depending on your location and local courier conditions.</p>"
+            "answer": "<p>We offer free tracked shipping to the <strong>United States</strong>, the <strong>United Kingdom</strong> and <strong>Australia</strong>.</p><p><strong>USA:</strong> 8–15 business days<br><strong>UK:</strong> 5–10 business days<br><strong>Australia:</strong> 8–15 business days</p><p>Delivery times may vary slightly depending on your location and local courier conditions.</p>"
           }
         },
         "q_ship5": {
           "type": "question",
           "settings": {
             "question": "5. Do you ship internationally?",
-            "answer": "<p>At the moment, we mainly serve customers in the <strong>USA and UK</strong>. We’re looking forward to expanding into more regions soon as we continue to grow.</p>"
+            "answer": "<p>We currently serve customers in the <strong>USA, UK and Australia</strong>. We’re looking forward to expanding into more regions soon as we continue to grow.</p>"
           }
         },
         "cat_returns": {

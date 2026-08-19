@@ -38,19 +38,31 @@
     line-height: 1.9;
   }
   .habpr__intro p:last-child { margin-bottom: 0; }
-  .habpr__list { display: grid; grid-template-columns: 1fr 1fr; gap: 28px 30px; }
-  .habpr__item { display: flex; align-items: flex-start; gap: 14px; }
+  .habpr__list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    overflow: hidden;
+    background: var(--color-border, #ddd5c4);
+    border: 1px solid var(--color-border, #ddd5c4);
+  }
+  .habpr__item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 26px 24px;
+    background: var(--color-background, #f8f5f0);
+    background-image: linear-gradient(rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.55));
+  }
   .habpr__icon {
     display: flex;
     flex: 0 0 auto;
     align-items: center;
     justify-content: center;
-    width: 28px;
-    height: 28px;
-    margin-top: 1px;
-    color: var(--color-primary-button-text, #ffffff);
-    background: var(--color-primary, #b8913f);
-    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    margin-top: 0;
+    color: var(--color-primary, #b8913f);
   }
   .habpr__icon svg { display: block; }
   .habpr__copy h4 {
@@ -70,7 +82,8 @@
   }
   @media only screen and (max-width: 768px) {
     .habpr__inner { grid-template-columns: minmax(0, 1fr); gap: 36px; padding-top: {{ section.settings.padding_top | default: 80 }}px; padding-bottom: {{ section.settings.padding_bottom | default: 80 }}px; }
-    .habpr__list { grid-template-columns: 1fr; gap: 22px; }
+    .habpr__list { grid-template-columns: 1fr; }
+    .habpr__item { padding: 20px 18px; }
   }
 </style>
 

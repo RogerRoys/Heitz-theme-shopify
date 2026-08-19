@@ -93,25 +93,31 @@
         "ship1": {
           "type": "ship_item",
           "settings": {
-            "text": "Shipping available across the United States"
+            "text": "United States — delivered in 8–15 business days"
           }
         },
         "ship2": {
           "type": "ship_item",
           "settings": {
-            "text": "Pricing displayed in USD and GBP"
+            "text": "United Kingdom — delivered in 5–10 business days"
           }
         },
         "ship3": {
           "type": "ship_item",
           "settings": {
-            "text": "Order tracking provided on every shipment"
+            "text": "Australia — delivered in 8–15 business days"
           }
         },
         "ship4": {
           "type": "ship_item",
           "settings": {
-            "text": "Customer support available via email"
+            "text": "Free tracked shipping on every order"
+          }
+        },
+        "ship5": {
+          "type": "ship_item",
+          "settings": {
+            "text": "Track your order anytime on our Track Order page"
           }
         }
       },
@@ -119,17 +125,18 @@
         "ship1",
         "ship2",
         "ship3",
-        "ship4"
+        "ship4",
+        "ship5"
       ],
       "settings": {
         "color_scheme": "scheme-1",
         "card_position": "right",
         "eyebrow": "Where we ship",
-        "heading": "Serving homes across the United States",
-        "text": "Heitz ships nationwide with care taken at every stage of fulfilment. Shipping information and order details are communicated clearly, so you always know where your order stands.",
-        "card_flag": "🇺🇸",
-        "card_heading": "United States",
-        "card_text": "From city apartments to family homes, our collection is built around calm, light-filled spaces — chosen to bring balance and warmth to the way you live."
+        "heading": "Serving homes across the US, UK & Australia",
+        "text": "Heitz ships with free tracked delivery to the United States, United Kingdom and Australia — delivery costs are already included in the price, so there are no extra charges at checkout. Orders are processed within 1–3 business days and tracked from dispatch to your door.",
+        "card_flag": "🇺🇸 🇬🇧 🇦🇺",
+        "card_heading": "Delivery times",
+        "card_text": "Once your order is dispatched, you’ll receive a shipping confirmation email with your tracking number and courier details."
       }
     },
     "promise": {

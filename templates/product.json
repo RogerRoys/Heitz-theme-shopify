@@ -350,6 +350,28 @@
         "subtitle": "Heitz Living brings together pendant lights, wall lights and outdoor lighting designed to add warmth, structure and a premium architectural finish to your home."
       }
     },
+    "story_teaser": {
+      "type": "heitz-editorial",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "type_preset": "custom",
+        "font": "var(--font-heading--family)",
+        "font_size": "",
+        "line_height": "normal",
+        "letter_spacing": "normal",
+        "case": "none",
+        "color": "",
+        "image_position": "right",
+        "title": "Behind every Heitz light",
+        "text": "Inspired by Scandinavian and Japandi design, every piece we offer is chosen for clean lines, soft light, and a focus on what truly matters — lighting that quietly shapes how your home feels.",
+        "button_label": "Discover Our Story",
+        "link": "/pages/brand-story",
+        "image_1": "shopify://shop_images/Luminara___Elegant_Crystal_Wall_Light_Fixture_with_Gold_Finish_2.jpg",
+        "image_2": "shopify://shop_images/Resistant_Outdoor_Wall_Lantern_Light_9.jpg"
+      }
+    },
     "icon_row": {
       "type": "heitz-pdp-icon-row",
       "blocks": {
@@ -399,21 +421,6 @@
         "eyebrow": "The Heitz Promise",
         "heading_size": 18,
         "text_size": 14
-      }
-    },
-    "story_teaser": {
-      "type": "heitz-editorial",
-      "settings": {
-        "color_scheme": "scheme-heitz-beige",
-        "padding_top": 80,
-        "padding_bottom": 80,
-        "image_position": "right",
-        "title": "Behind every Heitz light",
-        "text": "Inspired by Scandinavian and Japandi design, every piece we offer is chosen for clean lines, soft light, and a focus on what truly matters — lighting that quietly shapes how your home feels.",
-        "button_label": "Discover Our Story",
-        "link": "/pages/brand-story",
-        "image_1": "shopify://shop_images/Luminara___Elegant_Crystal_Wall_Light_Fixture_with_Gold_Finish_2.jpg",
-        "image_2": "shopify://shop_images/Resistant_Outdoor_Wall_Lantern_Light_9.jpg"
       }
     }
   },

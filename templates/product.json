@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "scrollspy": {
@@ -115,6 +124,8 @@
       "type": "heitz-pdp-advice",
       "settings": {
         "color_scheme": "scheme-1",
+        "padding_top": 80,
+        "padding_bottom": 80,
         "panel_label": "Complimentary Service",
         "eyebrow": "Personal Lighting Guidance",
         "heading": "Not Sure Which Light Will Suit Your Space?",
@@ -329,12 +340,26 @@
       ],
       "settings": {
         "color_scheme": "scheme-2",
+        "padding_top": 80,
+        "padding_bottom": 80,
         "image_position": "right",
         "badge_title": "Thoughtfully Selected",
         "badge_text": "Lighting chosen for warm ambience, clean form and elevated interior styling.",
         "kicker": "Lighting, Elevated",
         "title": "Refined Lighting for a More Beautiful Home",
         "subtitle": "Heitz Living brings together pendant lights, wall lights and outdoor lighting designed to add warmth, structure and a premium architectural finish to your home."
+      }
+    },
+    "brand_story_teaser": {
+      "type": "heitz-about-identity",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "quote_position": "left",
+        "quote": "Simplicity, balance, and intentional living.",
+        "heading": "The story behind every Heitz light",
+        "text": "<p>Inspired by Scandinavian and Japandi design, every piece we offer is chosen for clean lines, soft light, and a focus on what truly matters — lighting that quietly shapes how your home feels.</p><p><a href=\"/pages/brand-story\" title=\"Our Story\">Discover our full story →</a></p>"
       }
     },
     "icon_row": {
@@ -380,20 +405,12 @@
         "icon_4"
       ],
       "settings": {
-        "color_scheme": "scheme-1",
-        "eyebrow": "The Heitz Promise"
-      }
-    },
-    "brand_story_teaser": {
-      "type": "heitz-about-identity",
-      "settings": {
-        "color_scheme": "scheme-heitz-beige",
+        "color_scheme": "scheme-2",
         "padding_top": 80,
         "padding_bottom": 80,
-        "quote_position": "left",
-        "quote": "Simplicity, balance, and intentional living.",
-        "heading": "The story behind every Heitz light",
-        "text": "<p>Inspired by Scandinavian and Japandi design, every piece we offer is chosen for clean lines, soft light, and a focus on what truly matters — lighting that quietly shapes how your home feels.</p><p><a href=\"/pages/brand-story\" title=\"Our Story\">Discover our full story →</a></p>"
+        "eyebrow": "The Heitz Promise",
+        "heading_size": 18,
+        "text_size": 14
       }
     }
   },

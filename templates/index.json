@@ -497,8 +497,10 @@
         "image_position": "left",
         "title": "Behind the Design",
         "text": "Explore lighting inspiration, styling ideas, and thoughtful design stories made to help you create a more beautiful home.",
-        "button_label": "Explore Collections",
-        "link": "shopify://collections"
+        "button_label": "Read More",
+        "link": "shopify://pages/brand-story",
+        "image_1": "shopify://shop_images/Luminara___Elegant_Crystal_Wall_Light_Fixture_with_Gold_Finish_2.jpg",
+        "image_2": "shopify://shop_images/Luminara___Elegant_Modern_Gold_Metal_Wall_Sconce_Light_with_Acrylic_Shade_0.jpg"
       }
     },
     "newsletter": {

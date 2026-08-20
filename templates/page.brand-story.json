@@ -29,8 +29,8 @@
       "type": "heitz-about-identity",
       "settings": {
         "color_scheme": "scheme-1",
-        "padding_top": 60,
-        "padding_bottom": 60,
+        "padding_top": 80,
+        "padding_bottom": 80,
         "quote_position": "left",
         "quote": "Simplicity, balance, and intentional living.",
         "heading": "A different approach to lighting",
@@ -87,8 +87,8 @@
       ],
       "settings": {
         "color_scheme": "scheme-2",
-        "padding_top": 60,
-        "padding_bottom": 60,
+        "padding_top": 80,
+        "padding_bottom": 80,
         "header_align": "center",
         "eyebrow": "What guides us",
         "heading": "Three things we never compromise on",
@@ -138,8 +138,8 @@
       ],
       "settings": {
         "color_scheme": "scheme-1",
-        "padding_top": 60,
-        "padding_bottom": 60,
+        "padding_top": 80,
+        "padding_bottom": 80,
         "card_position": "right",
         "eyebrow": "Where we ship",
         "heading": "Serving homes across the US, UK & Australia",
@@ -189,8 +189,8 @@
       ],
       "settings": {
         "color_scheme": "scheme-2",
-        "padding_top": 60,
-        "padding_bottom": 60,
+        "padding_top": 80,
+        "padding_bottom": 80,
         "list_position": "left",
         "eyebrow": "Our promise",
         "heading": "What you can expect when you shop with us",
@@ -201,8 +201,8 @@
       "type": "heitz-about-closing",
       "settings": {
         "color_scheme": "scheme-1",
-        "padding_top": 60,
-        "padding_bottom": 60,
+        "padding_top": 80,
+        "padding_bottom": 80,
         "quote": "“This is not just about lighting. It’s about creating spaces that feel right — balanced, warm, and intentional.”",
         "signature": "The Heitz Team"
       }

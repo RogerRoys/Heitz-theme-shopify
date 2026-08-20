@@ -134,6 +134,287 @@
         "link": ""
       }
     },
+    "product_list_jAWgLy": {
+      "type": "product-list",
+      "blocks": {
+        "static-header": {
+          "type": "_product-list-content",
+          "name": "t:names.header",
+          "static": true,
+          "settings": {
+            "content_direction": "row",
+            "vertical_on_mobile": false,
+            "horizontal_alignment": "space-between",
+            "vertical_alignment": "flex-end",
+            "align_baseline": true,
+            "horizontal_alignment_flex_direction_column": "flex-start",
+            "vertical_alignment_flex_direction_column": "center",
+            "gap": 12,
+            "width": "fill",
+            "custom_width": 100,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
+            "height": "fit",
+            "custom_height": 100,
+            "inherit_color_scheme": true,
+            "color_scheme": "",
+            "background_media": "none",
+            "video_position": "cover",
+            "background_image_position": "cover",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "product_list_text_BcUVHh": {
+              "type": "_product-list-text",
+              "name": "t:names.collection_title",
+              "settings": {
+                "text": "<h5>More Inspiration</h5>",
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "h3",
+                "font": "var(--font-body--family)",
+                "font_size": "",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "product_list_button_RW7Rjb": {
+              "type": "_product-list-button",
+              "name": "t:names.product_list_button",
+              "settings": {
+                "label": "View all",
+                "open_in_new_tab": false,
+                "style_class": "link",
+                "width": "fit-content",
+                "custom_width": 100,
+                "width_mobile": "fit-content",
+                "custom_width_mobile": 100
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "product_list_text_BcUVHh",
+            "product_list_button_RW7Rjb"
+          ]
+        },
+        "static-product-card": {
+          "type": "_product-card",
+          "name": "t:names.product_card",
+          "static": true,
+          "settings": {
+            "product_card_gap": 4,
+            "inherit_color_scheme": true,
+            "color_scheme": "",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "product_card_gallery_66CMFx": {
+              "type": "_product-card-gallery",
+              "name": "t:names.product_card_media",
+              "settings": {
+                "image_ratio": "adapt",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "product_title_VjMwpR": {
+              "type": "product-title",
+              "name": "t:names.product_title",
+              "settings": {
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "custom",
+                "font": "var(--font-heading--family)",
+                "font_size": "0.875rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 4,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "price_ezyqHg": {
+              "type": "price",
+              "name": "t:names.product_price",
+              "settings": {
+                "show_sale_price_first": true,
+                "show_installments": false,
+                "show_tax_info": false,
+                "show_discount_badge": true,
+                "discount_badge_product_page_only": true,
+                "discount_badge_text": "DISCOUNT",
+                "discount_badge_background": "#e62b2b",
+                "discount_badge_text_color": "#ffffff",
+                "discount_badge_font_size": 13,
+                "discount_badge_font_weight": "600",
+                "discount_badge_radius": 50,
+                "discount_badge_padding_x": 18,
+                "discount_badge_padding_y": 6,
+                "discount_badge_gap": 12,
+                "type_preset": "custom",
+                "width": "100%",
+                "alignment": "left",
+                "font": "var(--font-heading--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "color": "var(--color-foreground)",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "product_card_gallery_66CMFx",
+            "product_title_VjMwpR",
+            "price_ezyqHg"
+          ]
+        }
+      },
+      "name": "t:names.products_editorial",
+      "settings": {
+        "collection": "{{ product.metafields.custom.recommended_collection_new.value }}",
+        "layout_type": "grid",
+        "carousel_on_mobile": false,
+        "max_products": 8,
+        "columns": 4,
+        "mobile_columns": "2",
+        "mobile_card_size": "60cqw",
+        "columns_gap": 8,
+        "rows_gap": 24,
+        "icons_style": "arrow",
+        "icons_shape": "none",
+        "section_width": "page-width",
+        "horizontal_alignment": "flex-start",
+        "gap": 36,
+        "color_scheme": "scheme-1",
+        "padding-block-start": 48,
+        "padding-block-end": 48
+      }
+    },
+    "story": {
+      "type": "heitz-pdp-story",
+      "blocks": {
+        "feature_1": {
+          "type": "feature",
+          "settings": {
+            "icon": "shield",
+            "title": "Built to Last",
+            "text": "Selected for quality materials, finishes and everyday durability."
+          }
+        },
+        "feature_2": {
+          "type": "feature",
+          "settings": {
+            "icon": "glow",
+            "title": "Premium Ambience",
+            "text": "Create a warm, inviting glow that makes your space feel polished and welcoming."
+          }
+        },
+        "feature_3": {
+          "type": "feature",
+          "settings": {
+            "icon": "columns",
+            "title": "Architectural Finish",
+            "text": "Clean silhouettes and refined details chosen to complement both classic and contemporary homes."
+          }
+        },
+        "feature_4": {
+          "type": "feature",
+          "settings": {
+            "icon": "truck",
+            "title": "Tracked Delivery",
+            "text": "Enjoy free shipping and follow your order from dispatch through to arrival."
+          }
+        }
+      },
+      "block_order": [
+        "feature_1",
+        "feature_2",
+        "feature_3",
+        "feature_4"
+      ],
+      "settings": {
+        "color_scheme": "scheme-2",
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "image_position": "right",
+        "badge_title": "Thoughtfully Selected",
+        "badge_text": "Lighting chosen for warm ambience, clean form and elevated interior styling.",
+        "kicker": "Lighting, Elevated",
+        "title": "Refined Lighting for a More Beautiful Home",
+        "subtitle": "Heitz Living brings together pendant lights, wall lights and outdoor lighting designed to add warmth, structure and a premium architectural finish to your home."
+      }
+    },
+    "story_teaser": {
+      "type": "heitz-editorial",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "type_preset": "custom",
+        "font": "var(--font-heading--family)",
+        "font_size": "",
+        "line_height": "normal",
+        "letter_spacing": "normal",
+        "case": "none",
+        "color": "",
+        "image_position": "right",
+        "title": "Behind every Heitz light",
+        "text": "Inspired by Scandinavian and Japandi design, every piece we offer is chosen for clean lines, soft light, and a focus on what truly matters — lighting that quietly shapes how your home feels.",
+        "button_label": "Discover Our Story",
+        "link": "/pages/brand-story",
+        "image_1": "shopify://shop_images/Luminara___Elegant_Crystal_Wall_Light_Fixture_with_Gold_Finish_2.jpg",
+        "image_2": "shopify://shop_images/Resistant_Outdoor_Wall_Lantern_Light_9.jpg"
+      }
+    },
     "recommendations": {
       "type": "product-recommendations",
       "blocks": {
@@ -296,82 +577,6 @@
         "padding-block-end": 48
       }
     },
-    "story": {
-      "type": "heitz-pdp-story",
-      "blocks": {
-        "feature_1": {
-          "type": "feature",
-          "settings": {
-            "icon": "shield",
-            "title": "Built to Last",
-            "text": "Selected for quality materials, finishes and everyday durability."
-          }
-        },
-        "feature_2": {
-          "type": "feature",
-          "settings": {
-            "icon": "glow",
-            "title": "Premium Ambience",
-            "text": "Create a warm, inviting glow that makes your space feel polished and welcoming."
-          }
-        },
-        "feature_3": {
-          "type": "feature",
-          "settings": {
-            "icon": "columns",
-            "title": "Architectural Finish",
-            "text": "Clean silhouettes and refined details chosen to complement both classic and contemporary homes."
-          }
-        },
-        "feature_4": {
-          "type": "feature",
-          "settings": {
-            "icon": "truck",
-            "title": "Tracked Delivery",
-            "text": "Enjoy free shipping and follow your order from dispatch through to arrival."
-          }
-        }
-      },
-      "block_order": [
-        "feature_1",
-        "feature_2",
-        "feature_3",
-        "feature_4"
-      ],
-      "settings": {
-        "color_scheme": "scheme-2",
-        "padding_top": 80,
-        "padding_bottom": 80,
-        "image_position": "right",
-        "badge_title": "Thoughtfully Selected",
-        "badge_text": "Lighting chosen for warm ambience, clean form and elevated interior styling.",
-        "kicker": "Lighting, Elevated",
-        "title": "Refined Lighting for a More Beautiful Home",
-        "subtitle": "Heitz Living brings together pendant lights, wall lights and outdoor lighting designed to add warmth, structure and a premium architectural finish to your home."
-      }
-    },
-    "story_teaser": {
-      "type": "heitz-editorial",
-      "settings": {
-        "color_scheme": "scheme-1",
-        "padding_top": 80,
-        "padding_bottom": 80,
-        "type_preset": "custom",
-        "font": "var(--font-heading--family)",
-        "font_size": "",
-        "line_height": "normal",
-        "letter_spacing": "normal",
-        "case": "none",
-        "color": "",
-        "image_position": "right",
-        "title": "Behind every Heitz light",
-        "text": "Inspired by Scandinavian and Japandi design, every piece we offer is chosen for clean lines, soft light, and a focus on what truly matters — lighting that quietly shapes how your home feels.",
-        "button_label": "Discover Our Story",
-        "link": "/pages/brand-story",
-        "image_1": "shopify://shop_images/Luminara___Elegant_Crystal_Wall_Light_Fixture_with_Gold_Finish_2.jpg",
-        "image_2": "shopify://shop_images/Resistant_Outdoor_Wall_Lantern_Light_9.jpg"
-      }
-    },
     "icon_row": {
       "type": "heitz-pdp-icon-row",
       "blocks": {
@@ -428,9 +633,10 @@
     "scrollspy",
     "main",
     "advice",
-    "recommendations",
+    "product_list_jAWgLy",
     "story",
     "story_teaser",
+    "recommendations",
     "icon_row"
   ]
 }

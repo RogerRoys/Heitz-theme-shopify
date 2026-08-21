@@ -1,0 +1,139 @@
+{%- comment -%}
+  Heitz Home Story — editorial "Our Story" feature row: single large
+  image one side, eyebrow + uppercase heading + gold rule + text + CTA
+  on the other.
+{%- endcomment -%}
+{% render 'heitz-tf-base' %}
+<style>
+  .hhst {
+    background: var(--color-background, transparent);
+    padding: {{ section.settings.padding_top | default: 80 }}px 0 {{ section.settings.padding_bottom | default: 80 }}px;
+    font-family: var(--htf-font-body);
+  }
+  .hhst__row {
+    display: flex;
+    align-items: center;
+    gap: 64px;
+  }
+  .hhst--img-right .hhst__row { flex-direction: row-reverse; }
+  .hhst__media { flex: 0 1 47%; }
+  .hhst__media .htf-ratio {
+    height: 0;
+    padding-bottom: 105%;
+    position: relative;
+    background: #ececec;
+    overflow: hidden;
+  }
+  .hhst__media img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .hhst__content { flex: 0 1 44%; }
+  .hhst__eyebrow {
+    color: var(--color-primary, #b8913f);
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 0.3em;
+    line-height: 1.4;
+    margin: 0 0 52px;
+    text-transform: uppercase;
+  }
+  .hhst__title {
+    font-family: var(--htf-font-heading);
+    font-size: {{ section.settings.heading_size | default: 40 }}px;
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    line-height: 1.2;
+    text-transform: uppercase;
+    color: var(--color-foreground-heading, var(--htf-color-text));
+    margin: 0 0 26px;
+  }
+  .hhst__rule {
+    width: 34px;
+    height: 2px;
+    background: var(--color-primary, #b8913f);
+    margin: 0 0 26px;
+  }
+  .hhst__text p {
+    font-size: {{ section.settings.text_size | default: 16 }}px;
+    font-weight: 300;
+    line-height: 1.8;
+    color: var(--color-foreground, var(--htf-color-text));
+    max-width: 48ch;
+    margin: 0 0 16px;
+  }
+  .hhst__text p:last-child { margin-bottom: 0; }
+  .hhst__cta { margin-top: 34px; }
+  @media only screen and (max-width: 768px) {
+    .hhst__row,
+    .hhst--img-right .hhst__row { flex-direction: column; gap: 34px; }
+    .hhst__media, .hhst__content { flex: 1 1 100%; width: 100%; }
+    .hhst__media .htf-ratio { padding-bottom: 100%; }
+    .hhst__eyebrow { margin-bottom: 24px; }
+    .hhst__title { font-size: {{ section.settings.heading_size | default: 40 | minus: 14 }}px; margin-bottom: 20px; }
+    .hhst__rule { margin-bottom: 20px; }
+    .hhst__cta { margin-top: 28px; }
+  }
+</style>
+
+<section class="hhst color-{{ section.settings.color_scheme }}{% if section.settings.image_position == 'right' %} hhst--img-right{% endif %}">
+  <div class="htf-page-width">
+    <div class="hhst__row">
+      <div class="hhst__media">
+        <div class="htf-ratio">
+          {%- if section.settings.image != blank -%}
+            {{ section.settings.image | image_url: width: 1400 | image_tag: alt: section.settings.title, loading: 'lazy' }}
+          {%- endif -%}
+        </div>
+      </div>
+      <div class="hhst__content">
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="hhst__eyebrow">{{ section.settings.eyebrow | escape }}</p>
+        {%- endif -%}
+        <h2 class="hhst__title">{{ section.settings.title }}</h2>
+        <div class="hhst__rule"></div>
+        <div class="hhst__text">{{ section.settings.text }}</div>
+        {%- if section.settings.button_label != blank -%}
+          <div class="hhst__cta">
+            <a href="{{ section.settings.link | default: routes.root_url }}" class="htf-btn">{{ section.settings.button_label | escape }}</a>
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Heitz Home Story",
+  "settings": [
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+    { "type": "header", "content": "Padding" },
+    { "type": "range", "id": "padding_top", "label": "Top", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 80 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 80 },
+    { "type": "image_picker", "id": "image", "label": "Image" },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Image position",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Our Story" },
+    { "type": "inline_richtext", "id": "title", "label": "Heading", "default": "Built on light, calm and intention" },
+    { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Heitz Living began with a simple idea — the right light changes how a home feels.</p>" },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Discover Our Story" },
+    { "type": "url", "id": "link", "label": "Button link" },
+    { "type": "header", "content": "Font sizes" },
+    { "type": "range", "id": "heading_size", "label": "Heading size", "min": 24, "max": 56, "step": 2, "unit": "px", "default": 40 },
+    { "type": "range", "id": "text_size", "label": "Text size", "min": 12, "max": 20, "step": 1, "unit": "px", "default": 16 }
+  ],
+  "presets": [{ "name": "Heitz Home Story" }]
+}
+{% endschema %}

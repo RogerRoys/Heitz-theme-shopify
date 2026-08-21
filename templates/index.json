@@ -278,8 +278,8 @@
         "color": "",
         "title": "Pendant Lighting",
         "link_label": "View all",
-        "limit": 5,
-        "columns": 5,
+        "limit": 8,
+        "columns": 4,
         "color_scheme": "scheme-1",
         "padding_top": 80,
         "padding_bottom": 80
@@ -428,8 +428,8 @@
         "color": "",
         "title": "Outdoor Wall Lighting",
         "link_label": "View all",
-        "limit": 5,
-        "columns": 5,
+        "limit": 8,
+        "columns": 4,
         "color_scheme": "scheme-1",
         "padding_top": 80,
         "padding_bottom": 80

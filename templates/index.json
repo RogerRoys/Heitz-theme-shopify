@@ -294,7 +294,7 @@
         "image": "shopify://shop_images/Luminara___Elegant_Modern_Gold_Metal_Wall_Sconce_Light_with_Acrylic_Shade_0.jpg",
         "image_position": "left",
         "eyebrow": "Our Story",
-        "title": "Built on light, calm and intention",
+        "title": "Built On Light, Calm And Intention",
         "text": "<p>Heitz Living began with a simple idea — the right light changes how a home feels. Inspired by Scandinavian and Japandi design, we curate pendant, wall and outdoor lighting with clean lines and warm, honest light, so every space feels calm and considered.</p>",
         "button_label": "Discover Our Story",
         "link": "shopify://pages/brand-story",
@@ -448,8 +448,8 @@
         "limit": 8,
         "columns": 4,
         "color_scheme": "scheme-1",
-        "padding_top": 80,
-        "padding_bottom": 80
+        "padding_top": 120,
+        "padding_bottom": 120
       }
     },
     "category_accordion": {

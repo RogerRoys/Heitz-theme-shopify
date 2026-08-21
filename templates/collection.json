@@ -42,7 +42,6 @@
       "block_order": [
         "text_KYqkXw"
       ],
-      "disabled": true,
       "name": "Collection Title",
       "settings": {
         "content_direction": "column",
@@ -69,8 +68,8 @@
         "overlay_color": "#00000026",
         "overlay_style": "solid",
         "gradient_direction": "to top",
-        "padding-block-start": 10,
-        "padding-block-end": 10
+        "padding-block-start": 20,
+        "padding-block-end": 20
       }
     },
     "hero_xhf9TE": {

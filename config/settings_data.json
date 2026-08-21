@@ -642,7 +642,8 @@
   "platform_customizations": {
     "custom_css": [
       ".compare-at-price {color: #9f6939; opacity: 1;}",
-      "@media screen and (min-width: 750px) {.slideshow-controls__thumbnails {padding-left: 2px; }}"
+      "@media screen and (min-width: 750px) {.slideshow-controls__thumbnails {padding-left: 2px; }}",
+      "cart-drawer-component .cart-drawer__dialog:modal, details#Details-menu-drawer-container .menu-drawer {--animation-speed: 0.1s !important; --drawer-animation-speed: 0.1s !important;}"
     ]
   }
 }

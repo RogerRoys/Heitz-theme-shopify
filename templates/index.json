@@ -285,6 +285,23 @@
         "padding_bottom": 80
       }
     },
+    "our_story": {
+      "type": "heitz-home-story",
+      "settings": {
+        "color_scheme": "scheme-2",
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "image": "shopify://shop_images/Luminara___Elegant_Modern_Gold_Metal_Wall_Sconce_Light_with_Acrylic_Shade_0.jpg",
+        "image_position": "left",
+        "eyebrow": "Our Story",
+        "title": "Built on light, calm and intention",
+        "text": "<p>Heitz Living began with a simple idea — the right light changes how a home feels. Inspired by Scandinavian and Japandi design, we curate pendant, wall and outdoor lighting with clean lines and warm, honest light, so every space feels calm and considered.</p>",
+        "button_label": "Discover Our Story",
+        "link": "shopify://pages/brand-story",
+        "heading_size": 40,
+        "text_size": 16
+      }
+    },
     "cta_pendant": {
       "type": "heitz-cta-button",
       "disabled": true,
@@ -500,23 +517,6 @@
         "placeholder": "Enter your email",
         "button_label": "Subscribe"
       }
-    },
-    "our_story": {
-      "type": "heitz-home-story",
-      "settings": {
-        "color_scheme": "scheme-heitz-cream",
-        "padding_top": 80,
-        "padding_bottom": 80,
-        "image": "shopify://shop_images/Luminara___Elegant_Modern_Gold_Metal_Wall_Sconce_Light_with_Acrylic_Shade_0.jpg",
-        "image_position": "left",
-        "eyebrow": "Our Story",
-        "title": "Built on light, calm and intention",
-        "text": "<p>Heitz Living began with a simple idea — the right light changes how a home feels. Inspired by Scandinavian and Japandi design, we curate pendant, wall and outdoor lighting with clean lines and warm, honest light, so every space feels calm and considered.</p>",
-        "button_label": "Discover Our Story",
-        "link": "shopify://pages/brand-story",
-        "heading_size": 40,
-        "text_size": 16
-      }
     }
   },
   "order": [
@@ -524,10 +524,10 @@
     "trust_badges",
     "category_scroll",
     "featured_pendant",
+    "our_story",
     "cta_pendant",
     "featured_outdoor",
     "category_accordion",
-    "our_story",
     "newsletter"
   ]
 }

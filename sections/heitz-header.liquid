@@ -778,8 +778,18 @@
           setCompactMenu(false);
         } else if (scrollingUp) {
           /* Lock the compact header at its hidden start position without
-             transition, then run the complete slower reveal animation. */
-          if (!wrapper.classList.contains('htf-smart-sticky--revealing')) {
+             transition, then run the complete slower reveal animation.
+             Skip entirely while the header is already revealed — re-running
+             the sequence snaps it hidden and re-animates it on every scroll
+             event, which reads as stutter on a long upward scroll. */
+          var alreadyVisible =
+            wrapper.classList.contains('htf-smart-sticky--compact') &&
+            !wrapper.classList.contains('htf-smart-sticky--hidden');
+          if (
+            !alreadyVisible &&
+            !wrapper.classList.contains('htf-smart-sticky--revealing') &&
+            !wrapper.classList.contains('htf-smart-sticky--preparing')
+          ) {
             /* Always start the reveal from the hidden position. A slow
                scroll down (small deltas) never adds --hidden, so without
                this the first reveal pops in with no animation. The forced

@@ -981,7 +981,7 @@
       },
       "custom_css": [],
       "settings": {
-        "collection": "outdoor-garden-landscape-lighting",
+        "collection": "outdoor-path-bollard-lights",
         "type_preset": "custom",
         "font": "var(--font-heading--family)",
         "font_size": "",
@@ -989,7 +989,7 @@
         "letter_spacing": "normal",
         "case": "none",
         "color": "",
-        "title": "Garden & Landscape Lighting",
+        "title": "Path & Bollard Lights",
         "link_label": "View all",
         "limit": 8,
         "columns": 4,

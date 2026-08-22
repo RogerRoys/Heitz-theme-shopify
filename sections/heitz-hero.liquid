@@ -81,6 +81,25 @@
   @media only screen and (min-width: 769px) {
     .htf-hero__subtitle { font-size: {{ section.settings.text_size | default: 22 }}px; }
   }
+  /* CTA matched to the value-banner button: white outline, uppercase,
+     fills white on hover. */
+  .htf-hero__btn {
+    display: inline-block;
+    padding: 13px 34px;
+    border: 1px solid rgba(255, 255, 255, 0.85);
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0.14em;
+    line-height: 1.2;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background .3s ease, color .3s ease;
+  }
+  .htf-hero__btn:hover {
+    background: #ffffff;
+    color: #1a1b18;
+  }
   .htf-hero__rise {
     overflow: hidden;
   }
@@ -130,7 +149,7 @@
       {%- endif -%}
       {%- if section.settings.button_label != blank -%}
         <div class="htf-hero__rise htf-hero__rise--btn">
-          <span><a href="{{ section.settings.link | default: routes.all_products_collection_url }}" class="htf-btn htf-btn--inverse">{{ section.settings.button_label | escape }}</a></span>
+          <span><a href="{{ section.settings.link | default: routes.all_products_collection_url }}" class="htf-hero__btn">{{ section.settings.button_label | escape }}</a></span>
         </div>
       {%- endif -%}
     </div>

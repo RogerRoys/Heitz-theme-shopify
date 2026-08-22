@@ -806,19 +806,17 @@
       }
     },
     "sustainability_story": {
-      "type": "heitz-home-story",
+      "type": "heitz-value-banner",
       "settings": {
-        "color_scheme": "scheme-heitz-cream",
-        "padding_top": 80,
-        "padding_bottom": 80,
         "image": "shopify://shop_images/Resistant_Outdoor_Wall_Lantern_Light_9.jpg",
-        "image_position": "left",
+        "overlay_opacity": 45,
+        "min_height": 480,
         "eyebrow": "Sustainability",
         "title": "Designed to last, chosen with care",
-        "text": "<p>Good design should respect the environment it lives in. Guided by Scandinavian and Japandi principles, we choose durable, responsibly sourced materials and timeless designs that reduce the need for frequent replacements.</p><p>Many of our lights support energy-saving LED solutions — comfort and performance, with less consumption.</p>",
+        "text": "<p>Guided by Scandinavian and Japandi principles, we choose durable, responsibly sourced materials and timeless designs that reduce the need for frequent replacements — with energy-saving LED comfort built in.</p>",
         "button_label": "Learn More",
         "link": "shopify://pages/sustainability",
-        "heading_size": 40,
+        "heading_size": 38,
         "text_size": 16
       }
     }

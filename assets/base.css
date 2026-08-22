@@ -4118,3 +4118,7 @@ display: none !important;
 #ProductInformation-template--29963673698385__main > div > div.group-block-content.layout-panel-flex.layout-panel-flex--column > div.accordion.accordion--AK0xZZ3pvM0dBeDArZ__accordion_Gef8BH.accordion--plus.border-style.spacing-style.accordion--dividers > accordion-custom:nth-child(1) > details > div.details-content.drawer-accordion-panel > div.spacing-style.text-block.text-block--Ad3ZTUjBad2ZpVDZzc__text_hMpEzL.custom.text-block--align-left.text-block--full-width.custom-typography.custom-font-size.custom-color > table > tbody > tr:nth-child(1) > td {
 display: none !important;
 }
+
+.hhfq__item {
+    border-radius: 0px;
+}

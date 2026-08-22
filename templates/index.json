@@ -82,75 +82,6 @@
         "padding_bottom": 20
       }
     },
-    "category_scroll": {
-      "type": "heitz-category-scroll",
-      "blocks": {
-        "cat_1": {
-          "type": "category",
-          "settings": {
-            "collection": "pendant-lights",
-            "label": "Pendant Lights"
-          }
-        },
-        "cat_2": {
-          "type": "category",
-          "settings": {
-            "collection": "wall-lights",
-            "label": "Wall Lights"
-          }
-        },
-        "cat_3": {
-          "type": "category",
-          "settings": {
-            "collection": "ceiling-lights",
-            "label": "Ceiling Lights"
-          }
-        },
-        "cat_4": {
-          "type": "category",
-          "disabled": true,
-          "settings": {
-            "collection": "floor-lamps",
-            "label": "Floor Lamps"
-          }
-        },
-        "cat_5": {
-          "type": "category",
-          "settings": {
-            "collection": "table-lamps",
-            "label": "Table Lamps"
-          }
-        },
-        "cat_6": {
-          "type": "category",
-          "settings": {
-            "collection": "outdoor-wall-lights",
-            "label": "Outdoor Wall"
-          }
-        },
-        "cat_7": {
-          "type": "category",
-          "settings": {
-            "collection": "outdoor-lights",
-            "label": "Outdoor"
-          }
-        }
-      },
-      "block_order": [
-        "cat_1",
-        "cat_2",
-        "cat_3",
-        "cat_4",
-        "cat_5",
-        "cat_6",
-        "cat_7"
-      ],
-      "settings": {
-        "color_scheme": "scheme-heitz-light",
-        "padding_top": 40,
-        "padding_bottom": 40
-      }
-    },
     "featured_pendant": {
       "type": "heitz-featured-collection",
       "blocks": {
@@ -653,15 +584,121 @@
         "placeholder": "Enter your email",
         "button_label": "Subscribe"
       }
+    },
+    "category_tiles": {
+      "type": "heitz-collection-showcase",
+      "blocks": {
+        "cat_pendant": {
+          "type": "item",
+          "settings": {
+            "collection": "pendant-lights"
+          }
+        },
+        "cat_wall": {
+          "type": "item",
+          "settings": {
+            "collection": "wall-lights"
+          }
+        },
+        "cat_ceiling": {
+          "type": "item",
+          "settings": {
+            "collection": "ceiling-lights"
+          }
+        },
+        "cat_table": {
+          "type": "item",
+          "settings": {
+            "collection": "table-lamps"
+          }
+        },
+        "cat_outdoor_wall": {
+          "type": "item",
+          "settings": {
+            "collection": "outdoor-wall-lights"
+          }
+        },
+        "cat_outdoor": {
+          "type": "item",
+          "settings": {
+            "collection": "outdoor-lights"
+          }
+        }
+      },
+      "block_order": [
+        "cat_pendant",
+        "cat_wall",
+        "cat_ceiling",
+        "cat_table",
+        "cat_outdoor_wall",
+        "cat_outdoor"
+      ],
+      "settings": {
+        "color_scheme": "scheme-1",
+        "padding_top": 60,
+        "padding_bottom": 40,
+        "title": "Shop by Category",
+        "columns": 3,
+        "ratio": "square",
+        "label_style": "below",
+        "label_size": 16
+      }
+    },
+    "room_showcase": {
+      "type": "heitz-collection-showcase",
+      "blocks": {
+        "room_living": {
+          "type": "item",
+          "settings": {
+            "collection": "living-room"
+          }
+        },
+        "room_dining": {
+          "type": "item",
+          "settings": {
+            "collection": "dining-table",
+            "label": "Dining Room"
+          }
+        },
+        "room_bedroom": {
+          "type": "item",
+          "settings": {
+            "collection": "bedroom"
+          }
+        },
+        "room_kitchen": {
+          "type": "item",
+          "settings": {
+            "collection": "kitchen"
+          }
+        }
+      },
+      "block_order": [
+        "room_living",
+        "room_dining",
+        "room_bedroom",
+        "room_kitchen"
+      ],
+      "settings": {
+        "color_scheme": "scheme-heitz-light",
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "title": "Shop by Room",
+        "columns": 4,
+        "ratio": "landscape",
+        "label_style": "overlay",
+        "label_size": 17
+      }
     }
   },
   "order": [
     "hero",
     "trust_badges",
-    "category_scroll",
+    "category_tiles",
     "featured_pendant",
     "our_story",
     "cta_pendant",
+    "room_showcase",
     "featured_outdoor",
     "category_accordion",
     "heitz_featured_collection_NAwf9H",

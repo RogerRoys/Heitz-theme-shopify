@@ -585,111 +585,6 @@
         "button_label": "Subscribe"
       }
     },
-    "category_tiles": {
-      "type": "heitz-collection-showcase",
-      "blocks": {
-        "cat_pendant": {
-          "type": "item",
-          "settings": {
-            "collection": "pendant-lights"
-          }
-        },
-        "cat_wall": {
-          "type": "item",
-          "settings": {
-            "collection": "wall-lights"
-          }
-        },
-        "cat_ceiling": {
-          "type": "item",
-          "settings": {
-            "collection": "ceiling-lights"
-          }
-        },
-        "cat_table": {
-          "type": "item",
-          "settings": {
-            "collection": "table-lamps"
-          }
-        },
-        "cat_outdoor_wall": {
-          "type": "item",
-          "settings": {
-            "collection": "outdoor-wall-lights"
-          }
-        },
-        "cat_outdoor": {
-          "type": "item",
-          "settings": {
-            "collection": "outdoor-lights"
-          }
-        }
-      },
-      "block_order": [
-        "cat_pendant",
-        "cat_wall",
-        "cat_ceiling",
-        "cat_table",
-        "cat_outdoor_wall",
-        "cat_outdoor"
-      ],
-      "settings": {
-        "color_scheme": "scheme-1",
-        "padding_top": 60,
-        "padding_bottom": 40,
-        "title": "Shop by Category",
-        "columns": 3,
-        "ratio": "square",
-        "label_style": "below",
-        "label_size": 16
-      }
-    },
-    "room_showcase": {
-      "type": "heitz-collection-showcase",
-      "blocks": {
-        "room_living": {
-          "type": "item",
-          "settings": {
-            "collection": "living-room"
-          }
-        },
-        "room_dining": {
-          "type": "item",
-          "settings": {
-            "collection": "dining-table",
-            "label": "Dining Room"
-          }
-        },
-        "room_bedroom": {
-          "type": "item",
-          "settings": {
-            "collection": "bedroom"
-          }
-        },
-        "room_kitchen": {
-          "type": "item",
-          "settings": {
-            "collection": "kitchen"
-          }
-        }
-      },
-      "block_order": [
-        "room_living",
-        "room_dining",
-        "room_bedroom",
-        "room_kitchen"
-      ],
-      "settings": {
-        "color_scheme": "scheme-heitz-light",
-        "padding_top": 80,
-        "padding_bottom": 80,
-        "title": "Shop by Room",
-        "columns": 4,
-        "ratio": "landscape",
-        "label_style": "overlay",
-        "label_size": 17
-      }
-    },
     "category_scroll": {
       "type": "heitz-category-scroll",
       "blocks": {
@@ -758,18 +653,187 @@
         "padding_top": 40,
         "padding_bottom": 40
       }
+    },
+    "featured_table": {
+      "type": "heitz-featured-collection",
+      "blocks": {
+        "static-product-card": {
+          "type": "_product-card",
+          "static": true,
+          "settings": {
+            "product_card_gap": 6,
+            "inherit_color_scheme": true,
+            "color_scheme": "",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 20,
+            "border_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "card_gallery": {
+              "type": "_product-card-gallery",
+              "settings": {
+                "image_ratio": "square",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "card_title": {
+              "type": "product-title",
+              "settings": {
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "custom",
+                "font": "var(--font-heading--family)",
+                "font_size": "0.875rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 4,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "card_price": {
+              "type": "price",
+              "settings": {
+                "show_sale_price_first": true,
+                "show_installments": false,
+                "show_tax_info": false,
+                "show_discount_badge": true,
+                "discount_badge_product_page_only": true,
+                "discount_badge_text": "DISCOUNT",
+                "discount_badge_background": "#e62b2b",
+                "discount_badge_text_color": "#ffffff",
+                "discount_badge_font_size": 13,
+                "discount_badge_font_weight": "600",
+                "discount_badge_radius": 50,
+                "discount_badge_padding_x": 18,
+                "discount_badge_padding_y": 6,
+                "discount_badge_gap": 12,
+                "type_preset": "custom",
+                "width": "100%",
+                "alignment": "left",
+                "font": "var(--font-heading--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "color": "var(--color-primary)",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "card_swatches": {
+              "type": "swatches",
+              "disabled": true,
+              "settings": {
+                "product_swatches_alignment": "flex-start",
+                "product_swatches_alignment_mobile": "flex-start",
+                "hide_padding": false,
+                "product_swatches_padding_top": 4,
+                "product_swatches_padding_bottom": 0,
+                "product_swatches_padding_left": 0,
+                "product_swatches_padding_right": 0
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "card_gallery",
+            "card_title",
+            "card_price",
+            "card_swatches"
+          ]
+        }
+      },
+      "custom_css": [],
+      "settings": {
+        "collection": "table-lamps",
+        "type_preset": "custom",
+        "font": "var(--font-heading--family)",
+        "font_size": "",
+        "line_height": "normal",
+        "letter_spacing": "normal",
+        "case": "none",
+        "color": "",
+        "title": "Table Lamps",
+        "link_label": "View all",
+        "limit": 8,
+        "columns": 4,
+        "color_scheme": "scheme-1",
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    },
+    "warranty_story": {
+      "type": "heitz-home-story",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "image": "shopify://shop_images/Luminara___Elegant_Crystal_Wall_Light_Fixture_with_Gold_Finish_2.jpg",
+        "image_position": "right",
+        "eyebrow": "Our Promise",
+        "title": "Covered by our 1-year warranty",
+        "text": "<p>Every Heitz light is chosen with care and made to last. Each piece is covered by our 1-year warranty against manufacturing defects — electrical components, wiring and LED faults included — for 12 months from the day your order arrives.</p><p>If something is not right, our team will put it right with a repair, replacement or refund.</p>",
+        "button_label": "Read the Warranty",
+        "link": "shopify://pages/warranty",
+        "heading_size": 40,
+        "text_size": 16
+      }
+    },
+    "sustainability_story": {
+      "type": "heitz-home-story",
+      "settings": {
+        "color_scheme": "scheme-heitz-cream",
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "image": "shopify://shop_images/Resistant_Outdoor_Wall_Lantern_Light_9.jpg",
+        "image_position": "left",
+        "eyebrow": "Sustainability",
+        "title": "Designed to last, chosen with care",
+        "text": "<p>Good design should respect the environment it lives in. Guided by Scandinavian and Japandi principles, we choose durable, responsibly sourced materials and timeless designs that reduce the need for frequent replacements.</p><p>Many of our lights support energy-saving LED solutions — comfort and performance, with less consumption.</p>",
+        "button_label": "Learn More",
+        "link": "shopify://pages/sustainability",
+        "heading_size": 40,
+        "text_size": 16
+      }
     }
   },
   "order": [
     "hero",
     "trust_badges",
     "category_scroll",
-    "category_tiles",
     "featured_pendant",
     "our_story",
     "cta_pendant",
-    "room_showcase",
+    "featured_table",
     "featured_outdoor",
+    "warranty_story",
+    "sustainability_story",
     "category_accordion",
     "heitz_featured_collection_NAwf9H",
     "newsletter"

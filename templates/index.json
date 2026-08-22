@@ -653,6 +653,13 @@
             "question": "What makes your lighting different?",
             "answer": "<p>Our collections are selected with a clear design direction — clean forms, soft glow, natural warmth, and pieces that feel easy to live with. Before anything joins our collection, we experience it ourselves — testing the light and living with each piece — so we only offer lighting we'd genuinely choose for our own homes. The goal is to enhance a room without overpowering it.</p>"
           }
+        },
+        "faq_6": {
+          "type": "qa",
+          "settings": {
+            "question": "When will I get my tracking number?",
+            "answer": "<p>You’ll receive your tracking number by email as soon as your order has been shipped. You can follow your delivery at any time on our <a href=\"/apps/track123\" title=\"Track Order\">Track Order page</a> — please allow up to 24 hours for tracking updates to appear after dispatch.</p>"
+          }
         }
       },
       "block_order": [
@@ -660,17 +667,20 @@
         "faq_2",
         "faq_3",
         "faq_4",
-        "faq_5"
+        "faq_5",
+        "faq_6"
       ],
       "settings": {
-        "color_scheme": "scheme-1",
+        "color_scheme": "scheme-heitz-cream",
         "padding_top": 80,
         "padding_bottom": 80,
-        "title": "Frequently asked questions",
+        "title": "Frequently Asked Questions",
         "link": "/pages/frequently-asked-questions",
         "link_label": "View all",
-        "question_size": 17,
-        "text_size": 15
+        "question_size": 16,
+        "text_size": 15,
+        "eyebrow": "Lighting Help",
+        "intro": "<p>Quick answers about ordering from Heitz — shipping, returns, warranty and what makes our lighting different.</p>"
       }
     },
     "category_accordion": {

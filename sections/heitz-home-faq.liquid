@@ -1,6 +1,7 @@
 {%- comment -%}
-  Heitz Home FAQ — compact accordion for the homepage: centered column,
-  hairline dividers, rotating plus icon, answers fade in on open.
+  Heitz Home FAQ — centered header (eyebrow, heading, intro) over a
+  column of rounded card accordions. Rotating plus icon, answers fade
+  in on open, optional centered link button below the list.
 {%- endcomment -%}
 {% render 'heitz-tf-base' %}
 <style>
@@ -9,40 +10,61 @@
     padding: {{ section.settings.padding_top | default: 80 }}px 0 {{ section.settings.padding_bottom | default: 80 }}px;
     font-family: var(--htf-font-body);
   }
-  .hhfq__wrap { max-width: 900px; margin: 0 auto; }
+  .hhfq__wrap { max-width: 860px; margin: 0 auto; }
   .hhfq__header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 15px;
-    margin-bottom: 30px;
+    text-align: center;
+    margin-bottom: 38px;
+  }
+  .hhfq__eyebrow {
+    color: var(--color-primary, #b8913f);
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 0.3em;
+    line-height: 1.4;
+    margin: 0 0 14px;
+    text-transform: uppercase;
   }
   .hhfq__title {
     font-family: var(--htf-font-heading);
-    font-size: 24px;
+    font-size: 26px;
     font-weight: 400;
     letter-spacing: 0.025em;
-    line-height: 1.1;
+    line-height: 1.15;
     color: var(--color-foreground-heading, var(--htf-color-text));
     margin: 0;
   }
+  .hhfq__intro {
+    max-width: 640px;
+    margin: 14px auto 0;
+  }
+  .hhfq__intro p {
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 1.7;
+    color: var(--color-foreground, var(--htf-color-text));
+    margin: 0;
+  }
   @media only screen and (min-width: 769px) {
-    .hhfq__title { font-size: 30px; }
+    .hhfq__title { font-size: 34px; }
   }
   .hhfq__item {
-    border-bottom: 1px solid var(--color-border, #e4e4e4);
+    background: #ffffff;
+    border: 1px solid rgba(26, 27, 24, 0.05);
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(26, 27, 24, 0.04);
+    margin-bottom: 14px;
   }
-  .hhfq__item:first-of-type { border-top: 1px solid var(--color-border, #e4e4e4); }
+  .hhfq__item:last-of-type { margin-bottom: 0; }
   .hhfq__q {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 18px;
-    padding: 19px 2px;
+    padding: 19px 24px;
     cursor: pointer;
     list-style: none;
     font-family: var(--htf-font-heading);
-    font-size: {{ section.settings.question_size | default: 17 }}px;
+    font-size: {{ section.settings.question_size | default: 16 }}px;
     font-weight: 400;
     letter-spacing: 0.02em;
     line-height: 1.4;
@@ -51,8 +73,8 @@
   .hhfq__q::-webkit-details-marker { display: none; }
   .hhfq__icon {
     flex: 0 0 auto;
-    width: 16px;
-    height: 16px;
+    width: 15px;
+    height: 15px;
     position: relative;
     transition: transform .35s cubic-bezier(.22, 1, .36, 1);
   }
@@ -61,13 +83,16 @@
     content: '';
     position: absolute;
     background: var(--color-foreground-heading, var(--htf-color-text));
+    transition: background .3s ease;
   }
   .hhfq__icon::before { left: 0; right: 0; top: 7px; height: 1.5px; }
   .hhfq__icon::after { top: 0; bottom: 0; left: 7px; width: 1.5px; }
   .hhfq__item[open] .hhfq__icon { transform: rotate(45deg); }
+  .hhfq__item[open] .hhfq__icon::before,
+  .hhfq__item[open] .hhfq__icon::after { background: var(--color-primary, #b8913f); }
   .hhfq__a {
-    padding: 0 2px 22px;
-    max-width: 62ch;
+    padding: 0 24px 22px;
+    max-width: 66ch;
   }
   .hhfq__a p {
     font-size: {{ section.settings.text_size | default: 15 }}px;
@@ -85,14 +110,20 @@
     from { opacity: 0; transform: translateY(-6px); }
     to { opacity: 1; transform: translateY(0); }
   }
+  .hhfq__more {
+    text-align: center;
+    margin-top: 30px;
+  }
   .hhfq .htf-btn--secondary {
     color: var(--color-foreground, var(--htf-color-text));
     border-color: var(--color-border, var(--htf-color-border));
   }
   @media only screen and (max-width: 768px) {
-    .hhfq__header { margin-bottom: 22px; }
-    .hhfq__q { font-size: {{ section.settings.question_size | default: 17 | minus: 1 }}px; padding: 16px 2px; }
+    .hhfq__header { margin-bottom: 26px; }
+    .hhfq__q { font-size: {{ section.settings.question_size | default: 16 | minus: 1 }}px; padding: 16px 18px; }
+    .hhfq__a { padding: 0 18px 18px; }
     .hhfq__a p { font-size: {{ section.settings.text_size | default: 15 | minus: 1 }}px; }
+    .hhfq__item { border-radius: 8px; margin-bottom: 11px; }
   }
 </style>
 
@@ -100,9 +131,12 @@
   <div class="htf-page-width">
     <div class="hhfq__wrap">
       <div class="hhfq__header">
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="hhfq__eyebrow">{{ section.settings.eyebrow | escape }}</p>
+        {%- endif -%}
         <h2 class="hhfq__title">{{ section.settings.title | escape }}</h2>
-        {%- if section.settings.link != blank -%}
-          <a href="{{ section.settings.link }}" class="htf-btn htf-btn--secondary htf-btn--small">{{ section.settings.link_label | default: 'View all' }}</a>
+        {%- if section.settings.intro != blank -%}
+          <div class="hhfq__intro">{{ section.settings.intro }}</div>
         {%- endif -%}
       </div>
       <div class="hhfq__list">
@@ -113,6 +147,11 @@
           </details>
         {%- endfor -%}
       </div>
+      {%- if section.settings.link != blank -%}
+        <div class="hhfq__more">
+          <a href="{{ section.settings.link }}" class="htf-btn htf-btn--secondary htf-btn--small">{{ section.settings.link_label | default: 'View all' }}</a>
+        </div>
+      {%- endif -%}
     </div>
   </div>
 </div>
@@ -125,11 +164,13 @@
     { "type": "header", "content": "Padding" },
     { "type": "range", "id": "padding_top", "label": "Top", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 80 },
     { "type": "range", "id": "padding_bottom", "label": "Bottom", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 80 },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Lighting Help" },
     { "type": "text", "id": "title", "label": "Heading", "default": "Frequently asked questions" },
-    { "type": "url", "id": "link", "label": "Header link" },
-    { "type": "text", "id": "link_label", "label": "Header link label", "default": "View all" },
+    { "type": "richtext", "id": "intro", "label": "Intro text" },
+    { "type": "url", "id": "link", "label": "Link" },
+    { "type": "text", "id": "link_label", "label": "Link label", "default": "View all" },
     { "type": "header", "content": "Font sizes" },
-    { "type": "range", "id": "question_size", "label": "Question size", "min": 14, "max": 22, "step": 1, "unit": "px", "default": 17 },
+    { "type": "range", "id": "question_size", "label": "Question size", "min": 14, "max": 22, "step": 1, "unit": "px", "default": 16 },
     { "type": "range", "id": "text_size", "label": "Answer size", "min": 12, "max": 18, "step": 1, "unit": "px", "default": 15 }
   ],
   "blocks": [

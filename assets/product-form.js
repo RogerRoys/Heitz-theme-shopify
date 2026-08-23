@@ -429,9 +429,8 @@ class ProductFormComponent extends Component {
             }, SUCCESS_MESSAGE_DISPLAY_DURATION);
           }
 
-          // Fetch the updated cart to get the actual total quantity for this variant
-          await this.#fetchAndUpdateCartQuantity();
-
+          // Open the drawer right away — its content is already in
+          // response.sections, so nothing needs to wait on another request.
           this.dispatchEvent(
             new CartAddEvent({}, id.toString(), {
               source: 'product-form-component',
@@ -440,6 +439,9 @@ class ProductFormComponent extends Component {
               sections: response.sections,
             })
           );
+
+          // Refresh the per-variant quantity bookkeeping in the background.
+          this.#fetchAndUpdateCartQuantity();
         }
       })
       .catch((error) => {

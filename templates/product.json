@@ -579,6 +579,73 @@
         "padding-block-end": 48
       }
     },
+    "heitz_home_faq_NPk6T8": {
+      "type": "heitz-home-faq",
+      "blocks": {
+        "qa_Jcxk8k": {
+          "type": "qa",
+          "settings": {
+            "question": "How long does shipping take?",
+            "answer": "<p>We offer free tracked shipping to the <strong>United States</strong>, the <strong>United Kingdom</strong> and <strong>Australia</strong>.</p><p><strong>USA:</strong> 8–15 business days<br><strong>UK:</strong> 5–10 business days<br><strong>Australia:</strong> 8–15 business days</p><p>Delivery times may vary slightly depending on your location and local courier conditions.</p>"
+          }
+        },
+        "qa_zK3UHB": {
+          "type": "qa",
+          "settings": {
+            "question": "What's your return policy?",
+            "answer": "<p>We offer a <strong>30-day return policy</strong> — you can request a return within 30 days of receiving your order. Items must be unused, in their original condition, and returned with the original packaging and accessories.</p><p>For change-of-mind returns, return shipping costs and a <strong>40% restocking fee</strong> are the customer’s responsibility, and original shipping costs are non-refundable. If your item arrives damaged, faulty, or incorrect, we cover return shipping and charge no restocking fee. Find more information <a href=\"/policies/refund-policy\" title=\"Refund Policy\">here.</a></p>"
+          }
+        },
+        "qa_cFBKkW": {
+          "type": "qa",
+          "settings": {
+            "question": "Do your products include a warranty?",
+            "answer": "<p>Yes. Every product includes a <strong>1-year warranty</strong> covering manufacturing defects. If your item has a fault caused by the manufacturing process, please contact us with your order details and photos of the issue, and we’ll help with a suitable solution.</p><p>The warranty does not cover damage caused by incorrect installation, misuse, accidental damage, normal wear and tear, or changes made to the product after purchase. For full details, see our <a href=\"/pages/warranty\" title=\"1-Year Warranty\"><strong>1-Year Warranty page.</strong></a></p>"
+          }
+        },
+        "qa_RcDFrj": {
+          "type": "qa",
+          "settings": {
+            "question": "Where do you ship from?",
+            "answer": "<p>Your order ships directly from our makers and fulfilment partners overseas, sent straight to your door. Shipping from the source lets us keep both our quality and our prices honest, without unnecessary middle steps. Every order is fully tracked, so you can follow your piece the whole way.</p>"
+          }
+        },
+        "qa_wdBgUp": {
+          "type": "qa",
+          "settings": {
+            "question": "What makes your lighting different?",
+            "answer": "<p>Our collections are selected with a clear design direction — clean forms, soft glow, natural warmth, and pieces that feel easy to live with. Before anything joins our collection, we experience it ourselves — testing the light and living with each piece — so we only offer lighting we'd genuinely choose for our own homes. The goal is to enhance a room without overpowering it.</p>"
+          }
+        },
+        "qa_RcMnaJ": {
+          "type": "qa",
+          "settings": {
+            "question": "When will I get my tracking number?",
+            "answer": "<p>You’ll receive your tracking number by email as soon as your order has been shipped. You can follow your delivery at any time on our <a href=\"/apps/track123\" title=\"Track Order\">Track Order page</a> — please allow up to 24 hours for tracking updates to appear after dispatch.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "qa_Jcxk8k",
+        "qa_zK3UHB",
+        "qa_cFBKkW",
+        "qa_RcDFrj",
+        "qa_wdBgUp",
+        "qa_RcMnaJ"
+      ],
+      "settings": {
+        "color_scheme": "scheme-2",
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "eyebrow": "Lighting Help",
+        "title": "Frequently Asked Questions",
+        "intro": "<p>Quick answers about ordering from Heitz — shipping, returns, warranty and what makes our lighting different.</p>",
+        "link": "/pages/frequently-asked-questions",
+        "link_label": "View all",
+        "question_size": 16,
+        "text_size": 15
+      }
+    },
     "heitz_home_story_39krYN": {
       "type": "heitz-home-story",
       "settings": {
@@ -656,6 +723,7 @@
     "story",
     "story_teaser",
     "recommendations",
+    "heitz_home_faq_NPk6T8",
     "heitz_home_story_39krYN",
     "icon_row"
   ]

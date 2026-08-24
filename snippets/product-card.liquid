@@ -307,6 +307,54 @@
     display: none !important;
   }
 
+  .heitz-reference-card [data-quick-add-button='choose'] .quick-add__button--choose {
+    right: 18px !important;
+    bottom: 18px !important;
+    left: 18px !important;
+    width: auto;
+    height: 50px;
+    min-width: 0;
+    border-radius: 0 !important;
+    background: #050505 !important;
+    color: #fff !important;
+    box-shadow: none;
+  }
+
+  .heitz-reference-card [data-quick-add-button='choose'] .quick-add__button--choose .quick-add__button-icon {
+    display: none;
+  }
+
+  .heitz-reference-card [data-quick-add-button='choose'] .quick-add__button--choose .add-to-cart-text__content {
+    position: static !important;
+    display: block !important;
+    width: auto !important;
+    height: auto !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    overflow: visible !important;
+    clip: auto !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+    font-family: var(--font-body--family);
+    font-size: 0 !important;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    opacity: 1 !important;
+  }
+
+  .heitz-reference-card [data-quick-add-button='choose'] .quick-add__button--choose .add-to-cart-text__content::after {
+    content: 'CHOOSE OPTIONS';
+    font-size: 0.78rem;
+  }
+
+  .heitz-reference-card [data-quick-add-button='choose'] .quick-add__button--choose .add-to-cart-text__content span,
+  .heitz-reference-card [data-quick-add-button='choose'] .quick-add__button--choose .add-to-cart-text__content span span {
+    opacity: 0 !important;
+    position: absolute;
+  }
+
   @media screen and (max-width: 749px) {
     .heitz-reference-card a[ref='productTitleLink'] {
       margin-top: 8px;
@@ -328,6 +376,18 @@
       min-width: 42px;
       right: 10px !important;
       bottom: 10px !important;
+    }
+
+    .heitz-reference-card [data-quick-add-button='choose'] .quick-add__button--choose {
+      right: 10px !important;
+      bottom: 10px !important;
+      left: 10px !important;
+      width: auto;
+      height: 44px;
+    }
+
+    .heitz-reference-card [data-quick-add-button='choose'] .quick-add__button--choose .add-to-cart-text__content::after {
+      font-size: 0.7rem;
     }
   }
 {% endstylesheet %}

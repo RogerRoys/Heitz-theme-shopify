@@ -304,4 +304,94 @@
       }
     }
   }
+
+
+  /* Adapt the custom HPDP product section to the reference-style quick-view dialog. */
+  .quick-add-modal__content:has(.hpdp-grid) {
+    display: block !important;
+    overflow: auto !important;
+    padding: 0 !important;
+  }
+
+  .quick-add-modal__content:has(.hpdp-grid) .hpdp-page-width {
+    box-sizing: border-box;
+    max-width: none !important;
+    padding: 28px !important;
+    width: 100% !important;
+  }
+
+  .quick-add-modal__content:has(.hpdp-grid) .hpdp-grid {
+    align-items: start;
+    display: grid !important;
+    gap: 30px !important;
+    grid-template-columns: minmax(0, 1.08fr) minmax(270px, 0.92fr) !important;
+    height: auto !important;
+    margin: 0 !important;
+    width: 100% !important;
+  }
+
+  .quick-add-modal__content:has(.hpdp-grid) .hpdp-media,
+  .quick-add-modal__content:has(.hpdp-grid) .hpdp-info {
+    height: auto !important;
+    min-width: 0;
+    width: 100% !important;
+  }
+
+  .quick-add-modal__content:has(.hpdp-grid) .hpdp-media__sticky {
+    position: static !important;
+    top: auto !important;
+  }
+
+  .quick-add-modal__content:has(.hpdp-grid) .hpdp-gallery-flex {
+    display: block !important;
+  }
+
+  .quick-add-modal__content:has(.hpdp-grid) .hpdp-thumbs-col {
+    display: none !important;
+  }
+
+  .quick-add-modal__content:has(.hpdp-grid) .hpdp-stage {
+    aspect-ratio: 1;
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: hidden;
+    width: 100% !important;
+  }
+
+  .quick-add-modal__content:has(.hpdp-grid) .hpdp-stage__track,
+  .quick-add-modal__content:has(.hpdp-grid) .hpdp-slide,
+  .quick-add-modal__content:has(.hpdp-grid) .hpdp-slide__ratio {
+    height: 100% !important;
+  }
+
+  .quick-add-modal__content:has(.hpdp-grid) .hpdp-slide__ratio img {
+    height: 100% !important;
+    object-fit: cover;
+    width: 100% !important;
+  }
+
+  .quick-add-modal__content:has(.hpdp-grid) .hpdp-info {
+    padding: 0 !important;
+  }
+
+  .quick-add-modal__content:has(.hpdp-grid) .hpdp-title {
+    font-size: clamp(1.45rem, 2.2vw, 2rem) !important;
+    line-height: 1.16 !important;
+  }
+
+  @media screen and (max-width: 749px) {
+    .quick-add-modal__content:has(.hpdp-grid) .hpdp-page-width {
+      padding: 18px !important;
+    }
+
+    .quick-add-modal__content:has(.hpdp-grid) .hpdp-grid {
+      gap: 20px !important;
+      grid-template-columns: minmax(0, 1fr) !important;
+    }
+
+    .quick-add-modal__content:has(.hpdp-grid) .hpdp-title {
+      font-size: 1.35rem !important;
+    }
+  }
+
 {% endstylesheet %}

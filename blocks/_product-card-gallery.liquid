@@ -6,75 +6,7 @@
   {% assign discount_percent = discount_amount | times: 100.0 | divided_by: product.compare_at_price | round %}
 {% endif %}
 
-{% liquid
-  assign primary_media = product.selected_or_first_available_variant.featured_media | default: product.featured_media
-  assign secondary_media = blank
-
-  for media in product.media
-    if media.media_type == 'image' and media.id != primary_media.id
-      assign secondary_media = media
-      break
-    endif
-  endfor
-
-  assign card_url = product.selected_or_first_available_variant.url | default: product.url
-  assign image_widths = '240, 352, 550, 750, 1000, 1200'
-  assign image_sizes = '(min-width: 1200px) 25vw, (min-width: 750px) 33vw, 50vw'
-%}
-
-<div
-  ref="cardGallery"
-  class="card-gallery heitz-reference-card__media spacing-style border-style"
-  style="
-    {% render 'border-override', settings: block.settings %}
-    {% render 'spacing-style', settings: block.settings %}
-  "
-  data-product-id="{{ product.id }}"
->
-  <a
-    class="heitz-reference-card__media-link"
-    ref="cardGalleryLink"
-    href="{{ card_url }}"
-    aria-label="{{ product.title | escape }}"
-  >
-    {% if primary_media != blank %}
-      {{
-        primary_media.preview_image
-        | image_url: width: 1200
-        | image_tag:
-          loading: 'lazy',
-          widths: image_widths,
-          sizes: image_sizes,
-          class: 'heitz-reference-card__image heitz-reference-card__image--primary'
-      }}
-    {% else %}
-      {{ 'product-1' | placeholder_svg_tag: 'heitz-reference-card__placeholder' }}
-    {% endif %}
-
-    {% if secondary_media != blank %}
-      {{
-        secondary_media.preview_image
-        | image_url: width: 1200
-        | image_tag:
-          loading: 'lazy',
-          widths: image_widths,
-          sizes: image_sizes,
-          class: 'heitz-reference-card__image heitz-reference-card__image--secondary'
-      }}
-    {% endif %}
-  </a>
-
-  <a
-    class="heitz-reference-card__quick-view"
-    href="{{ card_url }}"
-    aria-label="Quick view {{ product.title | escape }}"
-  >
-    <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
-      <circle cx="10.75" cy="10.75" r="6.75" stroke="currentColor" stroke-width="1.6"></circle>
-      <path d="M15.6 15.6 20 20" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path>
-    </svg>
-  </a>
-
+{% capture children %}
   {% unless product == blank %}
     <div
       class="product-badges product-badges--{{ settings.badge_position }}"
@@ -85,31 +17,72 @@
         --badge-text-transform: {{ settings.badge_text_transform }};
       "
     >
-      {% if product.available == false %}
-        <div class="product-badges__badge product-badges__badge--rectangle color-{{ settings.badge_sold_out_color_scheme }}">
-          {{ 'content.product_badge_sold_out' | t }}
+      {%- if product.available == false or product.compare_at_price > product.price -%}
+        <div
+          class="
+            product-badges__badge product-badges__badge--rectangle
+            {% if product.available == false %}
+              color-{{ settings.badge_sold_out_color_scheme }}
+            {% elsif product.compare_at_price > product.price %}
+              color-{{ settings.badge_sale_color_scheme }}
+            {% endif %}
+          "
+        >
+            {%- if product.available == false -%}
+            {{ 'content.product_badge_sold_out' | t }}
+         {%- elsif product.compare_at_price > product.price -%}
+  <span style="font-size: {{ settings.sale_badge_font_size | default: 12 }}px !important;">
+    {{ discount_percent }}% Discount
+  </span>
+{%- endif -%}
         </div>
-      {% elsif product.compare_at_price > product.price %}
-        <div class="product-badges__badge product-badges__badge--rectangle color-{{ settings.badge_sale_color_scheme }}">
-          {{ discount_percent }}% Discount
+      {%- endif -%}
+
+      {% if settings.enable_new_badge and product.metafields.custom["new-arrival"] != blank %}
+        <div class="new_badge" style="
+          padding-top: {{ settings.new_badge_padding_top }}px;
+          padding-right: {{ settings.new_badge_padding_right }}px;
+          padding-bottom: {{ settings.new_badge_padding_bottom }}px;
+          padding-left: {{ settings.new_badge_padding_left }}px;
+          border-radius: {{ settings.custom_border_radius }};
+          margin-top: 5px;
+          font-size: {{ settings.new_badge_font_size }}px;
+          background-color: {{ settings.new_badge_bg_color }};
+          color: {{ settings.new_badge_text_color }};
+        ">
+          {{ product.metafields.custom["new-arrival"] | default: "New Arrivals" }}
         </div>
       {% endif %}
 
-      {% if settings.enable_new_badge and product.metafields.custom['new-arrival'] != blank %}
-        <div class="product-badges__badge product-badges__badge--rectangle new_badge">
-          {{ product.metafields.custom['new-arrival'] | default: 'New Arrivals' }}
+      {% if settings.enable_best_badge and product.metafields.custom["best-selling"] != blank %}
+        <div class="best" style="
+          padding-top: {{ settings.new_badge_padding_top }}px;
+          padding-right: {{ settings.new_badge_padding_right }}px;
+          padding-bottom: {{ settings.new_badge_padding_bottom }}px;
+          padding-left: {{ settings.new_badge_padding_left }}px;
+          border-radius: {{ settings.custom_border_radius }};
+          margin-top: 5px;
+          font-size: {{ settings.best_badge_font_size }}px;
+          background-color: {{ settings.best_badge_bg_color }};
+          color: {{ settings.best_badge_text_color }};
+        ">
+          {{ product.metafields.custom["best-selling"] | default: "Best Selling" }}
         </div>
       {% endif %}
 
-      {% if settings.enable_best_badge and product.metafields.custom['best-selling'] != blank %}
-        <div class="product-badges__badge product-badges__badge--rectangle best">
-          {{ product.metafields.custom['best-selling'] | default: 'Best Selling' }}
-        </div>
-      {% endif %}
-
-      {% if settings.enable_custom_badge and product.metafields.custom['custom-badge'] != blank %}
-        <div class="product-badges__badge product-badges__badge--rectangle custom">
-          {{ product.metafields.custom['custom-badge'] | default: 'Limited Edition' }}
+      {% if settings.enable_custom_badge and product.metafields.custom["custom-badge"] != blank %}
+        <div class="custom" style="
+          padding-top: {{ settings.new_badge_padding_top }}px;
+          padding-right: {{ settings.new_badge_padding_right }}px;
+          padding-bottom: {{ settings.new_badge_padding_bottom }}px;
+          padding-left: {{ settings.new_badge_padding_left }}px;
+          border-radius: {{ settings.custom_border_radius }};
+          margin-top: 5px;
+          font-size: {{ settings.custom_badge_font_size }}px;
+          background-color: {{ settings.custom_badge_bg_color }};
+          color: {{ settings.custom_badge_text_color }};
+        ">
+          {{ product.metafields.custom["custom-badge"] | default: "Limited Edition" }}
         </div>
       {% endif %}
     </div>
@@ -118,8 +91,11 @@
       {% render 'quick-add', product: product, section_id: section.id %}
     {% endif %}
   {% endunless %}
-</div>
+{% endcapture %}
 
+{% render 'card-gallery', children: children %}
+
+{%- comment -%} Title and price for the zoomed out grid view {%- endcomment -%}
 <div class="product-grid-view-zoom-out--details">
   {% if product == blank %}
     <h3 class="h4">{{ 'content.product_card_placeholder' | t }}</h3>
@@ -128,178 +104,121 @@
   {% endif %}
 </div>
 
+
 {% stylesheet %}
-  .heitz-reference-card__media {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 1 / 1;
-    overflow: hidden;
-    background: #f3f1ed;
-    isolation: isolate;
-  }
-
-  .heitz-reference-card__media-link {
-    position: absolute;
-    inset: 0;
-    display: block;
-  }
-
-  .heitz-reference-card__image,
-  .heitz-reference-card__placeholder {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: opacity 280ms ease, transform 500ms cubic-bezier(0.22, 1, 0.36, 1);
-  }
-
-  .heitz-reference-card__image--primary {
-    opacity: 1;
-  }
-
-  .heitz-reference-card__image--secondary {
-    opacity: 0;
-  }
-
-  .heitz-reference-card__quick-view {
-    position: absolute;
-    top: 14px;
-    right: 14px;
-    z-index: 4;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    background: #fff;
-    color: #171717;
-    box-shadow: 0 3px 14px rgb(0 0 0 / 10%);
-    transition: transform 180ms ease, box-shadow 180ms ease;
-  }
-
-  .heitz-reference-card__quick-view svg {
-    width: 24px;
-    height: 24px;
-  }
-
-  .heitz-reference-card__quick-view:hover,
-  .heitz-reference-card__quick-view:focus-visible {
-    transform: scale(1.05);
-    box-shadow: 0 5px 18px rgb(0 0 0 / 15%);
-  }
-
-  .heitz-reference-card__media:hover .heitz-reference-card__image--primary,
-  .heitz-reference-card__media:focus-within .heitz-reference-card__image--primary {
-    opacity: 0;
-  }
-
-  .heitz-reference-card__media:hover .heitz-reference-card__image--secondary,
-  .heitz-reference-card__media:focus-within .heitz-reference-card__image--secondary {
-    opacity: 1;
-    transform: scale(1.015);
-  }
-
   .product-badges {
-    position: absolute;
-    top: 12px;
-    left: 12px;
-    z-index: 3;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 6px;
-    pointer-events: none;
-  }
+    --badge-inset: max(var(--padding-xs), calc((var(--border-radius) + var(--padding-xs)) * (1 - cos(45deg))));
 
-  .product-badges--top-right {
-    right: 12px;
-    left: auto;
+    position: absolute;
+    z-index: var(--layer-flat);
   }
 
   .product-badges--bottom-left {
-    top: auto;
-    bottom: 12px;
+    bottom: calc(var(--badge-inset) + var(--padding-block-start));
+    left: calc(var(--badge-inset) + var(--padding-inline-start));
+  }
+
+  .product-badges--top-left {
+    top: calc(var(--badge-inset) + var(--padding-block-start));
+    left: calc(var(--badge-inset) + var(--padding-inline-start));
+  }
+
+  .product-badges--top-right {
+    top: calc(var(--badge-inset) + var(--padding-block-start));
+    right: calc(var(--badge-inset) + var(--padding-inline-start));
   }
 
   .product-badges__badge {
-    display: inline-flex;
+    --badge-font-size: var(--font-size--xs);
+
+    display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 28px;
-    padding: 5px 10px;
-    border: 0;
-    border-radius: 0;
-    background: #fff;
-    color: #171717;
-    box-shadow: 0 2px 8px rgb(0 0 0 / 8%);
-    font-family: var(--font-body--family);
-    font-size: 0.75rem;
-    font-weight: 400;
-    line-height: 1;
+    text-align: center;
+    color: var(--color-foreground);
+    background: var(--color-background);
+    font-size: var(--badge-font-size);
+    font-family: var(--badge-font-family);
+    font-weight: var(--badge-font-weight);
+    text-transform: var(--badge-text-transform);
+    border-radius: var(--badge-border-radius);
   }
 
-  @media screen and (max-width: 749px) {
-    .heitz-reference-card__quick-view {
-      top: 9px;
-      right: 9px;
-      width: 40px;
-      height: 40px;
-    }
-
-    .heitz-reference-card__quick-view svg {
-      width: 21px;
-      height: 21px;
-    }
-
-    .product-badges {
-      top: 9px;
-      left: 9px;
-    }
-
-    .product-badges__badge {
-      min-height: 25px;
-      padding: 4px 8px;
-      font-size: 0.7rem;
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .heitz-reference-card__image {
-      transition: none;
-    }
+  .product-badges__badge--rectangle {
+    padding-block: var(--badge-rectangle-padding-block);
+    padding-inline: var(--badge-rectangle-padding-inline);
   }
 {% endstylesheet %}
 
+<Style>
+    .product-badges__badge--rectangle {
+     font-size: {{ settings.sale_badge_font_size }}px !important;
+  }
+</Style>
+
+
+<Style>
+   .product-badges__badge--rectangle {
+    padding-top: {{ settings.new_badge_padding_top }}px !important;
+    padding-right: {{ settings.new_badge_padding_right }}px !important;
+    padding-bottom: {{ settings.new_badge_padding_bottom }}px !important;
+    padding-left: {{ settings.new_badge_padding_left }}px !important;
+         margin-top: 5px;
+     font-size: {{ settings.sale_badge_font_size }}px !important;
+  }
+</Style>
+
 {% schema %}
 {
-  "name": "Product image",
+  "name": "t:names.product_image",
   "tag": null,
   "settings": [
+    {
+      "type": "paragraph",
+      "content": "t:content.resource_reference_product_media"
+    },
     {
       "type": "select",
       "id": "image_ratio",
       "options": [
-        { "value": "adapt", "label": "Auto" },
-        { "value": "portrait", "label": "Portrait" },
-        { "value": "square", "label": "Square" },
-        { "value": "landscape", "label": "Landscape" }
+        {
+          "value": "adapt",
+          "label": "t:options.auto"
+        },
+        {
+          "value": "portrait",
+          "label": "t:options.portrait"
+        },
+        {
+          "value": "square",
+          "label": "t:options.square"
+        },
+        {
+          "value": "landscape",
+          "label": "t:options.landscape"
+        }
       ],
-      "default": "square",
-      "label": "Aspect ratio"
+      "default": "portrait",
+      "label": "t:settings.aspect_ratio",
+      "info": "t:info.aspect_ratio_adjusted"
     },
     {
       "type": "header",
-      "content": "Borders"
+      "content": "t:content.borders"
     },
     {
       "type": "select",
       "id": "border",
-      "label": "Style",
+      "label": "t:settings.style",
       "options": [
-        { "value": "none", "label": "None" },
-        { "value": "solid", "label": "Solid" }
+        {
+          "value": "none",
+          "label": "t:options.none"
+        },
+        {
+          "value": "solid",
+          "label": "t:options.solid"
+        }
       ],
       "default": "none"
     },
@@ -310,8 +229,9 @@
       "max": 100,
       "step": 1,
       "unit": "px",
-      "label": "Thickness",
-      "default": 1
+      "label": "t:settings.thickness",
+      "default": 1,
+      "visible_if": "{{ block.settings.border != 'none' }}"
     },
     {
       "type": "range",
@@ -320,13 +240,14 @@
       "max": 100,
       "step": 1,
       "unit": "%",
-      "label": "Opacity",
-      "default": 100
+      "label": "t:settings.opacity",
+      "default": 100,
+      "visible_if": "{{ block.settings.border != 'none' }}"
     },
     {
       "type": "range",
       "id": "border_radius",
-      "label": "Border radius",
+      "label": "t:settings.border_radius",
       "min": 0,
       "max": 32,
       "step": 1,
@@ -335,12 +256,12 @@
     },
     {
       "type": "header",
-      "content": "Padding"
+      "content": "t:content.padding"
     },
     {
       "type": "range",
       "id": "padding-block-start",
-      "label": "Top",
+      "label": "t:settings.top",
       "min": 0,
       "max": 50,
       "step": 1,
@@ -350,7 +271,7 @@
     {
       "type": "range",
       "id": "padding-block-end",
-      "label": "Bottom",
+      "label": "t:settings.bottom",
       "min": 0,
       "max": 50,
       "step": 1,
@@ -360,7 +281,7 @@
     {
       "type": "range",
       "id": "padding-inline-start",
-      "label": "Left",
+      "label": "t:settings.left",
       "min": 0,
       "max": 50,
       "step": 1,
@@ -370,7 +291,7 @@
     {
       "type": "range",
       "id": "padding-inline-end",
-      "label": "Right",
+      "label": "t:settings.right",
       "min": 0,
       "max": 50,
       "step": 1,
@@ -380,10 +301,9 @@
   ],
   "presets": [
     {
-      "name": "Product card media",
-      "category": "Product"
+      "name": "t:names.product_card_media",
+      "category": "t:categories.product"
     }
   ]
 }
 {% endschema %}
-

@@ -15,7 +15,7 @@
         "text_1": {
           "type": "text",
           "settings": {
-            "text": "<h1>The right light changes everything</h1>",
+            "text": "<p>The Right Light Changes Everything</p>",
             "width": "100%",
             "max_width": "narrow",
             "alignment": "center",
@@ -24,7 +24,16 @@
             "font_size": "3rem",
             "line_height": "tight",
             "letter_spacing": "normal",
-            "case": "none"
+            "case": "none",
+            "wrap": "pretty",
+            "color": "var(--color-foreground)",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
           },
           "blocks": {}
         },
@@ -41,7 +50,15 @@
             "line_height": "normal",
             "letter_spacing": "normal",
             "case": "none",
-            "padding-block-end": 32
+            "wrap": "pretty",
+            "color": "var(--color-foreground)",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 32,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
           },
           "blocks": {}
         },

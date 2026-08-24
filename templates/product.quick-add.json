@@ -165,62 +165,8 @@
                     "padding-inline-start": 0,
                     "padding-inline-end": 0
                   },
-                  "blocks": {
-                    "product_title_w7TcB6": {
-                      "type": "product-title",
-                      "name": "t:names.title",
-                      "settings": {
-                        "width": "100%",
-                        "max_width": "none",
-                        "alignment": "left",
-                        "type_preset": "custom",
-                        "font": "var(--font-heading--family)",
-                        "font_size": "1.5rem",
-                        "line_height": "tight",
-                        "letter_spacing": "normal",
-                        "case": "none",
-                        "wrap": "pretty",
-                        "color": "var(--color-foreground)",
-                        "background": false,
-                        "background_color": "#00000026",
-                        "corner_radius": 0,
-                        "padding-block-start": 0,
-                        "padding-block-end": 0,
-                        "padding-inline-start": 0,
-                        "padding-inline-end": 0
-                      },
-                      "blocks": {}
-                    }
-                  },
-                  "block_order": [
-                    "product_title_w7TcB6"
-                  ]
-                },
-                "product_title_JtBYqQ": {
-                  "type": "product-title",
-                  "name": "t:names.title",
-                  "disabled": true,
-                  "settings": {
-                    "width": "100%",
-                    "max_width": "none",
-                    "alignment": "left",
-                    "type_preset": "custom",
-                    "font": "var(--font-heading--family)",
-                    "font_size": "1.5rem",
-                    "line_height": "tight",
-                    "letter_spacing": "normal",
-                    "case": "none",
-                    "wrap": "pretty",
-                    "color": "var(--color-foreground)",
-                    "background": false,
-                    "background_color": "#00000026",
-                    "corner_radius": 0,
-                    "padding-block-start": 0,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
-                  },
-                  "blocks": {}
+                  "blocks": {},
+                  "block_order": []
                 },
                 "price_XqcpTF": {
                   "type": "price",
@@ -271,7 +217,6 @@
               "block_order": [
                 "text_bERRV3",
                 "group_8EekiL",
-                "product_title_JtBYqQ",
                 "price_XqcpTF",
                 "divider_nC7Atj"
               ]

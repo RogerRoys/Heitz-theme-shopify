@@ -205,7 +205,8 @@
   -%}
   {%- if heitz_hover_media != blank and heitz_hover_media.preview_image != blank -%}
     <div class="heitz-hover-img" aria-hidden="true">
-      {{ heitz_hover_media.preview_image | image_url: width: 900 | image_tag: loading: 'lazy', alt: '' }}
+      {%- comment -%} eager: a lazy image behind opacity:0 may never load, leaving hover blank {%- endcomment -%}
+      {{ heitz_hover_media.preview_image | image_url: width: 900 | image_tag: loading: 'eager', fetchpriority: 'low', alt: '' }}
     </div>
   {%- endif -%}
   {{ children }}

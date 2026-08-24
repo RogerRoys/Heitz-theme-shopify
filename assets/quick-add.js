@@ -150,6 +150,12 @@ export class QuickAddComponent extends Component {
   async fetchProductPage(productPageUrl) {
     if (!productPageUrl) return null;
 
+    // The storefront's product template is fully custom and lacks the
+    // markup this modal extracts, so fetch the stock-structured
+    // quick-add view of the product instead.
+    const separator = productPageUrl.includes('?') ? '&' : '?';
+    productPageUrl = `${productPageUrl}${separator}view=quick-add`;
+
     // We use this to abort the previous fetch request if it's still pending.
     this.#abortController?.abort();
     this.#abortController = new AbortController();

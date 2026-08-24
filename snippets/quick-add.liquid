@@ -9,8 +9,8 @@
 
 {% liquid
   assign product_form_id = 'QuickAdd-ProductForm-' | append: product.id | append: '-' | append: block.id
-  assign add_to_cart_text = 'Add to cart'
-  assign choose_options_text = 'Choose options'
+  assign add_to_cart_text = 'actions.add' | t
+  assign choose_options_text = 'actions.choose' | t
   assign color_scheme = color_scheme | default: settings.quick_add_color_scheme
 
   # Logic to determine which variant to use (matching swatch selection logic from product-card)
@@ -35,17 +35,6 @@
   data-quick-add-button="{{ quick_add_button }}"
   data-product-options-count="{{ product.options.size }}"
 >
-  <button
-    class="heitz-reference-card__quick-view"
-    type="button"
-    aria-label="Quick view {{ product.title | escape }}"
-    on:click="quick-add-component/handleClick"
-  >
-    <svg aria-hidden="true" viewBox="0 0 24 24">
-      <circle cx="10.5" cy="10.5" r="6.75" stroke="currentColor" stroke-width="1.5"></circle>
-      <path d="M15.5 15.5L20 20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
-    </svg>
-  </button>
   <product-form-component
     data-section-id="{{ section_id }}"
     data-product-id="{{ product.id }}"
@@ -304,138 +293,4 @@
       }
     }
   }
-
-
-  /* Adapt the custom HPDP product section to the reference-style quick-view dialog. */
-  .quick-add-modal__content:has(.hpdp-grid) {
-    display: block !important;
-    overflow: auto !important;
-    padding: 0 !important;
-  }
-
-  .quick-add-modal__content:has(.hpdp-grid) .hpdp-page-width {
-    box-sizing: border-box;
-    max-width: none !important;
-    padding: 28px !important;
-    width: 100% !important;
-  }
-
-  .quick-add-modal__content:has(.hpdp-grid) .hpdp-grid {
-    align-items: start;
-    display: grid !important;
-    gap: 30px !important;
-    grid-template-columns: minmax(0, 1.08fr) minmax(270px, 0.92fr) !important;
-    height: auto !important;
-    margin: 0 !important;
-    width: 100% !important;
-  }
-
-  .quick-add-modal__content:has(.hpdp-grid) .hpdp-media,
-  .quick-add-modal__content:has(.hpdp-grid) .hpdp-info {
-    height: auto !important;
-    min-width: 0;
-    width: 100% !important;
-  }
-
-  .quick-add-modal__content:has(.hpdp-grid) .hpdp-media__sticky {
-    position: static !important;
-    top: auto !important;
-  }
-
-  .quick-add-modal__content:has(.hpdp-grid) .hpdp-gallery-flex {
-    display: block !important;
-  }
-
-  .quick-add-modal__content:has(.hpdp-grid) .hpdp-thumbs-col {
-    display: none !important;
-  }
-
-  .quick-add-modal__content:has(.hpdp-grid) .hpdp-stage {
-    aspect-ratio: 1;
-    height: auto !important;
-    min-height: 0 !important;
-    overflow: hidden;
-    width: 100% !important;
-  }
-
-  .quick-add-modal__content:has(.hpdp-grid) .hpdp-stage__track,
-  .quick-add-modal__content:has(.hpdp-grid) .hpdp-slide,
-  .quick-add-modal__content:has(.hpdp-grid) .hpdp-slide__ratio {
-    height: 100% !important;
-  }
-
-  .quick-add-modal__content:has(.hpdp-grid) .hpdp-slide__ratio img {
-    height: 100% !important;
-    object-fit: cover;
-    width: 100% !important;
-  }
-
-  .quick-add-modal__content:has(.hpdp-grid) .hpdp-info {
-    padding: 0 !important;
-  }
-
-  .quick-add-modal__content:has(.hpdp-grid) .hpdp-title {
-    font-size: clamp(1.45rem, 2.2vw, 2rem) !important;
-    line-height: 1.16 !important;
-  }
-
-
-
-  .quick-add-modal__content:has(.hpdp-grid) .hpdp-info svg {
-    display: block;
-    height: 18px !important;
-    max-height: 18px !important;
-    max-width: 18px !important;
-    width: 18px !important;
-  }
-
-  .quick-add-modal__content:has(.hpdp-grid) .hpdp-trust {
-    display: grid !important;
-    gap: 9px !important;
-  }
-
-  .quick-add-modal__content:has(.hpdp-grid) .hpdp-trust__item {
-    align-items: center;
-    display: flex !important;
-    gap: 9px;
-    min-height: 0 !important;
-  }
-
-  .quick-add-modal__content:has(.hpdp-grid) .hpdp-trust__icon {
-    align-items: center;
-    display: flex;
-    flex: 0 0 18px;
-    height: 18px !important;
-    justify-content: center;
-    width: 18px !important;
-  }
-
-  .quick-add-modal__content:has(.hpdp-grid) .hpdp-zoom-btn {
-    display: none !important;
-  }
-
-  .quick-add-modal__content:has(.hpdp-grid) :is(.hpdp-info-acc__icon, .hpdp-info-acc__chevron, .hpdp-faq__icon) {
-    align-items: center;
-    display: flex;
-    flex: 0 0 18px;
-    height: 18px !important;
-    justify-content: center;
-    width: 18px !important;
-  }
-
-  @media screen and (max-width: 749px) {
-    .quick-add-modal__content:has(.hpdp-grid) .hpdp-page-width {
-      padding: 18px !important;
-    }
-
-    .quick-add-modal__content:has(.hpdp-grid) .hpdp-grid {
-      gap: 20px !important;
-      grid-template-columns: minmax(0, 1fr) !important;
-    }
-
-    .quick-add-modal__content:has(.hpdp-grid) .hpdp-title {
-      font-size: 1.35rem !important;
-    }
-  }
-
 {% endstylesheet %}

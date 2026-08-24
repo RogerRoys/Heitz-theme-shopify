@@ -78,8 +78,7 @@ export class QuickAddComponent extends Component {
   #updateVariantPicker(newHtml) {
     const modalContent = document.getElementById('quick-add-modal-content');
     if (!modalContent) return;
-    const variantPicker = /** @type {VariantPicker | null} */ (modalContent.querySelector('variant-picker'));
-    if (!variantPicker) return;
+    const variantPicker = /** @type {VariantPicker} */ (modalContent.querySelector('variant-picker'));
     variantPicker.updateVariantPicker(newHtml);
   }
 
@@ -99,7 +98,7 @@ export class QuickAddComponent extends Component {
       // Fetch and cache the content
       const html = await this.fetchProductPage(currentUrl);
       if (html) {
-        const gridElement = html.querySelector('[data-product-grid-content], [data-hpdp]');
+        const gridElement = html.querySelector('[data-product-grid-content]');
         if (gridElement) {
           // Cache the cloned element to avoid modifying the original
           productGrid = /** @type {Element} */ (gridElement.cloneNode(true));

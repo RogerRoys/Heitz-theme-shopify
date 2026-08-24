@@ -735,37 +735,13 @@
             "collection": "table-lamps",
             "label": ""
           }
-        },
-        "fact_1": {
-          "type": "fact",
-          "settings": {
-            "title": "Free Tracked Shipping",
-            "text": "On every US, UK & AU order"
-          }
-        },
-        "fact_2": {
-          "type": "fact",
-          "settings": {
-            "title": "30-Day Returns",
-            "text": "Hassle-free return window"
-          }
-        },
-        "fact_3": {
-          "type": "fact",
-          "settings": {
-            "title": "1-Year Warranty",
-            "text": "On every light we sell"
-          }
         }
       },
       "block_order": [
         "link_1",
         "link_2",
         "link_3",
-        "link_4",
-        "fact_1",
-        "fact_2",
-        "fact_3"
+        "link_4"
       ],
       "settings": {
         "color_scheme": "scheme-2",

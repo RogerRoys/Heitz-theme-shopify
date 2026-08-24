@@ -746,6 +746,7 @@
         "group_collection",
         "group_room"
       ],
+      "disabled": true,
       "settings": {
         "color_scheme": "scheme-2",
         "padding_top": 20,

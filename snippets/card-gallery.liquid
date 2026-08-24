@@ -390,10 +390,14 @@
     width: 100% !important;
   }
 
-  .heitz-reference-card .card-gallery slideshow-slide[aria-hidden='false'],
   .heitz-reference-card .card-gallery slideshow-slide:first-child {
     opacity: 1;
     z-index: 1;
+  }
+
+  .heitz-reference-card .card-gallery slideshow-slide:nth-child(n + 2) {
+    opacity: 0;
+    z-index: 0;
   }
 
   .heitz-reference-card .card-gallery .product-media,

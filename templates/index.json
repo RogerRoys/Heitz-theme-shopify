@@ -10,24 +10,56 @@
 {
   "sections": {
     "hero": {
-      "type": "heitz-hero",
+      "type": "hero",
+      "blocks": {
+        "text_1": {
+          "type": "text",
+          "settings": {
+            "text": "<h1>The right light changes everything</h1>",
+            "width": "100%",
+            "max_width": "narrow",
+            "alignment": "center",
+            "type_preset": "h1"
+          }
+        },
+        "text_2": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Calm, considered lighting that quietly shapes how your home feels.</p>",
+            "width": "100%",
+            "max_width": "narrow",
+            "alignment": "center",
+            "type_preset": "rte",
+            "padding-block-end": 32
+          }
+        },
+        "button": {
+          "type": "button",
+          "settings": {
+            "label": "Explore the Collection",
+            "link": "shopify://collections/all"
+          }
+        }
+      },
+      "block_order": [
+        "text_1",
+        "text_2",
+        "button"
+      ],
       "settings": {
+        "media_type_1": "image",
+        "image_1": "shopify://shop_images/New_2_75abb9e3-f69a-46c1-87b2-4a5892594838.jpg",
+        "section_width": "full-width",
+        "section_height": "large",
+        "horizontal_alignment_flex_direction_column": "center",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 16,
         "color_scheme": "scheme-heitz-dark",
-        "type_preset": "custom",
-        "font": "var(--font-heading--family)",
-        "font_size": "",
-        "line_height": "normal",
-        "letter_spacing": "normal",
-        "case": "none",
-        "color": "",
-        "text_size": 22,
-        "image": "shopify://shop_images/New_2_75abb9e3-f69a-46c1-87b2-4a5892594838.jpg",
-        "mobile_ratio": 125,
-        "overlay_opacity": 4,
-        "title": "The Right Light Changes Everything",
-        "subtitle": "Calm, considered lighting that quietly shapes how your home feels.",
-        "button_label": "Explore Now",
-        "link": "shopify://collections/all"
+        "toggle_overlay": true,
+        "overlay_style": "solid",
+        "overlay_color": "#0000000a",
+        "padding-block-start": 40,
+        "padding-block-end": 40
       }
     },
     "trust_badges": {

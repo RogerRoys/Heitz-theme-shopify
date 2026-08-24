@@ -11,8 +11,8 @@
             "media_columns": "one",
             "image_gap": 1,
             "large_first_image": false,
-            "icons_style": "chevron_large",
-            "slideshow_controls_style": "thumbnails",
+            "icons_style": "arrows_large",
+            "slideshow_controls_style": "dots",
             "slideshow_mobile_controls_style": "hint",
             "thumbnail_position": "right",
             "thumbnail_width": 44,
@@ -483,13 +483,63 @@
                 "buy_buttons_6p8c63",
                 "buy_buttons_CzY93a"
               ]
+            },
+            "heitz_vendor": {
+              "type": "text",
+              "settings": {
+                "text": "<p>HEITZ LIVING</p>",
+                "width": "100%",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "custom",
+                "font": "var(--font-body--family)",
+                "font_size": "0.75rem",
+                "line_height": "normal",
+                "letter_spacing": "loose",
+                "case": "uppercase",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              }
+            },
+            "heitz_description": {
+              "type": "text",
+              "settings": {
+                "text": "{{ product.description }}",
+                "width": "100%",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "rte",
+                "font": "var(--font-body--family)",
+                "font_size": "",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 16,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              }
             }
           },
           "block_order": [
+            "heitz_vendor",
             "group_4we3XL",
             "divider_VtLWGq",
             "product_inventory_WNjAKb",
-            "group_dTHcXb"
+            "group_dTHcXb",
+            "heitz_description"
           ]
         }
       },

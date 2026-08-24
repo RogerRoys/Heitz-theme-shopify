@@ -7,6 +7,14 @@
   Triggered by any element carrying data-heitz-qv="{{ product.url }}".
 {%- endcomment -%}
 <dialog class="hqv" id="heitz-quick-view" aria-label="Quick view">
+  <div class="hqv__curtain hqv__curtain--l" aria-hidden="true"></div>
+  <div class="hqv__curtain hqv__curtain--r" aria-hidden="true"></div>
+  <div class="hqv__lightbox" data-hqv-lightbox aria-hidden="true">
+    <img data-hqv-lb-img alt="">
+    <button type="button" class="hqv__lb-close" data-hqv-lb-close aria-label="Close zoom">
+      <svg viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></svg>
+    </button>
+  </div>
   <button type="button" class="hqv__close" data-hqv-close aria-label="Close">
     <svg viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></svg>
   </button>
@@ -54,6 +62,59 @@
   }
   .hqv[open] { display: flex; }
   .hqv::backdrop { background: rgba(12, 11, 9, 0.5); }
+  /* reference-style dual curtain reveal on open */
+  .hqv__curtain {
+    position: absolute;
+    bottom: 0;
+    width: 50%;
+    height: 0;
+    z-index: 6;
+    pointer-events: none;
+    transition: height 0.55s ease;
+  }
+  .hqv__curtain--l { left: 0; background: #f2f0ec; }
+  .hqv__curtain--r { right: 0; background: #ffffff; transition-delay: 0.12s; }
+  .hqv--curtain .hqv__curtain { height: 100%; transition: none; }
+  /* fullscreen image lightbox, opened by the zoom button */
+  .hqv { transition: width 0.35s ease, height 0.35s ease; }
+  .hqv__lightbox {
+    position: absolute;
+    inset: 0;
+    background: #ffffff;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+  .hqv__lightbox img {
+    max-width: 94%;
+    max-height: 94%;
+    object-fit: contain;
+    cursor: zoom-out;
+  }
+  .hqv--lightbox { width: 100vw; height: 100dvh; }
+  .hqv--lightbox .hqv__lightbox { opacity: 1; pointer-events: auto; }
+  .hqv__lb-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 44px;
+    height: 44px;
+    border: 0;
+    border-radius: 50%;
+    background: #ffffff;
+    color: #1a1b18;
+    box-shadow: 0 2px 14px rgba(0, 0, 0, 0.18);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0;
+  }
+  .hqv__lb-close svg { width: 16px; height: 16px; stroke: currentColor; stroke-width: 1.6; fill: none; stroke-linecap: round; }
   .hqv__close {
     position: absolute;
     top: 16px;
@@ -87,7 +148,6 @@
     transition: opacity 0.25s ease, transform 0.45s ease;
   }
   .hqv--switching .hqv__img { opacity: 0; }
-  .hqv--zoomed .hqv__img { transform: scale(1.7); cursor: zoom-out; }
   .hqv__zoom {
     position: absolute;
     top: 45%;
@@ -380,6 +440,7 @@
     };
 
     const open = async (url) => {
+      dlg.classList.add('hqv--curtain');
       dlg.showModal();
       document.documentElement.style.overflow = 'hidden';
       els.title.textContent = '';
@@ -403,10 +464,11 @@
       dlg.classList.toggle('hqv--multi', images.length > 1);
       renderOptions();
       updatePrice();
+      setTimeout(() => dlg.classList.remove('hqv--curtain'), 140);
     };
 
     const close = () => {
-      dlg.classList.remove('hqv--zoomed');
+      dlg.classList.remove('hqv--lightbox');
       document.documentElement.style.overflow = '';
       dlg.close();
     };
@@ -425,8 +487,12 @@
     dlg.addEventListener('cancel', () => { document.documentElement.style.overflow = ''; });
     q('[data-hqv-prev]').addEventListener('click', () => setImage(idx - 1));
     q('[data-hqv-next]').addEventListener('click', () => setImage(idx + 1));
-    q('[data-hqv-zoom]').addEventListener('click', () => dlg.classList.toggle('hqv--zoomed'));
-    els.img.addEventListener('click', () => dlg.classList.remove('hqv--zoomed'));
+    q('[data-hqv-zoom]').addEventListener('click', () => {
+      q('[data-hqv-lb-img]').src = sized(images[idx], 2400);
+      dlg.classList.add('hqv--lightbox');
+    });
+    q('[data-hqv-lb-close]').addEventListener('click', () => dlg.classList.remove('hqv--lightbox'));
+    q('[data-hqv-lb-img]').addEventListener('click', () => dlg.classList.remove('hqv--lightbox'));
     q('[data-hqv-qty-minus]').addEventListener('click', () => { els.qty.value = Math.max(1, (parseInt(els.qty.value, 10) || 1) - 1); });
     q('[data-hqv-qty-plus]').addEventListener('click', () => { els.qty.value = (parseInt(els.qty.value, 10) || 1) + 1; });
 

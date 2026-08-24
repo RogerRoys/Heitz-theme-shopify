@@ -37,6 +37,10 @@
       el.heitzStagger = Math.min(i * 70, 350);
       i += 1;
       io.observe(el);
+      /* Safety net: some in-app browsers throttle IntersectionObserver,
+         which would leave cards invisible. Reveal every card shortly
+         after discovery no matter what; the class add is idempotent. */
+      window.setTimeout(() => el.classList.add('heitz-card-in'), 1500 + el.heitzStagger);
     });
   };
 

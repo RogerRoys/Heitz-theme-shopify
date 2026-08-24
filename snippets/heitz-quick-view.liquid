@@ -18,6 +18,7 @@
   <button type="button" class="hqv__close" data-hqv-close aria-label="Close">
     <svg viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></svg>
   </button>
+  <div class="hqv__sheet">
   <div class="hqv__media">
     <button type="button" class="hqv__zoom" data-hqv-zoom aria-label="Zoom image">
       <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
@@ -44,6 +45,7 @@
     </div>
     <a class="hqv__link" data-hqv-link href="#">View full details</a>
     <div class="hqv__desc" data-hqv-desc></div>
+  </div>
   </div>
 </dialog>
 
@@ -139,6 +141,13 @@
     padding: 0;
   }
   .hqv__close svg, .hqv__nav svg, .hqv__zoom svg { width: 16px; height: 16px; stroke: currentColor; stroke-width: 1.6; fill: none; stroke-linecap: round; stroke-linejoin: round; display: block; }
+  .hqv__sheet {
+    display: flex;
+    flex: 1 1 auto;
+    min-width: 0;
+    min-height: 0;
+    width: 100%;
+  }
   .hqv__media {
     flex: 0 0 50%;
     position: relative;
@@ -363,14 +372,28 @@
     }
     .hqv[open] { display: flex; animation: hqv-in-sheet 0.35s cubic-bezier(0.22, 1, 0.36, 1); }
     .hqv--closing { animation: hqv-out-sheet 0.28s ease forwards; }
-    .hqv__media {
-      flex: 0 0 34dvh;
+    .hqv__sheet {
+      display: block;
+      flex: 0 0 80dvh;
+      min-height: 0;
+      overflow-y: auto;
       border-radius: 8px 8px 0 0;
+      background: #ffffff;
+      scroll-snap-type: y mandatory;
+    }
+    .hqv__media {
+      flex: none;
+      height: 40dvh;
+      border-radius: 8px 8px 0 0;
+      scroll-snap-align: start;
     }
     .hqv__panel {
-      flex: 0 0 46dvh;
+      flex: none;
+      height: auto;
+      overflow: visible;
       background: #ffffff;
       padding: 26px 20px 40px;
+      scroll-snap-align: start;
     }
     .hqv__title { font-size: 23px; }
     .hqv__zoom { display: none; }

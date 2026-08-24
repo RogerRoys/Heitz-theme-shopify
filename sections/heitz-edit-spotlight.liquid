@@ -181,6 +181,7 @@
               -%}
               <li class="hesp__link-item" {{ block.shopify_attributes }}>
                 <a class="hesp__link" href="{{ col.url | default: '#' }}">
+                  <span class="hesp__link-num">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
                   <span class="hesp__link-label">{{ label }}</span>
                   <span class="hesp__link-arrow"><svg viewBox="0 0 24 24"><path d="M4 12h15"/><path d="m13 6 6 6-6 6"/></svg></span>
                 </a>

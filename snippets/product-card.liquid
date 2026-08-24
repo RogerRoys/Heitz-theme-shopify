@@ -415,33 +415,39 @@
       width: 36px !important;
     }
 
+    .heitz-reference-card .quick-add__button::before {
+      background: center / contain no-repeat url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2024%2024'%20fill='none'%20stroke='%23fff'%20stroke-width='1.6'%20stroke-linecap='round'%20stroke-linejoin='round'%3E%3Cpath%20d='M3%204h2l2.4%2010.2a2%202%200%200%200%201.95%201.54h7.9a2%202%200%200%200%201.94-1.5L21%207H6'/%3E%3Ccircle%20cx='10'%20cy='20'%20r='1.15'%20fill='%23fff'%20stroke='none'/%3E%3Ccircle%20cx='18'%20cy='20'%20r='1.15'%20fill='%23fff'%20stroke='none'/%3E%3C/svg%3E");
+      content: '';
+      display: block;
+      flex: 0 0 auto;
+      height: 18px;
+      width: 18px;
+    }
+
     .heitz-reference-card .quick-add__button .add-to-cart-text {
-      align-items: center;
       background: transparent !important;
       border-radius: 50% !important;
       color: #fff !important;
-      display: flex;
-      height: 100%;
-      justify-content: center;
-      width: 100%;
+      inset: 0;
+      pointer-events: none;
+      position: absolute;
     }
 
     .heitz-reference-card .quick-add__button .add-to-cart-text__content {
-      display: none !important;
+      clip: rect(0 0 0 0) !important;
+      clip-path: inset(50%) !important;
+      display: block !important;
+      height: 1px !important;
+      margin: -1px !important;
+      overflow: hidden !important;
+      padding: 0 !important;
+      position: absolute !important;
+      white-space: nowrap !important;
+      width: 1px !important;
     }
 
     .heitz-reference-card .quick-add__button-icon {
-      align-items: center;
-      color: #fff !important;
-      display: flex !important;
-      height: 100% !important;
-      justify-content: center;
-      width: 100% !important;
-    }
-
-    .heitz-reference-card .quick-add__button-icon svg {
-      height: 18px;
-      width: 18px;
+      display: none !important;
     }
 
     .heitz-reference-card .heitz-reference-card__quick-view {

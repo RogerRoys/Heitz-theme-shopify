@@ -98,7 +98,7 @@ export class QuickAddComponent extends Component {
       // Fetch and cache the content
       const html = await this.fetchProductPage(currentUrl);
       if (html) {
-        const gridElement = html.querySelector('[data-product-grid-content]');
+        const gridElement = html.querySelector('[data-product-grid-content], [data-hpdp]');
         if (gridElement) {
           // Cache the cloned element to avoid modifying the original
           productGrid = /** @type {Element} */ (gridElement.cloneNode(true));

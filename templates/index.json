@@ -60,7 +60,11 @@
         "overlay_color": "#0000000a",
         "padding-block-start": 40,
         "padding-block-end": 40
-      }
+      },
+      "custom_css": [
+        ".button {background: transparent; border: 1px solid rgba(255,255,255,0.85); color: #ffffff; border-radius: 0; text-transform: uppercase; letter-spacing: 0.14em; font-size: 13px; font-weight: 400; padding: 13px 34px; transition: background 0.3s ease, color 0.3s ease;}",
+        ".button:hover {background: #ffffff; color: #1a1b18;}"
+      ]
     },
     "trust_badges": {
       "type": "heitz-trust-badges",

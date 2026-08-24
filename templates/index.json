@@ -1158,12 +1158,91 @@
         "heading_size": 18,
         "text_size": 14
       }
+    },
+    "edit_spotlight": {
+      "type": "heitz-edit-spotlight",
+      "blocks": {
+        "link_1": {
+          "type": "link",
+          "settings": {
+            "collection": "outdoor-wall-lights"
+          }
+        },
+        "link_2": {
+          "type": "link",
+          "settings": {
+            "collection": "outdoor-pillar-post-lights",
+            "label": "Pillar, Post & Gate Lights"
+          }
+        },
+        "link_3": {
+          "type": "link",
+          "settings": {
+            "collection": "pendant-lights"
+          }
+        },
+        "link_4": {
+          "type": "link",
+          "settings": {
+            "collection": "table-lamps"
+          }
+        },
+        "fact_1": {
+          "type": "fact",
+          "settings": {
+            "title": "Free Tracked Shipping",
+            "text": "On every US, UK & AU order"
+          }
+        },
+        "fact_2": {
+          "type": "fact",
+          "settings": {
+            "title": "30-Day Returns",
+            "text": "Hassle-free return window"
+          }
+        },
+        "fact_3": {
+          "type": "fact",
+          "settings": {
+            "title": "1-Year Warranty",
+            "text": "On every light we sell"
+          }
+        }
+      },
+      "block_order": [
+        "link_1",
+        "link_2",
+        "link_3",
+        "link_4",
+        "fact_1",
+        "fact_2",
+        "fact_3"
+      ],
+      "settings": {
+        "color_scheme": "scheme-heitz-cream",
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "image_1": "shopify://shop_images/Resistant_Outdoor_Wall_Lantern_Light_9.jpg",
+        "image_2": "shopify://shop_images/Luminara___Elegant_Crystal_Wall_Light_Fixture_with_Gold_Finish_2.jpg",
+        "chip": "Inside & out",
+        "image_position": "left",
+        "eyebrow": "The Heitz Edit",
+        "title": "Light that belongs in every room",
+        "text": "<p>From sculptural pendants to refined outdoor fixtures, every Heitz piece is chosen to add warmth, calm and architectural character to your home.</p>",
+        "button_1_label": "Explore All Lighting",
+        "button_1_link": "shopify://collections/all",
+        "button_2_label": "Discover Our Story",
+        "button_2_link": "shopify://pages/brand-story",
+        "heading_size": 40,
+        "text_size": 15
+      }
     }
   },
   "order": [
     "hero",
     "trust_badges",
     "category_scroll",
+    "edit_spotlight",
     "featured_pendant",
     "our_story",
     "cta_pendant",

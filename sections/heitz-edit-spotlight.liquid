@@ -17,11 +17,21 @@
   }
   .hesp--img-right .hesp__row { flex-direction: row-reverse; }
   .hesp__media {
-    flex: 0 1 46%;
+    flex: 0 1 48%;
+    display: flex;
+    align-items: center;
+    position: relative;
+  }
+  .hesp__media .htf-ratio { height: 0; padding-bottom: 133.33%; position: relative; background: #ececec; }
+  .hesp__media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .hesp__img-front {
+    width: 40%;
+    z-index: 2;
+    margin-right: -8%;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
     overflow: hidden;
   }
-  .hesp__media .htf-ratio { height: 0; padding-bottom: 118%; position: relative; background: #ececec; }
-  .hesp__media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .hesp__img-back { width: 60%; overflow: hidden; }
   .hesp__content { flex: 0 1 46%; }
   .hesp__eyebrow {
     color: var(--color-primary, #b8913f);
@@ -155,10 +165,19 @@
   <div class="htf-page-width">
     <div class="hesp__row">
       <div class="hesp__media">
-        <div class="htf-ratio">
-          {%- if section.settings.image_1 != blank -%}
-            {{ section.settings.image_1 | image_url: width: 1200 | image_tag: alt: section.settings.title, loading: 'lazy' }}
-          {%- endif -%}
+        <div class="hesp__img-front">
+          <div class="htf-ratio">
+            {%- if section.settings.image_2 != blank -%}
+              {{ section.settings.image_2 | image_url: width: 800 | image_tag: alt: section.settings.title, loading: 'lazy' }}
+            {%- endif -%}
+          </div>
+        </div>
+        <div class="hesp__img-back">
+          <div class="htf-ratio">
+            {%- if section.settings.image_1 != blank -%}
+              {{ section.settings.image_1 | image_url: width: 1200 | image_tag: alt: section.settings.title, loading: 'lazy' }}
+            {%- endif -%}
+          </div>
         </div>
       </div>
       <div class="hesp__content">
@@ -224,7 +243,8 @@
     { "type": "range", "id": "padding_top", "label": "Top", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 80 },
     { "type": "range", "id": "padding_bottom", "label": "Bottom", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 80 },
     { "type": "header", "content": "Images" },
-    { "type": "image_picker", "id": "image_1", "label": "Image" },
+    { "type": "image_picker", "id": "image_1", "label": "Back image (large)" },
+    { "type": "image_picker", "id": "image_2", "label": "Front image (small)" },
     {
       "type": "select",
       "id": "image_position",

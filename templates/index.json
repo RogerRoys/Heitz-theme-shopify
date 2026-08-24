@@ -132,27 +132,27 @@
           "type": "badge",
           "settings": {
             "icon": "returns",
-            "text": "30-Day Returns"
+            "text": "Quality Checked"
           }
         },
         "badge_3": {
           "type": "badge",
           "settings": {
-            "icon": "globe",
-            "text": "USA Delivery"
+            "icon": "pin",
+            "text": "AU Delivery"
           }
         },
         "badge_4": {
           "type": "badge",
           "settings": {
-            "icon": "shield",
+            "icon": "returns",
             "text": "Secure Checkout"
           }
         },
         "badge_5": {
           "type": "badge",
           "settings": {
-            "icon": "chat",
+            "icon": "chat-dots",
             "text": "Responsive Support"
           }
         }

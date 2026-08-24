@@ -427,4 +427,18 @@
       transform: translateY(0);
     }
   }
+  /* Marven-style quick view proportions: a near-fullscreen centered
+     modal with a 50px inset all around. */
+  @media screen and (min-width: 750px) {
+    .quick-add-modal {
+      width: calc(100vw - 100px);
+      height: calc(100vh - 100px);
+      max-height: calc(100vh - 100px);
+      min-height: 0;
+      border-radius: 0;
+    }
+    .quick-add-modal__content {
+      max-height: calc(100vh - 100px);
+    }
+  }
 {% endstylesheet %}

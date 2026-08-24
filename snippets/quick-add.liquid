@@ -342,4 +342,13 @@
       transform: translateY(0);
     }
   }
+  .quick-add__button.button { min-width: max-content; }
+  /* touch-primary and other no-hover environments never get the hover
+     reveal — keep the button visible there at every width */
+  @media (hover: none) {
+    .quick-add__button.button {
+      opacity: 1;
+      transform: none;
+    }
+  }
 {% endstylesheet %}

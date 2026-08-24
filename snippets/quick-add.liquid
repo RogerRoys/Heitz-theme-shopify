@@ -293,4 +293,50 @@
       }
     }
   }
+
+  /* Marven-style quick add: solid dark label button that slides up
+     over the image's bottom edge on card hover. */
+  .quick-add__button.button {
+    border-radius: 0;
+    border: 0;
+    background: #1a1b18;
+    color: #ffffff;
+    height: 40px;
+    padding: 0 20px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 2.4px;
+    text-transform: uppercase;
+    backdrop-filter: none;
+    right: 15px;
+    bottom: 15px;
+    transition: transform 0.25s ease, opacity 0.25s ease;
+  }
+  .quick-add__button.button .add-to-cart-text {
+    background: transparent;
+    border-radius: 0;
+    color: inherit;
+  }
+  @media screen and (min-width: 750px) {
+    .quick-add__button.button .quick-add__button-icon { display: none; }
+    .quick-add__button.button .add-to-cart-text__content {
+      grid-template-columns: 1fr;
+    }
+    .quick-add__button.button .add-to-cart-text__content > span span {
+      opacity: 1;
+      translate: 0 0;
+      filter: blur(0);
+      padding-right: 0;
+    }
+  }
+  @media (hover: hover) and (min-width: 750px) {
+    .quick-add__button.button {
+      opacity: 0;
+      transform: translateY(40px);
+    }
+    product-card:is(:hover, :focus-within) .quick-add__button.button {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 {% endstylesheet %}

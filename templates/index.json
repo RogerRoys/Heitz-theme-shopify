@@ -735,20 +735,44 @@
             "collection": "table-lamps",
             "label": ""
           }
+        },
+        "fact_1": {
+          "type": "fact",
+          "settings": {
+            "title": "Free Tracked Shipping",
+            "text": "On every US, UK & AU order"
+          }
+        },
+        "fact_2": {
+          "type": "fact",
+          "settings": {
+            "title": "30-Day Returns",
+            "text": "Hassle-free return window"
+          }
+        },
+        "fact_3": {
+          "type": "fact",
+          "settings": {
+            "title": "1-Year Warranty",
+            "text": "On every light we sell"
+          }
         }
       },
       "block_order": [
         "link_1",
         "link_2",
         "link_3",
-        "link_4"
+        "link_4",
+        "fact_1",
+        "fact_2",
+        "fact_3"
       ],
       "settings": {
         "color_scheme": "scheme-2",
         "padding_top": 80,
         "padding_bottom": 80,
-        "image_1": "shopify://shop_images/Acrylux_ElegantModernWaterproofOutdoorWallLamp-03.jpg",
-        "image_position": "right",
+        "image_1": "shopify://shop_images/Resistant_Outdoor_Wall_Lantern_Light_9.jpg",
+        "image_position": "left",
         "eyebrow": "The Heitz Edit",
         "title": "Light that belongs in every room",
         "text": "<p>From sculptural pendants to refined outdoor fixtures, every Heitz piece is chosen to add warmth, calm and architectural character to your home.</p>",
@@ -758,7 +782,8 @@
         "button_2_link": "shopify://pages/brand-story",
         "heading_size": 40,
         "text_size": 15,
-        "image_2": "shopify://shop_images/Luminara___Elegant_Crystal_Wall_Light_Fixture_with_Gold_Finish_2.jpg"
+        "image_2": "shopify://shop_images/Luminara___Elegant_Crystal_Wall_Light_Fixture_with_Gold_Finish_2.jpg",
+        "chip": "Inside & out"
       }
     },
     "category_accordion": {

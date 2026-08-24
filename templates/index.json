@@ -145,6 +145,7 @@
         "cat_6",
         "cat_7"
       ],
+      "disabled": true,
       "settings": {
         "color_scheme": "scheme-heitz-light",
         "padding_top": 40,

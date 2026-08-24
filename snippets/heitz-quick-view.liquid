@@ -1,0 +1,467 @@
+{%- comment -%}
+  Heitz Quick View — custom near-fullscreen product popup modeled on the
+  reference: image left with zoom + arrows, right panel with vendor,
+  title, price, option pills, quantity + add to cart and description.
+  Self-contained: fetches {product-url}.js, adds via /cart/add.js and
+  dispatches the theme's CartAddEvent so the cart drawer opens as usual.
+  Triggered by any element carrying data-heitz-qv="{{ product.url }}".
+{%- endcomment -%}
+<dialog class="hqv" id="heitz-quick-view" aria-label="Quick view">
+  <button type="button" class="hqv__close" data-hqv-close aria-label="Close">
+    <svg viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></svg>
+  </button>
+  <div class="hqv__media">
+    <button type="button" class="hqv__zoom" data-hqv-zoom aria-label="Zoom image">
+      <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+    </button>
+    <img class="hqv__img" data-hqv-img alt="" src="">
+    <div class="hqv__nav">
+      <button type="button" data-hqv-prev aria-label="Previous image"><svg viewBox="0 0 24 24"><path d="M19 12H5m6-6-6 6 6 6"/></svg></button>
+      <span class="hqv__nav-sep"></span>
+      <button type="button" data-hqv-next aria-label="Next image"><svg viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></button>
+    </div>
+  </div>
+  <div class="hqv__panel">
+    <p class="hqv__vendor">{{ shop.name | default: 'Heitz Living' }}</p>
+    <h2 class="hqv__title" data-hqv-title></h2>
+    <p class="hqv__price" data-hqv-price></p>
+    <div class="hqv__options" data-hqv-options></div>
+    <div class="hqv__buy">
+      <div class="hqv__qty">
+        <button type="button" data-hqv-qty-minus aria-label="Decrease quantity">&minus;</button>
+        <input data-hqv-qty type="text" inputmode="numeric" value="1" aria-label="Quantity">
+        <button type="button" data-hqv-qty-plus aria-label="Increase quantity">+</button>
+      </div>
+      <button type="button" class="hqv__atc" data-hqv-atc>Add to cart</button>
+    </div>
+    <a class="hqv__link" data-hqv-link href="#">View full details</a>
+    <div class="hqv__desc" data-hqv-desc></div>
+  </div>
+</dialog>
+
+{% stylesheet %}
+  .hqv {
+    width: calc(100vw - 100px);
+    height: calc(100vh - 100px);
+    max-width: none;
+    max-height: none;
+    padding: 0;
+    border: 0;
+    background: #ffffff;
+    color: #1a1b18;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+  }
+  .hqv[open] { display: flex; }
+  .hqv::backdrop { background: rgba(12, 11, 9, 0.5); }
+  .hqv__close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 44px;
+    height: 44px;
+    border: 0;
+    border-radius: 50%;
+    background: #ffffff;
+    color: #1a1b18;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 3;
+    padding: 0;
+  }
+  .hqv__close svg, .hqv__nav svg, .hqv__zoom svg { width: 16px; height: 16px; stroke: currentColor; stroke-width: 1.6; fill: none; stroke-linecap: round; stroke-linejoin: round; display: block; }
+  .hqv__media {
+    flex: 0 0 50%;
+    position: relative;
+    background: #f2f0ec;
+    overflow: hidden;
+  }
+  .hqv__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: opacity 0.25s ease, transform 0.45s ease;
+  }
+  .hqv--switching .hqv__img { opacity: 0; }
+  .hqv--zoomed .hqv__img { transform: scale(1.7); cursor: zoom-out; }
+  .hqv__zoom {
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 56px;
+    height: 56px;
+    border: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.92);
+    color: #1a1b18;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: zoom-in;
+    z-index: 2;
+    padding: 0;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+  }
+  .hqv__media:hover .hqv__zoom { opacity: 1; }
+  .hqv__zoom svg { width: 20px; height: 20px; }
+  .hqv__nav {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    background: #ffffff;
+    padding: 14px 18px;
+    gap: 14px;
+    z-index: 2;
+  }
+  .hqv__nav button {
+    border: 0;
+    background: none;
+    color: #1a1b18;
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+  }
+  .hqv__nav button:hover { opacity: 0.6; }
+  .hqv__nav-sep { width: 1px; height: 18px; background: #d9d6d0; }
+  .hqv__panel {
+    flex: 1 1 50%;
+    overflow-y: auto;
+    padding: 56px 64px 48px;
+  }
+  .hqv__vendor {
+    font-family: var(--htf-font-body, var(--font-body--family));
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: #9a938a;
+    margin: 0 0 16px;
+  }
+  .hqv__title {
+    font-family: var(--htf-font-heading, var(--font-heading--family));
+    font-size: clamp(24px, 2.4vw, 34px);
+    font-weight: 400;
+    line-height: 1.25;
+    letter-spacing: 0.01em;
+    color: #1a1b18;
+    margin: 0 0 18px;
+  }
+  .hqv__price {
+    font-family: var(--htf-font-body, var(--font-body--family));
+    font-size: 19px;
+    color: #1a1b18;
+    margin: 0 0 30px;
+  }
+  .hqv__opt-label {
+    font-size: 11.5px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #6f6a63;
+    margin: 0 0 12px;
+  }
+  .hqv__opt-values {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 0 0 24px;
+  }
+  .hqv__pill {
+    border: 1px solid #ddd9d3;
+    background: #ffffff;
+    color: #1a1b18;
+    font-family: var(--htf-font-body, var(--font-body--family));
+    font-size: 15px;
+    padding: 12px 22px;
+    cursor: pointer;
+    transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
+  }
+  .hqv__pill:hover { border-color: #1a1b18; }
+  .hqv__pill.is-selected {
+    background: #1a1b18;
+    border-color: #1a1b18;
+    color: #ffffff;
+  }
+  .hqv__pill.is-unavailable {
+    color: #b6b0a8;
+    text-decoration: line-through;
+  }
+  .hqv__buy {
+    display: flex;
+    gap: 14px;
+    margin: 10px 0 22px;
+  }
+  .hqv__qty {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ddd9d3;
+    flex: 0 0 auto;
+  }
+  .hqv__qty button {
+    border: 0;
+    background: none;
+    color: #1a1b18;
+    font-size: 18px;
+    width: 40px;
+    height: 52px;
+    cursor: pointer;
+  }
+  .hqv__qty input {
+    width: 34px;
+    border: 0;
+    text-align: center;
+    font-size: 15px;
+    color: #1a1b18;
+    background: transparent;
+  }
+  .hqv__atc {
+    flex: 1 1 auto;
+    border: 0;
+    background: #1a1b18;
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    height: 54px;
+    cursor: pointer;
+    transition: opacity 0.25s ease;
+  }
+  .hqv__atc:hover { opacity: 0.85; }
+  .hqv__atc:disabled { background: #cfcac2; cursor: not-allowed; }
+  .hqv__link {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #1a1b18;
+    text-decoration: none;
+    border-bottom: 1px solid currentColor;
+    padding-bottom: 4px;
+    margin-bottom: 30px;
+  }
+  .hqv__link:hover { color: var(--color-primary, #b8913f); }
+  .hqv__desc {
+    border-top: 1px solid #eae7e1;
+    padding-top: 28px;
+    font-family: var(--htf-font-body, var(--font-body--family));
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 1.75;
+    color: #55504a;
+  }
+  .hqv__desc h1, .hqv__desc h2, .hqv__desc h3, .hqv__desc h4 {
+    font-family: var(--htf-font-heading, var(--font-heading--family));
+    font-weight: 400;
+    color: #1a1b18;
+    line-height: 1.3;
+    margin: 26px 0 12px;
+    font-size: 21px;
+  }
+  .hqv__desc p { margin: 0 0 14px; }
+  .hqv__desc img { max-width: 100%; height: auto; }
+  .hqv__desc table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+    margin: 14px 0;
+  }
+  .hqv__desc td, .hqv__desc th {
+    border: 1px solid #eae7e1;
+    padding: 8px 12px;
+    text-align: left;
+  }
+  @media screen and (max-width: 749px) {
+    .hqv {
+      width: 100vw;
+      height: 100dvh;
+      flex-direction: column;
+    }
+    .hqv[open] { display: flex; }
+    .hqv__media { flex: 0 0 46dvh; }
+    .hqv__panel { padding: 28px 20px 40px; }
+    .hqv__title { font-size: 23px; }
+    .hqv__zoom { display: none; }
+  }
+{% endstylesheet %}
+
+<script type="module">
+  import { CartAddEvent } from '@theme/events';
+
+  const dlg = document.getElementById('heitz-quick-view');
+  if (dlg) {
+    const q = (s) => dlg.querySelector(s);
+    const els = {
+      img: q('[data-hqv-img]'), title: q('[data-hqv-title]'), price: q('[data-hqv-price]'),
+      options: q('[data-hqv-options]'), desc: q('[data-hqv-desc]'), link: q('[data-hqv-link]'),
+      atc: q('[data-hqv-atc]'), qty: q('[data-hqv-qty]'),
+    };
+    let product = null;
+    let images = [];
+    let idx = 0;
+    let selections = [];
+
+    const money = (cents) => {
+      try {
+        const cur = (window.Shopify && Shopify.currency && Shopify.currency.active) || 'USD';
+        return new Intl.NumberFormat(document.documentElement.lang || 'en', { style: 'currency', currency: cur }).format(cents / 100);
+      } catch (e) { return '$' + (cents / 100).toFixed(2); }
+    };
+    const sized = (src, w) => src + (src.includes('?') ? '&' : '?') + 'width=' + w;
+    const currentVariant = () => product.variants.find((v) => v.options.every((o, i) => o === selections[i])) || null;
+    const valueAvailable = (oi, val) =>
+      product.variants.some((v) => v.available && v.options[oi] === val && v.options.every((o, i) => i === oi || o === selections[i]));
+
+    const setImage = (i) => {
+      if (!images.length) return;
+      idx = ((i % images.length) + images.length) % images.length;
+      dlg.classList.add('hqv--switching');
+      const next = sized(images[idx], 1400);
+      const pre = new Image();
+      pre.onload = pre.onerror = () => {
+        els.img.src = next;
+        dlg.classList.remove('hqv--switching');
+      };
+      pre.src = next;
+    };
+
+    const updatePrice = () => {
+      const v = currentVariant();
+      els.price.textContent = v ? money(v.price) : money(product.price);
+      if (!v) {
+        els.atc.disabled = true; els.atc.textContent = 'Unavailable';
+      } else if (!v.available) {
+        els.atc.disabled = true; els.atc.textContent = 'Sold out';
+      } else {
+        els.atc.disabled = false; els.atc.textContent = 'Add to cart';
+      }
+      if (v && v.featured_image && v.featured_image.src) {
+        const pos = images.indexOf(v.featured_image.src);
+        if (pos >= 0 && pos !== idx) setImage(pos);
+      }
+    };
+
+    const renderOptions = () => {
+      els.options.innerHTML = '';
+      const single = product.options.length === 1 && product.options[0] === 'Title';
+      if (single) return;
+      product.options.forEach((name, oi) => {
+        const label = document.createElement('p');
+        label.className = 'hqv__opt-label';
+        label.textContent = name;
+        const wrap = document.createElement('div');
+        wrap.className = 'hqv__opt-values';
+        const values = [...new Set(product.variants.map((v) => v.options[oi]))];
+        values.forEach((val) => {
+          const b = document.createElement('button');
+          b.type = 'button';
+          b.className = 'hqv__pill';
+          b.textContent = val;
+          if (selections[oi] === val) b.classList.add('is-selected');
+          if (!valueAvailable(oi, val)) b.classList.add('is-unavailable');
+          b.addEventListener('click', () => {
+            selections[oi] = val;
+            renderOptions();
+            updatePrice();
+          });
+          wrap.appendChild(b);
+        });
+        els.options.append(label, wrap);
+      });
+    };
+
+    const open = async (url) => {
+      dlg.showModal();
+      document.documentElement.style.overflow = 'hidden';
+      els.title.textContent = '';
+      els.price.textContent = '';
+      els.options.innerHTML = '';
+      els.desc.innerHTML = '';
+      els.img.removeAttribute('src');
+      try {
+        const res = await fetch(url.split('?')[0] + '.js');
+        product = await res.json();
+      } catch (e) { dlg.close(); return; }
+      images = (product.images || []).slice();
+      const first = product.variants.find((v) => v.available) || product.variants[0];
+      selections = first.options.slice();
+      els.qty.value = '1';
+      els.title.textContent = product.title;
+      els.link.href = product.url || url;
+      els.desc.innerHTML = product.description || '';
+      idx = 0;
+      if (images.length) setImage(0);
+      dlg.classList.toggle('hqv--multi', images.length > 1);
+      renderOptions();
+      updatePrice();
+    };
+
+    const close = () => {
+      dlg.classList.remove('hqv--zoomed');
+      document.documentElement.style.overflow = '';
+      dlg.close();
+    };
+
+    document.addEventListener('click', (e) => {
+      const t = e.target.closest('[data-heitz-qv]');
+      if (t) {
+        e.preventDefault();
+        e.stopPropagation();
+        open(t.getAttribute('data-heitz-qv'));
+      }
+    }, true);
+
+    q('[data-hqv-close]').addEventListener('click', close);
+    dlg.addEventListener('click', (e) => { if (e.target === dlg) close(); });
+    dlg.addEventListener('cancel', () => { document.documentElement.style.overflow = ''; });
+    q('[data-hqv-prev]').addEventListener('click', () => setImage(idx - 1));
+    q('[data-hqv-next]').addEventListener('click', () => setImage(idx + 1));
+    q('[data-hqv-zoom]').addEventListener('click', () => dlg.classList.toggle('hqv--zoomed'));
+    els.img.addEventListener('click', () => dlg.classList.remove('hqv--zoomed'));
+    q('[data-hqv-qty-minus]').addEventListener('click', () => { els.qty.value = Math.max(1, (parseInt(els.qty.value, 10) || 1) - 1); });
+    q('[data-hqv-qty-plus]').addEventListener('click', () => { els.qty.value = (parseInt(els.qty.value, 10) || 1) + 1; });
+
+    els.atc.addEventListener('click', async () => {
+      const v = currentVariant();
+      if (!v || !v.available) return;
+      const qty = Math.max(1, parseInt(els.qty.value, 10) || 1);
+      els.atc.disabled = true;
+      els.atc.textContent = 'Adding…';
+      const sectionIds = [...document.querySelectorAll('cart-items-component')]
+        .map((el) => el.dataset.sectionId)
+        .filter(Boolean);
+      const fd = new FormData();
+      fd.append('id', String(v.id));
+      fd.append('quantity', String(qty));
+      if (sectionIds.length) fd.append('sections', sectionIds.join(','));
+      try {
+        const res = await fetch('/cart/add.js', { method: 'POST', body: fd });
+        const data = await res.json();
+        if (data.status) throw new Error(data.description || 'error');
+        close();
+        document.dispatchEvent(
+          new CartAddEvent({}, 'heitz-quick-view', {
+            source: 'product-form-component',
+            itemCount: qty,
+            productId: String(product.id),
+            sections: data.sections,
+          })
+        );
+      } catch (e) {
+        els.atc.textContent = 'Could not add — try again';
+        els.atc.disabled = false;
+        return;
+      }
+      updatePrice();
+    });
+  }
+</script>

@@ -1,7 +1,7 @@
 {%- comment -%}
-  Heitz Edit Spotlight — editorial feature: overlapping image collage on
-  one side; eyebrow, heading, text, a numbered collection link list,
-  button pair and a mini fact row on the other.
+  Heitz Edit Spotlight — editorial feature: single image one side; eyebrow,
+  heading, text, a bordered collection-link grid, button pair and an
+  optional fact row on the other.
 {%- endcomment -%}
 {% render 'heitz-tf-base' %}
 <style>
@@ -17,60 +17,20 @@
   }
   .hesp--img-right .hesp__row { flex-direction: row-reverse; }
   .hesp__media {
-    flex: 0 1 48%;
-    position: relative;
-    padding-bottom: 46px;
-  }
-  .hesp__img-main {
-    width: 76%;
-    position: relative;
+    flex: 0 1 46%;
     overflow: hidden;
   }
-  .hesp__img-main .htf-ratio { height: 0; padding-bottom: 122%; position: relative; background: #ececec; }
-  .hesp__img-small {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    width: 44%;
-    overflow: hidden;
-    box-shadow: 0 12px 34px rgba(26, 27, 24, 0.14);
-  }
-  .hesp__img-small .htf-ratio { height: 0; padding-bottom: 108%; position: relative; background: #e5e5e5; }
+  .hesp__media .htf-ratio { height: 0; padding-bottom: 118%; position: relative; background: #ececec; }
   .hesp__media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-  .hesp__chip {
-    position: absolute;
-    left: 16px;
-    bottom: 16px;
-    background: var(--color-background, #ffffff);
-    color: var(--color-foreground-heading, var(--htf-color-text));
-    font-size: 10px;
-    font-weight: 500;
-    letter-spacing: 0.18em;
-    line-height: 1;
-    padding: 9px 14px;
-    text-transform: uppercase;
-    white-space: nowrap;
-  }
-  .hesp__chip::before { content: '— '; color: var(--color-primary, #b8913f); }
   .hesp__content { flex: 0 1 46%; }
   .hesp__eyebrow {
-    display: flex;
-    align-items: center;
-    gap: 12px;
     color: var(--color-primary, #b8913f);
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 0.28em;
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 0.3em;
     line-height: 1.4;
-    margin: 0 0 22px;
+    margin: 0 0 20px;
     text-transform: uppercase;
-  }
-  .hesp__eyebrow::before {
-    content: '';
-    width: 28px;
-    height: 1px;
-    background: var(--color-primary, #b8913f);
-    flex: 0 0 auto;
   }
   .hesp__title {
     font-family: var(--htf-font-heading);
@@ -92,40 +52,34 @@
   }
   .hesp__text p:last-child { margin-bottom: 0; }
   .hesp__links {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
     list-style: none;
     margin: 30px 0 0;
     padding: 0;
+    border: 1px solid var(--color-border, #e4e4e4);
+    background: var(--color-border, #e4e4e4);
   }
-  .hesp__link-item { border-top: 1px solid var(--color-border, #e4e4e4); }
-  .hesp__link-item:last-child { border-bottom: 1px solid var(--color-border, #e4e4e4); }
+  .hesp__link-item { background: var(--color-background, #ffffff); }
   .hesp__link {
     display: flex;
     align-items: center;
-    gap: 18px;
-    padding: 15px 4px;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 17px 18px;
     text-decoration: none;
     color: var(--color-foreground-heading, var(--htf-color-text));
   }
-  .hesp__link-num {
-    font-size: 10px;
-    font-weight: 400;
-    letter-spacing: 0.12em;
-    color: var(--color-foreground, #8a8a8a);
-    flex: 0 0 auto;
-  }
   .hesp__link-label {
     font-family: var(--htf-font-heading);
-    font-size: 15px;
+    font-size: 14.5px;
     font-weight: 400;
     letter-spacing: 0.02em;
-    flex: 1 1 auto;
   }
-  .hesp__link-arrow {
-    flex: 0 0 auto;
-    transition: transform 0.3s ease;
-  }
-  .hesp__link-arrow svg { width: 16px; height: 16px; stroke: currentColor; stroke-width: 1.4; fill: none; stroke-linecap: round; stroke-linejoin: round; display: block; }
-  .hesp__link:hover .hesp__link-arrow { transform: translateX(5px); }
+  .hesp__link-arrow { flex: 0 0 auto; transition: transform 0.3s ease; }
+  .hesp__link-arrow svg { width: 15px; height: 15px; stroke: currentColor; stroke-width: 1.4; fill: none; stroke-linecap: round; stroke-linejoin: round; display: block; }
+  .hesp__link:hover .hesp__link-arrow { transform: translateX(4px); }
   .hesp__link:hover .hesp__link-label { color: var(--color-primary, #b8913f); }
   .hesp__actions {
     display: flex;
@@ -201,22 +155,10 @@
   <div class="htf-page-width">
     <div class="hesp__row">
       <div class="hesp__media">
-        <div class="hesp__img-main">
-          <div class="htf-ratio">
-            {%- if section.settings.image_1 != blank -%}
-              {{ section.settings.image_1 | image_url: width: 1100 | image_tag: alt: section.settings.title, loading: 'lazy' }}
-            {%- endif -%}
-          </div>
-          {%- if section.settings.chip != blank -%}
-            <span class="hesp__chip">{{ section.settings.chip | escape }}</span>
+        <div class="htf-ratio">
+          {%- if section.settings.image_1 != blank -%}
+            {{ section.settings.image_1 | image_url: width: 1200 | image_tag: alt: section.settings.title, loading: 'lazy' }}
           {%- endif -%}
-        </div>
-        <div class="hesp__img-small">
-          <div class="htf-ratio">
-            {%- if section.settings.image_2 != blank -%}
-              {{ section.settings.image_2 | image_url: width: 700 | image_tag: alt: section.settings.title, loading: 'lazy' }}
-            {%- endif -%}
-          </div>
         </div>
       </div>
       <div class="hesp__content">
@@ -239,7 +181,6 @@
               -%}
               <li class="hesp__link-item" {{ block.shopify_attributes }}>
                 <a class="hesp__link" href="{{ col.url | default: '#' }}">
-                  <span class="hesp__link-num">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
                   <span class="hesp__link-label">{{ label }}</span>
                   <span class="hesp__link-arrow"><svg viewBox="0 0 24 24"><path d="M4 12h15"/><path d="m13 6 6 6-6 6"/></svg></span>
                 </a>
@@ -282,9 +223,7 @@
     { "type": "range", "id": "padding_top", "label": "Top", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 80 },
     { "type": "range", "id": "padding_bottom", "label": "Bottom", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 80 },
     { "type": "header", "content": "Images" },
-    { "type": "image_picker", "id": "image_1", "label": "Main image" },
-    { "type": "image_picker", "id": "image_2", "label": "Overlap image" },
-    { "type": "text", "id": "chip", "label": "Image label", "default": "Inside & out" },
+    { "type": "image_picker", "id": "image_1", "label": "Image" },
     {
       "type": "select",
       "id": "image_position",
@@ -293,7 +232,7 @@
         { "value": "left", "label": "Left" },
         { "value": "right", "label": "Right" }
       ],
-      "default": "left"
+      "default": "right"
     },
     { "type": "header", "content": "Content" },
     { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "The Heitz Edit" },

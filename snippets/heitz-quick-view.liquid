@@ -157,7 +157,7 @@
   .hqv__img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
     display: block;
     transition: opacity 0.25s ease, transform 0.45s ease;
   }
@@ -469,11 +469,13 @@
       }
     };
 
+    const optionName = (o) => (typeof o === 'string' ? o : (o && o.name) || '');
     const renderOptions = () => {
       els.options.innerHTML = '';
-      const single = product.options.length === 1 && product.options[0] === 'Title';
+      const single = product.options.length === 1 && optionName(product.options[0]) === 'Title';
       if (single) return;
-      product.options.forEach((name, oi) => {
+      product.options.forEach((opt, oi) => {
+        const name = optionName(opt);
         const label = document.createElement('p');
         label.className = 'hqv__opt-label';
         label.textContent = name;

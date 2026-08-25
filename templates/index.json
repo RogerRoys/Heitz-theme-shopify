@@ -18,7 +18,7 @@
             "text": "<p>The Right Light Changes Everything</p>",
             "width": "100%",
             "max_width": "narrow",
-            "alignment": "center",
+            "alignment": "left",
             "type_preset": "custom",
             "font": "var(--font-heading--family)",
             "font_size": "3rem",
@@ -43,7 +43,7 @@
             "text": "<p>Calm, considered lighting that quietly shapes how your home feels.</p>",
             "width": "100%",
             "max_width": "narrow",
-            "alignment": "center",
+            "alignment": "left",
             "type_preset": "custom",
             "font": "var(--font-body--family)",
             "font_size": "1.25rem",
@@ -56,7 +56,7 @@
             "background_color": "#00000026",
             "corner_radius": 0,
             "padding-block-start": 0,
-            "padding-block-end": 32,
+            "padding-block-end": 26,
             "padding-inline-start": 0,
             "padding-inline-end": 0
           },
@@ -83,8 +83,8 @@
         "button"
       ],
       "custom_css": [
-        ".button {background: transparent; border: 1px solid rgba(255, 255, 255, 0.85); color: #ffffff; border-radius: 0; text-transform: uppercase; letter-spacing: 0.14em; font-size: 13px; font-weight: 400; padding: 13px 34px; transition: background 0.3s ease, color 0.3s ease;}",
-        ".button:hover {background: #ffffff; color: #1a1b18;}"
+        ".button {background: #ffffff; border: 0; color: #1a1b18; border-radius: 0; text-transform: uppercase; letter-spacing: 2.8px; font-size: 11px; font-weight: 500; padding: 15px 34px; transition: opacity 0.3s ease;}",
+        ".button:hover {opacity: 0.85; background: #ffffff; color: #1a1b18;}"
       ],
       "settings": {
         "media_type_1": "image",
@@ -101,12 +101,12 @@
         "horizontal_alignment": "flex-start",
         "vertical_alignment": "center",
         "align_baseline": false,
-        "horizontal_alignment_flex_direction_column": "center",
-        "vertical_alignment_flex_direction_column": "center",
+        "horizontal_alignment_flex_direction_column": "flex-start",
+        "vertical_alignment_flex_direction_column": "flex-end",
         "gap": 16,
         "section_width": "full-width",
-        "section_height": "full-screen",
-        "section_height_custom": 50,
+        "section_height": "custom",
+        "section_height_custom": 88,
         "color_scheme": "scheme-heitz-dark",
         "toggle_overlay": true,
         "overlay_color": "#0000000a",
@@ -115,7 +115,7 @@
         "blurred_reflection": false,
         "reflection_opacity": 75,
         "padding-block-start": 40,
-        "padding-block-end": 40
+        "padding-block-end": 42
       }
     },
     "trust_badges": {

@@ -29,16 +29,17 @@
     .hero-wrapper .text-block h1 {
       text-align: left;
     }
+    /* the section's scoped custom CSS outranks this, hence !important */
     .hero-wrapper .button {
-      background: #ffffff;
-      border: 0;
-      color: #1a1b18;
-      border-radius: 0;
-      text-transform: uppercase;
-      letter-spacing: 2.8px;
-      font-size: 11px;
-      font-weight: 500;
-      padding: 14px 30px;
+      background: #ffffff !important;
+      border: 0 !important;
+      color: #1a1b18 !important;
+      border-radius: 0 !important;
+      text-transform: uppercase !important;
+      letter-spacing: 2.8px !important;
+      font-size: 11px !important;
+      font-weight: 500 !important;
+      padding: 14px 30px !important;
     }
   }
 {% endstylesheet %}

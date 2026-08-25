@@ -468,7 +468,9 @@
         els.atc.disabled = false; els.atc.textContent = 'Add to cart';
       }
       if (v && v.featured_image && v.featured_image.src) {
-        const pos = images.indexOf(v.featured_image.src);
+        const norm = (u) => (u || '').replace(/^https?:/, '').split('?')[0];
+        const want = norm(v.featured_image.src);
+        const pos = images.findIndex((s) => norm(s) === want);
         if (pos >= 0 && pos !== idx) setImage(pos);
       }
     };

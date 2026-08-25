@@ -83,7 +83,7 @@
         "button"
       ],
       "custom_css": [
-        ".button {background: transparent; border: 1px solid rgba(255,255,255,0.85); color: #ffffff; border-radius: 0; text-transform: uppercase; letter-spacing: 0.14em; font-size: 13px; font-weight: 400; padding: 13px 34px; transition: background 0.3s ease, color 0.3s ease;}",
+        ".button {background: transparent; border: 1px solid rgba(255, 255, 255, 0.85); color: #ffffff; border-radius: 0; text-transform: uppercase; letter-spacing: 0.14em; font-size: 13px; font-weight: 400; padding: 13px 34px; transition: background 0.3s ease, color 0.3s ease;}",
         ".button:hover {background: #ffffff; color: #1a1b18;}"
       ],
       "settings": {
@@ -106,6 +106,7 @@
         "gap": 16,
         "section_width": "full-width",
         "section_height": "large",
+        "section_height_custom": 50,
         "color_scheme": "scheme-heitz-dark",
         "toggle_overlay": true,
         "overlay_color": "#0000000a",
@@ -365,6 +366,140 @@
         "case": "none",
         "color": "",
         "title": "Pendant Lighting",
+        "link_label": "View all",
+        "limit": 8,
+        "columns": 4,
+        "color_scheme": "scheme-1",
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    },
+    "heitz_featured_collection_NAwf9H": {
+      "type": "heitz-featured-collection",
+      "blocks": {
+        "static-product-card": {
+          "type": "_product-card",
+          "static": true,
+          "settings": {
+            "product_card_gap": 6,
+            "inherit_color_scheme": true,
+            "color_scheme": "",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 20,
+            "border_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "product_card_gallery_cfMYzk": {
+              "type": "_product-card-gallery",
+              "settings": {
+                "image_ratio": "square",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "product_title_8qg7Yc": {
+              "type": "product-title",
+              "settings": {
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "custom",
+                "font": "var(--font-heading--family)",
+                "font_size": "0.875rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 4,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "price_gaADCT": {
+              "type": "price",
+              "settings": {
+                "show_sale_price_first": true,
+                "show_installments": false,
+                "show_tax_info": false,
+                "show_discount_badge": true,
+                "discount_badge_product_page_only": true,
+                "discount_badge_text": "DISCOUNT",
+                "discount_badge_background": "#e62b2b",
+                "discount_badge_text_color": "#ffffff",
+                "discount_badge_font_size": 13,
+                "discount_badge_font_weight": "600",
+                "discount_badge_radius": 50,
+                "discount_badge_padding_x": 18,
+                "discount_badge_padding_y": 6,
+                "discount_badge_gap": 12,
+                "type_preset": "custom",
+                "width": "100%",
+                "alignment": "left",
+                "font": "var(--font-heading--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "color": "var(--color-primary)",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "swatches_7WKfWK": {
+              "type": "swatches",
+              "disabled": true,
+              "settings": {
+                "product_swatches_alignment": "flex-start",
+                "product_swatches_alignment_mobile": "flex-start",
+                "hide_padding": false,
+                "product_swatches_padding_top": 4,
+                "product_swatches_padding_bottom": 0,
+                "product_swatches_padding_left": 0,
+                "product_swatches_padding_right": 0
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "product_card_gallery_cfMYzk",
+            "product_title_8qg7Yc",
+            "price_gaADCT",
+            "swatches_7WKfWK"
+          ]
+        }
+      },
+      "custom_css": [],
+      "settings": {
+        "collection": "solar-outdoor-lights",
+        "type_preset": "custom",
+        "font": "var(--font-heading--family)",
+        "font_size": "",
+        "line_height": "normal",
+        "letter_spacing": "normal",
+        "case": "none",
+        "color": "",
+        "title": "Solar Outdoor Lights",
         "link_label": "View all",
         "limit": 8,
         "columns": 4,
@@ -943,140 +1078,6 @@
         "padding_bottom": 20
       }
     },
-    "heitz_featured_collection_NAwf9H": {
-      "type": "heitz-featured-collection",
-      "blocks": {
-        "static-product-card": {
-          "type": "_product-card",
-          "static": true,
-          "settings": {
-            "product_card_gap": 6,
-            "inherit_color_scheme": true,
-            "color_scheme": "",
-            "border": "none",
-            "border_width": 1,
-            "border_opacity": 20,
-            "border_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {
-            "product_card_gallery_cfMYzk": {
-              "type": "_product-card-gallery",
-              "settings": {
-                "image_ratio": "square",
-                "border": "none",
-                "border_width": 1,
-                "border_opacity": 100,
-                "border_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "product_title_8qg7Yc": {
-              "type": "product-title",
-              "settings": {
-                "width": "fit-content",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "custom",
-                "font": "var(--font-heading--family)",
-                "font_size": "0.875rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "color": "var(--color-foreground)",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 4,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "price_gaADCT": {
-              "type": "price",
-              "settings": {
-                "show_sale_price_first": true,
-                "show_installments": false,
-                "show_tax_info": false,
-                "show_discount_badge": true,
-                "discount_badge_product_page_only": true,
-                "discount_badge_text": "DISCOUNT",
-                "discount_badge_background": "#e62b2b",
-                "discount_badge_text_color": "#ffffff",
-                "discount_badge_font_size": 13,
-                "discount_badge_font_weight": "600",
-                "discount_badge_radius": 50,
-                "discount_badge_padding_x": 18,
-                "discount_badge_padding_y": 6,
-                "discount_badge_gap": 12,
-                "type_preset": "custom",
-                "width": "100%",
-                "alignment": "left",
-                "font": "var(--font-heading--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "color": "var(--color-primary)",
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "swatches_7WKfWK": {
-              "type": "swatches",
-              "disabled": true,
-              "settings": {
-                "product_swatches_alignment": "flex-start",
-                "product_swatches_alignment_mobile": "flex-start",
-                "hide_padding": false,
-                "product_swatches_padding_top": 4,
-                "product_swatches_padding_bottom": 0,
-                "product_swatches_padding_left": 0,
-                "product_swatches_padding_right": 0
-              },
-              "blocks": {}
-            }
-          },
-          "block_order": [
-            "product_card_gallery_cfMYzk",
-            "product_title_8qg7Yc",
-            "price_gaADCT",
-            "swatches_7WKfWK"
-          ]
-        }
-      },
-      "custom_css": [],
-      "settings": {
-        "collection": "solar-outdoor-lights",
-        "type_preset": "custom",
-        "font": "var(--font-heading--family)",
-        "font_size": "",
-        "line_height": "normal",
-        "letter_spacing": "normal",
-        "case": "none",
-        "color": "",
-        "title": "Solar Outdoor Lights",
-        "link_label": "View all",
-        "limit": 8,
-        "columns": 4,
-        "color_scheme": "scheme-1",
-        "padding_top": 80,
-        "padding_bottom": 80
-      }
-    },
     "home_faq": {
       "type": "heitz-home-faq",
       "blocks": {
@@ -1354,7 +1355,7 @@
     "hero",
     "trust_badges",
     "category_scroll",
-    "featured_pendant",
+    "heitz_featured_collection_NAwf9H",
     "our_story",
     "cta_pendant",
     "featured_outdoor",
@@ -1364,7 +1365,7 @@
     "heitz_featured_collection_Pme8WU",
     "edit_spotlight",
     "category_accordion",
-    "heitz_featured_collection_NAwf9H",
+    "featured_pendant",
     "home_faq",
     "heitz_featured_collection_gpXMpj",
     "newsletter",

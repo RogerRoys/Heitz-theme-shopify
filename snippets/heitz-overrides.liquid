@@ -1,0 +1,38 @@
+{%- comment -%}
+  Heitz global overrides — small cross-section CSS that must ship via
+  the compiled stylesheet (assets/base.css edits do not sync reliably).
+{%- endcomment -%}
+{% stylesheet %}
+  /* recommendations + product-list mobile gaps match the homepage grids */
+  @media screen and (max-width: 749px) {
+    product-recommendations .resource-list,
+    product-list .resource-list {
+      --resource-list-mobile-gap-max: 9999px;
+      --resource-list-column-gap: 10px;
+      --resource-list-row-gap: 30px;
+    }
+  }
+  /* mobile hero bottom-left like the reference; desktop untouched */
+  @media screen and (max-width: 749px) {
+    .hero-wrapper .hero__container {
+      align-items: flex-end;
+      justify-content: flex-start;
+    }
+    .hero-wrapper .text-block,
+    .hero-wrapper .text-block p,
+    .hero-wrapper .text-block h1 {
+      text-align: left;
+    }
+    .hero-wrapper .button {
+      background: #ffffff;
+      border: 0;
+      color: #1a1b18;
+      border-radius: 0;
+      text-transform: uppercase;
+      letter-spacing: 2.8px;
+      font-size: 11px;
+      font-weight: 500;
+      padding: 14px 30px;
+    }
+  }
+{% endstylesheet %}

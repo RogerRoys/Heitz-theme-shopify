@@ -1,8 +1,8 @@
 {%- comment -%}
-  Heitz TF featured collection — reference-style section header (title +
-  "View all" outline button) with the THEME's own product cards inside
-  (Horizon _product-card static block), so cards match the rest of the
-  store and follow the theme color schemes.
+  Heitz PDP Inspiration — products related to the viewed product, drawn
+  from its most specific catalog collection (utility collections
+  skipped, the product itself excluded), in the featured-collection
+  carousel layout with bottom VIEW ALL and mobile progress bar.
 {%- endcomment -%}
 {%- liquid
   # pick the current product's most specific catalog collection
@@ -126,9 +126,13 @@
 
     <div class="htf-insp__grid">
       {%- if col != blank and col.products.size > 0 -%}
-        {%- for product in col.products limit: limit -%}
+        {%- assign shown = 0 -%}
+        {%- for item in col.products -%}
+          {%- if item.id == product.id -%}{%- continue -%}{%- endif -%}
+          {%- if shown >= limit -%}{%- break -%}{%- endif -%}
+          {%- assign shown = shown | plus: 1 -%}
           <div class="htf-insp__item">
-            {% content_for 'block', type: '_product-card', id: 'static-product-card', closest.product: product %}
+            {% content_for 'block', type: '_product-card', id: 'static-product-card', closest.product: item %}
           </div>
         {%- endfor -%}
       {%- else -%}

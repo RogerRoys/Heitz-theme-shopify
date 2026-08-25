@@ -532,11 +532,13 @@
       els.link.href = product.url || url;
       els.desc.innerHTML = product.description || '';
       idx = 0;
-      if (images.length) setImage(0);
+      const firstImage = images.length ? setImage(0) : Promise.resolve();
       dlg.classList.toggle('hqv--multi', images.length > 1);
       renderOptions();
       updatePrice();
-      setTimeout(() => dlg.classList.remove('hqv--curtain'), 60);
+      Promise.race([firstImage, new Promise((r) => setTimeout(r, 1500))]).then(() => {
+        setTimeout(() => dlg.classList.remove('hqv--curtain'), 80);
+      });
     };
 
     const close = () => {

@@ -384,6 +384,8 @@
     .hqv__media {
       flex: none;
       height: auto;
+      min-height: 34dvh;
+      background: #f2f0ec;
       border-radius: 8px 8px 0 0;
       scroll-snap-align: start;
     }
@@ -445,16 +447,19 @@
       product.variants.some((v) => v.available && v.options[oi] === val && v.options.every((o, i) => i === oi || o === selections[i]));
 
     const setImage = (i) => {
-      if (!images.length) return;
+      if (!images.length) return Promise.resolve();
       idx = ((i % images.length) + images.length) % images.length;
       dlg.classList.add('hqv--switching');
       const next = sized(images[idx], 1400);
-      const pre = new Image();
-      pre.onload = pre.onerror = () => {
-        els.img.src = next;
-        dlg.classList.remove('hqv--switching');
-      };
-      pre.src = next;
+      return new Promise((done) => {
+        const pre = new Image();
+        pre.onload = pre.onerror = () => {
+          els.img.src = next;
+          dlg.classList.remove('hqv--switching');
+          done();
+        };
+        pre.src = next;
+      });
     };
 
     const updatePrice = () => {

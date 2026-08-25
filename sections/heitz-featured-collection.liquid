@@ -29,13 +29,30 @@
   @media only screen and (min-width: 769px) {
     {% if section.settings.type_preset == 'custom' or section.settings.type_preset == blank %}.htf-fc__title { font-size: var(--font-size, 30px); }{% endif %}
   }
+  /* mobile: reference-style swipe carousel — two cards plus a peek,
+     snapping per card. Desktop stays a grid. */
   .htf-fc__grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 30px 10px;
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .htf-fc__grid::-webkit-scrollbar { display: none; }
+  .htf-fc__item {
+    flex: 0 0 42%;
+    min-width: 0;
+    scroll-snap-align: start;
   }
   @media only screen and (min-width: 769px) {
-    .htf-fc__grid { grid-template-columns: repeat({{ section.settings.columns | default: 5 }}, 1fr); gap: 55px 30px; }
+    .htf-fc__grid {
+      display: grid;
+      grid-template-columns: repeat({{ section.settings.columns | default: 5 }}, 1fr);
+      gap: 55px 30px;
+      overflow-x: visible;
+      scroll-snap-type: none;
+    }
   }
   .htf-fc .htf-btn--secondary {
     color: var(--color-foreground, var(--htf-color-text));

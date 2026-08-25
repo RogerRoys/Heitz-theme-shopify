@@ -200,28 +200,33 @@
   }
   .hpdp-trust__icon svg { width: 11px; height: 11px; stroke: currentColor; stroke-width: 2.5; fill: none; stroke-linecap: round; stroke-linejoin: round; }
 
-  .hpdp-pills { border: 0; padding: 0; margin: 14px 0 0; }
+  .hpdp-pills { border: 0; padding: 0; margin: 16px 0 0; }
   .hpdp-pills legend {
-    font-size: 13px;
-    letter-spacing: .4px;
-    margin-bottom: 6px;
+    font-size: 11.5px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
     padding: 0;
     color: var(--hpdp-text);
   }
   .hpdp-pills input { position: absolute; opacity: 0; pointer-events: none; }
   .hpdp-pills label {
     display: inline-block;
-    padding: 9px 16px;
-    margin: 0 8px 8px 0;
-    font-size: 13px;
-    letter-spacing: .4px;
+    padding: 12px 22px;
+    margin: 0 10px 10px 0;
+    font-size: 15px;
     color: var(--hpdp-heading);
     background: #ffffff;
-    box-shadow: inset 0 0 0 1px var(--hpdp-border);
+    box-shadow: inset 0 0 0 1px #ddd9d3;
     cursor: pointer;
-    transition: box-shadow .2s ease;
+    transition: box-shadow .2s ease, background .2s ease, color .2s ease;
   }
-  .hpdp-pills input:checked + label { box-shadow: inset 0 0 0 2px var(--hpdp-heading); }
+  .hpdp-pills input:checked + label {
+    background: #1a1b18;
+    color: #ffffff;
+    box-shadow: inset 0 0 0 1px #1a1b18;
+  }
   .hpdp-pills label:hover { box-shadow: inset 0 0 0 1px var(--hpdp-heading); }
 
   .hpdp-form-row { margin-top: 18px; }

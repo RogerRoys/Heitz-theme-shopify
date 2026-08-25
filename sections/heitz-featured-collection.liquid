@@ -35,7 +35,7 @@
     gap: 27px 17px;
   }
   @media only screen and (min-width: 769px) {
-    .htf-fc__grid { grid-template-columns: repeat({{ section.settings.columns | default: 5 }}, 1fr); }
+    .htf-fc__grid { grid-template-columns: repeat({{ section.settings.columns | default: 5 }}, 1fr); gap: 55px 30px; }
   }
   .htf-fc .htf-btn--secondary {
     color: var(--color-foreground, var(--htf-color-text));

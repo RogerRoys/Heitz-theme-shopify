@@ -54,19 +54,60 @@
       scroll-snap-type: none;
     }
   }
+  /* reference-style bottom VIEW ALL + mobile scroll progress bar */
+  .htf-fc__scrollbar { display: none; }
+  .htf-fc__viewall {
+    display: block;
+    width: 240px;
+    max-width: 100%;
+    height: 50px;
+    line-height: 50px;
+    margin: 26px auto 0;
+    background: #1a1b18;
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 2.4px;
+    text-transform: uppercase;
+    text-align: center;
+    text-decoration: none;
+    transition: opacity 0.3s ease;
+  }
+  .htf-fc__viewall:hover { opacity: 0.85; }
+  @media only screen and (max-width: 768px) {
+    .htf-fc__scrollbar {
+      display: block;
+      position: relative;
+      height: 2px;
+      margin-top: 18px;
+      background: rgba(26, 27, 24, 0.12);
+      overflow: hidden;
+    }
+    .htf-fc__scrollbar span {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 30%;
+      background: #1a1b18;
+    }
+    .htf-fc__viewall {
+      width: 100%;
+      height: 46px;
+      line-height: 46px;
+      margin-top: 16px;
+    }
+  }
   .htf-fc .htf-btn--secondary {
     color: var(--color-foreground, var(--htf-color-text));
     border-color: var(--color-border, var(--htf-color-border));
   }
 </style>
 
-<div class="htf-fc color-{{ section.settings.color_scheme }}">
+<div class="htf-fc color-{{ section.settings.color_scheme }}" data-htf-fc="{{ section.id }}">
   <div class="htf-page-width">
     <div class="htf-fc__header">
       <h2 class="htf-fc__title{% unless section.settings.type_preset == 'custom' or section.settings.type_preset == blank %} {{ section.settings.type_preset }}{% endunless %}" style="{% render 'typography-style', settings: section.settings %}">{{ section.settings.title | default: col.title }}</h2>
-      {%- if col != blank -%}
-        <a href="{{ col.url }}" class="htf-btn htf-btn--secondary htf-btn--small">{{ section.settings.link_label | default: 'View all' }}</a>
-      {%- endif -%}
     </div>
 
     <div class="htf-fc__grid">
@@ -84,8 +125,33 @@
         {%- endfor -%}
       {%- endif -%}
     </div>
+
+    <div class="htf-fc__scrollbar" aria-hidden="true"><span></span></div>
+    {%- if col != blank -%}
+      <a href="{{ col.url }}" class="htf-fc__viewall">{{ section.settings.link_label | default: 'View all' }}</a>
+    {%- endif -%}
   </div>
 </div>
+
+<script>
+  (function () {
+    var root = document.querySelector('[data-htf-fc="{{ section.id }}"]');
+    if (!root) return;
+    var grid = root.querySelector('.htf-fc__grid');
+    var bar = root.querySelector('.htf-fc__scrollbar span');
+    if (!grid || !bar) return;
+    var update = function () {
+      var frac = grid.scrollWidth > 0 ? grid.clientWidth / grid.scrollWidth : 1;
+      bar.style.width = (frac * 100) + '%';
+      var max = grid.scrollWidth - grid.clientWidth;
+      var p = max > 0 ? grid.scrollLeft / max : 0;
+      bar.style.transform = 'translateX(' + (p * ((1 - frac) / frac) * 100) + '%)';
+    };
+    grid.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+    update();
+  })();
+</script>
 
 {% schema %}
 {

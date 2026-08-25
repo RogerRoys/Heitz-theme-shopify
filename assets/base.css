@@ -4139,7 +4139,8 @@ display: none !important;
 }}
 /* heitz: recommendations mobile gap matches the homepage grids */
 @media screen and (max-width: 749px) {
-  product-recommendations .resource-list {
+  product-recommendations .resource-list,
+  product-list .resource-list {
     --resource-list-mobile-gap-max: 9999px;
     --resource-list-column-gap: 10px;
     --resource-list-row-gap: 30px;

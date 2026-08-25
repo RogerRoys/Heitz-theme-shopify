@@ -1,0 +1,194 @@
+{%- comment -%}
+  Heitz TF featured collection — reference-style section header (title +
+  "View all" outline button) with the THEME's own product cards inside
+  (Horizon _product-card static block), so cards match the rest of the
+  store and follow the theme color schemes.
+{%- endcomment -%}
+{%- liquid
+  # pick the current product's most specific catalog collection
+  assign col = null
+  assign best_count = 999999
+  for c in product.collections
+    if c.handle == 'all' or c.handle == 'usa' or c.handle == 'new-in' or c.handle == 'bestsellers'
+      continue
+    endif
+    if c.all_products_count > 1 and c.all_products_count < best_count
+      assign best_count = c.all_products_count
+      assign col = c
+    endif
+  endfor
+-%}
+{%- assign limit = section.settings.limit | default: 5 -%}
+<style>
+  .htf-insp { padding: {{ section.settings.padding_top | default: 80 }}px 0 {{ section.settings.padding_bottom | default: 80 }}px; background: var(--color-background, transparent); }
+  .htf-insp__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 25px;
+  }
+  .htf-insp__title {
+    font-family: var(--htf-font-heading);
+    font-weight: var(--font-heading--weight, 400);
+    {% if section.settings.type_preset == 'custom' or section.settings.type_preset == blank %}font-size: var(--font-size, 24px); font-family: var(--font-family, var(--htf-font-heading)); font-weight: var(--font-weight, var(--font-heading--weight, 400)); line-height: var(--line-height, 1.1); letter-spacing: var(--letter-spacing, 0.025em); text-transform: var(--text-transform, none);{% endif %} color: var(--color, var(--color-foreground-heading, var(--htf-color-text)));
+    letter-spacing: 0.025em;
+    line-height: 1.1;
+    color: var(--color-foreground-heading, var(--htf-color-text));
+    margin: 0;
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+  @media only screen and (min-width: 769px) {
+    {% if section.settings.type_preset == 'custom' or section.settings.type_preset == blank %}.htf-insp__title { font-size: var(--font-size, 30px); }{% endif %}
+  }
+  /* mobile: reference-style swipe carousel — two cards plus a peek,
+     snapping per card. Desktop stays a grid. */
+  .htf-insp__grid {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .htf-insp__grid::-webkit-scrollbar { display: none; }
+  .htf-insp__item {
+    flex: 0 0 42%;
+    min-width: 0;
+    scroll-snap-align: start;
+  }
+  @media only screen and (min-width: 769px) {
+    .htf-insp__grid {
+      display: grid;
+      grid-template-columns: repeat({{ section.settings.columns | default: 5 }}, 1fr);
+      gap: 55px 30px;
+      overflow-x: visible;
+      scroll-snap-type: none;
+    }
+  }
+  /* reference-style bottom VIEW ALL + mobile scroll progress bar */
+  .htf-insp__scrollbar { display: none; }
+  .htf-insp__viewall {
+    display: block;
+    width: 240px;
+    max-width: 100%;
+    height: 50px;
+    line-height: 50px;
+    margin: 26px auto 0;
+    background: #1a1b18;
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 2.4px;
+    text-transform: uppercase;
+    text-align: center;
+    text-decoration: none;
+    transition: opacity 0.3s ease;
+  }
+  .htf-insp__viewall:hover { opacity: 0.85; }
+  @media only screen and (max-width: 768px) {
+    .htf-insp__scrollbar {
+      display: block;
+      position: relative;
+      height: 2px;
+      margin-top: 18px;
+      background: rgba(26, 27, 24, 0.12);
+      overflow: hidden;
+    }
+    .htf-insp__scrollbar span {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 30%;
+      background: #1a1b18;
+    }
+    .htf-insp__viewall {
+      width: 100%;
+      height: 46px;
+      line-height: 46px;
+      margin-top: 16px;
+    }
+  }
+  .htf-insp .htf-btn--secondary {
+    color: var(--color-foreground, var(--htf-color-text));
+    border-color: var(--color-border, var(--htf-color-border));
+  }
+</style>
+
+{%- if col != blank -%}
+<div class="htf-insp color-{{ section.settings.color_scheme }}" data-htf-insp="{{ section.id }}">
+  <div class="htf-page-width">
+    <div class="htf-insp__header">
+      <h2 class="htf-insp__title{% unless section.settings.type_preset == 'custom' or section.settings.type_preset == blank %} {{ section.settings.type_preset }}{% endunless %}" style="{% render 'typography-style', settings: section.settings %}">{{ section.settings.title | default: col.title }}</h2>
+    </div>
+
+    <div class="htf-insp__grid">
+      {%- if col != blank and col.products.size > 0 -%}
+        {%- for product in col.products limit: limit -%}
+          <div class="htf-insp__item">
+            {% content_for 'block', type: '_product-card', id: 'static-product-card', closest.product: product %}
+          </div>
+        {%- endfor -%}
+      {%- else -%}
+        {%- for i in (1..limit) -%}
+          <div class="htf-insp__item">
+            {% content_for 'block', type: '_product-card', id: 'static-product-card', closest.product: null %}
+          </div>
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+
+    <div class="htf-insp__scrollbar" aria-hidden="true"><span></span></div>
+    {%- if col != blank -%}
+      <a href="{{ col.url }}" class="htf-insp__viewall">{{ section.settings.link_label | default: 'View all' }}</a>
+    {%- endif -%}
+  </div>
+</div>
+
+<script>
+  (function () {
+    var root = document.querySelector('[data-htf-insp="{{ section.id }}"]');
+    if (!root) return;
+    var grid = root.querySelector('.htf-insp__grid');
+    var bar = root.querySelector('.htf-insp__scrollbar span');
+    if (!grid || !bar) return;
+    var update = function () {
+      var frac = grid.scrollWidth > 0 ? grid.clientWidth / grid.scrollWidth : 1;
+      bar.style.width = (frac * 100) + '%';
+      var max = grid.scrollWidth - grid.clientWidth;
+      var p = max > 0 ? grid.scrollLeft / max : 0;
+      bar.style.transform = 'translateX(' + (p * ((1 - frac) / frac) * 100) + '%)';
+    };
+    grid.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+    update();
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Heitz PDP Inspiration",
+  "settings": [
+    
+    { "type": "header", "content": "Typography" },
+    { "type": "select", "id": "type_preset", "label": "Preset", "info": "Edit presets in theme settings", "options": [ { "value": "custom", "label": "Custom" }, { "value": "paragraph", "label": "Paragraph" }, { "value": "h1", "label": "Heading 1" }, { "value": "h2", "label": "Heading 2" }, { "value": "h3", "label": "Heading 3" }, { "value": "h4", "label": "Heading 4" }, { "value": "h5", "label": "Heading 5" }, { "value": "h6", "label": "Heading 6" } ], "default": "custom" },
+    { "type": "select", "id": "font", "label": "Font", "options": [ { "value": "var(--font-body--family)", "label": "Body" }, { "value": "var(--font-subheading--family)", "label": "Subheading" }, { "value": "var(--font-heading--family)", "label": "Heading" }, { "value": "var(--font-accent--family)", "label": "Accent" } ], "default": "var(--font-heading--family)", "visible_if": "{{ section.settings.type_preset == 'custom' }}" },
+    { "type": "select", "id": "font_size", "label": "Size", "options": [ { "value": "", "label": "Default" }, { "value": "0.625rem", "label": "10px" }, { "value": "0.75rem", "label": "12px" }, { "value": "0.875rem", "label": "14px" }, { "value": "1rem", "label": "16px" }, { "value": "1.125rem", "label": "18px" }, { "value": "1.25rem", "label": "20px" }, { "value": "1.5rem", "label": "24px" }, { "value": "2rem", "label": "32px" }, { "value": "2.5rem", "label": "40px" }, { "value": "3rem", "label": "48px" }, { "value": "3.5rem", "label": "56px" }, { "value": "4.5rem", "label": "72px" } ], "default": "", "visible_if": "{{ section.settings.type_preset == 'custom' }}" },
+    { "type": "select", "id": "line_height", "label": "Line height", "options": [ { "value": "tight", "label": "Tight" }, { "value": "normal", "label": "Normal" }, { "value": "loose", "label": "Loose" } ], "default": "normal", "visible_if": "{{ section.settings.type_preset == 'custom' }}" },
+    { "type": "select", "id": "letter_spacing", "label": "Letter spacing", "options": [ { "value": "tight", "label": "Tight" }, { "value": "normal", "label": "Normal" }, { "value": "loose", "label": "Loose" } ], "default": "normal", "visible_if": "{{ section.settings.type_preset == 'custom' }}" },
+    { "type": "select", "id": "case", "label": "Case", "options": [ { "value": "none", "label": "Default" }, { "value": "uppercase", "label": "Uppercase" } ], "default": "none", "visible_if": "{{ section.settings.type_preset == 'custom' }}" },
+    { "type": "select", "id": "color", "label": "Color", "options": [ { "value": "", "label": "Default" }, { "value": "var(--color-foreground)", "label": "Text" }, { "value": "var(--color-foreground-heading)", "label": "Heading" }, { "value": "var(--color-primary)", "label": "Link" } ], "default": "" },
+    { "type": "text", "id": "title", "label": "Heading (falls back to collection title)" },
+    { "type": "text", "id": "link_label", "label": "Link label", "default": "View all" },
+    { "type": "range", "id": "limit", "min": 2, "max": 10, "step": 1, "label": "Products to show", "default": 5 },
+    { "type": "range", "id": "columns", "min": 3, "max": 5, "step": 1, "label": "Desktop columns", "default": 5 },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+    { "type": "header", "content": "Padding" },
+    { "type": "range", "id": "padding_top", "label": "Top", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 80 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 80 }
+  ],
+  "presets": [{ "name": "Heitz PDP Inspiration" }]
+}
+{% endschema %}

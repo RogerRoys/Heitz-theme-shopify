@@ -63,7 +63,7 @@
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
   }
   .hqv[open] { display: flex; animation: hqv-in 0.3s cubic-bezier(0.22, 1, 0.36, 1); }
-  .hqv--closing { animation: hqv-out 0.24s ease forwards; }
+  .hqv[open].hqv--closing { animation: hqv-out 0.24s ease forwards; }
   @keyframes hqv-in { from { opacity: 0; transform: scale(0.97) translateY(12px); } }
   @keyframes hqv-out { to { opacity: 0; transform: scale(0.98) translateY(8px); } }
   .hqv::backdrop { background: rgba(12, 11, 9, 0.5); }
@@ -371,7 +371,7 @@
       margin: 0;
     }
     .hqv[open] { display: flex; animation: hqv-in-sheet 0.35s cubic-bezier(0.22, 1, 0.36, 1); }
-    .hqv--closing { animation: hqv-out-sheet 0.28s ease forwards; }
+    .hqv[open].hqv--closing { animation: hqv-out-sheet 0.34s ease-in forwards; }
     .hqv__sheet {
       display: block;
       flex: 0 0 80dvh;
@@ -548,7 +548,7 @@
         dlg.classList.remove('hqv--closing');
         document.documentElement.style.overflow = '';
         if (dlg.open) dlg.close();
-      }, 260);
+      }, 330);
     };
 
     document.addEventListener('click', (e) => {
@@ -562,7 +562,7 @@
 
     q('[data-hqv-close]').addEventListener('click', close);
     dlg.addEventListener('click', (e) => { if (e.target === dlg) close(); });
-    dlg.addEventListener('cancel', () => { document.documentElement.style.overflow = ''; });
+    dlg.addEventListener('cancel', (e) => { e.preventDefault(); close(); });
     q('[data-hqv-prev]').addEventListener('click', () => setImage(idx - 1));
     q('[data-hqv-next]').addEventListener('click', () => setImage(idx + 1));
     const media = q('.hqv__media');

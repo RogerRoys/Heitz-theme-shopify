@@ -122,16 +122,6 @@
     },
     "advice": {
       "type": "heitz-pdp-advice",
-      "settings": {
-        "color_scheme": "scheme-2",
-        "padding_top": 80,
-        "padding_bottom": 80,
-        "eyebrow": "Personal Lighting Guidance — Complimentary",
-        "heading": "Not Sure Which Light Will Suit Your Space?",
-        "button_label": "Ask for Advice",
-        "link": "",
-        "box_color_scheme": "scheme-2"
-      },
       "blocks": {
         "step_1": {
           "type": "step",
@@ -159,7 +149,18 @@
         "step_1",
         "step_2",
         "step_3"
-      ]
+      ],
+      "settings": {
+        "color_scheme": "scheme-1",
+        "box_color_scheme": "scheme-2",
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "eyebrow": "Personal Lighting Guidance — Complimentary",
+        "heading": "Not Sure Which Light Will Suit Your Space?",
+        "heading_size": 30,
+        "button_label": "Ask for Advice",
+        "link": ""
+      }
     },
     "product_list_jAWgLy": {
       "type": "heitz-pdp-inspiration",

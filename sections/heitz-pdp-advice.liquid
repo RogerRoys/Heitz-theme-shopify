@@ -28,7 +28,7 @@
     align-items: flex-end;
     justify-content: space-between;
     gap: 40px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+    border-bottom: 1px solid var(--color-border, rgba(0, 0, 0, 0.12));
     padding-bottom: 26px;
   }
   .hpdp-advice__intro {
@@ -66,7 +66,7 @@
     text-decoration: none;
     transition: background 0.2s ease;
   }
-  .hpdp-advice__button:hover { background: #333333; }
+  .hpdp-advice__button:hover { opacity: 0.85; }
   .hpdp-advice__button--bottom { display: none; }
   .hpdp-advice__steps {
     display: grid;
@@ -121,7 +121,7 @@
 </style>
 
 <div class="hpdp-advice color-{{ section.settings.color_scheme }}">
-  <div class="hpdp-advice__inner">
+  <div class="hpdp-advice__inner color-{{ section.settings.box_color_scheme | default: 'scheme-2' }}">
     <div class="hpdp-advice__header">
       <div class="hpdp-advice__intro">
         <p class="hpdp-advice__eyebrow">{{ section.settings.eyebrow | escape }}</p>
@@ -166,6 +166,7 @@
   "name": "Heitz PDP Advice",
   "settings": [
     { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+    { "type": "color_scheme", "id": "box_color_scheme", "label": "Box color scheme", "default": "scheme-2" },
     { "type": "header", "content": "Padding" },
     { "type": "range", "id": "padding_top", "label": "Top", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 80 },
     { "type": "range", "id": "padding_bottom", "label": "Bottom", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 80 },

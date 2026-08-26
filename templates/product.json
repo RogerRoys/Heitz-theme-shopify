@@ -129,7 +129,8 @@
         "eyebrow": "Personal Lighting Guidance — Complimentary",
         "heading": "Not Sure Which Light Will Suit Your Space?",
         "button_label": "Ask for Advice",
-        "link": ""
+        "link": "",
+        "box_color_scheme": "scheme-2"
       },
       "blocks": {
         "step_1": {

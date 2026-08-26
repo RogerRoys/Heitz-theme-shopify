@@ -842,20 +842,28 @@
     "edit_spotlight": {
       "type": "heitz-edit-spotlight",
       "blocks": {
-        "cat_1": {
-          "type": "cat",
-          "settings": {
-            "collection": "outdoor-wall-lights",
-            "label": "Outdoor Wall Lights",
-            "body": "Weather-rated wall lanterns in blackened steel and seeded glass — sized for facades, courtyards and side passages."
-          }
-        },
         "cat_2": {
           "type": "cat",
           "settings": {
             "collection": "outdoor-pillar-post-lights",
             "label": "Pillar, Post & Gate Lights",
             "body": "Pillar and post fittings that mark an entrance with quiet authority, from low bollards to tall gate lanterns."
+          }
+        },
+        "cat_4": {
+          "type": "cat",
+          "settings": {
+            "collection": "outdoor-garden-landscape-lighting",
+            "label": "Table Lamps",
+            "body": "Table and floor lamps for the soft, layered light that makes a living room feel finished after dark."
+          }
+        },
+        "cat_1": {
+          "type": "cat",
+          "settings": {
+            "collection": "outdoor-driveway-gate-fence-lighting",
+            "label": "Outdoor Wall Lights",
+            "body": "Weather-rated wall lanterns in blackened steel and seeded glass — sized for facades, courtyards and side passages."
           }
         },
         "cat_3": {
@@ -865,24 +873,16 @@
             "label": "Pendant Lights",
             "body": "Sculptural pendants in rattan, opal glass and brushed brass — the fastest way to give a room a centre."
           }
-        },
-        "cat_4": {
-          "type": "cat",
-          "settings": {
-            "collection": "table-lamps",
-            "label": "Table Lamps",
-            "body": "Table and floor lamps for the soft, layered light that makes a living room feel finished after dark."
-          }
         }
       },
       "block_order": [
-        "cat_1",
         "cat_2",
-        "cat_3",
-        "cat_4"
+        "cat_4",
+        "cat_1",
+        "cat_3"
       ],
       "settings": {
-        "color_scheme": "scheme-heitz-cream",
+        "color_scheme": "scheme-2",
         "padding_top": 52,
         "padding_bottom": 52,
         "eyebrow": "The Heitz Edit",

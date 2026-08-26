@@ -17,17 +17,14 @@
     padding: {{ section.settings.padding_top | default: 52 }}px 0 {{ section.settings.padding_bottom | default: 52 }}px;
     font-family: var(--htf-font-body);
   }
-  .hesp__col {
-    max-width: 1180px;
-    margin: 0 auto;
-    padding: 0 56px;
-    display: grid;
-    grid-template-columns: 1.15fr 1fr;
-    gap: 56px;
+  .hesp__row {
+    display: flex;
     align-items: center;
+    gap: 64px;
   }
   .hesp__stage {
     position: relative;
+    flex: 0 1 47%;
   }
   .hesp__stage-img {
     aspect-ratio: 100 / 105;
@@ -64,6 +61,7 @@
   .hesp__next { background: #1e1b18; color: #ffffff; }
   .hesp__next:hover { background: #3b3630; }
   .hesp__copy {
+    flex: 0 1 44%;
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -95,7 +93,6 @@
     line-height: 1.15;
     letter-spacing: 0.02em;
     color: #1e1b18;
-    max-width: 400px;
     min-height: 80px;
   }
   .hesp__body {
@@ -103,7 +100,7 @@
     font-size: {{ section.settings.text_size | default: 16 }}px;
     line-height: 1.75;
     color: #6b6459;
-    max-width: 420px;
+    max-width: 48ch;
     min-height: 104px;
     text-wrap: pretty;
   }
@@ -136,16 +133,16 @@
   }
   .hesp__cta:hover { background: #3b3630; }
   @media screen and (max-width: 1023px) {
-    .hesp__col {
-      grid-template-columns: 1fr;
-      gap: 30px;
-      padding: 0 32px;
+    .hesp__row {
+      flex-direction: column;
+      gap: 34px;
+      align-items: stretch;
     }
+    .hesp__stage, .hesp__copy { flex: 1 1 100%; width: 100%; }
     .hesp__title { font-size: {{ section.settings.heading_size | default: 34 | at_most: 28 }}px; min-height: 0; }
     .hesp__body { min-height: 0; }
   }
   @media screen and (max-width: 767px) {
-    .hesp__col { padding: 0 20px; }
     .hesp__stage-img { aspect-ratio: 1 / 1; }
     .hesp__arrows button { width: 44px; height: 44px; }
     .hesp__title { font-size: {{ section.settings.heading_size | default: 34 | at_most: 24 }}px; }
@@ -155,7 +152,8 @@
 </style>
 
 <div class="hesp color-{{ section.settings.color_scheme }}" data-hesp="{{ section.id }}">
-  <div class="hesp__col">
+  <div class="htf-page-width">
+  <div class="hesp__row">
     <div class="hesp__stage">
       <div class="hesp__stage-img">
         <img data-hesp-img src="" alt="">
@@ -178,6 +176,7 @@
         <a href="{{ section.settings.button_1_link | default: routes.all_products_collection_url }}" class="hesp__cta">{{ section.settings.button_1_label | escape }}</a>
       {%- endif -%}
     </div>
+  </div>
   </div>
 </div>
 

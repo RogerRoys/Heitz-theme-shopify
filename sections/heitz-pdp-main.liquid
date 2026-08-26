@@ -1001,9 +1001,11 @@
         });
       }
       /* like the reference, drop the bar while the cart drawer or the
-         quick-view popup is over it */
-      var overlayDialogs = [].slice.call(document.querySelectorAll('cart-drawer-component dialog, #heitz-quick-view'));
-      if (overlayDialogs.length) {
+         quick-view popup is over it (wired after parse: the quick-view
+         dialog is rendered at the end of the layout) */
+      var wireSuppression = function () {
+        var overlayDialogs = [].slice.call(document.querySelectorAll('cart-drawer-component dialog, #heitz-quick-view'));
+        if (!overlayDialogs.length) return;
         var updateSuppressed = function () {
           var covered = overlayDialogs.some(function (d) { return d.hasAttribute('open'); });
           sticky.classList.toggle('hpdp-sticky--suppressed', covered);
@@ -1012,6 +1014,11 @@
         overlayDialogs.forEach(function (d) {
           suppressObserver.observe(d, { attributes: true, attributeFilter: ['open'] });
         });
+      };
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', wireSuppression);
+      } else {
+        wireSuppression();
       }
     }
 

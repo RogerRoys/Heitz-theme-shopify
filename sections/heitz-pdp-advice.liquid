@@ -160,6 +160,9 @@
         </div>
       {%- endif -%}
     </div>
+    <a href="{{ section.settings.link | default: '/pages/contact' }}" class="hpdp-advice__button hpdp-advice__button--bottom">
+      {{ section.settings.button_label | escape }} <span aria-hidden="true">&#8594;</span>
+    </a>
   </div>
 </div>
 

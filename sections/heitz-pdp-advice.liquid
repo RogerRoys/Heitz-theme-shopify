@@ -16,7 +16,7 @@
   .hpdp-advice__inner {
     max-width: 1180px;
     margin: 0 auto;
-    background: #f5f4f2;
+    background: var(--color-background, #f5f4f2);
     border: 1px solid rgba(0, 0, 0, 0.12);
     padding: 52px 56px;
     display: flex;
@@ -42,7 +42,8 @@
     font-weight: 700;
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: #8a8a85;
+    color: var(--color-foreground, #8a8a85);
+    opacity: 0.75;
   }
   .hpdp-advice__heading {
     margin: 0;
@@ -51,15 +52,15 @@
     font-weight: 700;
     letter-spacing: -0.01em;
     line-height: 1.2;
-    color: #111111;
+    color: var(--color-foreground-heading, #111111);
   }
   .hpdp-advice__button {
     flex: none;
     display: flex;
     align-items: center;
     gap: 11px;
-    background: #111111;
-    color: #ffffff;
+    background: var(--color-foreground-heading, #111111);
+    color: var(--color-background, #ffffff);
     font-size: 15px;
     font-weight: 700;
     padding: 16px 28px;
@@ -82,18 +83,19 @@
     font-size: 13px;
     font-weight: 700;
     letter-spacing: 0.18em;
-    color: #b3b1ab;
+    color: var(--color-foreground, #b3b1ab);
+    opacity: 0.5;
   }
   .hpdp-advice__step-title {
     font-size: 17px;
     font-weight: 700;
-    color: #111111;
+    color: var(--color-foreground-heading, #111111);
   }
   .hpdp-advice__step-body {
     margin: 0;
     font-size: 15px;
     line-height: 1.65;
-    color: #5f5f5b;
+    color: var(--color-foreground, #5f5f5b);
   }
   @media screen and (max-width: 1023px) {
     .hpdp-advice__inner { padding: 40px 32px; }

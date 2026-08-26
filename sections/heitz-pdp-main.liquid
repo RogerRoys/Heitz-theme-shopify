@@ -649,7 +649,8 @@
         {%- if sticky_image -%}
           <img class="hpdp-sticky__img" data-hpdp-sticky-img
             src="{{ sticky_image | image_url: width: 160 }}"
-            alt="{{ product.title | escape }}" loading="lazy">
+            alt="{{ product.title | escape }}" loading="lazy"
+            width="{{ sticky_image.width | default: 60 }}" height="{{ sticky_image.height | default: 60 }}">
         {%- endif -%}
         <div class="hpdp-sticky__meta">
           <p class="hpdp-sticky__title">{{ product.title }}</p>
@@ -710,6 +711,12 @@
     transform: translateY(0);
     opacity: 1;
     pointer-events: auto;
+  }
+  .hpdp-sticky.hpdp-sticky--suppressed {
+    transform: translateY(100%);
+    opacity: 0;
+    pointer-events: none;
+    transition: none;
   }
   .hpdp-sticky__inner {
     max-width: 1500px;
@@ -991,6 +998,19 @@
       if (stickyAtc) {
         stickyAtc.addEventListener('click', function () {
           if (atcBtn && !atcBtn.disabled) atcBtn.click();
+        });
+      }
+      /* like the reference, drop the bar while the cart drawer or the
+         quick-view popup is over it */
+      var overlayDialogs = [].slice.call(document.querySelectorAll('cart-drawer-component dialog, #heitz-quick-view'));
+      if (overlayDialogs.length) {
+        var updateSuppressed = function () {
+          var covered = overlayDialogs.some(function (d) { return d.hasAttribute('open'); });
+          sticky.classList.toggle('hpdp-sticky--suppressed', covered);
+        };
+        var suppressObserver = new MutationObserver(updateSuppressed);
+        overlayDialogs.forEach(function (d) {
+          suppressObserver.observe(d, { attributes: true, attributeFilter: ['open'] });
         });
       }
     }

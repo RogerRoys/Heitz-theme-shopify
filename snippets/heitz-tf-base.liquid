@@ -53,7 +53,11 @@
     border: 1px solid var(--htf-color-border);
     color: var(--htf-color-text);
   }
-  .htf-btn--secondary:hover { background-color: transparent; color: var(--htf-color-text); border-color: #b9bcbe; }
+  .htf-btn--secondary:hover {
+    background-color: var(--color-secondary-button-hover-background, #1a1b18);
+    color: var(--color-secondary-button-hover-text, #ffffff);
+    border-color: var(--color-secondary-button-hover-border, #1a1b18);
+  }
   .htf-btn--small {
     font-size: 12px;
     min-width: 90px;

@@ -38,6 +38,10 @@
     min-width: 0;
     max-width: 100%;
   }
+  /* mobile: gallery runs edge to edge, out of the page padding */
+  @media screen and (max-width: 749px) {
+    .hpdp-media { margin-inline: -24px; max-width: none; }
+  }
   .hpdp-media__sticky,
   .hpdp-gallery-flex {
     min-width: 0;

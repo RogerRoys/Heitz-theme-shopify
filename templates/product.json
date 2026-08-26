@@ -126,13 +126,39 @@
         "color_scheme": "scheme-2",
         "padding_top": 80,
         "padding_bottom": 80,
-        "panel_label": "Complimentary Service",
-        "eyebrow": "Personal Lighting Guidance",
+        "eyebrow": "Personal Lighting Guidance — Complimentary",
         "heading": "Not Sure Which Light Will Suit Your Space?",
-        "text": "Share a photo, wall dimensions or details about your room, entrance or garden. Our team will help you compare suitable sizes, finishes and lighting styles.",
         "button_label": "Ask for Advice",
         "link": ""
-      }
+      },
+      "blocks": {
+        "step_1": {
+          "type": "step",
+          "settings": {
+            "title": "Send us your space",
+            "body": "A photo, wall dimensions or a short description of the room, entrance or garden."
+          }
+        },
+        "step_2": {
+          "type": "step",
+          "settings": {
+            "title": "We compare options",
+            "body": "Sizes, finishes and lighting styles put side by side for your space."
+          }
+        },
+        "step_3": {
+          "type": "step",
+          "settings": {
+            "title": "You choose with confidence",
+            "body": "A clear recommendation within one working day — no obligation to buy."
+          }
+        }
+      },
+      "block_order": [
+        "step_1",
+        "step_2",
+        "step_3"
+      ]
     },
     "product_list_jAWgLy": {
       "type": "heitz-pdp-inspiration",

@@ -1,145 +1,155 @@
 {%- comment -%}
-  Heitz PDP advice banner — Heitz-styled guidance card: gold eyebrow
-  with inline bulb, gold rule, heading-font title and the brand's dark
-  uppercase CTA inside a hairline-bordered card. A small gold service
-  note sits at the card's top right.
+  Heitz PDP advice banner — "Three Steps" design (Roger's Claude Design
+  option 1c): header row with eyebrow + heading and a dark arrow CTA
+  over a hairline divider, then a three-step explanation grid.
+  Step blocks are numbered automatically; without blocks the three
+  default steps render.
 {%- endcomment -%}
 {% render 'heitz-pdp-base' %}
 <style>
-  .hpdp-advice { width: 100%; padding: {{ section.settings.padding_top | default: 80 }}px 20px {{ section.settings.padding_bottom | default: 80 }}px; font-family: var(--hpdp-font-body); background: var(--color-background, transparent); }
-  .hpdp-advice__inner {
-    position: relative;
+  .hpdp-advice {
     width: 100%;
-    max-width: 1320px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    align-items: center;
-    column-gap: 56px;
-    padding: 46px 52px;
-    border: 1px solid var(--color-border, #e4e4e4);
-    background: var(--color-background, #ffffff);
+    padding: {{ section.settings.padding_top | default: 80 }}px 20px {{ section.settings.padding_bottom | default: 80 }}px;
+    font-family: var(--hpdp-font-body);
+    background: var(--color-background, transparent);
   }
-  .hpdp-advice__service {
-    position: absolute;
-    top: 20px;
-    right: 24px;
-    font-size: 10px;
-    font-weight: 500;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    color: var(--color-primary, #b8913f);
+  .hpdp-advice__inner {
+    max-width: 1180px;
+    margin: 0 auto;
+    background: #f5f4f2;
+    padding: 52px 56px;
+    display: flex;
+    flex-direction: column;
+    gap: 38px;
+  }
+  .hpdp-advice__header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 40px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+    padding-bottom: 26px;
+  }
+  .hpdp-advice__intro {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
   }
   .hpdp-advice__eyebrow {
-    display: flex;
-    align-items: center;
-    gap: 9px;
-    margin: 0 0 14px;
-    font-weight: 400;
-    font-size: 12px;
-    letter-spacing: 0.3em;
+    margin: 0;
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: var(--color-primary, #b8913f);
-  }
-  .hpdp-advice__eyebrow svg {
-    width: 15px;
-    height: 15px;
-    flex: 0 0 auto;
-    fill: none;
-    stroke: currentColor;
-    stroke-width: 1.5;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-  }
-  .hpdp-advice__rule {
-    width: 34px;
-    height: 2px;
-    background: var(--color-primary, #b8913f);
-    margin: 0 0 18px;
+    color: #8a8a85;
   }
   .hpdp-advice__heading {
-    margin: 0 0 12px;
-    font-family: var(--hpdp-font-heading);
-    font-weight: 400;
-    font-size: {{ section.settings.heading_size | default: 26 }}px;
-    line-height: 1.25;
-    letter-spacing: 0.02em;
-    color: var(--hpdp-ink);
-  }
-  .hpdp-advice__text {
-    max-width: 720px;
     margin: 0;
-    font-size: {{ section.settings.text_size | default: 15 }}px;
-    font-weight: 300;
-    line-height: 1.7;
-    color: #55504a;
+    font-family: var(--hpdp-font-heading);
+    font-size: {{ section.settings.heading_size | default: 30 }}px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+    color: #111111;
   }
   .hpdp-advice__button {
-    display: inline-flex;
+    flex: none;
+    display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 10px;
-    min-height: 50px;
-    padding: 15px 30px;
-    white-space: nowrap;
-    background: #1a1b18;
-    font-weight: 500;
-    font-size: 12px;
-    line-height: 1.2;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
+    gap: 11px;
+    background: #111111;
     color: #ffffff;
+    font-size: 15px;
+    font-weight: 700;
+    padding: 16px 28px;
     text-decoration: none;
-    transition: opacity 0.3s ease;
+    transition: background 0.2s ease;
   }
-  .hpdp-advice__button:hover { opacity: 0.85; }
-  .hpdp-advice__button svg {
-    width: 15px;
-    height: 15px;
-    fill: none;
-    stroke: currentColor;
-    stroke-width: 1.5;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    transition: transform 0.3s ease;
+  .hpdp-advice__button:hover { background: #333333; }
+  .hpdp-advice__steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 44px;
   }
-  .hpdp-advice__button:hover svg { transform: translateX(4px); }
-  @media screen and (max-width: 989px) {
-    .hpdp-advice__inner {
-      grid-template-columns: 1fr;
-      row-gap: 24px;
-      padding: 38px 34px;
-    }
-    .hpdp-advice__button { justify-self: start; }
+  .hpdp-advice__step {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
   }
-  @media screen and (max-width: 749px) {
+  .hpdp-advice__num {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    color: #b3b1ab;
+  }
+  .hpdp-advice__step-title {
+    font-size: 17px;
+    font-weight: 700;
+    color: #111111;
+  }
+  .hpdp-advice__step-body {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.65;
+    color: #5f5f5b;
+  }
+  @media screen and (max-width: 1023px) {
+    .hpdp-advice__inner { padding: 40px 32px; }
+    .hpdp-advice__steps { gap: 28px; }
+    .hpdp-advice__heading { font-size: {{ section.settings.heading_size | default: 30 | minus: 4 }}px; }
+  }
+  @media screen and (max-width: 767px) {
     .hpdp-advice { padding: 20px 14px; }
-    .hpdp-advice__inner { padding: 28px 20px; }
-    .hpdp-advice__service { position: static; display: block; margin-bottom: 16px; }
-    .hpdp-advice__heading { font-size: 21px; }
-    .hpdp-advice__text { font-size: 14px; line-height: 1.6; }
-    .hpdp-advice__button { width: 100%; min-height: 48px; }
+    .hpdp-advice__inner { padding: 36px 20px; gap: 28px; }
+    .hpdp-advice__header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 20px;
+    }
+    .hpdp-advice__button { width: 100%; justify-content: center; box-sizing: border-box; }
+    .hpdp-advice__steps { grid-template-columns: 1fr; gap: 28px; }
+    .hpdp-advice__heading { font-size: {{ section.settings.heading_size | default: 30 | minus: 6 }}px; }
   }
 </style>
 
 <div class="hpdp-advice color-{{ section.settings.color_scheme }}">
   <div class="hpdp-advice__inner">
-    {%- if section.settings.panel_label != blank -%}
-      <span class="hpdp-advice__service">{{ section.settings.panel_label | escape }}</span>
-    {%- endif -%}
-    <div>
-      <p class="hpdp-advice__eyebrow">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.2 1 2V18h6v-1.3c0-.8.4-1.5 1-2A7 7 0 0 0 12 2z"/></svg>
-        {{ section.settings.eyebrow | escape }}
-      </p>
-      <div class="hpdp-advice__rule" aria-hidden="true"></div>
-      <h2 class="hpdp-advice__heading" data-hpdp-spy="{{ section.settings.heading | strip_html | escape }}">{{ section.settings.heading }}</h2>
-      <p class="hpdp-advice__text">{{ section.settings.text }}</p>
+    <div class="hpdp-advice__header">
+      <div class="hpdp-advice__intro">
+        <p class="hpdp-advice__eyebrow">{{ section.settings.eyebrow | escape }}</p>
+        <h2 class="hpdp-advice__heading" data-hpdp-spy="{{ section.settings.heading | strip_html | escape }}">{{ section.settings.heading }}</h2>
+      </div>
+      <a href="{{ section.settings.link | default: '/pages/contact' }}" class="hpdp-advice__button">
+        {{ section.settings.button_label | escape }} <span aria-hidden="true">&#8594;</span>
+      </a>
     </div>
-    <a href="{{ section.settings.link | default: '/pages/contact' }}" class="hpdp-advice__button">
-      {{ section.settings.button_label | escape }}
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
-    </a>
+    <div class="hpdp-advice__steps">
+      {%- if section.blocks.size > 0 -%}
+        {%- for block in section.blocks -%}
+          <div class="hpdp-advice__step" {{ block.shopify_attributes }}>
+            <div class="hpdp-advice__num">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</div>
+            <div class="hpdp-advice__step-title">{{ block.settings.title | escape }}</div>
+            <p class="hpdp-advice__step-body">{{ block.settings.body | escape }}</p>
+          </div>
+        {%- endfor -%}
+      {%- else -%}
+        <div class="hpdp-advice__step">
+          <div class="hpdp-advice__num">01</div>
+          <div class="hpdp-advice__step-title">Send us your space</div>
+          <p class="hpdp-advice__step-body">A photo, wall dimensions or a short description of the room, entrance or garden.</p>
+        </div>
+        <div class="hpdp-advice__step">
+          <div class="hpdp-advice__num">02</div>
+          <div class="hpdp-advice__step-title">We compare options</div>
+          <p class="hpdp-advice__step-body">Sizes, finishes and lighting styles put side by side for your space.</p>
+        </div>
+        <div class="hpdp-advice__step">
+          <div class="hpdp-advice__num">03</div>
+          <div class="hpdp-advice__step-title">You choose with confidence</div>
+          <p class="hpdp-advice__step-body">A clear recommendation within one working day &mdash; no obligation to buy.</p>
+        </div>
+      {%- endif -%}
+    </div>
   </div>
 </div>
 
@@ -151,13 +161,32 @@
     { "type": "header", "content": "Padding" },
     { "type": "range", "id": "padding_top", "label": "Top", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 80 },
     { "type": "range", "id": "padding_bottom", "label": "Bottom", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 80 },
-    { "type": "text", "id": "panel_label", "label": "Service note", "default": "Complimentary Service" },
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Personal Lighting Guidance" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Personal Lighting Guidance — Complimentary" },
     { "type": "inline_richtext", "id": "heading", "label": "Heading", "default": "Not Sure Which Light Will Suit Your Space?" },
-    { "type": "textarea", "id": "text", "label": "Text", "default": "Share a photo, wall dimensions or details about your entrance, pathway or garden. Our team will help you compare suitable sizes, finishes and lighting styles." },
+    { "type": "range", "id": "heading_size", "label": "Heading size", "min": 20, "max": 40, "step": 1, "unit": "px", "default": 30 },
     { "type": "text", "id": "button_label", "label": "Button label", "default": "Ask for Advice" },
     { "type": "url", "id": "link", "label": "Button link" }
   ],
-  "presets": [{ "name": "Heitz PDP Advice" }]
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Step",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title", "default": "Send us your space" },
+        { "type": "textarea", "id": "body", "label": "Text", "default": "A photo, wall dimensions or a short description of the room, entrance or garden." }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "presets": [
+    {
+      "name": "Heitz PDP Advice",
+      "blocks": [
+        { "type": "step", "settings": { "title": "Send us your space", "body": "A photo, wall dimensions or a short description of the room, entrance or garden." } },
+        { "type": "step", "settings": { "title": "We compare options", "body": "Sizes, finishes and lighting styles put side by side for your space." } },
+        { "type": "step", "settings": { "title": "You choose with confidence", "body": "A clear recommendation within one working day — no obligation to buy." } }
+      ]
+    }
+  ]
 }
 {% endschema %}

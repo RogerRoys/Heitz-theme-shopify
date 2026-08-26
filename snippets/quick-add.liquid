@@ -323,7 +323,11 @@
     backdrop-filter: none;
     right: 15px;
     bottom: 15px;
-    transition: transform 0.25s ease, opacity 0.25s ease;
+    transition: transform 0.25s ease, opacity 0.25s ease,
+      background-color var(--animation-speed, 0.125s) var(--animation-easing, ease-in-out);
+  }
+  .quick-add__button.button:hover {
+    background: var(--color-primary-button-hover-background, #9f6939);
   }
   .quick-add__button.button .add-to-cart-text {
     background: transparent;

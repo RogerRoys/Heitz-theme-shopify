@@ -854,24 +854,24 @@
           "type": "cat",
           "settings": {
             "collection": "outdoor-garden-landscape-lighting",
-            "label": "Table Lamps",
-            "body": "Table and floor lamps for the soft, layered light that makes a living room feel finished after dark."
+            "label": "Garden & Landscape Lighting",
+            "body": "Bollards, path lights and solar lamps that shape a garden rather than flood it — warm pools of light guiding the way after dark."
           }
         },
         "cat_1": {
           "type": "cat",
           "settings": {
             "collection": "outdoor-driveway-gate-fence-lighting",
-            "label": "Outdoor Wall Lights",
-            "body": "Weather-rated wall lanterns in blackened steel and seeded glass — sized for facades, courtyards and side passages."
+            "label": "Driveway, Gate & Fence Lighting",
+            "body": "Weather-sealed fittings for gate piers, driveways and fence lines — tracing the property’s edge in a calm, steady glow."
           }
         },
         "cat_3": {
           "type": "cat",
           "settings": {
             "collection": "floor-lamps",
-            "label": "Pendant Lights",
-            "body": "Sculptural pendants in rattan, opal glass and brushed brass — the fastest way to give a room a centre."
+            "label": "Floor Lamps",
+            "body": "Tall, balanced floor lamps in calm Scandinavian forms — the soft standing light that finishes a living room after dark."
           }
         }
       },

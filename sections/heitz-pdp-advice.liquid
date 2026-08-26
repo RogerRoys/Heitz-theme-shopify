@@ -66,6 +66,7 @@
     transition: background 0.2s ease;
   }
   .hpdp-advice__button:hover { background: #333333; }
+  .hpdp-advice__button--bottom { display: none; }
   .hpdp-advice__steps {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -106,7 +107,13 @@
       align-items: flex-start;
       gap: 20px;
     }
-    .hpdp-advice__button { width: 100%; justify-content: center; box-sizing: border-box; }
+    .hpdp-advice__header .hpdp-advice__button { display: none; }
+    .hpdp-advice__button--bottom {
+      display: flex;
+      width: 100%;
+      justify-content: center;
+      box-sizing: border-box;
+    }
     .hpdp-advice__steps { grid-template-columns: 1fr; gap: 28px; }
     .hpdp-advice__heading { font-size: {{ section.settings.heading_size | default: 30 | minus: 6 }}px; }
   }

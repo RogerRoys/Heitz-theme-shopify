@@ -387,8 +387,8 @@
         "text": "<p>Heitz Living began with a simple idea — the right light changes how a home feels. Inspired by Scandinavian and Japandi design, we curate pendant, wall and outdoor lighting with clean lines and warm, honest light, so every space feels calm and considered.</p>",
         "button_label": "Discover Our Story",
         "link": "shopify://pages/brand-story",
-        "heading_size": 34,
-        "text_size": 15
+        "heading_size": 40,
+        "text_size": 16
       }
     },
     "cta_pendant": {
@@ -552,8 +552,8 @@
         "text": "<p>Every Heitz light is chosen with care and made to last. Each piece is covered by our 1-year warranty against manufacturing defects — electrical components, wiring and LED faults included — for 12 months from the day your order arrives.</p><p>If something is not right, our team will put it right with a repair, replacement or refund.</p>",
         "button_label": "Read the Warranty",
         "link": "shopify://pages/warranty",
-        "heading_size": 34,
-        "text_size": 15
+        "heading_size": 40,
+        "text_size": 16
       }
     },
     "featured_table": {
@@ -888,8 +888,8 @@
         "eyebrow": "The Heitz Edit",
         "button_1_label": "Explore All Lighting",
         "button_1_link": "shopify://collections/all",
-        "heading_size": 34,
-        "text_size": 15
+        "heading_size": 40,
+        "text_size": 16
       }
     },
     "category_accordion": {

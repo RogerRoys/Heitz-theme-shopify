@@ -97,7 +97,7 @@
         <div class="hhst__text">{{ section.settings.text }}</div>
         {%- if section.settings.button_label != blank -%}
           <div class="hhst__cta">
-            <a href="{{ section.settings.link | default: routes.root_url }}" class="htf-btn">{{ section.settings.button_label | escape }}</a>
+            <a href="{{ section.settings.link | default: routes.root_url }}" class="htf-btn htf-bs-{{ section.settings.button_style | default: 'primary' }}">{{ section.settings.button_label | escape }}</a>
           </div>
         {%- endif -%}
       </div>
@@ -128,6 +128,7 @@
     { "type": "inline_richtext", "id": "title", "label": "Heading", "default": "Built on light, calm and intention" },
     { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Heitz Living began with a simple idea — the right light changes how a home feels.</p>" },
     { "type": "text", "id": "button_label", "label": "Button label", "default": "Discover Our Story" },
+    { "type": "select", "id": "button_style", "label": "Button style", "options": [ { "value": "primary", "label": "Primary" }, { "value": "secondary", "label": "Secondary" }, { "value": "link", "label": "Link" } ], "default": "primary" },
     { "type": "url", "id": "link", "label": "Button link" },
     { "type": "header", "content": "Font sizes" },
     { "type": "range", "id": "heading_size", "label": "Heading size", "min": 24, "max": 56, "step": 2, "unit": "px", "default": 40 },

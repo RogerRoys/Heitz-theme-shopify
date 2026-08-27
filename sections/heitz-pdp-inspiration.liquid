@@ -146,7 +146,7 @@
 
     <div class="htf-insp__scrollbar" aria-hidden="true"><span></span></div>
     {%- if col != blank -%}
-      <a href="{{ col.url }}" class="htf-insp__viewall">{{ section.settings.link_label | default: 'View all' }}</a>
+      <a href="{{ col.url }}" class="htf-insp__viewall htf-bs-{{ section.settings.button_style | default: 'primary' }}">{{ section.settings.link_label | default: 'View all' }}</a>
     {%- endif -%}
   </div>
 </div>
@@ -187,6 +187,7 @@
     { "type": "select", "id": "color", "label": "Color", "options": [ { "value": "", "label": "Default" }, { "value": "var(--color-foreground)", "label": "Text" }, { "value": "var(--color-foreground-heading)", "label": "Heading" }, { "value": "var(--color-primary)", "label": "Link" } ], "default": "" },
     { "type": "text", "id": "title", "label": "Heading (falls back to collection title)" },
     { "type": "text", "id": "link_label", "label": "Link label", "default": "View all" },
+    { "type": "select", "id": "button_style", "label": "Button style", "options": [ { "value": "primary", "label": "Primary" }, { "value": "secondary", "label": "Secondary" }, { "value": "link", "label": "Link" } ], "default": "primary" },
     { "type": "range", "id": "limit", "min": 2, "max": 10, "step": 1, "label": "Products to show", "default": 5 },
     { "type": "range", "id": "columns", "min": 3, "max": 5, "step": 1, "label": "Desktop columns", "default": 5 },
     { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },

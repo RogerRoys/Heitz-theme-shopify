@@ -69,6 +69,54 @@
     color: #fff;
   }
   .htf-btn--inverse:hover { background-color: rgba(255,255,255,0.12); color: #fff; }
+  /* Button style variants (Primary / Secondary / Link) selectable per
+     section; colors come from the surrounding color scheme. Doubled
+     class names outrank each section's own single-class button rules. */
+  .htf-bs-primary.htf-bs-primary,
+  .htf-bs-secondary.htf-bs-secondary,
+  .htf-bs-link.htf-bs-link {
+    border-color: transparent;
+    transition: background-color var(--animation-speed, 0.125s) var(--animation-easing, ease-in-out),
+      color var(--animation-speed, 0.125s) var(--animation-easing, ease-in-out),
+      box-shadow var(--animation-speed, 0.125s) var(--animation-easing, ease-in-out);
+  }
+  .htf-bs-primary.htf-bs-primary {
+    background: var(--color-primary-button-background, #1a1b18);
+    color: var(--color-primary-button-text, #ffffff);
+    box-shadow: inset 0 0 0 1px var(--color-primary-button-border, transparent);
+    text-decoration: none;
+  }
+  .htf-bs-primary.htf-bs-primary:hover {
+    background: var(--color-primary-button-hover-background, #9f6939);
+    color: var(--color-primary-button-hover-text, #ffffff);
+    box-shadow: inset 0 0 0 1px var(--color-primary-button-hover-border, transparent);
+  }
+  .htf-bs-secondary.htf-bs-secondary {
+    background: var(--color-secondary-button-background, transparent);
+    color: var(--color-secondary-button-text, var(--color-foreground, #1a1b18));
+    box-shadow: inset 0 0 0 1px var(--color-secondary-button-border, currentColor);
+    text-decoration: none;
+  }
+  .htf-bs-secondary.htf-bs-secondary:hover {
+    background: var(--color-secondary-button-hover-background, #1a1b18);
+    color: var(--color-secondary-button-hover-text, #ffffff);
+    box-shadow: inset 0 0 0 1px var(--color-secondary-button-hover-border, transparent);
+  }
+  .htf-bs-link.htf-bs-link {
+    background: transparent;
+    color: var(--color-foreground, #1a1b18);
+    box-shadow: none;
+    padding-inline: 0;
+    min-width: 0;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    text-decoration-thickness: 1px;
+  }
+  .htf-bs-link.htf-bs-link:hover {
+    background: transparent;
+    color: var(--color-primary, #9f6939);
+    box-shadow: none;
+  }
   @media only screen and (max-width: 768px) {
     .htf-btn { font-size: 12px; padding: 9px 17px; }
   }

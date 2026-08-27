@@ -129,7 +129,7 @@
         <p class="hpdp-advice__eyebrow">{{ section.settings.eyebrow | escape }}</p>
         <h2 class="hpdp-advice__heading" data-hpdp-spy="{{ section.settings.heading | strip_html | escape }}">{{ section.settings.heading }}</h2>
       </div>
-      <a href="{{ section.settings.link | default: '/pages/contact' }}" class="hpdp-advice__button">
+      <a href="{{ section.settings.link | default: '/pages/contact' }}" class="hpdp-advice__button htf-bs-{{ section.settings.button_style | default: 'primary' }}">
         {{ section.settings.button_label | escape }} <span aria-hidden="true">&#8594;</span>
       </a>
     </div>
@@ -160,7 +160,7 @@
         </div>
       {%- endif -%}
     </div>
-    <a href="{{ section.settings.link | default: '/pages/contact' }}" class="hpdp-advice__button hpdp-advice__button--bottom">
+    <a href="{{ section.settings.link | default: '/pages/contact' }}" class="hpdp-advice__button hpdp-advice__button--bottom htf-bs-{{ section.settings.button_style | default: 'primary' }}">
       {{ section.settings.button_label | escape }} <span aria-hidden="true">&#8594;</span>
     </a>
   </div>
@@ -179,6 +179,7 @@
     { "type": "inline_richtext", "id": "heading", "label": "Heading", "default": "Not Sure Which Light Will Suit Your Space?" },
     { "type": "range", "id": "heading_size", "label": "Heading size", "min": 20, "max": 40, "step": 1, "unit": "px", "default": 30 },
     { "type": "text", "id": "button_label", "label": "Button label", "default": "Ask for Advice" },
+    { "type": "select", "id": "button_style", "label": "Button style", "options": [ { "value": "primary", "label": "Primary" }, { "value": "secondary", "label": "Secondary" }, { "value": "link", "label": "Link" } ], "default": "primary" },
     { "type": "url", "id": "link", "label": "Button link" }
   ],
   "blocks": [

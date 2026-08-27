@@ -125,6 +125,41 @@
     }
     .hrv__preview svg { width: 14px; height: 14px; }
   }
+  /* card-style choose-options bar: slides up over the image's bottom
+     edge on desktop hover, same as the product-card quick add */
+  .hrv__choose {
+    position: absolute;
+    left: 15px;
+    right: 15px;
+    bottom: 15px;
+    height: 40px;
+    border: 0;
+    border-radius: 0;
+    background: var(--color-primary-button-background, #1a1b18);
+    color: var(--color-primary-button-text, #ffffff);
+    font-family: var(--button-font-family-primary, var(--htf-font-body));
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 2.4px;
+    text-transform: uppercase;
+    cursor: pointer;
+    z-index: 2;
+    padding: 0 20px;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: transform 0.25s ease, opacity 0.25s ease,
+      background-color var(--animation-speed, 0.125s) var(--animation-easing, ease-in-out);
+  }
+  .hrv__choose:hover {
+    background: var(--color-primary-button-hover-background, #9f6939);
+    color: var(--color-primary-button-hover-text, #ffffff);
+  }
+  @media (hover: hover) and (min-width: 750px) {
+    .hrv__item:hover .hrv__choose { opacity: 1; transform: translateY(0); }
+  }
+  @media (hover: none), (max-width: 749px) {
+    .hrv__choose { display: none; }
+  }
   .hrv__info { padding-top: 4px; }
   .hrv__name {
     display: block;
@@ -241,6 +276,12 @@
         qv.setAttribute('data-heitz-qv', p.url);
         qv.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m16.5 16.5 4.5 4.5"/></svg>';
         media.appendChild(qv);
+        var choose = document.createElement('button');
+        choose.type = 'button';
+        choose.className = 'hrv__choose';
+        choose.setAttribute('data-heitz-qv', p.url);
+        choose.textContent = (p.variants && p.variants.length > 1) ? 'Choose options' : 'Add to cart';
+        media.appendChild(choose);
         grid.appendChild(item);
       });
       root.hidden = false;

@@ -159,6 +159,7 @@
         "heading": "Not Sure Which Light Will Suit Your Space?",
         "heading_size": 30,
         "button_label": "Ask for Advice",
+        "button_style": "primary",
         "link": ""
       }
     },
@@ -287,6 +288,7 @@
         "color": "",
         "title": "More Inspiration",
         "link_label": "View all",
+        "button_style": "primary",
         "limit": 8,
         "columns": 4,
         "color_scheme": "scheme-1",
@@ -597,6 +599,7 @@
         "intro": "<p>Quick answers about ordering from Heitz — shipping, returns, warranty and what makes our lighting different.</p>",
         "link": "/pages/frequently-asked-questions",
         "link_label": "View all",
+        "button_style": "secondary",
         "question_size": 16,
         "text_size": 15
       }
@@ -613,6 +616,7 @@
         "title": "Built On Light, Calm And Intention",
         "text": "<p>Heitz Living began with a simple idea — the right light changes how a home feels. Inspired by Scandinavian and Japandi design, we curate pendant, wall and outdoor lighting with clean lines and warm, honest light, so every space feels calm and considered.</p>",
         "button_label": "Discover Our Story",
+        "button_style": "primary",
         "link": "shopify://pages/brand-story",
         "heading_size": 40,
         "text_size": 16

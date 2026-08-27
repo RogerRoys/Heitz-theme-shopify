@@ -535,7 +535,8 @@
         "color_scheme": "scheme-1",
         "padding-block-start": 48,
         "padding-block-end": 48
-      }
+      },
+      "disabled": true
     },
     "heitz_home_faq_NPk6T8": {
       "type": "heitz-home-faq",
@@ -673,6 +674,17 @@
         "heading_size": 18,
         "text_size": 14
       }
+    },
+    "recently_viewed": {
+      "type": "heitz-recently-viewed",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "title": "Recently Viewed",
+        "limit": 8,
+        "columns": 4
+      }
     }
   },
   "order": [
@@ -683,6 +695,7 @@
     "story",
     "story_teaser",
     "recommendations",
+    "recently_viewed",
     "heitz_home_faq_NPk6T8",
     "heitz_home_story_39krYN",
     "icon_row"

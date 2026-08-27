@@ -23,6 +23,13 @@
     visibility: visible;
     transform: translateY(0);
   }
+  /* drop the bar instantly while a drawer or popup is over the page */
+  .hpdp-spybar.hpdp-spybar--suppressed {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-100%);
+    transition: none;
+  }
   .hpdp-spybar__indicator {
     position: absolute;
     top: 0;
@@ -122,6 +129,32 @@
       pairs.forEach(function (p) { p.link.classList.toggle('is-active', p === current); });
     }
     window.addEventListener('scroll', onScroll, { passive: true });
+  })();
+</script>
+<script>
+  (function () {
+    var bar = document.querySelector('[data-hpdp-spybar]');
+    if (!bar) return;
+    /* hide the bar while the menu drawer, cart drawer or quick-view
+       popup is over the page (wired after parse: the popup is rendered
+       at the end of the layout) */
+    var wire = function () {
+      var overlays = [].slice.call(document.querySelectorAll('cart-drawer-component dialog, #heitz-quick-view, .htf-drawer'));
+      if (!overlays.length) return;
+      var update = function () {
+        var covered = overlays.some(function (d) {
+          return d.hasAttribute('open') || d.classList.contains('is-open');
+        });
+        bar.classList.toggle('hpdp-spybar--suppressed', covered);
+      };
+      var mo = new MutationObserver(update);
+      overlays.forEach(function (d) { mo.observe(d, { attributes: true, attributeFilter: ['open', 'class'] }); });
+    };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', wire);
+    } else {
+      wire();
+    }
   })();
 </script>
 

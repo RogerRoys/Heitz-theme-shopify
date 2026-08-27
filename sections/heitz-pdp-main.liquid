@@ -1039,15 +1039,17 @@
          quick-view popup is over it (wired after parse: the quick-view
          dialog is rendered at the end of the layout) */
       var wireSuppression = function () {
-        var overlayDialogs = [].slice.call(document.querySelectorAll('cart-drawer-component dialog, #heitz-quick-view'));
+        var overlayDialogs = [].slice.call(document.querySelectorAll('cart-drawer-component dialog, #heitz-quick-view, .htf-drawer'));
         if (!overlayDialogs.length) return;
         var updateSuppressed = function () {
-          var covered = overlayDialogs.some(function (d) { return d.hasAttribute('open'); });
+          var covered = overlayDialogs.some(function (d) {
+            return d.hasAttribute('open') || d.classList.contains('is-open');
+          });
           sticky.classList.toggle('hpdp-sticky--suppressed', covered);
         };
         var suppressObserver = new MutationObserver(updateSuppressed);
         overlayDialogs.forEach(function (d) {
-          suppressObserver.observe(d, { attributes: true, attributeFilter: ['open'] });
+          suppressObserver.observe(d, { attributes: true, attributeFilter: ['open', 'class'] });
         });
       };
       if (document.readyState === 'loading') {

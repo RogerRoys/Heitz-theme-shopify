@@ -225,7 +225,7 @@
     var moneyTemplate = {{ shop.money_format | json }};
     /* card controls follow the theme's Quick add colors scheme, like
        the product cards' quick-add controls */
-    var qaScheme = {{ settings.quick_add_color_scheme | default: 'scheme-1' | json }};
+    var qaScheme = {{ settings.quick_add_color_scheme.id | default: 'scheme-1' | json }};
 
     function money(cents) {
       var amount = (cents / 100).toFixed(2);

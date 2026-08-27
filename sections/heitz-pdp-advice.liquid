@@ -38,9 +38,9 @@
   }
   .hpdp-advice__eyebrow {
     margin: 0;
-    font-size: 11.5px;
-    font-weight: 700;
-    letter-spacing: 0.2em;
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 0.3em;
     text-transform: uppercase;
     color: var(--color-foreground, #8a8a85);
     opacity: 0.75;
@@ -49,8 +49,8 @@
     margin: 0;
     font-family: var(--hpdp-font-heading);
     font-size: {{ section.settings.heading_size | default: 30 }}px;
-    font-weight: 700;
-    letter-spacing: -0.01em;
+    font-weight: 400;
+    letter-spacing: 0.02em;
     line-height: 1.2;
     color: var(--color-foreground-heading, #111111);
   }
@@ -61,8 +61,10 @@
     gap: 11px;
     background: var(--color-foreground-heading, #111111);
     color: var(--color-background, #ffffff);
-    font-size: 15px;
-    font-weight: 700;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 2.4px;
+    text-transform: uppercase;
     padding: 16px 28px;
     text-decoration: none;
     transition: background 0.2s ease;
@@ -87,14 +89,15 @@
     opacity: 0.5;
   }
   .hpdp-advice__step-title {
-    font-size: 17px;
-    font-weight: 700;
+    font-size: 16px;
+    font-weight: 500;
     color: var(--color-foreground-heading, #111111);
   }
   .hpdp-advice__step-body {
     margin: 0;
-    font-size: 15px;
-    line-height: 1.65;
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 1.75;
     color: var(--color-foreground, #5f5f5b);
   }
   @media screen and (max-width: 1023px) {

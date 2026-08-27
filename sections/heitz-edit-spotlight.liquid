@@ -176,7 +176,7 @@
         {%- endfor -%}
       </div>
       {%- if section.settings.button_1_label != blank -%}
-        <a href="{{ section.settings.button_1_link | default: routes.all_products_collection_url }}" class="hesp__cta htf-bs-{{ section.settings.button_style | default: 'primary' }}">{{ section.settings.button_1_label | escape }}</a>
+        <a data-hesp-cta href="{{ section.settings.button_1_link | default: routes.all_products_collection_url }}" class="hesp__cta htf-bs-{{ section.settings.button_style | default: 'primary' }}">{{ section.settings.button_1_label | escape }}</a>
       {%- endif -%}
     </div>
   </div>
@@ -204,7 +204,9 @@
         "label": {{ label | json }},
         "body": {{ block.settings.body | json }},
         "href": {{ col.url | default: '#' | json }},
-        "image": {{ img | image_url: width: 1400 | json }}
+        "image": {{ img | image_url: width: 1400 | json }},
+        "ctaLabel": {{ block.settings.cta_label | default: section.settings.button_1_label | json }},
+        "ctaHref": {{ block.settings.cta_link | default: col.url | default: routes.all_products_collection_url | json }}
       }{% unless forloop.last %},{% endunless %}
     {%- endfor -%}
   ]
@@ -222,6 +224,7 @@
     var title = root.querySelector('[data-hesp-title]');
     var body = root.querySelector('[data-hesp-body]');
     var segs = [].slice.call(root.querySelectorAll('[data-hesp-seg]'));
+    var cta = root.querySelector('[data-hesp-cta]');
     var i = 0;
 
     function show(n, instant) {
@@ -232,6 +235,7 @@
       title.href = c.href;
       body.textContent = c.body;
       segs.forEach(function (s, k) { s.classList.toggle('is-active', k === i); });
+      if (cta && c.ctaHref) { cta.href = c.ctaHref; if (c.ctaLabel) cta.textContent = c.ctaLabel; }
       if (instant) { img.src = c.image; return; }
       root.classList.add('hesp--switching');
       var pre = new Image();
@@ -273,7 +277,9 @@
         { "type": "collection", "id": "collection", "label": "Collection" },
         { "type": "text", "id": "label", "label": "Custom label", "info": "Leave empty to use the collection title" },
         { "type": "textarea", "id": "body", "label": "Description" },
-        { "type": "image_picker", "id": "image", "label": "Image", "info": "Falls back to the collection image" }
+        { "type": "image_picker", "id": "image", "label": "Image", "info": "Falls back to the collection image" },
+        { "type": "text", "id": "cta_label", "label": "CTA label", "info": "Leave empty to use the section button label" },
+        { "type": "url", "id": "cta_link", "label": "CTA link", "info": "Leave empty to link to the category collection" }
       ]
     }
   ],

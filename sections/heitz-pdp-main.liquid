@@ -928,8 +928,20 @@
     function sync() {
       thumbs.forEach(function (t, i) { t.classList.toggle('is-active', i === current); });
       if (dotsEl) Array.prototype.forEach.call(dotsEl.children, function (d, i) { d.classList.toggle('is-active', i === current); });
+      /* keep the active thumb in view by scrolling ONLY the strip —
+         scrollIntoView would drag the whole page along vertically */
       var active = thumbs[current];
-      if (active) active.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: 'smooth' });
+      var thumbsBox = active && active.closest('[data-hpdp-thumbs]');
+      if (active && thumbsBox) {
+        var tb = thumbsBox.getBoundingClientRect();
+        var ab = active.getBoundingClientRect();
+        if (ab.left < tb.left || ab.right > tb.right) {
+          thumbsBox.scrollTo({
+            left: thumbsBox.scrollLeft + (ab.left - tb.left) - (tb.width - ab.width) / 2,
+            behavior: 'smooth'
+          });
+        }
+      }
     }
     thumbs.forEach(function (t, i) { t.addEventListener('click', function () { goTo(i); }); });
     var prevArrow = root.querySelector('[data-hpdp-prev]');

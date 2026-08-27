@@ -111,8 +111,19 @@
   @media (hover: hover) and (min-width: 750px) {
     .hrv__item:hover .hrv__preview { opacity: 1; transform: translateY(0); }
   }
+  /* touch and small screens: small always-visible icon at the image's
+     bottom-right, like the product-card quick-add icon */
   @media (hover: none), (max-width: 749px) {
-    .hrv__preview { display: none; }
+    .hrv__preview {
+      opacity: 1;
+      transform: none;
+      top: auto;
+      bottom: 10px;
+      right: 10px;
+      width: 34px;
+      height: 34px;
+    }
+    .hrv__preview svg { width: 14px; height: 14px; }
   }
   .hrv__info { padding-top: 4px; }
   .hrv__name {

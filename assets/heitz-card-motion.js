@@ -25,7 +25,10 @@
         io.unobserve(el);
       }
     },
-    { rootMargin: '0px 0px -8% 0px', threshold: 0.05 }
+    /* wide horizontal margins: cards sitting off-screen inside a
+       horizontal carousel reveal together with their section, so
+       swiping never triggers mid-scroll entrance jumps */
+    { rootMargin: '0px 2000px -8% 2000px', threshold: 0.05 }
   );
 
   const seen = new WeakSet();

@@ -69,6 +69,19 @@
     color: #fff;
   }
   .htf-btn--inverse:hover { background-color: rgba(255,255,255,0.12); color: #fff; }
+  /* every button on the site shares the theme's button font (the
+     Buttons > Font setting); doubled classes outrank section rules */
+  .htf-btn.htf-btn,
+  .htf-cta__link.htf-cta__link,
+  .hesp__cta.hesp__cta,
+  .htf-fc__viewall.htf-fc__viewall,
+  .htf-insp__viewall.htf-insp__viewall,
+  .hvb__btn.hvb__btn,
+  .hpdp-advice__button.hpdp-advice__button,
+  .hpdp-sticky__atc.hpdp-sticky__atc,
+  .hqv__atc.hqv__atc {
+    font-family: var(--button-font-family-primary, var(--htf-font-body));
+  }
   /* Button style variants (Primary / Secondary / Link) selectable per
      section; colors come from the surrounding color scheme. Doubled
      class names outrank each section's own single-class button rules. */

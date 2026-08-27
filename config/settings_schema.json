@@ -2297,6 +2297,12 @@
         "visible_if": "{{ settings.quick_add == true }}"
       },
       {
+        "type": "color_scheme",
+        "id": "quick_view_color_scheme",
+        "label": "Popup colors",
+        "default": "scheme-1"
+      },
+      {
         "type": "header",
         "content": "t:settings.media"
       },

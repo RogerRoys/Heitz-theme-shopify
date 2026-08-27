@@ -6,7 +6,7 @@
   dispatches the theme's CartAddEvent so the cart drawer opens as usual.
   Triggered by any element carrying data-heitz-qv="{{ product.url }}".
 {%- endcomment -%}
-<dialog class="hqv" id="heitz-quick-view" aria-label="Quick view">
+<dialog class="hqv color-{{ settings.quick_view_color_scheme.id | default: 'scheme-1' }}" id="heitz-quick-view" aria-label="Quick view">
   <div class="hqv__curtain hqv__curtain--l" aria-hidden="true"></div>
   <div class="hqv__curtain hqv__curtain--r" aria-hidden="true"></div>
   <div class="hqv__lightbox" data-hqv-lightbox aria-hidden="true">
@@ -57,8 +57,8 @@
     max-height: none;
     padding: 0;
     border: 0;
-    background: #ffffff;
-    color: #1a1b18;
+    background: var(--color-background, #ffffff);
+    color: var(--color-foreground, #1a1b18);
     overflow: hidden;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
   }
@@ -228,13 +228,13 @@
     font-weight: 400;
     line-height: 1.25;
     letter-spacing: 0.01em;
-    color: #1a1b18;
+    color: var(--color-foreground-heading, #1a1b18);
     margin: 0 0 18px;
   }
   .hqv__price {
     font-family: var(--htf-font-body, var(--font-body--family));
     font-size: 19px;
-    color: #1a1b18;
+    color: var(--color-primary, #1a1b18);
     margin: 0 0 30px;
   }
   .hqv__opt-label {
@@ -252,9 +252,9 @@
     margin: 0 0 24px;
   }
   .hqv__pill {
-    border: 1px solid #ddd9d3;
-    background: #ffffff;
-    color: #1a1b18;
+    border: 1px solid var(--color-variant-border, #ddd9d3);
+    background: var(--color-variant-background, #ffffff);
+    color: var(--color-variant-text, #1a1b18);
     font-family: var(--htf-font-body, var(--font-body--family));
     font-size: 15px;
     padding: 12px 22px;
@@ -263,9 +263,9 @@
   }
   .hqv__pill:hover { border-color: #9f6939; }
   .hqv__pill.is-selected {
-    background: #1a1b18;
-    border-color: #1a1b18;
-    color: #ffffff;
+    background: var(--color-selected-variant-background, #1a1b18);
+    border-color: var(--color-selected-variant-border, #1a1b18);
+    color: var(--color-selected-variant-text, #ffffff);
   }
   .hqv__pill.is-unavailable {
     color: #b6b0a8;
@@ -302,8 +302,8 @@
   .hqv__atc {
     flex: 1 1 auto;
     border: 0;
-    background: #1a1b18;
-    color: #ffffff;
+    background: var(--color-primary-button-background, #1a1b18);
+    color: var(--color-primary-button-text, #ffffff);
     font-size: 12px;
     font-weight: 500;
     letter-spacing: 2.4px;

@@ -43,6 +43,16 @@
       padding: 14px 30px !important;
     }
   }
+  /* inside the mobile section carousels the card's own gallery must
+     not fight the outer swipe — nested horizontal scrollers make the
+     images inside the cards jump mid-swipe on iOS */
+  @media screen and (max-width: 748px) {
+    .htf-fc__grid slideshow-slides,
+    .htf-insp__grid slideshow-slides {
+      overflow-x: hidden !important;
+      touch-action: pan-y;
+    }
+  }
   /* desktop hero: keep a breathing gap between the content and the
      viewport edge */
   @media screen and (min-width: 750px) {

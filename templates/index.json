@@ -848,7 +848,8 @@
           "settings": {
             "collection": "outdoor-pillar-post-lights",
             "label": "Pillar, Post & Gate Lights",
-            "body": "Pillar and post fittings that mark an entrance with quiet authority, from low bollards to tall gate lanterns."
+            "body": "Pillar and post fittings that mark an entrance with quiet authority, from low bollards to tall gate lanterns.",
+            "image": "shopify://shop_images/heitz-edit-pillar-post-gate-lights.webp"
           }
         },
         "cat_4": {
@@ -856,7 +857,8 @@
           "settings": {
             "collection": "outdoor-garden-landscape-lighting",
             "label": "Garden & Landscape Lighting",
-            "body": "Bollards, path lights and solar lamps that shape a garden rather than flood it — warm pools of light guiding the way after dark."
+            "body": "Bollards, path lights and solar lamps that shape a garden rather than flood it — warm pools of light guiding the way after dark.",
+            "image": "shopify://shop_images/heitz-edit-garden-landscape-lighting.webp"
           }
         },
         "cat_1": {
@@ -864,7 +866,8 @@
           "settings": {
             "collection": "outdoor-driveway-gate-fence-lighting",
             "label": "Driveway, Gate & Fence Lighting",
-            "body": "Weather-sealed fittings for gate piers, driveways and fence lines — tracing the property’s edge in a calm, steady glow."
+            "body": "Weather-sealed fittings for gate piers, driveways and fence lines — tracing the property’s edge in a calm, steady glow.",
+            "image": "shopify://shop_images/heitz-edit-driveway-gate-fence-lighting.webp"
           }
         },
         "cat_3": {
@@ -872,7 +875,8 @@
           "settings": {
             "collection": "floor-lamps",
             "label": "Floor Lamps",
-            "body": "Tall, balanced floor lamps in calm Scandinavian forms — the soft standing light that finishes a living room after dark."
+            "body": "Tall, balanced floor lamps in calm Scandinavian forms — the soft standing light that finishes a living room after dark.",
+            "image": "shopify://shop_images/heitz-edit-floor-lamps.webp"
           }
         }
       },

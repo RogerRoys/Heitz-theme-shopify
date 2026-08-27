@@ -52,11 +52,17 @@
   }
   .hpdp-gallery-flex { display: flex; flex-direction: column; width: 100%; }
   .hpdp-thumbs-col {
-    display: none;
+    display: block;
     order: 2;
     width: 100%;
     margin-top: 22px;
     position: relative;
+  }
+  /* mobile: the strip sits inside the page padding (the image itself
+     runs full-bleed) with slightly smaller thumbs */
+  @media screen and (max-width: 749px) {
+    .hpdp-thumbs-col { margin-top: 14px; padding-inline: 20px; }
+    .hpdp-thumb { width: 54px; flex: 0 0 54px; }
   }
   .hpdp-stage { position: relative; overflow: hidden; order: 1; min-width: 0; }
   .hpdp-stage__track {
@@ -100,7 +106,7 @@
   .hpdp-zoom-btn:hover { transform: scale(1.06); }
   .hpdp-zoom-btn svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 4; stroke-miterlimit: 10; }
   .hpdp-dots {
-    display: flex;
+    display: none;
     flex-wrap: wrap;
     justify-content: center;
     gap: 6px;

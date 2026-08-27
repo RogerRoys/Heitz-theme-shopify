@@ -114,6 +114,7 @@
       "settings": {
         "color_scheme": "scheme-1",
         "enable_sticky_add_to_cart": true,
+        "sticky_color_scheme": "scheme-2",
         "show_dynamic_checkout": true,
         "show_payment_icons": true,
         "faq_eyebrow": "",

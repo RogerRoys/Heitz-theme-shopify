@@ -307,8 +307,8 @@
   .quick-add__button.button {
     border-radius: 0;
     border: 0;
-    background: #1a1b18;
-    color: #ffffff;
+    background: var(--color-primary-button-background, #1a1b18);
+    color: var(--color-primary-button-text, #ffffff);
     height: 40px;
     left: 15px;
     right: 15px;
@@ -375,8 +375,8 @@
     height: 38px;
     border: 0;
     border-radius: 50%;
-    background: #ffffff;
-    color: #1a1b18;
+    background: var(--color-background, #ffffff);
+    color: var(--color-foreground-heading, #1a1b18);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -395,7 +395,10 @@
     stroke-linecap: round;
     display: block;
   }
-  .quick-add__preview:hover { background: #1a1b18; color: #ffffff; }
+  .quick-add__preview:hover {
+    background: var(--color-primary-button-background, #1a1b18);
+    color: var(--color-primary-button-text, #ffffff);
+  }
   @media screen and (max-width: 749px) {
     .quick-add__preview { display: none; }
     /* mobile: small square icon button at the image's bottom-right,
@@ -438,8 +441,8 @@
   /* reference-style popup internals: dark square add-to-cart */
   .quick-add-modal buy-buttons .button:not(.close-button),
   .quick-add-modal add-to-cart-component .button {
-    background: #1a1b18;
-    color: #ffffff;
+    background: var(--color-primary-button-background, #1a1b18);
+    color: var(--color-primary-button-text, #ffffff);
     border-radius: 0;
     text-transform: uppercase;
     letter-spacing: 0.14em;

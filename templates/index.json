@@ -18,7 +18,7 @@
             "text": "<p>The Right Light Changes Everything</p>",
             "width": "100%",
             "max_width": "narrow",
-            "alignment": "center",
+            "alignment": "left",
             "type_preset": "custom",
             "font": "var(--font-heading--family)",
             "font_size": "3rem",
@@ -43,7 +43,7 @@
             "text": "<p>Calm, considered lighting that quietly shapes how your home feels.</p>",
             "width": "100%",
             "max_width": "narrow",
-            "alignment": "center",
+            "alignment": "left",
             "type_preset": "custom",
             "font": "var(--font-body--family)",
             "font_size": "1.25rem",
@@ -101,7 +101,7 @@
         "horizontal_alignment": "flex-start",
         "vertical_alignment": "center",
         "align_baseline": false,
-        "horizontal_alignment_flex_direction_column": "center",
+        "horizontal_alignment_flex_direction_column": "flex-start",
         "vertical_alignment_flex_direction_column": "center",
         "gap": 16,
         "section_width": "full-width",
@@ -367,6 +367,7 @@
         "color": "",
         "title": "Solar Outdoor Lights",
         "link_label": "View all",
+        "button_style": "primary",
         "limit": 8,
         "columns": 4,
         "color_scheme": "scheme-1",
@@ -386,6 +387,7 @@
         "title": "Built On Light, Calm And Intention",
         "text": "<p>Heitz Living began with a simple idea — the right light changes how a home feels. Inspired by Scandinavian and Japandi design, we curate pendant, wall and outdoor lighting with clean lines and warm, honest light, so every space feels calm and considered.</p>",
         "button_label": "Discover Our Story",
+        "button_style": "primary",
         "link": "shopify://pages/brand-story",
         "heading_size": 40,
         "text_size": 16
@@ -402,6 +404,7 @@
         "padding_top": 80,
         "padding_bottom": 80,
         "label": "Shop now",
+        "button_style": "primary",
         "link": "shopify://collections/pendant-lights"
       }
     },
@@ -532,6 +535,7 @@
         "color": "",
         "title": "Outdoor Wall Lighting",
         "link_label": "View all",
+        "button_style": "primary",
         "limit": 8,
         "columns": 4,
         "color_scheme": "scheme-1",
@@ -551,6 +555,7 @@
         "title": "Covered By Our 1-year Warranty",
         "text": "<p>Every Heitz light is chosen with care and made to last. Each piece is covered by our 1-year warranty against manufacturing defects — electrical components, wiring and LED faults included — for 12 months from the day your order arrives.</p><p>If something is not right, our team will put it right with a repair, replacement or refund.</p>",
         "button_label": "Read the Warranty",
+        "button_style": "primary",
         "link": "shopify://pages/warranty",
         "heading_size": 40,
         "text_size": 16
@@ -683,6 +688,7 @@
         "color": "",
         "title": "Table Lamps",
         "link_label": "View all",
+        "button_style": "primary",
         "limit": 8,
         "columns": 4,
         "color_scheme": "scheme-1",
@@ -694,16 +700,17 @@
       "type": "heitz-value-banner",
       "settings": {
         "image": "shopify://shop_images/heitz-sustainability-solar-garden-desktop.webp",
+        "mobile_image": "shopify://shop_images/heitz-sustainability-solar-garden-mobile.webp",
         "overlay_opacity": 45,
         "min_height": 600,
         "eyebrow": "Sustainability",
         "title": "Designed To Last, Chosen With Care",
         "text": "<p>Guided by Scandinavian and Japandi principles, we choose durable, responsibly sourced materials and timeless designs that reduce the need for frequent replacements — with energy-saving LED comfort built in.</p>",
         "button_label": "Learn More",
+        "button_style": "secondary",
         "link": "shopify://pages/sustainability",
         "heading_size": 38,
-        "text_size": 16,
-        "mobile_image": "shopify://shop_images/heitz-sustainability-solar-garden-mobile.webp"
+        "text_size": 16
       }
     },
     "heitz_featured_collection_Pme8WU": {
@@ -833,6 +840,7 @@
         "color": "",
         "title": "Pillar, Post & Gate Lights",
         "link_label": "View all",
+        "button_style": "primary",
         "limit": 8,
         "columns": 4,
         "color_scheme": "scheme-1",
@@ -892,6 +900,7 @@
         "padding_bottom": 52,
         "eyebrow": "The Heitz Edit",
         "button_1_label": "Explore All Lighting",
+        "button_style": "primary",
         "button_1_link": "shopify://collections/all",
         "heading_size": 40,
         "text_size": 16
@@ -1072,6 +1081,7 @@
         "color": "",
         "title": "Pendant Lighting",
         "link_label": "View all",
+        "button_style": "primary",
         "limit": 8,
         "columns": 4,
         "color_scheme": "scheme-1",
@@ -1142,6 +1152,7 @@
         "intro": "<p>Quick answers about ordering from Heitz — shipping, returns, warranty and what makes our lighting different.</p>",
         "link": "/pages/frequently-asked-questions",
         "link_label": "View all",
+        "button_style": "secondary",
         "question_size": 16,
         "text_size": 15
       }
@@ -1273,6 +1284,7 @@
         "color": "",
         "title": "Path & Bollard Lights",
         "link_label": "View all",
+        "button_style": "primary",
         "limit": 8,
         "columns": 4,
         "color_scheme": "scheme-1",
@@ -1297,7 +1309,8 @@
         "title": "Sign Up And Save",
         "text": "Be the first to know about new arrivals and special offers.",
         "placeholder": "Enter your email",
-        "button_label": "Subscribe"
+        "button_label": "Subscribe",
+        "button_style": "primary"
       }
     },
     "heitz_pdp_icon_row_6Yxfdf": {

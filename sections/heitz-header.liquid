@@ -38,12 +38,17 @@
     .htf-section-header-wrap.htf-smart-sticky--compact .htf-header {
       padding: 8px 0 0;
     }
-    .htf-section-header-wrap.htf-smart-sticky--compact .htf-logo a {
-      width: 130px;
+    .htf-section-header-wrap.htf-smart-sticky--compact .htf-logo img,
+    .htf-section-header-wrap.htf-smart-sticky--compact .htf-logo svg {
+      height: calc(var(--htf-logo-h, 40px) * 0.72);
     }
     .htf-header,
     .htf-logo a {
       transition: padding .38s cubic-bezier(.22, 1, .36, 1), width .38s cubic-bezier(.22, 1, .36, 1);
+    }
+    .htf-logo img,
+    .htf-logo svg {
+      transition: height .38s cubic-bezier(.22, 1, .36, 1);
     }
     .htf-nav-row {
       transition:
@@ -132,9 +137,16 @@
   }
   .htf-header dropdown-localization-component,
   .htf-header .dropdown-localization { display: flex; align-items: center; }
-  .htf-logo { margin: 0; display: block; line-height: 0; }
-  .htf-logo a { display: inline-block; width: 130px; }
-  .htf-logo img, .htf-logo svg { width: 100%; height: auto; display: block; }
+  .htf-logo {
+    margin: 0;
+    display: block;
+    line-height: 0;
+    /* the theme's Logo settings drive the rendered height */
+    --htf-logo-h: {{ settings.logo_height | default: 40 }}px;
+    --htf-logo-h-mobile: {{ settings.logo_height_mobile | default: 60 }}px;
+  }
+  .htf-logo a { display: inline-block; }
+  .htf-logo img, .htf-logo svg { height: var(--htf-logo-h-mobile, 60px); width: auto; display: block; }
   .htf-logo__text {
     font-family: var(--htf-font-heading);
     font-size: 26px;
@@ -143,7 +155,7 @@
     line-height: 1.2;
   }
   @media only screen and (min-width: 769px) {
-    .htf-logo a { width: 200px; }
+    .htf-logo img, .htf-logo svg { height: var(--htf-logo-h, 40px); }
     .htf-logo__text { font-size: 30px; }
   }
 

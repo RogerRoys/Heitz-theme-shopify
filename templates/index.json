@@ -693,7 +693,7 @@
     "sustainability_story": {
       "type": "heitz-value-banner",
       "settings": {
-        "image": "shopify://shop_images/Resistant_Outdoor_Wall_Lantern_Light_9.jpg",
+        "image": "shopify://shop_images/heitz-sustainability-solar-garden-desktop.webp",
         "overlay_opacity": 45,
         "min_height": 600,
         "eyebrow": "Sustainability",

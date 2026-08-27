@@ -197,7 +197,7 @@
         "text": "If your question isn’t answered here, reach out — we’re happy to help and always ready to make it right. We aim to respond within 12–24 hours.",
         "button_label": "Contact us",
         "button_link": "",
-        "note": "Or email us directly at support@heitz.shop"
+        "note": "Or email us directly at <a href=\"mailto:support@heitz.shop\" target=\"_blank\" title=\"mailto:support@heitz.shop\">support@heitz.shop</a>"
       }
     }
   },

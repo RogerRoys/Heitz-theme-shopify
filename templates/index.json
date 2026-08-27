@@ -702,7 +702,8 @@
         "button_label": "Learn More",
         "link": "shopify://pages/sustainability",
         "heading_size": 38,
-        "text_size": 16
+        "text_size": 16,
+        "mobile_image": "shopify://shop_images/heitz-sustainability-solar-garden-mobile.webp"
       }
     },
     "heitz_featured_collection_Pme8WU": {

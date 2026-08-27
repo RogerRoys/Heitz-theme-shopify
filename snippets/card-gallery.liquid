@@ -216,7 +216,7 @@
   if (!window.__heitzCardNav) {
     window.__heitzCardNav = true;
     document.addEventListener('click', function (e) {
-      var ctrl = e.target.closest && e.target.closest('.card-gallery slideshow-controls');
+      var ctrl = e.target.closest && e.target.closest('.card-gallery slideshow-arrows');
       if (!ctrl) return;
       var gal = ctrl.closest('.card-gallery');
       if (gal) gal.classList.add('heitz-hover-off');
@@ -251,12 +251,9 @@
       transform: scale(1.03);
     }
   }
-  /* the slideshow arrows sit above the hover crossfade; the component
-     carries no transform so it never traps them in a stacking context */
-  .card-gallery slideshow-component > slideshow-controls {
-    position: relative;
-    z-index: 2;
-  }
+  /* the slideshow arrows (stock z-index 4) sit above the hover
+     crossfade because the component carries no transform that would
+     trap them in a stacking context */
   /* once the visitor pages with the arrows, the crossfade steps aside
      so the chosen slide stays visible */
   .card-gallery.heitz-hover-off .heitz-hover-img { opacity: 0 !important; }

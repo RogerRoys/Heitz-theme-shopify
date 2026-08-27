@@ -114,6 +114,7 @@
   /* touch and small screens: small always-visible icon at the image's
      bottom-right, like the product-card quick-add icon */
   @media (hover: none), (max-width: 749px) {
+    /* button colors, matching the product cards' mobile quick-add icon */
     .hrv__preview {
       opacity: 1;
       transform: none;
@@ -122,6 +123,8 @@
       right: 10px;
       width: 34px;
       height: 34px;
+      background: var(--color-primary-button-background, #1a1b18);
+      color: var(--color-primary-button-text, #ffffff);
     }
     .hrv__preview svg { width: 14px; height: 14px; }
   }

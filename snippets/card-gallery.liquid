@@ -253,7 +253,12 @@
   }
   /* the slideshow arrows (stock z-index 4) sit above the hover
      crossfade because the component carries no transform that would
-     trap them in a stacking context */
+     trap them in a stacking context; plain white, no blend inversion */
+  .card-gallery slideshow-arrows { mix-blend-mode: normal; }
+  .card-gallery slideshow-arrows .slideshow-control {
+    color: #ffffff;
+    filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.35));
+  }
   /* once the visitor pages with the arrows, the crossfade steps aside
      so the chosen slide stays visible */
   .card-gallery.heitz-hover-off .heitz-hover-img { opacity: 0 !important; }

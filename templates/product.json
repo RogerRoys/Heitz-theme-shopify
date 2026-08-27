@@ -518,6 +518,7 @@
       "block_order": [
         "header"
       ],
+      "disabled": true,
       "settings": {
         "product": "{{ closest.product }}",
         "recommendation_type": "related",
@@ -535,8 +536,18 @@
         "color_scheme": "scheme-1",
         "padding-block-start": 48,
         "padding-block-end": 48
-      },
-      "disabled": true
+      }
+    },
+    "recently_viewed": {
+      "type": "heitz-recently-viewed",
+      "settings": {
+        "color_scheme": "scheme-3",
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "title": "Recently Viewed",
+        "limit": 8,
+        "columns": 4
+      }
     },
     "heitz_home_faq_NPk6T8": {
       "type": "heitz-home-faq",
@@ -673,17 +684,6 @@
         "eyebrow": "The Heitz Promise",
         "heading_size": 18,
         "text_size": 14
-      }
-    },
-    "recently_viewed": {
-      "type": "heitz-recently-viewed",
-      "settings": {
-        "color_scheme": "scheme-1",
-        "padding_top": 80,
-        "padding_bottom": 80,
-        "title": "Recently Viewed",
-        "limit": 8,
-        "columns": 4
       }
     }
   },

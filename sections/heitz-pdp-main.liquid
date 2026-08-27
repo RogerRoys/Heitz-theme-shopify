@@ -661,7 +661,7 @@
   {%- comment -%} Reference-style sticky add-to-cart bar (desktop + mobile) {%- endcomment -%}
 {% if section.settings.enable_sticky_add_to_cart %}
   {%- assign sticky_image = current_variant.featured_image | default: product.featured_image -%}
-  <div class="hpdp-sticky" data-hpdp-sticky aria-hidden="true">
+  <div class="hpdp-sticky color-{{ section.settings.sticky_color_scheme | default: 'scheme-1' }}" data-hpdp-sticky aria-hidden="true">
     <div class="hpdp-sticky__inner">
       <div class="hpdp-sticky__left">
         {%- if sticky_image -%}
@@ -786,7 +786,7 @@
     min-width: 110px;
     max-width: 180px;
     padding: 0 32px 0 12px;
-    border: 1px solid rgba(26, 27, 24, 0.25);
+    border: 1px solid var(--color-border, rgba(26, 27, 24, 0.25));
     border-radius: 0;
     background: transparent;
     font-family: var(--hpdp-font-body);
@@ -807,13 +807,13 @@
     height: 40px;
     min-width: 180px;
     padding: 0 20px;
-    border: 1px solid #1a1b18;
+    border: 1px solid var(--color-primary-button-border, #1a1b18);
     border-radius: 0;
-    background: #1a1b18;
-    color: #ffffff;
+    background: var(--color-primary-button-background, #1a1b18);
+    color: var(--color-primary-button-text, #ffffff);
     font-family: var(--hpdp-font-body);
     font-size: 12px;
-    font-weight: 600;
+    font-weight: 500;
     letter-spacing: 2.4px;
     text-transform: uppercase;
     cursor: pointer;
@@ -1078,6 +1078,7 @@
   "settings": [
     { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
     { "type": "checkbox", "id": "enable_sticky_add_to_cart", "label": "Show sticky add to cart", "default": true },
+    { "type": "color_scheme", "id": "sticky_color_scheme", "label": "Sticky add to cart color scheme", "default": "scheme-1" },
     { "type": "checkbox", "id": "show_dynamic_checkout", "label": "Show dynamic checkout button", "default": true },
     { "type": "checkbox", "id": "show_payment_icons", "label": "Show payment icons", "default": true },
     { "type": "text", "id": "faq_eyebrow", "label": "FAQ eyebrow (falls back to first collection)" },

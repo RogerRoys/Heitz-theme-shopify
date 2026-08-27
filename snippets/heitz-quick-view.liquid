@@ -261,7 +261,11 @@
     cursor: pointer;
     transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
   }
-  .hqv__pill:hover { border-color: #9f6939; }
+  .hqv__pill:hover {
+    border-color: var(--color-variant-hover-border, #9f6939);
+    background: var(--color-variant-hover-background, var(--color-variant-background, #ffffff));
+    color: var(--color-variant-hover-text, var(--color-variant-text, #1a1b18));
+  }
   .hqv__pill.is-selected {
     background: var(--color-selected-variant-background, #1a1b18);
     border-color: var(--color-selected-variant-border, #1a1b18);

@@ -40,7 +40,8 @@
           "settings": {
             "text": "Be the first to know about our biggest and best sales. We'll never send more than one email a month.",
             "show_social": true,
-            "instagram_link": ""
+            "follow_label": "Follow us",
+            "instagram_link": "https://www.instagram.com/heitz_official?igsh=MXI4eHV2eGpvNTJhNw%3D%3D&utm_source=qr"
           }
         }
       },

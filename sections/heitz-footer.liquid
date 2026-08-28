@@ -69,14 +69,36 @@
     stroke: currentColor;
     stroke-width: 4px;
   }
+  /* reference-style follow row: label + boxed icon under the signup */
+  .htf-footer__follow {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-top: 28px;
+  }
+  .htf-footer__follow-label {
+    font-size: 14px;
+    color: var(--htf-color-footer-text);
+    opacity: 0.85;
+  }
   .htf-footer__social {
     display: flex;
-    gap: 15px;
+    gap: 12px;
     list-style: none;
-    margin: 25px 0 0;
+    margin: 0;
     padding: 0;
   }
-  .htf-footer__social svg { width: 22px; height: 22px; }
+  .htf-footer__social a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 46px;
+    height: 46px;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    transition: border-color var(--animation-speed, 0.125s) var(--animation-easing, ease-in-out);
+  }
+  .htf-footer__social a:hover { border-color: var(--htf-color-footer-text); }
+  .htf-footer__social svg { width: 20px; height: 20px; display: block; }
   .htf-footer__social svg path { fill: var(--htf-color-footer-text); }
   .htf-payments {
     display: flex;
@@ -195,6 +217,9 @@
                   {%- endif -%}
                 {%- endform -%}
                 {%- if block.settings.show_social -%}
+                  {%- if settings.social_instagram_link != blank or block.settings.instagram_link != blank -%}
+                  <div class="htf-footer__follow">
+                    <span class="htf-footer__follow-label">{{ block.settings.follow_label | default: 'Follow us' | escape }}</span>
                   <ul class="htf-footer__social">
                     {%- if settings.social_instagram_link != blank or block.settings.instagram_link != blank -%}
                       <li>
@@ -204,6 +229,8 @@
                       </li>
                     {%- endif -%}
                   </ul>
+                  </div>
+                  {%- endif -%}
                 {%- endif -%}
               </div>
             </div>
@@ -287,6 +314,7 @@
       "settings": [
         { "type": "text", "id": "text", "label": "Text", "default": "Be the first to know about our biggest and best sales. We'll never send more than one email a month." },
         { "type": "checkbox", "id": "show_social", "label": "Show social icons", "default": true },
+        { "type": "text", "id": "follow_label", "label": "Follow label", "default": "Follow us" },
         { "type": "url", "id": "instagram_link", "label": "Instagram link (falls back to theme setting)" }
       ]
     }

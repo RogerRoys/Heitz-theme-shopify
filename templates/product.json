@@ -39,20 +39,20 @@
             "text": "30-day hassle-free returns"
           }
         },
-        "info_returns": {
-          "type": "info_item",
-          "settings": {
-            "icon": "box",
-            "title": "Returns and Refunds",
-            "content": "<p>We accept eligible returns within <strong>30 days of delivery</strong>. Items must be unused, in their original condition, and include all original packaging and accessories.</p><p>For change-of-mind returns, return shipping costs and a 40% restocking fee are the customer's responsibility. If your item arrives faulty, damaged, or incorrect, we cover return shipping with no restocking fee — you'll receive a replacement or a full refund.</p><p>Please contact our team at support@heitz.shop before returning any item so we can provide return instructions. Refunds are processed within 14 days of receiving the return, and every light is backed by our <strong>1-year warranty</strong>.</p>"
-          }
-        },
         "info_shipping": {
           "type": "info_item",
           "settings": {
             "icon": "truck",
             "title": "Shipping and Delivery",
             "content": "<p><strong>Free tracked shipping</strong> on all orders — delivery costs are already included in the price.</p><p>Orders are processed within <strong>1–3 business days</strong> (Monday to Friday, excluding public holidays).</p><p>Estimated delivery: <strong>USA 8–15</strong>, <strong>UK 5–10</strong>, <strong>Australia 8–15</strong> business days. You'll receive tracking details by email once your order has been dispatched.</p>"
+          }
+        },
+        "info_returns": {
+          "type": "info_item",
+          "settings": {
+            "icon": "box",
+            "title": "Returns and Refunds",
+            "content": "<p>We accept eligible returns within <strong>30 days of delivery</strong>. Items must be unused, in their original condition, and include all original packaging and accessories.</p><p>For change-of-mind returns, return shipping costs and a 40% restocking fee are the customer's responsibility. If your item arrives faulty, damaged, or incorrect, we cover return shipping with no restocking fee — you'll receive a replacement or a full refund.</p><p>Please contact our team at support@heitz.shop before returning any item so we can provide return instructions. Refunds are processed within 14 days of receiving the return, and every light is backed by our <strong>1-year warranty</strong>.</p>"
           }
         },
         "faq_1": {
@@ -102,8 +102,8 @@
         "trust_1",
         "trust_2",
         "trust_3",
-        "info_returns",
         "info_shipping",
+        "info_returns",
         "faq_1",
         "faq_2",
         "faq_3",

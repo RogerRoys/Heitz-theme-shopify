@@ -561,6 +561,141 @@
         "text_size": 16
       }
     },
+    "heitz_featured_collection_Pme8WU": {
+      "type": "heitz-featured-collection",
+      "blocks": {
+        "static-product-card": {
+          "type": "_product-card",
+          "static": true,
+          "settings": {
+            "product_card_gap": 6,
+            "inherit_color_scheme": true,
+            "color_scheme": "",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 20,
+            "border_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "product_card_gallery_FwN3EJ": {
+              "type": "_product-card-gallery",
+              "settings": {
+                "image_ratio": "square",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "product_title_JAjphr": {
+              "type": "product-title",
+              "settings": {
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "custom",
+                "font": "var(--font-heading--family)",
+                "font_size": "0.875rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 4,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "price_898bHB": {
+              "type": "price",
+              "settings": {
+                "show_sale_price_first": true,
+                "show_installments": false,
+                "show_tax_info": false,
+                "show_discount_badge": true,
+                "discount_badge_product_page_only": true,
+                "discount_badge_text": "DISCOUNT",
+                "discount_badge_background": "#e62b2b",
+                "discount_badge_text_color": "#ffffff",
+                "discount_badge_font_size": 13,
+                "discount_badge_font_weight": "600",
+                "discount_badge_radius": 50,
+                "discount_badge_padding_x": 18,
+                "discount_badge_padding_y": 6,
+                "discount_badge_gap": 12,
+                "type_preset": "custom",
+                "width": "100%",
+                "alignment": "left",
+                "font": "var(--font-heading--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "color": "var(--color-primary)",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "swatches_NUXCrH": {
+              "type": "swatches",
+              "disabled": true,
+              "settings": {
+                "product_swatches_alignment": "flex-start",
+                "product_swatches_alignment_mobile": "flex-start",
+                "hide_padding": false,
+                "product_swatches_padding_top": 4,
+                "product_swatches_padding_bottom": 0,
+                "product_swatches_padding_left": 0,
+                "product_swatches_padding_right": 0
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "product_card_gallery_FwN3EJ",
+            "product_title_JAjphr",
+            "price_898bHB",
+            "swatches_NUXCrH"
+          ]
+        }
+      },
+      "custom_css": [],
+      "settings": {
+        "collection": "outdoor-pillar-post-lights",
+        "type_preset": "custom",
+        "font": "var(--font-heading--family)",
+        "font_size": "",
+        "line_height": "normal",
+        "letter_spacing": "normal",
+        "case": "none",
+        "color": "",
+        "title": "Pillar, Post & Gate Lights",
+        "link_label": "View all",
+        "button_style": "primary",
+        "limit": 8,
+        "columns": 4,
+        "color_scheme": "scheme-1",
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    },
     "featured_table": {
       "type": "heitz-featured-collection",
       "blocks": {
@@ -711,141 +846,6 @@
         "link": "shopify://pages/sustainability",
         "heading_size": 38,
         "text_size": 16
-      }
-    },
-    "heitz_featured_collection_Pme8WU": {
-      "type": "heitz-featured-collection",
-      "blocks": {
-        "static-product-card": {
-          "type": "_product-card",
-          "static": true,
-          "settings": {
-            "product_card_gap": 6,
-            "inherit_color_scheme": true,
-            "color_scheme": "",
-            "border": "none",
-            "border_width": 1,
-            "border_opacity": 20,
-            "border_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {
-            "product_card_gallery_FwN3EJ": {
-              "type": "_product-card-gallery",
-              "settings": {
-                "image_ratio": "square",
-                "border": "none",
-                "border_width": 1,
-                "border_opacity": 100,
-                "border_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "product_title_JAjphr": {
-              "type": "product-title",
-              "settings": {
-                "width": "fit-content",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "custom",
-                "font": "var(--font-heading--family)",
-                "font_size": "0.875rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "color": "var(--color-foreground)",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 4,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "price_898bHB": {
-              "type": "price",
-              "settings": {
-                "show_sale_price_first": true,
-                "show_installments": false,
-                "show_tax_info": false,
-                "show_discount_badge": true,
-                "discount_badge_product_page_only": true,
-                "discount_badge_text": "DISCOUNT",
-                "discount_badge_background": "#e62b2b",
-                "discount_badge_text_color": "#ffffff",
-                "discount_badge_font_size": 13,
-                "discount_badge_font_weight": "600",
-                "discount_badge_radius": 50,
-                "discount_badge_padding_x": 18,
-                "discount_badge_padding_y": 6,
-                "discount_badge_gap": 12,
-                "type_preset": "custom",
-                "width": "100%",
-                "alignment": "left",
-                "font": "var(--font-heading--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "color": "var(--color-primary)",
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "swatches_NUXCrH": {
-              "type": "swatches",
-              "disabled": true,
-              "settings": {
-                "product_swatches_alignment": "flex-start",
-                "product_swatches_alignment_mobile": "flex-start",
-                "hide_padding": false,
-                "product_swatches_padding_top": 4,
-                "product_swatches_padding_bottom": 0,
-                "product_swatches_padding_left": 0,
-                "product_swatches_padding_right": 0
-              },
-              "blocks": {}
-            }
-          },
-          "block_order": [
-            "product_card_gallery_FwN3EJ",
-            "product_title_JAjphr",
-            "price_898bHB",
-            "swatches_NUXCrH"
-          ]
-        }
-      },
-      "custom_css": [],
-      "settings": {
-        "collection": "outdoor-pillar-post-lights",
-        "type_preset": "custom",
-        "font": "var(--font-heading--family)",
-        "font_size": "",
-        "line_height": "normal",
-        "letter_spacing": "normal",
-        "case": "none",
-        "color": "",
-        "title": "Pillar, Post & Gate Lights",
-        "link_label": "View all",
-        "button_style": "primary",
-        "limit": 8,
-        "columns": 4,
-        "color_scheme": "scheme-1",
-        "padding_top": 80,
-        "padding_bottom": 80
       }
     },
     "edit_spotlight": {
@@ -1382,9 +1382,9 @@
     "cta_pendant",
     "featured_outdoor",
     "warranty_story",
-    "featured_table",
-    "sustainability_story",
     "heitz_featured_collection_Pme8WU",
+    "sustainability_story",
+    "featured_table",
     "edit_spotlight",
     "category_accordion",
     "featured_pendant",

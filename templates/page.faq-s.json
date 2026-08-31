@@ -121,7 +121,7 @@
           "type": "question",
           "settings": {
             "question": "1. What’s your return policy?",
-            "answer": "<p>We offer a <strong>30-day return policy</strong> — you can request a return within 30 days of receiving your order. Items must be unused, in their original condition, and returned with the original packaging and accessories.</p><p>For change-of-mind returns, return shipping costs and a <strong>40% restocking fee</strong> are the customer’s responsibility, and original shipping costs are non-refundable. If your item arrives damaged, faulty, or incorrect, we cover return shipping and charge no restocking fee. Find more information <a href=\"/policies/refund-policy\" title=\"Refund Policy\">here.</a></p>"
+            "answer": "<p>We offer a <strong>30-day return policy</strong> — you can request a return within 30 days of receiving your order. Items must be unused, in their original condition, and returned with the original packaging and accessories.</p><p>For change-of-mind returns, return shipping costs are the customer’s responsibility, and original shipping costs are non-refundable. If your item arrives damaged, faulty, or incorrect, we cover return shipping. Find more information <a href=\"/policies/refund-policy\" title=\"Refund Policy\">here.</a></p>"
           }
         },
         "q_ret2": {

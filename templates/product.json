@@ -36,7 +36,19 @@
         "trust_3": {
           "type": "trust_item",
           "settings": {
-            "text": "30-day hassle-free returns"
+            "text": "30-day returns for eligible items"
+          }
+        },
+        "trust_item_9VFrAd": {
+          "type": "trust_item",
+          "settings": {
+            "text": "1-year warranty on all products"
+          }
+        },
+        "trust_item_PehzhJ": {
+          "type": "trust_item",
+          "settings": {
+            "text": "Support before & after purchase"
           }
         },
         "info_shipping": {
@@ -102,6 +114,8 @@
         "trust_1",
         "trust_2",
         "trust_3",
+        "trust_item_9VFrAd",
+        "trust_item_PehzhJ",
         "info_shipping",
         "info_returns",
         "faq_1",

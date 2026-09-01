@@ -47,10 +47,12 @@
      not fight the outer swipe — nested horizontal scrollers make the
      images inside the cards jump mid-swipe on iOS */
   @media screen and (max-width: 748px) {
+    /* overflow alone is enough: with the inner gallery unscrollable a
+       horizontal pan starting on the image chains up to the strip —
+       touch-action: pan-y here would swallow that gesture instead */
     .htf-fc__grid slideshow-slides,
     .htf-insp__grid slideshow-slides {
       overflow-x: hidden !important;
-      touch-action: pan-y;
     }
   }
   /* desktop hero: keep a breathing gap between the content and the

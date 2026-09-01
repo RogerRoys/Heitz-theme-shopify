@@ -9,7 +9,31 @@
 {% render 'heitz-tf-base' %}
 <style>
   .hwl { padding: {{ section.settings.padding_top | default: 60 }}px 0 {{ section.settings.padding_bottom | default: 80 }}px; background: var(--color-background, transparent); }
-  .hwl__header { margin-bottom: 30px; }
+  .hwl__header {
+    margin-bottom: 30px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 20px;
+  }
+  .hwl__clear {
+    border: 0;
+    background: none;
+    padding: 4px 0;
+    font-family: var(--button-font-family-primary, var(--htf-font-body));
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    color: var(--color-foreground, #1a1b18);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: color var(--animation-speed, 0.125s) var(--animation-easing, ease-in-out);
+  }
+  .hwl__clear:hover,
+  .hwl__clear.is-armed { color: var(--color-primary, #9f6939); }
   .hwl__title {
     font-family: var(--htf-font-heading);
     font-size: 30px;
@@ -82,38 +106,10 @@
     font-size: 0.875rem;
     margin-left: 8px;
   }
-  /* explicit remove: always-visible cross at the image's top right */
-  .hwl__remove {
-    position: absolute;
-    top: 12px;
-    right: 12px;
-    width: 32px;
-    height: 32px;
-    border: 0;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.94);
-    color: #1a1b18;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
-    z-index: 3;
-    padding: 0;
-    transition: background-color var(--animation-speed, 0.125s) var(--animation-easing, ease-in-out),
-      color var(--animation-speed, 0.125s) var(--animation-easing, ease-in-out);
-  }
-  .hwl__remove svg { width: 13px; height: 13px; stroke: currentColor; stroke-width: 1.7; fill: none; stroke-linecap: round; display: block; }
-  @media (hover: hover) {
-    .hwl__remove:hover {
-      background: var(--color-primary-button-hover-background, #9f6939);
-      color: var(--color-primary-button-hover-text, #ffffff);
-    }
-  }
   /* card controls reuse the shared patterns */
   .hwl__preview {
     position: absolute;
-    top: 56px;
+    top: 12px;
     right: 12px;
     width: 38px;
     height: 38px;
@@ -201,8 +197,11 @@
 <div class="hwl color-{{ section.settings.color_scheme }}" data-hwl="{{ section.id }}">
   <div class="htf-page-width">
     <div class="hwl__header">
-      <h1 class="hwl__title">{{ section.settings.title | default: 'Wishlist' | escape }}</h1>
-      <p class="hwl__count" data-hwl-count hidden></p>
+      <div>
+        <h1 class="hwl__title">{{ section.settings.title | default: 'Wishlist' | escape }}</h1>
+        <p class="hwl__count" data-hwl-count hidden></p>
+      </div>
+      <button type="button" class="hwl__clear" data-hwl-clear hidden>Clear all</button>
     </div>
     <div class="hwl__grid" data-hwl-grid hidden></div>
     <div class="hwl__empty" data-hwl-empty hidden>
@@ -248,10 +247,13 @@
       countEl.textContent = n === 1 ? '1 saved product' : n + ' saved products';
     }
 
+    var clearBtn = root.querySelector('[data-hwl-clear]');
+
     function showEmpty() {
       grid.hidden = true;
       empty.hidden = false;
       setCount(0);
+      if (clearBtn) clearBtn.hidden = true;
     }
 
     function build(p) {
@@ -280,17 +282,6 @@
       wish.setAttribute('data-heitz-wish', p.handle);
       wish.innerHTML = heart;
       media.appendChild(wish);
-      var rm = document.createElement('button');
-      rm.type = 'button';
-      rm.className = 'hwl__remove';
-      rm.setAttribute('aria-label', 'Remove from wishlist');
-      rm.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg>';
-      rm.addEventListener('click', function (e) {
-        e.preventDefault();
-        e.stopPropagation();
-        if (window.HeitzWishlist) window.HeitzWishlist.toggle(p.handle);
-      });
-      media.appendChild(rm);
       var qv = document.createElement('button');
       qv.type = 'button';
       qv.className = 'hwl__preview color-' + qaScheme;
@@ -319,7 +310,32 @@
       products.forEach(function (p) { grid.appendChild(build(p)); });
       grid.hidden = false;
       setCount(products.length);
+      if (clearBtn) clearBtn.hidden = false;
     });
+
+    /* clear all: two taps — the first arms the button for 3 seconds */
+    if (clearBtn) {
+      var armTimer = null;
+      clearBtn.addEventListener('click', function () {
+        if (!clearBtn.classList.contains('is-armed')) {
+          clearBtn.classList.add('is-armed');
+          clearBtn.textContent = 'Tap again to clear';
+          clearTimeout(armTimer);
+          armTimer = setTimeout(function () {
+            clearBtn.classList.remove('is-armed');
+            clearBtn.textContent = 'Clear all';
+          }, 3000);
+          return;
+        }
+        clearTimeout(armTimer);
+        clearBtn.classList.remove('is-armed');
+        clearBtn.textContent = 'Clear all';
+        if (window.HeitzWishlist) window.HeitzWishlist.clear();
+        else { try { localStorage.removeItem('heitz:wishlist'); } catch (e) {} }
+        grid.innerHTML = '';
+        showEmpty();
+      });
+    }
 
     /* unhearting a card slides it out of the grid */
     document.addEventListener('heitz:wishlist:change', function (e) {

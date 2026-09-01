@@ -293,6 +293,13 @@
         }));
         return active;
       },
+      clear: function () {
+        write([]);
+        api.mark();
+        document.dispatchEvent(new CustomEvent('heitz:wishlist:change', {
+          detail: { handle: null, active: false, list: [] }
+        }));
+      },
       mark: function (scope) {
         var list = read();
         (scope || document).querySelectorAll('[data-heitz-wish]').forEach(function (btn) {

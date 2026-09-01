@@ -171,6 +171,9 @@
     height: 38px;
     border: 0;
     border-radius: 50%;
+    /* the quick-add container is pointer-events: none — every
+       interactive child must opt back in or taps fall through */
+    pointer-events: all;
     background: var(--color-primary-button-background, #1a1b18);
     color: var(--color-primary-button-text, #ffffff);
     display: flex;

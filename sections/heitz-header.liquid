@@ -102,6 +102,10 @@
     stroke-miterlimit: 10;
     vertical-align: middle;
   }
+  /* the icons row is a tight flex line — without these the button
+     shrinks and the global svg max-width collapses the heart to 0 */
+  .htf-wish-toggle { flex: 0 0 auto; }
+  .htf-wish-toggle svg { max-width: none; }
   .htf-wish-badge {
     position: absolute;
     top: 2px;

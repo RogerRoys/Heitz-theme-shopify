@@ -1,0 +1,17 @@
+{
+  "sections": {
+    "main": {
+      "type": "heitz-wishlist-page",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "padding_top": 60,
+        "padding_bottom": 80,
+        "title": "Wishlist",
+        "columns": 4,
+        "empty_text": "Your wishlist is empty — tap the heart on any product to save it here.",
+        "empty_button": "Explore Lighting"
+      }
+    }
+  },
+  "order": ["main"]
+}

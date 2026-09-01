@@ -1,0 +1,312 @@
+{%- comment -%}
+  Heitz Wishlist page — client-rendered grid of the visitor's saved
+  products (localStorage 'heitz:wishlist'), in the house card style:
+  square image, hover crossfade, quick-view magnifier, choose-options
+  bar and a filled heart that removes the product. Desktop grid with
+  the 55/30 gaps, two columns on mobile. Shows an empty state with a
+  CTA when nothing is saved yet.
+{%- endcomment -%}
+{% render 'heitz-tf-base' %}
+<style>
+  .hwl { padding: {{ section.settings.padding_top | default: 60 }}px 0 {{ section.settings.padding_bottom | default: 80 }}px; background: var(--color-background, transparent); }
+  .hwl__header { margin-bottom: 30px; }
+  .hwl__title {
+    font-family: var(--htf-font-heading);
+    font-size: 30px;
+    font-weight: var(--font-heading--weight, 400);
+    letter-spacing: 0.025em;
+    line-height: 1.1;
+    color: var(--color-foreground-heading, var(--htf-color-text));
+    margin: 0 0 8px;
+  }
+  .hwl__count {
+    font-family: var(--htf-font-body);
+    font-size: 14px;
+    color: var(--color-foreground, var(--htf-color-text));
+    opacity: 0.7;
+    margin: 0;
+  }
+  .hwl__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px 10px;
+  }
+  @media only screen and (min-width: 769px) {
+    .hwl__title { font-size: 36px; }
+    .hwl__grid {
+      grid-template-columns: repeat({{ section.settings.columns | default: 4 }}, 1fr);
+      gap: 55px 30px;
+    }
+  }
+  .hwl__item { position: relative; }
+  .hwl__item.is-leaving { opacity: 0; transform: scale(0.97); transition: opacity 0.25s ease, transform 0.25s ease; }
+  .hwl__media {
+    position: relative;
+    display: block;
+    aspect-ratio: 1 / 1;
+    background: #f3f3f3;
+    overflow: hidden;
+  }
+  .hwl__media img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: opacity 0.45s ease, transform 0.45s ease;
+  }
+  .hwl__media .hwl__img--hover { opacity: 0; }
+  @media (hover: hover) {
+    .hwl__item:hover .hwl__img--hover { opacity: 1; transform: scale(1.03); }
+    .hwl__item:hover .hwl__img--main { opacity: 0; }
+  }
+  .hwl__info { padding-top: 4px; }
+  .hwl__name {
+    display: block;
+    font-family: var(--font-heading--family, var(--htf-font-heading));
+    font-size: 0.875rem;
+    line-height: 1.4;
+    color: var(--color-foreground, var(--htf-color-text));
+    text-decoration: none;
+    margin: 0 0 2px;
+  }
+  .hwl__price {
+    font-family: var(--font-heading--family, var(--htf-font-heading));
+    font-size: 1rem;
+    color: var(--color-primary, var(--htf-color-text));
+  }
+  .hwl__price s {
+    color: var(--color-foreground, #9a938a);
+    opacity: 0.6;
+    font-size: 0.875rem;
+    margin-left: 8px;
+  }
+  /* card controls reuse the shared patterns */
+  .hwl__preview {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 38px;
+    height: 38px;
+    border: 0;
+    border-radius: 50%;
+    background: var(--color-primary-button-background, #1a1b18);
+    color: var(--color-primary-button-text, #ffffff);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
+    z-index: 2;
+    padding: 0;
+    opacity: 0;
+    transform: translateY(4px);
+    transition: opacity 0.25s ease, transform 0.25s ease, background-color 0.25s ease, color 0.25s ease;
+  }
+  .hwl__preview svg { width: 16px; height: 16px; stroke: currentColor; stroke-width: 1.6; fill: none; stroke-linecap: round; display: block; }
+  .hwl__preview:hover {
+    background: var(--color-primary-button-hover-background, #9f6939);
+    color: var(--color-primary-button-hover-text, #ffffff);
+  }
+  @media (hover: hover) and (min-width: 750px) {
+    .hwl__item:hover .hwl__preview { opacity: 1; transform: translateY(0); }
+  }
+  @media (hover: none), (max-width: 749px) {
+    .hwl__preview {
+      opacity: 1;
+      transform: none;
+      top: auto;
+      bottom: 10px;
+      right: 10px;
+      width: 34px;
+      height: 34px;
+    }
+    .hwl__preview svg { width: 14px; height: 14px; }
+  }
+  .hwl__choose {
+    position: absolute;
+    left: 15px;
+    right: 15px;
+    bottom: 15px;
+    height: 40px;
+    border: 0;
+    border-radius: 0;
+    background: var(--color-primary-button-background, #1a1b18);
+    color: var(--color-primary-button-text, #ffffff);
+    font-family: var(--button-font-family-primary, var(--htf-font-body));
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 2.4px;
+    text-transform: uppercase;
+    cursor: pointer;
+    z-index: 2;
+    padding: 0 20px;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: transform 0.25s ease, opacity 0.25s ease,
+      background-color var(--animation-speed, 0.125s) var(--animation-easing, ease-in-out);
+  }
+  .hwl__choose:hover {
+    background: var(--color-primary-button-hover-background, #9f6939);
+    color: var(--color-primary-button-hover-text, #ffffff);
+  }
+  @media (hover: hover) and (min-width: 750px) {
+    .hwl__item:hover .hwl__choose { opacity: 1; transform: translateY(0); }
+  }
+  @media (hover: none), (max-width: 749px) {
+    .hwl__choose { display: none; }
+  }
+  /* empty state */
+  .hwl__empty { text-align: center; padding: 60px 20px 40px; }
+  .hwl__empty-heart { color: var(--color-foreground, #1a1b18); opacity: 0.3; margin-bottom: 18px; }
+  .hwl__empty-heart svg { width: 44px; height: 44px; fill: none; stroke: currentColor; stroke-width: 1.4; }
+  .hwl__empty-text {
+    font-family: var(--htf-font-body);
+    font-size: 16px;
+    font-weight: 300;
+    color: var(--color-foreground, var(--htf-color-text));
+    margin: 0 0 26px;
+  }
+</style>
+
+<div class="hwl color-{{ section.settings.color_scheme }}" data-hwl="{{ section.id }}">
+  <div class="htf-page-width">
+    <div class="hwl__header">
+      <h1 class="hwl__title">{{ section.settings.title | default: 'Wishlist' | escape }}</h1>
+      <p class="hwl__count" data-hwl-count hidden></p>
+    </div>
+    <div class="hwl__grid" data-hwl-grid hidden></div>
+    <div class="hwl__empty" data-hwl-empty hidden>
+      <div class="hwl__empty-heart"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5S4 15.5 4 9.9C4 7.2 6.1 5 8.8 5c1.3 0 2.5.6 3.2 1.6C12.7 5.6 13.9 5 15.2 5 17.9 5 20 7.2 20 9.9c0 5.6-8 10.6-8 10.6Z"/></svg></div>
+      <p class="hwl__empty-text">{{ section.settings.empty_text | default: 'Your wishlist is empty — tap the heart on any product to save it here.' | escape }}</p>
+      <a href="{{ section.settings.empty_link | default: routes.all_products_collection_url }}" class="htf-btn htf-bs-primary">{{ section.settings.empty_button | default: 'Explore Lighting' | escape }}</a>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function () {
+    var root = document.querySelector('[data-hwl="{{ section.id }}"]');
+    if (!root) return;
+    var grid = root.querySelector('[data-hwl-grid]');
+    var empty = root.querySelector('[data-hwl-empty]');
+    var countEl = root.querySelector('[data-hwl-count]');
+    var moneyTemplate = {{ shop.money_format | json }};
+    var qaScheme = {{ settings.quick_add_color_scheme.id | default: 'scheme-1' | json }};
+    var heart = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5S4 15.5 4 9.9C4 7.2 6.1 5 8.8 5c1.3 0 2.5.6 3.2 1.6C12.7 5.6 13.9 5 15.2 5 17.9 5 20 7.2 20 9.9c0 5.6-8 10.6-8 10.6Z"/></svg>';
+
+    function money(cents) {
+      var amount = (cents / 100).toFixed(2);
+      var whole = amount.split('.')[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+      return moneyTemplate
+        .replace(/\{\{\s*amount\s*\}\}/, whole + '.' + amount.split('.')[1])
+        .replace(/\{\{\s*amount_no_decimals\s*\}\}/, whole)
+        .replace(/<[^>]*>/g, '');
+    }
+
+    function readList() {
+      return (window.HeitzWishlist && window.HeitzWishlist.list()) || [];
+    }
+
+    function setCount(n) {
+      countEl.hidden = n === 0;
+      countEl.textContent = n === 1 ? '1 saved product' : n + ' saved products';
+    }
+
+    function showEmpty() {
+      grid.hidden = true;
+      empty.hidden = false;
+      setCount(0);
+    }
+
+    function build(p) {
+      var img = (p.images && p.images[0]) || '';
+      var img2 = (p.images && p.images[1]) || '';
+      var fix = function (u) { return u ? (u.indexOf('//') === 0 ? 'https:' + u : u) + (u.indexOf('?') > -1 ? '&' : '?') + 'width=600' : ''; };
+      var onSale = p.compare_at_price && p.compare_at_price > p.price;
+      var item = document.createElement('div');
+      item.className = 'hwl__item';
+      item.setAttribute('data-hwl-handle', p.handle);
+      item.innerHTML =
+        '<a class="hwl__media" href="' + p.url + '">' +
+          (img ? '<img class="hwl__img--main" src="' + fix(img) + '" alt="" loading="lazy">' : '') +
+          (img2 ? '<img class="hwl__img--hover" src="' + fix(img2) + '" alt="" loading="lazy">' : '') +
+        '</a>' +
+        '<div class="hwl__info">' +
+          '<a class="hwl__name" href="' + p.url + '"></a>' +
+          '<div class="hwl__price">' + money(p.price) + (onSale ? ' <s>' + money(p.compare_at_price) + '</s>' : '') + '</div>' +
+        '</div>';
+      item.querySelector('.hwl__name').textContent = p.title;
+      var media = item.querySelector('.hwl__media');
+      var wish = document.createElement('button');
+      wish.type = 'button';
+      wish.className = 'heitz-wish color-' + qaScheme;
+      wish.setAttribute('aria-label', 'Remove from wishlist');
+      wish.setAttribute('data-heitz-wish', p.handle);
+      wish.innerHTML = heart;
+      media.appendChild(wish);
+      var qv = document.createElement('button');
+      qv.type = 'button';
+      qv.className = 'hwl__preview color-' + qaScheme;
+      qv.setAttribute('aria-label', 'Quick view');
+      qv.setAttribute('data-heitz-qv', p.url);
+      qv.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m16.5 16.5 4.5 4.5"/></svg>';
+      media.appendChild(qv);
+      var choose = document.createElement('button');
+      choose.type = 'button';
+      choose.className = 'hwl__choose color-' + qaScheme;
+      choose.setAttribute('data-heitz-qv', p.url);
+      choose.textContent = (p.variants && p.variants.length > 1) ? 'Choose options' : 'Add to cart';
+      media.appendChild(choose);
+      return item;
+    }
+
+    var handles = readList();
+    if (!handles.length) { showEmpty(); return; }
+    Promise.all(handles.map(function (h) {
+      return fetch('/products/' + h + '.js')
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .catch(function () { return null; });
+    })).then(function (products) {
+      products = products.filter(Boolean);
+      if (!products.length) { showEmpty(); return; }
+      products.forEach(function (p) { grid.appendChild(build(p)); });
+      grid.hidden = false;
+      setCount(products.length);
+    });
+
+    /* unhearting a card slides it out of the grid */
+    document.addEventListener('heitz:wishlist:change', function (e) {
+      if (e.detail.active) return;
+      var item = grid.querySelector('[data-hwl-handle="' + e.detail.handle + '"]');
+      if (!item) return;
+      item.classList.add('is-leaving');
+      setTimeout(function () {
+        item.remove();
+        var left = grid.querySelectorAll('[data-hwl-handle]').length;
+        if (left === 0) showEmpty();
+        else setCount(left);
+      }, 260);
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Heitz Wishlist",
+  "settings": [
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+    { "type": "header", "content": "Padding" },
+    { "type": "range", "id": "padding_top", "label": "Top", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 60 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 80 },
+    { "type": "text", "id": "title", "label": "Heading", "default": "Wishlist" },
+    { "type": "range", "id": "columns", "label": "Desktop columns", "min": 2, "max": 6, "step": 1, "default": 4 },
+    { "type": "header", "content": "Empty state" },
+    { "type": "text", "id": "empty_text", "label": "Empty message", "default": "Your wishlist is empty — tap the heart on any product to save it here." },
+    { "type": "text", "id": "empty_button", "label": "Empty button label", "default": "Explore Lighting" },
+    { "type": "url", "id": "empty_link", "label": "Empty button link" }
+  ],
+  "presets": [{ "name": "Heitz Wishlist" }]
+}
+{% endschema %}

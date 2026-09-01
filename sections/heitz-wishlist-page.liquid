@@ -82,10 +82,38 @@
     font-size: 0.875rem;
     margin-left: 8px;
   }
+  /* explicit remove: always-visible cross at the image's top right */
+  .hwl__remove {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 32px;
+    height: 32px;
+    border: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.94);
+    color: #1a1b18;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
+    z-index: 3;
+    padding: 0;
+    transition: background-color var(--animation-speed, 0.125s) var(--animation-easing, ease-in-out),
+      color var(--animation-speed, 0.125s) var(--animation-easing, ease-in-out);
+  }
+  .hwl__remove svg { width: 13px; height: 13px; stroke: currentColor; stroke-width: 1.7; fill: none; stroke-linecap: round; display: block; }
+  @media (hover: hover) {
+    .hwl__remove:hover {
+      background: var(--color-primary-button-hover-background, #9f6939);
+      color: var(--color-primary-button-hover-text, #ffffff);
+    }
+  }
   /* card controls reuse the shared patterns */
   .hwl__preview {
     position: absolute;
-    top: 12px;
+    top: 56px;
     right: 12px;
     width: 38px;
     height: 38px;
@@ -252,6 +280,17 @@
       wish.setAttribute('data-heitz-wish', p.handle);
       wish.innerHTML = heart;
       media.appendChild(wish);
+      var rm = document.createElement('button');
+      rm.type = 'button';
+      rm.className = 'hwl__remove';
+      rm.setAttribute('aria-label', 'Remove from wishlist');
+      rm.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg>';
+      rm.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        if (window.HeitzWishlist) window.HeitzWishlist.toggle(p.handle);
+      });
+      media.appendChild(rm);
       var qv = document.createElement('button');
       qv.type = 'button';
       qv.className = 'hwl__preview color-' + qaScheme;

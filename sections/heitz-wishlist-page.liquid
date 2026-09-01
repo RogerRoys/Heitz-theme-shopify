@@ -206,7 +206,13 @@
     }
 
     function readList() {
-      return (window.HeitzWishlist && window.HeitzWishlist.list()) || [];
+      /* the shared helper renders after the layout content, so this
+         script may run first — read the store directly as fallback */
+      if (window.HeitzWishlist) return window.HeitzWishlist.list();
+      try {
+        var v = JSON.parse(localStorage.getItem('heitz:wishlist') || '[]');
+        return Array.isArray(v) ? v : [];
+      } catch (e) { return []; }
     }
 
     function setCount(n) {

@@ -102,6 +102,22 @@
     stroke-miterlimit: 10;
     vertical-align: middle;
   }
+  .htf-wish-badge {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    min-width: 16px;
+    height: 16px;
+    padding: 0 4px;
+    border-radius: 8px;
+    background: var(--color-primary, #9f6939);
+    color: #ffffff;
+    font-family: var(--htf-font-body);
+    font-size: 10px;
+    font-weight: 600;
+    line-height: 16px;
+    text-align: center;
+  }
   /* Horizon action components (search / account / cart) restyled to match */
   /* Mobile: account lives in the menu drawer, so hide the header's
      mobile account trigger (the bottom-sheet dialog version). The
@@ -531,6 +547,10 @@
         {%- if loc_show_country or loc_show_language -%}
           {% render 'dropdown-localization', show_country: loc_show_country, show_language: loc_show_language, country_style: section.settings.country_selector_style, localization_position: section.settings.localization_position %}
         {%- endif -%}
+        <button type="button" class="htf-header__icon-link htf-wish-toggle" data-hwd-open aria-label="Wishlist">
+          <svg viewBox="0 0 64 64"><path d="M32 54S8 39.5 8 24.5C8 16.5 14.4 10 22.4 10c4 0 7.7 1.9 9.6 4.8C33.9 11.9 37.6 10 41.6 10 49.6 10 56 16.5 56 24.5 56 39.5 32 54 32 54Z"/></svg>
+          <span class="htf-wish-badge" data-hwd-count hidden></span>
+        </button>
         {% render 'header-actions' %}
       </div>
     </div>

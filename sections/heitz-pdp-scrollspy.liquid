@@ -139,7 +139,7 @@
        popup is over the page (wired after parse: the popup is rendered
        at the end of the layout) */
     var wire = function () {
-      var overlays = [].slice.call(document.querySelectorAll('cart-drawer-component dialog, #heitz-quick-view, .htf-drawer'));
+      var overlays = [].slice.call(document.querySelectorAll('cart-drawer-component dialog, #heitz-quick-view, .htf-drawer, #heitz-wishlist-drawer'));
       if (!overlays.length) return;
       var update = function () {
         var covered = overlays.some(function (d) {

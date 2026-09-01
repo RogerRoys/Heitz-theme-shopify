@@ -1114,7 +1114,7 @@
          quick-view popup is over it (wired after parse: the quick-view
          dialog is rendered at the end of the layout) */
       var wireSuppression = function () {
-        var overlayDialogs = [].slice.call(document.querySelectorAll('cart-drawer-component dialog, #heitz-quick-view, .htf-drawer'));
+        var overlayDialogs = [].slice.call(document.querySelectorAll('cart-drawer-component dialog, #heitz-quick-view, .htf-drawer, #heitz-wishlist-drawer'));
         if (!overlayDialogs.length) return;
         var updateSuppressed = function () {
           var covered = overlayDialogs.some(function (d) {

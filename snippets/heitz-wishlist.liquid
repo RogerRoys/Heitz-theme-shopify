@@ -8,6 +8,11 @@
   on document with {handle, active, list} in detail.
 {%- endcomment -%}
 
+<button type="button" class="hwt" data-hwt aria-live="polite" hidden>
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5S4 15.5 4 9.9C4 7.2 6.1 5 8.8 5c1.3 0 2.5.6 3.2 1.6C12.7 5.6 13.9 5 15.2 5 17.9 5 20 7.2 20 9.9c0 5.6-8 10.6-8 10.6Z"/></svg>
+  <span data-hwt-text>Added to wishlist</span>
+</button>
+
 <div class="hwd" id="heitz-wishlist-drawer" aria-hidden="true">
   <div class="hwd__overlay" data-hwd-close></div>
   <aside class="hwd__panel" role="dialog" aria-label="Wishlist">
@@ -28,6 +33,49 @@
 </div>
 
 {% stylesheet %}
+  /* ── wishlist toast (bottom right) ───────────── */
+  .hwt {
+    position: fixed;
+    right: 20px;
+    bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+    z-index: 250;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border: 0;
+    background: var(--color-primary-button-background, #1a1b18);
+    color: var(--color-primary-button-text, #ffffff);
+    font-family: var(--button-font-family-primary, var(--font-body--family));
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    padding: 13px 20px;
+    cursor: pointer;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.22);
+    opacity: 0;
+    transform: translateY(14px);
+    pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .hwt.is-show {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+  .hwt svg {
+    width: 15px;
+    height: 15px;
+    display: block;
+    fill: currentColor;
+    stroke: currentColor;
+    stroke-width: 1.2;
+    flex: 0 0 auto;
+  }
+  @media screen and (max-width: 749px) {
+    .hwt { right: 14px; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); }
+  }
+
   /* ── wishlist drawer ─────────────────────────── */
   .hwd {
     position: fixed;
@@ -350,7 +398,31 @@
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape') closeDrawer();
     });
+    /* toast: small note at the bottom right when a product is saved;
+       tapping it opens the drawer */
+    var toastTimer = null;
+    var showToast = function () {
+      var t = document.querySelector('[data-hwt]');
+      if (!t) return;
+      t.hidden = false;
+      setTimeout(function () { t.classList.add('is-show'); }, 20);
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(function () {
+        t.classList.remove('is-show');
+        setTimeout(function () { t.hidden = true; }, 320);
+      }, 2600);
+    };
+    document.addEventListener('click', function (e) {
+      var t = e.target.closest && e.target.closest('[data-hwt]');
+      if (!t) return;
+      clearTimeout(toastTimer);
+      t.classList.remove('is-show');
+      t.hidden = true;
+      openDrawer();
+    });
+
     document.addEventListener('heitz:wishlist:change', function (e) {
+      if (e.detail.active) showToast();
       updateBadges();
       var d = drawer();
       if (!d || !d.classList.contains('is-open')) return;

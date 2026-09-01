@@ -262,6 +262,12 @@
     .heitz-wish { width: 30px; height: 30px; top: 10px; left: 10px; }
     .heitz-wish svg { width: 14px; height: 14px; }
   }
+  /* sale/sold-out badges share the top-left corner with the heart —
+     they drop below it instead of landing on top */
+  .card-gallery .product-badges--top-left { top: 58px; }
+  @media (hover: none), (max-width: 749px) {
+    .card-gallery .product-badges--top-left { top: 46px; }
+  }
 {% endstylesheet %}
 
 <script>

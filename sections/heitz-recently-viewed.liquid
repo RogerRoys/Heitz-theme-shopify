@@ -34,7 +34,6 @@
     display: flex;
     gap: 10px;
     overflow-x: auto;
-    scroll-snap-type: x proximity;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
   }
@@ -42,7 +41,6 @@
   .hrv__item {
     flex: 0 0 42%;
     min-width: 0;
-    scroll-snap-align: start;
   }
   @media only screen and (min-width: 769px) {
     .hrv__grid {
@@ -50,7 +48,6 @@
       grid-template-columns: repeat({{ section.settings.columns | default: 4 }}, 1fr);
       gap: 55px 30px;
       overflow-x: visible;
-      scroll-snap-type: none;
     }
   }
   .hrv__media {

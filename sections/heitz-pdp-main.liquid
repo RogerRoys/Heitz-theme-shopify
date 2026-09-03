@@ -343,6 +343,20 @@
     stroke-linecap: round;
   }
   .hpdp-wish.is-active svg { fill: currentColor; }
+  /* the gallery's floating heart goes backgroundless: bare white glyph
+     with a soft shadow, like the gallery arrows */
+  .hpdp-stage .heitz-wish,
+  .hpdp-stage .heitz-wish:hover {
+    background: transparent;
+    box-shadow: none;
+    color: #ffffff;
+    filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.35));
+  }
+  @media (hover: hover) {
+    .hpdp-stage .heitz-wish:hover {
+      color: var(--color-primary-button-hover-background, #9f6939);
+    }
+  }
   @media (hover: hover) {
     .hpdp-wish:hover {
       background: var(--color-primary-button-hover-background, #9f6939);

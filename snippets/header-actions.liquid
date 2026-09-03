@@ -184,6 +184,7 @@
                   class="cart-drawer__summary"
                 >
                   {% render 'cart-summary' %}
+                  <a href="{{ routes.cart_url }}" class="hcd-viewcart">{{ 'content.view_cart' | t | default: 'View cart' }}</a>
                 </div>
               </scroll-hint>
             {%- endif -%}

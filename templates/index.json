@@ -240,7 +240,7 @@
         "padding_bottom": 40
       }
     },
-    "featured_table": {
+    "featured_outdoor": {
       "type": "heitz-featured-collection",
       "blocks": {
         "static-product-card": {
@@ -357,7 +357,7 @@
       },
       "custom_css": [],
       "settings": {
-        "collection": "table-lamps",
+        "collection": "pendant-lights",
         "type_preset": "custom",
         "font": "var(--font-heading--family)",
         "font_size": "",
@@ -365,7 +365,7 @@
         "letter_spacing": "normal",
         "case": "none",
         "color": "",
-        "title": "Table Lamps",
+        "title": "Pendant Lights",
         "link_label": "View all",
         "button_style": "primary",
         "limit": 8,
@@ -544,7 +544,7 @@
         "link": "shopify://collections/pendant-lights"
       }
     },
-    "featured_outdoor": {
+    "featured_table": {
       "type": "heitz-featured-collection",
       "blocks": {
         "static-product-card": {
@@ -661,7 +661,7 @@
       },
       "custom_css": [],
       "settings": {
-        "collection": "pendant-lights",
+        "collection": "table-lamps",
         "type_preset": "custom",
         "font": "var(--font-heading--family)",
         "font_size": "",
@@ -669,7 +669,7 @@
         "letter_spacing": "normal",
         "case": "none",
         "color": "",
-        "title": "Outdoor Wall Lighting",
+        "title": "Table Lamps",
         "link_label": "View all",
         "button_style": "primary",
         "limit": 8,
@@ -1378,11 +1378,11 @@
     "hero",
     "trust_badges",
     "category_scroll",
-    "featured_table",
+    "featured_outdoor",
     "heitz_featured_collection_NAwf9H",
     "our_story",
     "cta_pendant",
-    "featured_outdoor",
+    "featured_table",
     "warranty_story",
     "heitz_featured_collection_Pme8WU",
     "sustainability_story",

@@ -64,7 +64,7 @@
           "settings": {
             "icon": "box",
             "title": "Returns and Refunds",
-            "content": "<p>We accept eligible returns within <strong>30 days of delivery</strong>. Items must be unused, in their original condition, and include all original packaging and accessories.</p><p>For change-of-mind returns, return shipping costs are the customer's responsibility. If your item arrives faulty, damaged, or incorrect, we cover return shipping — you'll receive a replacement or a full refund.</p><p>Please contact our team at support@heitz.shop before returning any item so we can provide return instructions. Refunds are processed within 14 days of receiving the return, and every light is backed by our <strong>1-year warranty</strong>.</p>"
+            "content": "<p>We accept eligible returns within <strong>30 days of delivery</strong>. Items must be unused, in their original condition, and include all original packaging and accessories.</p><p>For change-of-mind returns, return shipping costs are the customer's responsibility. If your item arrives faulty, damaged, or incorrect, we cover return shipping — you'll receive a replacement or a full refund.</p><p>Please contact our team at <a href=\"mailto:support@heitz.shop\" target=\"_blank\" title=\"mailto:support@heitz.shop\">support@heitz.shop</a> before returning any item so we can provide return instructions. Refunds are processed within 14 days of receiving the return, and every light is backed by our <strong>1-year warranty</strong>.</p>"
           }
         },
         "faq_1": {

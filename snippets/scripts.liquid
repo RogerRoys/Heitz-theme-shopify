@@ -283,6 +283,21 @@
   ></script>
 {% endif %}
 
+<script>
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.documentElement.classList.add('heitz-reveal-enabled');
+    window.__heitzRevealFallback = window.setTimeout(
+      () => document.documentElement.classList.remove('heitz-reveal-enabled'),
+      5000
+    );
+  }
+</script>
+
+<script
+  src="{{ 'heitz-page-transitions.js' | asset_url }}"
+  defer="defer"
+></script>
+
 <script
   src="{{ 'auto-close-details.js' | asset_url }}"
   defer="defer"

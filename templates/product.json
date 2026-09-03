@@ -304,7 +304,7 @@
         "title": "More Inspiration",
         "link_label": "View all",
         "button_style": "primary",
-        "limit": 8,
+        "limit": 6,
         "columns": 3,
         "color_scheme": "scheme-1",
         "padding_top": 80,

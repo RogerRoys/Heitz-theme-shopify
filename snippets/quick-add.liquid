@@ -43,6 +43,15 @@
   >
     <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m16.5 16.5 4.5 4.5"/></svg>
   </button>
+  <button
+    type="button"
+    class="heitz-wish"
+    aria-label="Add to wishlist"
+    aria-pressed="false"
+    data-heitz-wish="{{ product.handle }}"
+  >
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5S4 15.5 4 9.9C4 7.2 6.1 5 8.8 5c1.3 0 2.5.6 3.2 1.6C12.7 5.6 13.9 5 15.2 5 17.9 5 20 7.2 20 9.9c0 5.6-8 10.6-8 10.6Z"/></svg>
+  </button>
   <product-form-component
     data-section-id="{{ section_id }}"
     data-product-id="{{ product.id }}"

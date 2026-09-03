@@ -1,0 +1,466 @@
+{%- comment -%}
+  Heitz Wishlist — per-visitor wishlist stored in localStorage
+  ('heitz:wishlist', product handles). Any element carrying
+  data-heitz-wish="{handle}" becomes a toggle: click adds/removes the
+  product and every button for that handle updates its is-active
+  state. Dynamically added cards (Recently Viewed, the wishlist page)
+  are picked up by a MutationObserver. Emits 'heitz:wishlist:change'
+  on document with {handle, active, list} in detail.
+{%- endcomment -%}
+
+<button type="button" class="hwt" data-hwt aria-live="polite" hidden>
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5S4 15.5 4 9.9C4 7.2 6.1 5 8.8 5c1.3 0 2.5.6 3.2 1.6C12.7 5.6 13.9 5 15.2 5 17.9 5 20 7.2 20 9.9c0 5.6-8 10.6-8 10.6Z"/></svg>
+  <span data-hwt-text>Added to wishlist</span>
+</button>
+
+<div class="hwd" id="heitz-wishlist-drawer" aria-hidden="true">
+  <div class="hwd__overlay" data-hwd-close></div>
+  <aside class="hwd__panel" role="dialog" aria-label="Wishlist">
+    <div class="hwd__head">
+      <p class="hwd__title">Wishlist <span data-hwd-title-count></span></p>
+      <button type="button" class="hwd__close" data-hwd-close aria-label="Close">
+        <svg viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></svg>
+      </button>
+    </div>
+    <div class="hwd__items" data-hwd-items></div>
+    <div class="hwd__empty" data-hwd-empty hidden>
+      <p>Your wishlist is empty — tap the heart on any product to save it here.</p>
+    </div>
+    <div class="hwd__foot">
+      <a class="hwd__viewall" href="/pages/wishlist">View full page</a>
+    </div>
+  </aside>
+</div>
+
+{% stylesheet %}
+  /* ── wishlist toast (bottom right) ───────────── */
+  .hwt {
+    position: fixed;
+    right: 20px;
+    bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+    z-index: 250;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border: 0;
+    background: var(--color-primary-button-background, #1a1b18);
+    color: var(--color-primary-button-text, #ffffff);
+    font-family: var(--button-font-family-primary, var(--font-body--family));
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    padding: 13px 20px;
+    cursor: pointer;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.22);
+    opacity: 0;
+    transform: translateY(14px);
+    pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .hwt.is-show {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+  .hwt svg {
+    width: 15px;
+    height: 15px;
+    display: block;
+    fill: currentColor;
+    stroke: currentColor;
+    stroke-width: 1.2;
+    flex: 0 0 auto;
+  }
+  @media screen and (max-width: 749px) {
+    .hwt { right: 14px; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); }
+  }
+
+  /* ── wishlist drawer ─────────────────────────── */
+  .hwd {
+    position: fixed;
+    inset: 0;
+    z-index: 210;
+    pointer-events: none;
+    visibility: hidden;
+  }
+  .hwd.is-open { pointer-events: auto; visibility: visible; }
+  .hwd__overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(12, 11, 9, 0.5);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .hwd.is-open .hwd__overlay { opacity: 1; }
+  .hwd__panel {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: min(400px, 92vw);
+    background: #ffffff;
+    color: #1a1b18;
+    display: flex;
+    flex-direction: column;
+    transform: translateX(102%);
+    transition: transform 0.38s cubic-bezier(0.22, 1, 0.36, 1);
+    box-shadow: -12px 0 40px rgba(0, 0, 0, 0.18);
+  }
+  .hwd.is-open .hwd__panel { transform: translateX(0); }
+  .hwd__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 20px;
+    border-bottom: 1px solid rgba(26, 27, 24, 0.12);
+    flex: 0 0 auto;
+  }
+  .hwd__title {
+    margin: 0;
+    font-family: var(--htf-font-heading, var(--font-heading--family));
+    font-size: 19px;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+  }
+  .hwd__title span { opacity: 0.55; font-size: 15px; }
+  .hwd__close {
+    border: 0;
+    background: none;
+    color: inherit;
+    cursor: pointer;
+    padding: 6px;
+    display: flex;
+  }
+  .hwd__close svg { width: 18px; height: 18px; stroke: currentColor; stroke-width: 1.6; fill: none; stroke-linecap: round; }
+  .hwd__items { flex: 1 1 auto; overflow-y: auto; padding: 6px 0; }
+  .hwd__row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 20px;
+  }
+  .hwd__row + .hwd__row { border-top: 1px solid rgba(26, 27, 24, 0.07); }
+  .hwd__row-img {
+    flex: 0 0 64px;
+    width: 64px;
+    height: 64px;
+    background: #f3f3f3;
+    display: block;
+  }
+  .hwd__row-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .hwd__row-info { flex: 1 1 auto; min-width: 0; }
+  .hwd__row-title {
+    display: block;
+    font-family: var(--font-heading--family, var(--htf-font-heading));
+    font-size: 13.5px;
+    line-height: 1.35;
+    color: #1a1b18;
+    text-decoration: none;
+    margin: 0 0 3px;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+  .hwd__row-price {
+    font-family: var(--font-heading--family, var(--htf-font-heading));
+    font-size: 13.5px;
+    color: var(--color-primary, #9f6939);
+  }
+  .hwd__row-remove {
+    flex: 0 0 auto;
+    border: 0;
+    background: none;
+    color: #9a938a;
+    cursor: pointer;
+    padding: 8px;
+    display: flex;
+    transition: color 0.15s ease;
+  }
+  .hwd__row-remove:hover { color: #1a1b18; }
+  .hwd__row-remove svg { width: 14px; height: 14px; stroke: currentColor; stroke-width: 1.6; fill: none; stroke-linecap: round; }
+  .hwd__empty { padding: 46px 26px; text-align: center; }
+  .hwd__empty p {
+    margin: 0;
+    font-family: var(--htf-font-body, var(--font-body--family));
+    font-size: 14.5px;
+    font-weight: 300;
+    line-height: 1.7;
+    color: #6f6a63;
+  }
+  .hwd__foot {
+    flex: 0 0 auto;
+    padding: 16px 20px;
+    border-top: 1px solid rgba(26, 27, 24, 0.12);
+  }
+  .hwd__viewall {
+    display: block;
+    height: 46px;
+    line-height: 46px;
+    background: var(--color-primary-button-background, #1a1b18);
+    color: var(--color-primary-button-text, #ffffff);
+    font-family: var(--button-font-family-primary, var(--htf-font-body));
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 2.4px;
+    text-transform: uppercase;
+    text-align: center;
+    text-decoration: none;
+    transition: background-color var(--animation-speed, 0.125s) var(--animation-easing, ease-in-out);
+  }
+  .hwd__viewall:hover { background: var(--color-primary-button-hover-background, #9f6939); }
+
+  .heitz-wish {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    width: 38px;
+    height: 38px;
+    border: 0;
+    border-radius: 50%;
+    /* the quick-add container is pointer-events: none — every
+       interactive child must opt back in or taps fall through */
+    pointer-events: all;
+    background: var(--color-primary-button-background, #1a1b18);
+    color: var(--color-primary-button-text, #ffffff);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
+    z-index: 2;
+    padding: 0;
+    transition: opacity 0.25s ease, transform 0.25s ease,
+      background-color var(--animation-speed, 0.125s) var(--animation-easing, ease-in-out),
+      color var(--animation-speed, 0.125s) var(--animation-easing, ease-in-out);
+  }
+  .heitz-wish svg {
+    width: 17px;
+    height: 17px;
+    display: block;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.7;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+  }
+  .heitz-wish.is-active svg { fill: currentColor; }
+  @media (hover: hover) and (min-width: 750px) {
+    .heitz-wish { opacity: 0; transform: translateY(4px); }
+    product-card:hover .heitz-wish,
+    .hrv__item:hover .heitz-wish,
+    .hwl__item:hover .heitz-wish,
+    .hpdp-stage .heitz-wish,
+    .heitz-wish.is-active { opacity: 1; transform: translateY(0); }
+    .heitz-wish:hover {
+      background: var(--color-primary-button-hover-background, #9f6939);
+      color: var(--color-primary-button-hover-text, #ffffff);
+    }
+  }
+  @media (hover: none), (max-width: 749px) {
+    .heitz-wish { width: 30px; height: 30px; top: 10px; left: 10px; }
+    .heitz-wish svg { width: 14px; height: 14px; }
+  }
+  /* sale/sold-out badges share the top-left corner with the heart —
+     they drop below it instead of landing on top */
+  .card-gallery .product-badges--top-left { top: 58px; }
+  @media (hover: none), (max-width: 749px) {
+    .card-gallery .product-badges--top-left { top: 46px; }
+  }
+{% endstylesheet %}
+
+<script>
+  (function () {
+    if (window.HeitzWishlist) return;
+    var KEY = 'heitz:wishlist';
+    var read = function () {
+      try {
+        var v = JSON.parse(localStorage.getItem(KEY) || '[]');
+        return Array.isArray(v) ? v : [];
+      } catch (e) { return []; }
+    };
+    var write = function (list) {
+      try { localStorage.setItem(KEY, JSON.stringify(list.slice(0, 100))); } catch (e) {}
+    };
+    var api = window.HeitzWishlist = {
+      list: read,
+      has: function (h) { return read().indexOf(h) > -1; },
+      toggle: function (h) {
+        var list = read();
+        var i = list.indexOf(h);
+        var active;
+        if (i > -1) { list.splice(i, 1); active = false; }
+        else { list.unshift(h); active = true; }
+        write(list);
+        api.mark();
+        document.dispatchEvent(new CustomEvent('heitz:wishlist:change', {
+          detail: { handle: h, active: active, list: list }
+        }));
+        return active;
+      },
+      clear: function () {
+        write([]);
+        api.mark();
+        document.dispatchEvent(new CustomEvent('heitz:wishlist:change', {
+          detail: { handle: null, active: false, list: [] }
+        }));
+      },
+      mark: function (scope) {
+        var list = read();
+        (scope || document).querySelectorAll('[data-heitz-wish]').forEach(function (btn) {
+          var on = list.indexOf(btn.getAttribute('data-heitz-wish')) > -1;
+          btn.classList.toggle('is-active', on);
+          btn.setAttribute('aria-pressed', String(on));
+        });
+      }
+    };
+    document.addEventListener('click', function (e) {
+      var btn = e.target.closest && e.target.closest('[data-heitz-wish]');
+      if (!btn) return;
+      e.preventDefault();
+      e.stopPropagation();
+      api.toggle(btn.getAttribute('data-heitz-wish'));
+    }, true);
+    /* ── header badge + drawer ── */
+    var moneyTemplate = {{ shop.money_format | json }};
+    var money = function (cents) {
+      var amount = (cents / 100).toFixed(2);
+      var whole = amount.split('.')[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+      return moneyTemplate
+        .replace(/\{\{\s*amount\s*\}\}/, whole + '.' + amount.split('.')[1])
+        .replace(/\{\{\s*amount_no_decimals\s*\}\}/, whole)
+        .replace(/<[^>]*>/g, '');
+    };
+    var cache = {};
+    var fetchProduct = function (h) {
+      if (cache[h]) return cache[h];
+      cache[h] = fetch('/products/' + h + '.js')
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .catch(function () { return null; });
+      return cache[h];
+    };
+    var updateBadges = function () {
+      var n = read().length;
+      document.querySelectorAll('[data-hwd-count]').forEach(function (b) {
+        b.hidden = n === 0;
+        b.textContent = n;
+      });
+      var tc = document.querySelector('[data-hwd-title-count]');
+      if (tc) tc.textContent = n ? '(' + n + ')' : '';
+    };
+    var drawer = function () { return document.getElementById('heitz-wishlist-drawer'); };
+    var renderDrawer = function () {
+      var d = drawer();
+      if (!d) return;
+      var itemsEl = d.querySelector('[data-hwd-items]');
+      var emptyEl = d.querySelector('[data-hwd-empty]');
+      var list = read();
+      updateBadges();
+      if (!list.length) {
+        itemsEl.innerHTML = '';
+        emptyEl.hidden = false;
+        return;
+      }
+      emptyEl.hidden = true;
+      Promise.all(list.map(fetchProduct)).then(function (products) {
+        itemsEl.innerHTML = '';
+        products.filter(Boolean).forEach(function (p) {
+          var img = (p.images && p.images[0]) || '';
+          if (img && img.indexOf('//') === 0) img = 'https:' + img;
+          if (img) img += (img.indexOf('?') > -1 ? '&' : '?') + 'width=160';
+          var row = document.createElement('div');
+          row.className = 'hwd__row';
+          row.setAttribute('data-hwd-row', p.handle);
+          row.innerHTML =
+            '<a class="hwd__row-img" href="' + p.url + '">' + (img ? '<img src="' + img + '" alt="" loading="lazy">' : '') + '</a>' +
+            '<div class="hwd__row-info">' +
+              '<a class="hwd__row-title" href="' + p.url + '"></a>' +
+              '<div class="hwd__row-price">' + money(p.price) + '</div>' +
+            '</div>' +
+            '<button type="button" class="hwd__row-remove" aria-label="Remove from wishlist">' +
+              '<svg viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></svg>' +
+            '</button>';
+          row.querySelector('.hwd__row-title').textContent = p.title;
+          row.querySelector('.hwd__row-remove').addEventListener('click', function () {
+            api.toggle(p.handle);
+          });
+          itemsEl.appendChild(row);
+        });
+      });
+    };
+    var openDrawer = function () {
+      var d = drawer();
+      if (!d) return;
+      renderDrawer();
+      d.classList.add('is-open');
+      d.setAttribute('aria-hidden', 'false');
+      document.documentElement.style.overflow = 'hidden';
+    };
+    var closeDrawer = function () {
+      var d = drawer();
+      if (!d) return;
+      d.classList.remove('is-open');
+      d.setAttribute('aria-hidden', 'true');
+      document.documentElement.style.overflow = '';
+    };
+    document.addEventListener('click', function (e) {
+      if (e.target.closest && e.target.closest('[data-hwd-open]')) { e.preventDefault(); openDrawer(); return; }
+      if (e.target.closest && e.target.closest('[data-hwd-close]')) { closeDrawer(); }
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') closeDrawer();
+    });
+    /* toast: small note at the bottom right when a product is saved;
+       tapping it opens the drawer */
+    var toastTimer = null;
+    var showToast = function () {
+      var t = document.querySelector('[data-hwt]');
+      if (!t) return;
+      t.hidden = false;
+      setTimeout(function () { t.classList.add('is-show'); }, 20);
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(function () {
+        t.classList.remove('is-show');
+        setTimeout(function () { t.hidden = true; }, 320);
+      }, 2600);
+    };
+    document.addEventListener('click', function (e) {
+      var t = e.target.closest && e.target.closest('[data-hwt]');
+      if (!t) return;
+      clearTimeout(toastTimer);
+      t.classList.remove('is-show');
+      t.hidden = true;
+      openDrawer();
+    });
+
+    document.addEventListener('heitz:wishlist:change', function (e) {
+      if (e.detail.active) showToast();
+      updateBadges();
+      var d = drawer();
+      if (!d || !d.classList.contains('is-open')) return;
+      if (!e.detail.active) {
+        var row = d.querySelector('[data-hwd-row="' + e.detail.handle + '"]');
+        if (row) row.remove();
+        if (!read().length) {
+          d.querySelector('[data-hwd-items]').innerHTML = '';
+          d.querySelector('[data-hwd-empty]').hidden = false;
+        }
+      } else {
+        renderDrawer();
+      }
+    });
+
+    var start = function () {
+      api.mark();
+      updateBadges();
+      new MutationObserver(function () { api.mark(); })
+        .observe(document.body, { childList: true, subtree: true });
+    };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', start, { once: true });
+    } else {
+      start();
+    }
+  })();
+</script>

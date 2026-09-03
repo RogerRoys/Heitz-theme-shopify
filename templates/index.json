@@ -696,6 +696,23 @@
         "padding_bottom": 80
       }
     },
+    "sustainability_story": {
+      "type": "heitz-value-banner",
+      "settings": {
+        "image": "shopify://shop_images/heitz-sustainability-solar-garden-desktop.webp",
+        "mobile_image": "shopify://shop_images/heitz-sustainability-solar-garden-mobile.webp",
+        "overlay_opacity": 45,
+        "min_height": 600,
+        "eyebrow": "Sustainability",
+        "title": "Designed To Last, Chosen With Care",
+        "text": "<p>Guided by Scandinavian and Japandi principles, we choose durable, responsibly sourced materials and timeless designs that reduce the need for frequent replacements — with energy-saving LED comfort built in.</p>",
+        "button_label": "Learn More",
+        "button_style": "secondary",
+        "link": "shopify://pages/sustainability",
+        "heading_size": 38,
+        "text_size": 16
+      }
+    },
     "featured_table": {
       "type": "heitz-featured-collection",
       "blocks": {
@@ -829,23 +846,6 @@
         "color_scheme": "scheme-1",
         "padding_top": 80,
         "padding_bottom": 80
-      }
-    },
-    "sustainability_story": {
-      "type": "heitz-value-banner",
-      "settings": {
-        "image": "shopify://shop_images/heitz-sustainability-solar-garden-desktop.webp",
-        "mobile_image": "shopify://shop_images/heitz-sustainability-solar-garden-mobile.webp",
-        "overlay_opacity": 45,
-        "min_height": 600,
-        "eyebrow": "Sustainability",
-        "title": "Designed To Last, Chosen With Care",
-        "text": "<p>Guided by Scandinavian and Japandi principles, we choose durable, responsibly sourced materials and timeless designs that reduce the need for frequent replacements — with energy-saving LED comfort built in.</p>",
-        "button_label": "Learn More",
-        "button_style": "secondary",
-        "link": "shopify://pages/sustainability",
-        "heading_size": 38,
-        "text_size": 16
       }
     },
     "edit_spotlight": {

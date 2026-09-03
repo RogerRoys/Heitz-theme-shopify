@@ -1078,6 +1078,7 @@
           ]
         }
       },
+      "disabled": true,
       "custom_css": [],
       "settings": {
         "collection": "pendant-lights",

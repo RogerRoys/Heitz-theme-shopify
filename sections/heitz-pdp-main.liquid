@@ -304,6 +304,48 @@
   }
 
   .hpdp-form-row { margin-top: 18px; }
+  /* Oh Polly-style buy row: the ATC stretches, a square wishlist box
+     of the same height sits beside it */
+  .hpdp-buy-row {
+    display: flex;
+    align-items: stretch;
+    gap: 10px;
+  }
+  .hpdp-buy-row__main { flex: 1 1 auto; min-width: 0; }
+  .hpdp-wish {
+    flex: 0 0 50px;
+    min-height: 50px;
+    border: 1px solid var(--color-primary-button-border, #1a1b18);
+    border-radius: 0;
+    background: var(--color-primary-button-background, #1a1b18);
+    color: var(--color-primary-button-text, #ffffff);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0;
+    transition: background-color var(--animation-speed, 0.125s) var(--animation-easing, ease-in-out),
+      color var(--animation-speed, 0.125s) var(--animation-easing, ease-in-out),
+      border-color var(--animation-speed, 0.125s) var(--animation-easing, ease-in-out);
+  }
+  .hpdp-wish svg {
+    width: 19px;
+    height: 19px;
+    display: block;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.7;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+  }
+  .hpdp-wish.is-active svg { fill: currentColor; }
+  @media (hover: hover) {
+    .hpdp-wish:hover {
+      background: var(--color-primary-button-hover-background, #9f6939);
+      border-color: var(--color-primary-button-hover-border, #9f6939);
+      color: var(--color-primary-button-hover-text, #ffffff);
+    }
+  }
   .hpdp-qty {
     display: inline-flex;
     align-items: center;
@@ -541,9 +583,6 @@
               </div>
             </div>
             <div class="hpdp-stage">
-            <button type="button" class="heitz-wish" aria-label="Add to wishlist" aria-pressed="false" data-heitz-wish="{{ product.handle }}">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5S4 15.5 4 9.9C4 7.2 6.1 5 8.8 5c1.3 0 2.5.6 3.2 1.6C12.7 5.6 13.9 5 15.2 5 17.9 5 20 7.2 20 9.9c0 5.6-8 10.6-8 10.6Z"/></svg>
-            </button>
             <button type="button" class="hpdp-stage__arrow hpdp-stage__arrow--prev" data-hpdp-prev aria-label="Previous image">&#8592;</button>
             <button type="button" class="hpdp-stage__arrow hpdp-stage__arrow--next" data-hpdp-next aria-label="Next image">&#8594;</button>
             <button type="button" class="hpdp-zoom-btn" data-hpdp-zoom-open aria-label="Zoom image">
@@ -623,12 +662,19 @@
                 <input type="number" name="quantity" value="1" min="1" step="1" aria-label="Quantity" data-hpdp-qty-input>
                 <button type="button" data-hpdp-qty-plus aria-label="Increase quantity">+</button>
               </div>
-              {% render 'add-to-cart-button',
-                can_add_to_cart: current_variant.available,
-                product: product,
-                class: 'hpdp-atc button--full-width',
-                id: 'hpdp-atc-btn'
-              %}
+              <div class="hpdp-buy-row">
+                <div class="hpdp-buy-row__main">
+                  {% render 'add-to-cart-button',
+                    can_add_to_cart: current_variant.available,
+                    product: product,
+                    class: 'hpdp-atc button--full-width',
+                    id: 'hpdp-atc-btn'
+                  %}
+                </div>
+                <button type="button" class="hpdp-wish" data-heitz-wish="{{ product.handle }}" aria-label="Add to wishlist" aria-pressed="false">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5S4 15.5 4 9.9C4 7.2 6.1 5 8.8 5c1.3 0 2.5.6 3.2 1.6C12.7 5.6 13.9 5 15.2 5 17.9 5 20 7.2 20 9.9c0 5.6-8 10.6-8 10.6Z"/></svg>
+                </button>
+              </div>
               {%- if section.settings.show_dynamic_checkout -%}
                 {{ form | payment_button }}
               {%- endif -%}

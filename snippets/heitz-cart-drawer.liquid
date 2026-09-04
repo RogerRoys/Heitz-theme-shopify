@@ -72,6 +72,11 @@
 
   /* ── item rows ─────────────────────────────────── */
   .cart-drawer__items.cart-drawer__items { padding-top: 12px; }
+  /* the row grid's media track shrinks below our 64px image on narrow
+     drawers and the image overlaps the title's first letters — pin it */
+  .cart-drawer__items .cart-items__table-row {
+    grid-template-columns: 64px minmax(0, 1fr) auto;
+  }
   .cart-drawer__items .cart-items__media-container,
   .cart-drawer__items .cart-items__media-image {
     width: 64px;

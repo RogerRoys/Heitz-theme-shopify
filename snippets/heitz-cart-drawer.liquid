@@ -100,11 +100,20 @@
     border-radius: 0;
     min-height: 46px;
   }
+  /* footer grid: totals full row, CHECK OUT | VIEW CART side by side */
+  .cart-drawer__summary {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    align-items: stretch;
+  }
+  .cart-drawer__summary > .cart__summary-totals { grid-column: 1 / -1; }
+  .cart-drawer__summary .cart__ctas { margin: 0; }
+  .cart-drawer__summary .additional-checkout-buttons { display: none; }
   .hcd-viewcart {
     display: block;
-    margin-top: 10px;
-    height: 44px;
-    line-height: 42px;
+    height: 46px;
+    line-height: 44px;
     text-align: center;
     border: 1px solid var(--color-border, #d2d5d9);
     background: transparent;
@@ -127,6 +136,158 @@
     }
   }
 
+  /* ── recommendations side panel (desktop) ─────── */
+  .hcd-recs {
+    display: none;
+    flex: 0 0 450px;
+    flex-direction: column;
+    border-right: 1px solid var(--color-border, #d2d5d9);
+    background: var(--color-background, #ffffff);
+    overflow-y: auto;
+  }
+  @media screen and (min-width: 1100px) {
+    .cart-drawer__dialog:not(.cart-drawer--empty)[open] { display: flex; flex-direction: row; width: 900px; }
+    .cart-drawer__dialog:not(.cart-drawer--empty) .hcd-recs.is-ready { display: flex; }
+    .cart-drawer__inner { flex: 1 1 auto; min-width: 0; }
+  }
+  .hcd-recs__head {
+    padding: 20px;
+    font-family: var(--font-heading--family);
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--color-foreground-heading, #1a1b18);
+  }
+  .hcd-recs__list { padding: 0 20px 20px; }
+  .hcd-rec {
+    display: flex;
+    gap: 16px;
+    padding: 16px 0;
+    border-bottom: 1px solid rgba(26, 27, 24, 0.08);
+  }
+  .hcd-rec:last-child { border-bottom: 0; }
+  .hcd-rec__img {
+    flex: 0 0 88px;
+    width: 88px;
+    height: 88px;
+    background: #f4f2ee;
+    display: block;
+  }
+  .hcd-rec__img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .hcd-rec__info { flex: 1 1 auto; min-width: 0; }
+  .hcd-rec__title {
+    display: block;
+    font-family: var(--font-heading--family);
+    font-size: 14px;
+    line-height: 1.4;
+    color: var(--color-foreground-heading, #1a1b18);
+    text-decoration: none;
+    margin: 0 0 6px;
+  }
+  .hcd-rec__price {
+    font-family: var(--font-body--family);
+    font-size: 14px;
+    color: var(--color-foreground, #212326);
+    margin: 0 0 10px;
+  }
+  .hcd-rec__price s { color: #9a938a; margin-left: 6px; font-size: 13px; }
+  .hcd-rec__choose {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: 0;
+    background: none;
+    padding: 0 0 4px;
+    border-bottom: 1px solid var(--color-border, #d2d5d9);
+    font-family: var(--button-font-family-primary, var(--font-body--family));
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--color-foreground-heading, #1a1b18);
+    cursor: pointer;
+    transition: color var(--animation-speed, 0.125s) var(--animation-easing, ease-in-out);
+  }
+  .hcd-rec__choose:hover { color: var(--color-primary-button-hover-background, #9f6939); }
+  .hcd-rec__choose svg { width: 16px; height: 10px; stroke: currentColor; stroke-width: 1.5; fill: none; stroke-linecap: round; }
+
+  /* ── note / discount actions row ───────────────── */
+  .hcd-actions {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-top: 1px solid var(--color-border, #d2d5d9);
+  }
+  .hcd-action summary {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 15px 10px;
+    font-family: var(--button-font-family-primary, var(--font-body--family));
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--color-foreground-heading, #1a1b18);
+    cursor: pointer;
+  }
+  .hcd-action summary::-webkit-details-marker { display: none; }
+  .hcd-action summary svg { width: 14px; height: 14px; stroke: currentColor; stroke-width: 1.5; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+  .hcd-action:first-child { border-right: 1px solid var(--color-border, #d2d5d9); }
+  .hcd-action > div {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 100%;
+    background: var(--color-background, #ffffff);
+    border-top: 1px solid var(--color-border, #d2d5d9);
+    box-shadow: 0 -14px 30px rgba(20, 18, 15, 0.08);
+    padding: 18px 20px 20px;
+    z-index: 3;
+  }
+  .hcd-action label {
+    display: block;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #9a938a;
+    margin-bottom: 10px;
+  }
+  .hcd-action textarea,
+  .hcd-action input[type="text"] {
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid var(--color-border, #d2d5d9);
+    border-radius: 0;
+    padding: 10px 12px;
+    font-family: var(--font-body--family);
+    font-size: 14px;
+    margin-bottom: 12px;
+    background: transparent;
+    color: var(--color-foreground, #212326);
+  }
+  .hcd-action textarea { min-height: 84px; resize: vertical; }
+  .hcd-action__apply {
+    width: 100%;
+    height: 42px;
+    border: 0;
+    background: var(--color-primary-button-background, #1a1b18);
+    color: var(--color-primary-button-text, #ffffff);
+    font-family: var(--button-font-family-primary, var(--font-body--family));
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 2.4px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background-color var(--animation-speed, 0.125s) var(--animation-easing, ease-in-out);
+  }
+  .hcd-action__apply:hover { background: var(--color-primary-button-hover-background, #9f6939); }
+  .hcd-action__msg { font-size: 12.5px; color: #6b6459; margin-top: 10px; display: none; }
+  .hcd-action__msg.is-show { display: block; }
+
   /* ── reference stagger: header → items → footer ── */
   @keyframes hcd-in {
     from { opacity: 0; transform: translateX(28px); }
@@ -138,6 +299,7 @@
   .cart-drawer__dialog[open] .cart-drawer__items {
     animation: hcd-in 0.45s ease both 0.18s;
   }
+  .cart-drawer__dialog[open] .hcd-recs { animation: hcd-in 0.5s ease both 0.28s; }
   .cart-drawer__dialog[open] .cart-drawer__summary {
     animation: hcd-in 0.5s ease both 0.24s;
   }
@@ -149,3 +311,83 @@
     }
   }
 {% endstylesheet %}
+<script>
+  (function () {
+    var moneyTemplate = {{ shop.money_format | json }};
+    function money(cents) {
+      var amount = (cents / 100).toFixed(2);
+      var whole = amount.split(".")[0].replace(/B(?=(d{3})+(?!d))/g, ",");
+      return moneyTemplate
+        .replace(/{{s*amounts*}}/, whole + "." + amount.split(".")[1])
+        .replace(/{{s*amount_no_decimalss*}}/, whole)
+        .replace(/<[^>]*>/g, "");
+    }
+    var lastLead = null;
+    function loadRecs() {
+      var panel = document.querySelector("[data-hcd-recs]");
+      var list = document.querySelector("[data-hcd-recs-list]");
+      if (!panel || !list) return;
+      fetch("/cart.js").then(function (r) { return r.json(); }).then(function (cart) {
+        if (!cart.items || !cart.items.length) { panel.classList.remove("is-ready"); return; }
+        var lead = cart.items[0].product_id;
+        if (lead === lastLead && list.children.length) { panel.classList.add("is-ready"); return; }
+        lastLead = lead;
+        var inCart = cart.items.map(function (i) { return i.product_id; });
+        fetch("/recommendations/products.json?product_id=" + lead + "&limit=6")
+          .then(function (r) { return r.ok ? r.json() : { products: [] }; })
+          .then(function (data) {
+            var prods = (data.products || []).filter(function (p) { return inCart.indexOf(p.id) === -1; }).slice(0, 4);
+            if (!prods.length) { panel.classList.remove("is-ready"); return; }
+            list.innerHTML = "";
+            prods.forEach(function (p) {
+              var img = p.featured_image || (p.images && p.images[0]) || "";
+              if (img && img.indexOf("//") === 0) img = "https:" + img;
+              if (img) img += (img.indexOf("?") > -1 ? "&" : "?") + "width=240";
+              var onSale = p.compare_at_price && p.compare_at_price > p.price;
+              var row = document.createElement("div");
+              row.className = "hcd-rec";
+              row.innerHTML =
+                '<a class="hcd-rec__img" href="' + p.url + '"></a>' +
+                '<div class="hcd-rec__info"><a class="hcd-rec__title" href="' + p.url + '"></a>' +
+                '<p class="hcd-rec__price"></p>' +
+                '<button type="button" class="hcd-rec__choose">Choose options <svg viewBox="0 0 20 12"><path d="M1 6h17m-5-5 5 5-5 5"></path></svg></button></div>';
+              if (img) { var im = document.createElement("img"); im.src = img; im.alt = ""; im.loading = "lazy"; row.querySelector(".hcd-rec__img").appendChild(im); }
+              row.querySelector(".hcd-rec__title").textContent = p.title;
+              row.querySelector(".hcd-rec__price").innerHTML = money(p.price) + (onSale ? " <s>" + money(p.compare_at_price) + "</s>" : "");
+              row.querySelector(".hcd-rec__choose").setAttribute("data-heitz-qv", p.url);
+              list.appendChild(row);
+            });
+            panel.classList.add("is-ready");
+          });
+      }).catch(function () {});
+    }
+    var wire = function () {
+      var dialog = document.querySelector("cart-drawer-component dialog");
+      if (dialog) {
+        new MutationObserver(function () {
+          if (dialog.hasAttribute("open")) loadRecs();
+        }).observe(dialog, { attributes: true, attributeFilter: ["open"] });
+        if (dialog.hasAttribute("open")) loadRecs();
+      }
+      var noteBtn = document.querySelector("[data-hcd-note-apply]");
+      if (noteBtn) noteBtn.addEventListener("click", function () {
+        var ta = document.querySelector("[data-hcd-note]");
+        var msg = document.querySelector("[data-hcd-note-msg]");
+        fetch("/cart/update.js", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ note: ta.value }) })
+          .then(function () { if (msg) { msg.textContent = "Saved with your order"; msg.classList.add("is-show"); } });
+      });
+      var discBtn = document.querySelector("[data-hcd-discount-apply]");
+      if (discBtn) discBtn.addEventListener("click", function () {
+        var input = document.querySelector("[data-hcd-discount]");
+        var msg = document.querySelector("[data-hcd-discount-msg]");
+        var code = (input.value || "").trim();
+        if (!code) return;
+        fetch("/discount/" + encodeURIComponent(code)).then(function () {
+          if (msg) { msg.textContent = "Code applied — reflected at checkout"; msg.classList.add("is-show"); }
+        });
+      });
+    };
+    if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", wire);
+    else wire();
+  })();
+</script>

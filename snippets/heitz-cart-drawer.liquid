@@ -1,15 +1,15 @@
 {%- comment -%}
   Heitz cart drawer restyle — Option C "Conversion+" on Horizon's cart
   drawer machinery: 450px right panel, uppercase spaced CART heading
-  over a hairline, a free-shipping banner under the header (always
-  unlocked — the store ships free on all orders; no gift tier by
-  owner's call), compact 64px media rows with a compact bordered
+  over a hairline, compact 64px media rows with a compact bordered
   quantity box, then the footer: subtotal, full-width checkout
   carrying the cart total, Shop Pay accelerated button, and a trust
-  row (free shipping /
-  30-day returns / secure — verified against the store's published
-  policies), with the reference's staggered reveal on open. Colors
-  ride the drawer's color scheme; type is the house system.
+  row (free shipping / 30-day returns / secure — verified against the
+  store's published policies), with the reference's staggered reveal
+  on open. The recommendations script survives Horizon's cart morphs:
+  rebuilt rows are cached and restored in the same microtask when a
+  cart update wipes them, so the panel never collapses mid-session.
+  Colors ride the drawer's color scheme; type is the house system.
 {%- endcomment -%}
 
 {% stylesheet %}
@@ -37,41 +37,6 @@
     text-transform: uppercase;
     color: var(--color-foreground-heading, #1a1b18);
   }
-
-  /* ── free-shipping banner (always unlocked) ────── */
-  .hcd-ship {
-    padding: 13px 20px 12px;
-    background: #faf8f4;
-    border-bottom: 1px solid #eee9e0;
-  }
-  .hcd-ship__text {
-    margin: 0 0 8px;
-    font-family: var(--font-body--family);
-    font-size: 13px;
-    color: #4a453e;
-  }
-  .hcd-ship__bar {
-    height: 3px;
-    background: #e8e2d7;
-    position: relative;
-  }
-  .hcd-ship__fill {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    background: #9f6939;
-  }
-  .hcd-ship__row {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 6px;
-    font-family: var(--font-body--family);
-    font-size: 10.5px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: #9a938a;
-  }
-  .hcd-ship__on { color: #9f6939; }
 
   /* ── item rows ─────────────────────────────────── */
   .cart-drawer__items .cart-items__media-container,
@@ -309,9 +274,6 @@
   .cart-drawer__dialog[open] .cart-drawer__header {
     animation: hcd-in 0.4s ease both 0.12s;
   }
-  .cart-drawer__dialog[open] .hcd-ship {
-    animation: hcd-in 0.42s ease both 0.15s;
-  }
   .cart-drawer__dialog[open] .cart-drawer__items {
     animation: hcd-in 0.45s ease both 0.18s;
   }
@@ -321,7 +283,6 @@
   }
   @media (prefers-reduced-motion: reduce) {
     .cart-drawer__dialog[open] .cart-drawer__header,
-    .cart-drawer__dialog[open] .hcd-ship,
     .cart-drawer__dialog[open] .cart-drawer__items,
     .cart-drawer__dialog[open] .hcd-recs,
     .cart-drawer__dialog[open] .cart-drawer__summary {
@@ -344,90 +305,138 @@
     }
 
     var lastLead = null;
-    function loadRecs() {
+    var lastFetched = null;
+    var lastInCart = [];
+    var shown = false;
+    var loadedForOpen = false;
+
+    function panelEls() {
       var panel = document.querySelector('[data-hcd-recs]');
       var list = document.querySelector('[data-hcd-recs-list]');
-      if (!panel || !list) return;
+      return panel && list ? { panel: panel, list: list } : null;
+    }
+
+    function renderRows(els, prods, inCart) {
+      var filtered = prods.filter(function (p) { return inCart.indexOf(p.id) === -1; }).slice(0, 4);
+      if (!filtered.length) {
+        els.panel.classList.remove('is-ready');
+        els.list.innerHTML = '';
+        shown = false;
+        return;
+      }
+      els.list.innerHTML = '';
+      filtered.forEach(function (p) {
+        var img = p.featured_image || (p.images && p.images[0]) || '';
+        img = String(img);
+        if (img.indexOf('//') === 0) img = 'https:' + img;
+        if (img) img += (img.indexOf('?') > -1 ? '&' : '?') + 'width=240';
+        var onSale = p.compare_at_price && p.compare_at_price > p.price;
+
+        var row = document.createElement('div');
+        row.className = 'hcd-rec';
+
+        var imgLink = document.createElement('a');
+        imgLink.className = 'hcd-rec__img';
+        imgLink.href = p.url;
+        if (img) {
+          var im = document.createElement('img');
+          im.src = img; im.alt = ''; im.loading = 'lazy';
+          imgLink.appendChild(im);
+        }
+
+        var info = document.createElement('div');
+        info.className = 'hcd-rec__info';
+
+        var title = document.createElement('a');
+        title.className = 'hcd-rec__title';
+        title.href = p.url;
+        title.textContent = p.title;
+
+        var price = document.createElement('p');
+        price.className = 'hcd-rec__price';
+        price.textContent = money(p.price);
+        if (onSale) {
+          var s = document.createElement('s');
+          s.textContent = money(p.compare_at_price);
+          price.appendChild(document.createTextNode(' '));
+          price.appendChild(s);
+        }
+
+        var choose = document.createElement('button');
+        choose.type = 'button';
+        choose.className = 'hcd-rec__choose';
+        choose.setAttribute('data-heitz-qv', p.url);
+        choose.innerHTML = 'Choose options <svg viewBox="0 0 20 12"><path d="M1 6h17m-5-5 5 5-5 5"></path></svg>';
+
+        info.appendChild(title);
+        info.appendChild(price);
+        info.appendChild(choose);
+        row.appendChild(imgLink);
+        row.appendChild(info);
+        els.list.appendChild(row);
+      });
+      els.panel.classList.add('is-ready');
+      shown = true;
+    }
+
+    function loadRecs() {
+      var els = panelEls();
+      if (!els) return;
       fetch('/cart.js').then(function (r) { return r.json(); }).then(function (cart) {
-        if (!cart.items || !cart.items.length) { panel.classList.remove('is-ready'); return; }
+        var els2 = panelEls();
+        if (!els2) return;
+        if (!cart.items || !cart.items.length) {
+          els2.panel.classList.remove('is-ready');
+          els2.list.innerHTML = '';
+          shown = false;
+          return;
+        }
         var lead = cart.items[0].product_id;
-        if (lead === lastLead && list.children.length) { panel.classList.add('is-ready'); return; }
-        lastLead = lead;
         var inCart = cart.items.map(function (i) { return i.product_id; });
-        fetch('/recommendations/products.json?product_id=' + lead + '&limit=6')
+        lastInCart = inCart;
+        if (lead === lastLead && lastFetched) {
+          renderRows(els2, lastFetched, inCart);
+          return;
+        }
+        lastLead = lead;
+        fetch('/recommendations/products.json?product_id=' + lead + '&limit=8')
           .then(function (r) { return r.ok ? r.json() : { products: [] }; })
           .then(function (data) {
-            var prods = (data.products || []).filter(function (p) { return inCart.indexOf(p.id) === -1; }).slice(0, 4);
-            if (!prods.length) { panel.classList.remove('is-ready'); return; }
-            list.innerHTML = '';
-            prods.forEach(function (p) {
-              var img = p.featured_image || (p.images && p.images[0]) || '';
-              img = String(img);
-              if (img.indexOf('//') === 0) img = 'https:' + img;
-              if (img) img += (img.indexOf('?') > -1 ? '&' : '?') + 'width=240';
-              var onSale = p.compare_at_price && p.compare_at_price > p.price;
-
-              var row = document.createElement('div');
-              row.className = 'hcd-rec';
-
-              var imgLink = document.createElement('a');
-              imgLink.className = 'hcd-rec__img';
-              imgLink.href = p.url;
-              if (img) {
-                var im = document.createElement('img');
-                im.src = img; im.alt = ''; im.loading = 'lazy';
-                imgLink.appendChild(im);
-              }
-
-              var info = document.createElement('div');
-              info.className = 'hcd-rec__info';
-
-              var title = document.createElement('a');
-              title.className = 'hcd-rec__title';
-              title.href = p.url;
-              title.textContent = p.title;
-
-              var price = document.createElement('p');
-              price.className = 'hcd-rec__price';
-              price.textContent = money(p.price);
-              if (onSale) {
-                var s = document.createElement('s');
-                s.textContent = money(p.compare_at_price);
-                price.appendChild(document.createTextNode(' '));
-                price.appendChild(s);
-              }
-
-              var choose = document.createElement('button');
-              choose.type = 'button';
-              choose.className = 'hcd-rec__choose';
-              choose.setAttribute('data-heitz-qv', p.url);
-              choose.innerHTML = 'Choose options <svg viewBox="0 0 20 12"><path d="M1 6h17m-5-5 5 5-5 5"></path></svg>';
-
-              info.appendChild(title);
-              info.appendChild(price);
-              info.appendChild(choose);
-              row.appendChild(imgLink);
-              row.appendChild(info);
-              list.appendChild(row);
-            });
-            panel.classList.add('is-ready');
+            lastFetched = data.products || [];
+            var els3 = panelEls();
+            if (els3) renderRows(els3, lastFetched, lastInCart);
           });
       }).catch(function () {});
     }
 
-    var wire = function () {
-      var dialog = document.querySelector('cart-drawer-component dialog');
-      if (dialog) {
-        new MutationObserver(function () {
-          if (dialog.hasAttribute('open')) loadRecs();
-        }).observe(dialog, { attributes: true, attributeFilter: ['open'] });
-        if (dialog.hasAttribute('open')) loadRecs();
-      }
-    };
+    var ensureQueued = false;
+    function ensure() {
+      if (ensureQueued) return;
+      ensureQueued = true;
+      Promise.resolve().then(function () {
+        ensureQueued = false;
+        var dialog = document.querySelector('cart-drawer-component dialog');
+        var els = panelEls();
+        if (!dialog || !els) return;
+        if (!dialog.hasAttribute('open')) { loadedForOpen = false; return; }
+        if (!loadedForOpen) { loadedForOpen = true; loadRecs(); return; }
+        if (shown && (!els.list.children.length || !els.panel.classList.contains('is-ready'))) {
+          if (lastFetched) renderRows(els, lastFetched, lastInCart);
+          loadRecs();
+        }
+      });
+    }
+
+    new MutationObserver(ensure).observe(document.body, {
+      childList: true,
+      subtree: true,
+      attributes: true,
+      attributeFilter: ['open']
+    });
     if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', wire);
+      document.addEventListener('DOMContentLoaded', ensure);
     } else {
-      wire();
+      ensure();
     }
   })();
 </script>

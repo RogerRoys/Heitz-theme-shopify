@@ -23,6 +23,33 @@
   }
   .cart-drawer__dialog::backdrop { cursor: zoom-out; }
 
+  /* ── reference open/close: smooth right slide ──── */
+  /* base.css animates dialogs at --animation-speed (200ms via the
+     premium css) — force the drawer onto move-and-fade with the
+     reference's longer, silky ease; specificity beats both the
+     .dialog-modal and .dialog-drawer base rules */
+  .cart-drawer__dialog.cart-drawer__dialog[open] {
+    --start-x: 100%;
+    --end-x: 0px;
+    --start-opacity: 1;
+    --end-opacity: 1;
+    animation: move-and-fade 0.5s cubic-bezier(0.32, 0.72, 0, 1) forwards;
+  }
+  .cart-drawer__dialog.cart-drawer__dialog[open].dialog-closing {
+    --start-x: 0px;
+    --end-x: 100%;
+    animation: move-and-fade 0.4s cubic-bezier(0.32, 0.72, 0, 1) forwards;
+  }
+  .cart-drawer__dialog.cart-drawer__dialog[open]::backdrop {
+    transition: opacity 0.4s ease;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .cart-drawer__dialog.cart-drawer__dialog[open],
+    .cart-drawer__dialog.cart-drawer__dialog[open].dialog-closing {
+      animation-duration: 0.01ms;
+    }
+  }
+
   /* ── header: CART over a hairline ─────────────── */
   .cart-drawer__header {
     padding: 18px 20px;

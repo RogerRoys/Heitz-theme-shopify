@@ -311,83 +311,127 @@
     }
   }
 {% endstylesheet %}
+
 <script>
   (function () {
     var moneyTemplate = {{ shop.money_format | json }};
     function money(cents) {
       var amount = (cents / 100).toFixed(2);
-      var whole = amount.split(".")[0].replace(/B(?=(d{3})+(?!d))/g, ",");
+      var parts = amount.split('.');
+      var whole = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
       return moneyTemplate
-        .replace(/{{s*amounts*}}/, whole + "." + amount.split(".")[1])
-        .replace(/{{s*amount_no_decimalss*}}/, whole)
-        .replace(/<[^>]*>/g, "");
+        .replace(/\{\{\s*amount\s*\}\}/, whole + '.' + parts[1])
+        .replace(/\{\{\s*amount_no_decimals\s*\}\}/, whole)
+        .replace(/<[^>]*>/g, '');
     }
+
     var lastLead = null;
     function loadRecs() {
-      var panel = document.querySelector("[data-hcd-recs]");
-      var list = document.querySelector("[data-hcd-recs-list]");
+      var panel = document.querySelector('[data-hcd-recs]');
+      var list = document.querySelector('[data-hcd-recs-list]');
       if (!panel || !list) return;
-      fetch("/cart.js").then(function (r) { return r.json(); }).then(function (cart) {
-        if (!cart.items || !cart.items.length) { panel.classList.remove("is-ready"); return; }
+      fetch('/cart.js').then(function (r) { return r.json(); }).then(function (cart) {
+        if (!cart.items || !cart.items.length) { panel.classList.remove('is-ready'); return; }
         var lead = cart.items[0].product_id;
-        if (lead === lastLead && list.children.length) { panel.classList.add("is-ready"); return; }
+        if (lead === lastLead && list.children.length) { panel.classList.add('is-ready'); return; }
         lastLead = lead;
         var inCart = cart.items.map(function (i) { return i.product_id; });
-        fetch("/recommendations/products.json?product_id=" + lead + "&limit=6")
+        fetch('/recommendations/products.json?product_id=' + lead + '&limit=6')
           .then(function (r) { return r.ok ? r.json() : { products: [] }; })
           .then(function (data) {
             var prods = (data.products || []).filter(function (p) { return inCart.indexOf(p.id) === -1; }).slice(0, 4);
-            if (!prods.length) { panel.classList.remove("is-ready"); return; }
-            list.innerHTML = "";
+            if (!prods.length) { panel.classList.remove('is-ready'); return; }
+            list.innerHTML = '';
             prods.forEach(function (p) {
-              var img = p.featured_image || (p.images && p.images[0]) || "";
-              if (img && img.indexOf("//") === 0) img = "https:" + img;
-              if (img) img += (img.indexOf("?") > -1 ? "&" : "?") + "width=240";
+              var img = p.featured_image || (p.images && p.images[0]) || '';
+              img = String(img);
+              if (img.indexOf('//') === 0) img = 'https:' + img;
+              if (img) img += (img.indexOf('?') > -1 ? '&' : '?') + 'width=240';
               var onSale = p.compare_at_price && p.compare_at_price > p.price;
-              var row = document.createElement("div");
-              row.className = "hcd-rec";
-              row.innerHTML =
-                '<a class="hcd-rec__img" href="' + p.url + '"></a>' +
-                '<div class="hcd-rec__info"><a class="hcd-rec__title" href="' + p.url + '"></a>' +
-                '<p class="hcd-rec__price"></p>' +
-                '<button type="button" class="hcd-rec__choose">Choose options <svg viewBox="0 0 20 12"><path d="M1 6h17m-5-5 5 5-5 5"></path></svg></button></div>';
-              if (img) { var im = document.createElement("img"); im.src = img; im.alt = ""; im.loading = "lazy"; row.querySelector(".hcd-rec__img").appendChild(im); }
-              row.querySelector(".hcd-rec__title").textContent = p.title;
-              row.querySelector(".hcd-rec__price").innerHTML = money(p.price) + (onSale ? " <s>" + money(p.compare_at_price) + "</s>" : "");
-              row.querySelector(".hcd-rec__choose").setAttribute("data-heitz-qv", p.url);
+
+              var row = document.createElement('div');
+              row.className = 'hcd-rec';
+
+              var imgLink = document.createElement('a');
+              imgLink.className = 'hcd-rec__img';
+              imgLink.href = p.url;
+              if (img) {
+                var im = document.createElement('img');
+                im.src = img; im.alt = ''; im.loading = 'lazy';
+                imgLink.appendChild(im);
+              }
+
+              var info = document.createElement('div');
+              info.className = 'hcd-rec__info';
+
+              var title = document.createElement('a');
+              title.className = 'hcd-rec__title';
+              title.href = p.url;
+              title.textContent = p.title;
+
+              var price = document.createElement('p');
+              price.className = 'hcd-rec__price';
+              price.textContent = money(p.price);
+              if (onSale) {
+                var s = document.createElement('s');
+                s.textContent = money(p.compare_at_price);
+                price.appendChild(document.createTextNode(' '));
+                price.appendChild(s);
+              }
+
+              var choose = document.createElement('button');
+              choose.type = 'button';
+              choose.className = 'hcd-rec__choose';
+              choose.setAttribute('data-heitz-qv', p.url);
+              choose.innerHTML = 'Choose options <svg viewBox="0 0 20 12"><path d="M1 6h17m-5-5 5 5-5 5"></path></svg>';
+
+              info.appendChild(title);
+              info.appendChild(price);
+              info.appendChild(choose);
+              row.appendChild(imgLink);
+              row.appendChild(info);
               list.appendChild(row);
             });
-            panel.classList.add("is-ready");
+            panel.classList.add('is-ready');
           });
       }).catch(function () {});
     }
+
     var wire = function () {
-      var dialog = document.querySelector("cart-drawer-component dialog");
+      var dialog = document.querySelector('cart-drawer-component dialog');
       if (dialog) {
         new MutationObserver(function () {
-          if (dialog.hasAttribute("open")) loadRecs();
-        }).observe(dialog, { attributes: true, attributeFilter: ["open"] });
-        if (dialog.hasAttribute("open")) loadRecs();
+          if (dialog.hasAttribute('open')) loadRecs();
+        }).observe(dialog, { attributes: true, attributeFilter: ['open'] });
+        if (dialog.hasAttribute('open')) loadRecs();
       }
-      var noteBtn = document.querySelector("[data-hcd-note-apply]");
-      if (noteBtn) noteBtn.addEventListener("click", function () {
-        var ta = document.querySelector("[data-hcd-note]");
-        var msg = document.querySelector("[data-hcd-note-msg]");
-        fetch("/cart/update.js", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ note: ta.value }) })
-          .then(function () { if (msg) { msg.textContent = "Saved with your order"; msg.classList.add("is-show"); } });
+      var noteBtn = document.querySelector('[data-hcd-note-apply]');
+      if (noteBtn) noteBtn.addEventListener('click', function () {
+        var ta = document.querySelector('[data-hcd-note]');
+        var msg = document.querySelector('[data-hcd-note-msg]');
+        fetch('/cart/update.js', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ note: ta ? ta.value : '' })
+        }).then(function () {
+          if (msg) { msg.textContent = 'Saved with your order'; msg.classList.add('is-show'); }
+        });
       });
-      var discBtn = document.querySelector("[data-hcd-discount-apply]");
-      if (discBtn) discBtn.addEventListener("click", function () {
-        var input = document.querySelector("[data-hcd-discount]");
-        var msg = document.querySelector("[data-hcd-discount-msg]");
-        var code = (input.value || "").trim();
+      var discBtn = document.querySelector('[data-hcd-discount-apply]');
+      if (discBtn) discBtn.addEventListener('click', function () {
+        var input = document.querySelector('[data-hcd-discount]');
+        var msg = document.querySelector('[data-hcd-discount-msg]');
+        var code = input ? input.value.trim() : '';
         if (!code) return;
-        fetch("/discount/" + encodeURIComponent(code)).then(function () {
-          if (msg) { msg.textContent = "Code applied — reflected at checkout"; msg.classList.add("is-show"); }
+        fetch('/discount/' + encodeURIComponent(code)).then(function () {
+          if (msg) { msg.textContent = 'Code applied — reflected at checkout'; msg.classList.add('is-show'); }
         });
       });
     };
-    if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", wire);
-    else wire();
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', wire);
+    } else {
+      wire();
+    }
   })();
 </script>

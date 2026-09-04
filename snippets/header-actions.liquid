@@ -173,6 +173,12 @@
                 </button>
               </div>
 
+              <div class="hcd-ship">
+                <p class="hcd-ship__text">Free tracked shipping on your order</p>
+                <div class="hcd-ship__bar"><span class="hcd-ship__fill"></span></div>
+                <div class="hcd-ship__row"><span class="hcd-ship__on">Free shipping &#10003;</span><span>On all orders</span></div>
+              </div>
+
               <scroll-hint
                 class="cart-drawer__content motion-reduce"
                 aria-label="{{ 'accessibility.cart' | t }}"
@@ -184,31 +190,30 @@
                   {% render 'cart-products', drawer_context: 'drawer' %}
                 </scroll-hint>
 
-                <div class="hcd-actions">
-                  <details class="hcd-action">
-                    <summary><svg viewBox="0 0 24 24"><path d="M17 3a2.8 2.8 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3Z"></path></svg>Note</summary>
-                    <div>
-                      <label for="hcd-note">Order special instructions</label>
-                      <textarea id="hcd-note" data-hcd-note>{{ cart.note }}</textarea>
-                      <button type="button" class="hcd-action__apply" data-hcd-note-apply>Apply</button>
-                      <p class="hcd-action__msg" data-hcd-note-msg></p>
-                    </div>
-                  </details>
-                  <details class="hcd-action">
-                    <summary><svg viewBox="0 0 24 24"><path d="m10.9 2.1 9.9 1.4 1.4 9.9-9.2 9.2a1 1 0 0 1-1.4 0l-9.9-9.9a1 1 0 0 1 0-1.4l9.2-9.2Z"></path><circle cx="15" cy="9" r="1.6"></circle></svg>Discount</summary>
-                    <div>
-                      <label for="hcd-discount">Discount code</label>
-                      <input type="text" id="hcd-discount" data-hcd-discount placeholder="Add a discount code">
-                      <button type="button" class="hcd-action__apply" data-hcd-discount-apply>Apply</button>
-                      <p class="hcd-action__msg" data-hcd-discount-msg></p>
-                    </div>
-                  </details>
-                </div>
                 <div
                   class="cart-drawer__summary"
                 >
+                  <div class="hcd-actions">
+                    <details class="hcd-action">
+                      <summary><svg viewBox="0 0 24 24"><path d="M17 3a2.8 2.8 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3Z"></path></svg>Note</summary>
+                      <div>
+                        <label for="hcd-note">Order special instructions</label>
+                        <textarea id="hcd-note" data-hcd-note>{{ cart.note }}</textarea>
+                        <button type="button" class="hcd-action__apply" data-hcd-note-apply>Apply</button>
+                        <p class="hcd-action__msg" data-hcd-note-msg></p>
+                      </div>
+                    </details>
+                    <details class="hcd-action">
+                      <summary><svg viewBox="0 0 24 24"><path d="m10.9 2.1 9.9 1.4 1.4 9.9-9.2 9.2a1 1 0 0 1-1.4 0l-9.9-9.9a1 1 0 0 1 0-1.4l9.2-9.2Z"></path><circle cx="15" cy="9" r="1.6"></circle></svg>Discount</summary>
+                      <div>
+                        <label for="hcd-discount">Discount code</label>
+                        <input type="text" id="hcd-discount" data-hcd-discount placeholder="Add a discount code">
+                        <button type="button" class="hcd-action__apply" data-hcd-discount-apply>Apply</button>
+                        <p class="hcd-action__msg" data-hcd-discount-msg></p>
+                      </div>
+                    </details>
+                  </div>
                   {% render 'cart-summary', show_total_in_checkout: true %}
-                  <a href="{{ routes.cart_url }}" class="hcd-viewcart">{{ 'content.view_cart' | t | default: 'View cart' }}</a>
                   <div class="hcd-trust">
                     <span><svg viewBox="0 0 24 24"><path d="M3 7h11v10H3zM14 10h4l3 3v4h-7"></path><circle cx="7" cy="17" r="1.6"></circle><circle cx="17" cy="17" r="1.6"></circle></svg>Free shipping</span>
                     <span><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v5h5"></path></svg>30-day returns</span>

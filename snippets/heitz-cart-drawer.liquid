@@ -1,14 +1,15 @@
 {%- comment -%}
   Heitz cart drawer restyle — Option C "Conversion+" on Horizon's cart
   drawer machinery: 450px right panel, uppercase spaced CART heading
-  over a hairline, compact 64px media rows with muted option lines and
-  a compact bordered quantity box, subtotal row, full-width checkout
-  button carrying the cart total, view-cart secondary and a trust row
-  (free shipping / 30-day returns / secure — verified against the
-  store's published policies), with the reference's staggered
-  header→items→footer reveal on open. Colors ride the drawer's color
-  scheme; type is the house system (heading font labels, Jost body,
-  12/500/2.4 buttons).
+  over a hairline, a free-shipping banner under the header (always
+  unlocked — the store ships free on all orders; no gift tier by
+  owner's call), compact 64px media rows with a compact bordered
+  quantity box, then the footer: subtotal, NOTE | DISCOUNT row above
+  the checkout button, full-width checkout carrying the cart total,
+  Shop Pay accelerated button, and a trust row (free shipping /
+  30-day returns / secure — verified against the store's published
+  policies), with the reference's staggered reveal on open. Colors
+  ride the drawer's color scheme; type is the house system.
 {%- endcomment -%}
 
 {% stylesheet %}
@@ -36,6 +37,41 @@
     text-transform: uppercase;
     color: var(--color-foreground-heading, #1a1b18);
   }
+
+  /* ── free-shipping banner (always unlocked) ────── */
+  .hcd-ship {
+    padding: 13px 20px 12px;
+    background: #faf8f4;
+    border-bottom: 1px solid #eee9e0;
+  }
+  .hcd-ship__text {
+    margin: 0 0 8px;
+    font-family: var(--font-body--family);
+    font-size: 13px;
+    color: #4a453e;
+  }
+  .hcd-ship__bar {
+    height: 3px;
+    background: #e8e2d7;
+    position: relative;
+  }
+  .hcd-ship__fill {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    background: #9f6939;
+  }
+  .hcd-ship__row {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 6px;
+    font-family: var(--font-body--family);
+    font-size: 10.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #9a938a;
+  }
+  .hcd-ship__on { color: #9f6939; }
 
   /* ── item rows ─────────────────────────────────── */
   .cart-drawer__items .cart-items__media-container,
@@ -70,18 +106,35 @@
   /* compact bordered quantity control, reference proportions */
   .cart-drawer__items quantity-selector-component,
   .cart-drawer__items .quantity-selector {
-    border: 1px solid rgba(210, 213, 217, 0.6);
+    border: 1px solid rgba(210, 213, 217, 0.8);
     border-radius: 0;
     min-height: 26px;
     height: 26px;
+    display: inline-flex;
+    align-items: center;
+    overflow: hidden;
   }
   .cart-drawer__items .quantity-selector__input {
     font-size: 12.5px;
-    min-width: 30px;
+    min-width: 28px;
+    width: 28px;
+    height: 24px;
+    padding: 0;
+    text-align: center;
   }
   .cart-drawer__items .quantity-selector__button {
     min-width: 24px;
+    width: 24px;
     min-height: 24px;
+    height: 24px;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .cart-drawer__items .quantity-selector__button svg {
+    width: 9px;
+    height: 9px;
   }
 
   /* ── footer / summary ──────────────────────────── */
@@ -110,19 +163,24 @@
     column-gap: 0.45em;
   }
   .hcd-checkout-total { font-weight: inherit; }
-  /* Option C footer: totals, full-width CHECKOUT · total,
-     VIEW CART secondary, then the trust row */
+  /* Option C footer order: totals → NOTE | DISCOUNT → CHECKOUT · total
+     → Shop Pay → trust row (grid `order` fixes the DOM order) */
   .cart-drawer__summary {
     display: grid;
     grid-template-columns: 1fr;
     gap: 10px;
     align-items: stretch;
   }
-  .cart-drawer__summary > .cart__summary-totals { grid-column: 1 / -1; }
-  .cart-drawer__summary .cart__ctas { margin: 0; grid-column: 1 / -1; }
-  .cart-drawer__summary .additional-checkout-buttons { display: none; }
+  .cart-drawer__summary > .cart__summary-totals { grid-column: 1 / -1; order: 1; }
+  .cart-drawer__summary .hcd-actions { grid-column: 1 / -1; order: 2; }
+  .cart-drawer__summary .cart__ctas { margin: 0; grid-column: 1 / -1; order: 3; }
+  .cart-drawer__summary .additional-checkout-buttons {
+    margin-top: 10px;
+  }
+  .cart-drawer__summary .additional-checkout-buttons > * { border-radius: 0; }
   .hcd-trust {
     grid-column: 1 / -1;
+    order: 4;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -145,32 +203,6 @@
     fill: none;
     stroke-linecap: round;
     stroke-linejoin: round;
-  }
-  .hcd-viewcart {
-    display: block;
-    grid-column: 1 / -1;
-    height: 46px;
-    line-height: 44px;
-    text-align: center;
-    border: 1px solid var(--color-border, #d2d5d9);
-    background: transparent;
-    color: var(--color-foreground, #1a1b18);
-    font-family: var(--button-font-family-primary, var(--font-body--family));
-    font-size: 12px;
-    font-weight: 500;
-    letter-spacing: 2.4px;
-    text-transform: uppercase;
-    text-decoration: none;
-    transition: background-color var(--animation-speed, 0.125s) var(--animation-easing, ease-in-out),
-      color var(--animation-speed, 0.125s) var(--animation-easing, ease-in-out),
-      border-color var(--animation-speed, 0.125s) var(--animation-easing, ease-in-out);
-  }
-  @media (hover: hover) {
-    .hcd-viewcart:hover {
-      background: var(--color-secondary-button-hover-background, #1a1b18);
-      color: var(--color-secondary-button-hover-text, #ffffff);
-      border-color: var(--color-secondary-button-hover-border, #1a1b18);
-    }
   }
 
   /* ── recommendations side panel (desktop) ─────── */
@@ -259,12 +291,12 @@
   .hcd-rec__choose:hover { color: var(--color-primary-button-hover-background, #9f6939); }
   .hcd-rec__choose svg { width: 16px; height: 10px; stroke: currentColor; stroke-width: 1.5; fill: none; stroke-linecap: round; }
 
-  /* ── note / discount actions row ───────────────── */
+  /* ── note / discount actions row (above checkout) ─ */
   .hcd-actions {
     position: relative;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    border-top: 1px solid var(--color-border, #d2d5d9);
+    border-block: 1px solid var(--color-border, #d2d5d9);
   }
   .hcd-action summary {
     list-style: none;
@@ -272,7 +304,7 @@
     align-items: center;
     justify-content: center;
     gap: 8px;
-    padding: 15px 10px;
+    padding: 13px 10px;
     font-family: var(--button-font-family-primary, var(--font-body--family));
     font-size: 11px;
     font-weight: 500;
@@ -343,6 +375,9 @@
   .cart-drawer__dialog[open] .cart-drawer__header {
     animation: hcd-in 0.4s ease both 0.12s;
   }
+  .cart-drawer__dialog[open] .hcd-ship {
+    animation: hcd-in 0.42s ease both 0.15s;
+  }
   .cart-drawer__dialog[open] .cart-drawer__items {
     animation: hcd-in 0.45s ease both 0.18s;
   }
@@ -352,7 +387,9 @@
   }
   @media (prefers-reduced-motion: reduce) {
     .cart-drawer__dialog[open] .cart-drawer__header,
+    .cart-drawer__dialog[open] .hcd-ship,
     .cart-drawer__dialog[open] .cart-drawer__items,
+    .cart-drawer__dialog[open] .hcd-recs,
     .cart-drawer__dialog[open] .cart-drawer__summary {
       animation: none;
     }

@@ -1,0 +1,167 @@
+{%- comment -%}
+  Heitz mobile bottom dock — Option B "5 + Wishlist" from the mobile
+  dock canvas (Marven mobile-dock reference, house tokens): fixed
+  white bar under 750px with HOME / MENU / SEARCH / WISHLIST / CART,
+  Refined Line 22px icons, 9px letterspaced labels, wishlist and cart
+  badges. Menu, search and cart delegate to the header's own
+  triggers; wishlist rides the existing [data-hwd-open] delegation
+  and its badge the [data-hwd-count] updater. Hides on scroll down,
+  returns on scroll up, and ducks while a side drawer is open.
+{%- endcomment -%}
+
+{% stylesheet %}
+  .hmd { display: none; }
+  @media screen and (max-width: 749px) {
+    body { padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px)); }
+    .hmd {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      padding: 10px 8px calc(10px + env(safe-area-inset-bottom, 0px));
+      background: var(--color-background, #ffffff);
+      border-top: 1px solid #ececea;
+      box-shadow: 0 -6px 20px rgba(20, 18, 15, 0.06);
+      transform: translateY(0);
+      transition: transform 0.25s ease;
+    }
+    .hmd.is-hidden, .hmd.is-covered { transform: translateY(110%); }
+  }
+  .hmd__item {
+    flex: 1 1 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    background: none;
+    border: 0;
+    padding: 0;
+    text-decoration: none;
+    color: var(--color-foreground-heading, #2a3743);
+    cursor: pointer;
+  }
+  .hmd__icon { position: relative; display: inline-flex; }
+  .hmd__item svg {
+    width: 22px;
+    height: 22px;
+    max-width: none;
+    stroke: currentColor;
+    stroke-width: 1.5;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .hmd__label {
+    font-family: var(--font-body--family);
+    font-size: 9px;
+    font-weight: 400;
+    letter-spacing: 1.3px;
+    text-transform: uppercase;
+    color: rgb(var(--color-foreground-rgb, 33 35 38) / 0.75);
+  }
+  .hmd__item.is-active { color: var(--color-primary-button-hover-background, #9f6939); }
+  .hmd__item.is-active .hmd__label { color: var(--color-primary-button-hover-background, #9f6939); }
+  .hmd__badge {
+    position: absolute;
+    top: -4px;
+    right: -7px;
+    min-width: 14px;
+    height: 14px;
+    padding: 0 3px;
+    box-sizing: border-box;
+    border-radius: 999px;
+    background: var(--color-primary-button-background, #1a1b18);
+    color: var(--color-primary-button-text, #ffffff);
+    font-family: var(--font-body--family);
+    font-size: 8.5px;
+    line-height: 14px;
+    text-align: center;
+  }
+  .hmd__badge[hidden] { display: none; }
+{% endstylesheet %}
+
+<nav class="hmd" data-hmd aria-label="Mobile navigation">
+  <a class="hmd__item{% if template.name == 'index' %} is-active{% endif %}" href="{{ routes.root_url }}">
+    <span class="hmd__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10.5 12 4l8 6.5V20h-5.5v-5h-5v5H4V10.5Z"/></svg></span>
+    <span class="hmd__label">Home</span>
+  </a>
+  <button type="button" class="hmd__item" data-hmd-menu>
+    <span class="hmd__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6.5h18M3 12h18M3 17.5h18"/></svg></span>
+    <span class="hmd__label">Menu</span>
+  </button>
+  <button type="button" class="hmd__item" data-hmd-search>
+    <span class="hmd__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m16.5 16.5 4.5 4.5"/></svg></span>
+    <span class="hmd__label">Search</span>
+  </button>
+  <button type="button" class="hmd__item" data-hwd-open>
+    <span class="hmd__icon">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5S3.5 15 3.5 9.5C3.5 6.5 5.9 4 8.9 4c1.5 0 2.9.7 3.1 1.8C12.2 4.7 13.6 4 15.1 4c3 0 5.4 2.5 5.4 5.5 0 5.5-8.5 11-8.5 11Z"/></svg>
+      <span class="hmd__badge" data-hwd-count hidden></span>
+    </span>
+    <span class="hmd__label">Wishlist</span>
+  </button>
+  <button type="button" class="hmd__item" data-hmd-cart>
+    <span class="hmd__icon">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8h12l1 13H5L6 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
+      <span class="hmd__badge" data-hmd-cart-count{% if cart.item_count == 0 %} hidden{% endif %}>{{ cart.item_count }}</span>
+    </span>
+    <span class="hmd__label">Cart</span>
+  </button>
+</nav>
+
+<script>
+  (function () {
+    var dock = document.querySelector('[data-hmd]');
+    if (!dock) return;
+
+    function clickFirst(sel) {
+      var el = document.querySelector(sel);
+      if (el) el.click();
+    }
+    dock.addEventListener('click', function (e) {
+      if (e.target.closest('[data-hmd-menu]')) clickFirst('[data-htf-drawer-open]');
+      if (e.target.closest('[data-hmd-search]')) clickFirst('.search-modal__button, [aria-label="Search"]');
+      if (e.target.closest('[data-hmd-cart]')) clickFirst('[data-testid="cart-drawer-trigger"]');
+    });
+
+    var badge = dock.querySelector('[data-hmd-cart-count]');
+    function sync() {
+      if (badge) {
+        var bubble = document.querySelector('cart-drawer-component [id^="cart-bubble"]');
+        if (bubble) {
+          var m = (bubble.textContent || '').match(/\d+/);
+          var n = m ? parseInt(m[0], 10) : 0;
+          badge.hidden = !n;
+          badge.textContent = n;
+        }
+      }
+      var covered = document.querySelector('.htf-drawer.is-open, #heitz-wishlist-drawer.is-open');
+      dock.classList.toggle('is-covered', !!covered);
+    }
+    sync();
+    new MutationObserver(sync).observe(document.body, {
+      childList: true,
+      subtree: true,
+      characterData: true,
+      attributes: true,
+      attributeFilter: ['class']
+    });
+
+    var lastY = window.scrollY;
+    var ticking = false;
+    window.addEventListener('scroll', function () {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(function () {
+        var y = window.scrollY;
+        if (y > lastY + 6 && y > 140) dock.classList.add('is-hidden');
+        else if (y < lastY - 6 || y <= 140) dock.classList.remove('is-hidden');
+        lastY = y;
+        ticking = false;
+      });
+    }, { passive: true });
+  })();
+</script>

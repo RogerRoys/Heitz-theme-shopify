@@ -184,7 +184,7 @@
                   {% render 'cart-products', drawer_context: 'drawer' %}
                 </scroll-hint>
 
-                <aside class="hcd-mrecs" data-hcd-mrecs aria-label="You may also like">
+                <aside class="hcd-mrecs color-{{ settings.hcd_mrecs_color_scheme | default: 'scheme-1' }}" data-hcd-mrecs aria-label="You may also like">
                   <div class="hcd-mrecs__head">You may also like</div>
                   <div class="hcd-mrecs__list" data-hcd-mrecs-list></div>
                 </aside>

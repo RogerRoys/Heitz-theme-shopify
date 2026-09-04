@@ -329,8 +329,30 @@
     .hcd-mrecs.is-ready {
       display: block;
       position: relative;
-      border-top: 1px solid rgba(26, 27, 24, 0.08);
+      border-top: 1px solid var(--color-border, rgba(26, 27, 24, 0.08));
     }
+    /* empty cart: center the content instead of hugging the top */
+    .cart-drawer--empty .cart-drawer__inner,
+    .cart-drawer--empty .cart-items-component {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+    .cart-drawer--empty .cart-drawer__content {
+      flex: 1 1 auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+  }
+  /* the empty drawer's account prompt: lift the Log in link (all sizes) */
+  .cart-drawer__dialog a[href*="/account/login"] {
+    color: var(--color-primary-button-hover-background, #9f6939);
+    font-weight: 500;
+    text-decoration: underline;
+    text-underline-offset: 3px;
   }
   .hcd-mrecs__head {
     position: absolute;
@@ -360,7 +382,7 @@
     display: flex;
     gap: 12px;
     align-items: center;
-    border: 1px solid rgba(26, 27, 24, 0.08);
+    border: 1px solid var(--color-border, rgba(26, 27, 24, 0.08));
     padding: 10px;
   }
   .hcd-mrec__img {

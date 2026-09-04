@@ -1977,6 +1977,13 @@
         "default": "/collections/all"
       },
       {
+        "type": "color_scheme",
+        "id": "hcd_mrecs_color_scheme",
+        "label": "Mobile \"You may also like\" color scheme",
+        "default": "scheme-1",
+        "visible_if": "{{ settings.cart_type == 'drawer' }}"
+      },
+      {
         "type": "header",
         "content": "t:content.product_media"
       },

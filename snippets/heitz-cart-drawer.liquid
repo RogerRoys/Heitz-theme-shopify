@@ -578,15 +578,17 @@
     }
 
     function renderRows(els, prods, inCart) {
-      var filtered = prods.filter(function (p) { return inCart.indexOf(p.id) === -1; }).slice(0, 4);
+      var filtered = prods.filter(function (p) { return inCart.indexOf(p.id) === -1; });
+      var desktopRows = filtered.slice(0, 6);
+      var stripCards = filtered.slice(0, 4);
       var any = filtered.length > 0;
       if (els.list) {
         els.list.innerHTML = '';
-        if (any) filtered.forEach(function (p) { els.list.appendChild(buildDesktopRow(p)); });
+        if (any) desktopRows.forEach(function (p) { els.list.appendChild(buildDesktopRow(p)); });
       }
       if (els.mList) {
         els.mList.innerHTML = '';
-        if (any) filtered.forEach(function (p) { els.mList.appendChild(buildStripCard(p)); });
+        if (any) stripCards.forEach(function (p) { els.mList.appendChild(buildStripCard(p)); });
       }
       if (els.panel) els.panel.classList.toggle('is-ready', any);
       if (els.mPanel) els.mPanel.classList.toggle('is-ready', any);
@@ -616,7 +618,7 @@
           return;
         }
         lastLead = lead;
-        fetch('/recommendations/products.json?product_id=' + lead + '&limit=8')
+        fetch('/recommendations/products.json?product_id=' + lead + '&limit=10')
           .then(function (r) { return r.ok ? r.json() : { products: [] }; })
           .then(function (data) {
             lastFetched = data.products || [];

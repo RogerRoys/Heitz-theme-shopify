@@ -257,8 +257,10 @@
     .cart-drawer__dialog:not(.cart-drawer--empty)[open]:has(.hcd-recs.is-ready) .hcd-recs { display: flex; }
     .cart-drawer__inner { flex: 1 1 auto; min-width: 0; }
   }
+  /* Option C "Editorial Rows" from the recommendations canvas:
+     96px images, heading-font bronze prices, circle arrow buttons */
   .hcd-recs__head {
-    padding: 20px;
+    padding: 22px 24px 10px;
     font-family: var(--font-heading--family);
     font-size: 15px;
     font-weight: 500;
@@ -266,18 +268,19 @@
     text-transform: uppercase;
     color: var(--color-foreground-heading, #1a1b18);
   }
-  .hcd-recs__list { padding: 0 20px 20px; }
+  .hcd-recs__list { padding: 0 24px 20px; }
   .hcd-rec {
     display: flex;
-    gap: 14px;
-    padding: 12px 0;
+    gap: 16px;
+    padding: 15px 0;
+    align-items: center;
     border-bottom: 1px solid rgba(26, 27, 24, 0.08);
   }
   .hcd-rec:last-child { border-bottom: 0; }
   .hcd-rec__img {
-    flex: 0 0 64px;
-    width: 64px;
-    height: 64px;
+    flex: 0 0 96px;
+    width: 96px;
+    height: 96px;
     background: #f4f2ee;
     display: block;
   }
@@ -286,38 +289,44 @@
   .hcd-rec__title {
     display: block;
     font-family: var(--font-heading--family);
-    font-size: 13.5px;
+    font-size: 14.5px;
     line-height: 1.4;
     color: var(--color-foreground-heading, #1a1b18);
     text-decoration: none;
-    margin: 0 0 4px;
+    margin: 0 0 5px;
   }
   .hcd-rec__price {
-    font-family: var(--font-body--family);
-    font-size: 13px;
-    color: var(--color-foreground, #212326);
-    margin: 0 0 7px;
+    font-family: var(--font-heading--family);
+    font-size: 14px;
+    color: var(--color-primary-button-hover-background, #9f6939);
+    margin: 0;
   }
-  .hcd-rec__price s { color: #9a938a; margin-left: 6px; font-size: 12.5px; }
+  .hcd-rec__price s { color: #9a938a; margin-left: 6px; font-size: 13px; }
   .hcd-rec__choose {
+    flex: 0 0 36px;
+    width: 36px;
+    height: 36px;
+    border: 1px solid var(--color-border, #d2d5d9);
+    border-radius: 50%;
+    background: none;
+    padding: 0;
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    border: 0;
-    background: none;
-    padding: 0 0 4px;
-    border-bottom: 1px solid var(--color-border, #d2d5d9);
-    font-family: var(--button-font-family-primary, var(--font-body--family));
-    font-size: 10.5px;
-    font-weight: 500;
-    letter-spacing: 2px;
-    text-transform: uppercase;
+    justify-content: center;
     color: var(--color-foreground-heading, #1a1b18);
     cursor: pointer;
-    transition: color var(--animation-speed, 0.125s) var(--animation-easing, ease-in-out);
+    transition: background-color var(--animation-speed, 0.125s) var(--animation-easing, ease-in-out),
+      border-color var(--animation-speed, 0.125s) var(--animation-easing, ease-in-out),
+      color var(--animation-speed, 0.125s) var(--animation-easing, ease-in-out);
   }
-  .hcd-rec__choose:hover { color: var(--color-primary-button-hover-background, #9f6939); }
-  .hcd-rec__choose svg { width: 16px; height: 10px; stroke: currentColor; stroke-width: 1.5; fill: none; stroke-linecap: round; }
+  @media (hover: hover) {
+    .hcd-rec__choose:hover {
+      background: var(--color-primary-button-hover-background, #9f6939);
+      border-color: var(--color-primary-button-hover-background, #9f6939);
+      color: #ffffff;
+    }
+  }
+  .hcd-rec__choose svg { width: 15px; height: 9px; stroke: currentColor; stroke-width: 1.5; fill: none; stroke-linecap: round; }
 
   /* ── mobile recommendations strip (Option B) ───── */
   .hcd-mrecs { display: none; }
@@ -540,13 +549,14 @@
       choose.type = 'button';
       choose.className = 'hcd-rec__choose';
       choose.setAttribute('data-heitz-qv', p.url);
-      choose.innerHTML = 'Choose options <svg viewBox="0 0 20 12"><path d="M1 6h17m-5-5 5 5-5 5"></path></svg>';
+      choose.setAttribute('aria-label', 'Choose options');
+      choose.innerHTML = '<svg viewBox="0 0 20 12"><path d="M1 6h17m-5-5 5 5-5 5"></path></svg>';
 
       info.appendChild(title);
       info.appendChild(priceNode(p, 'hcd-rec__price'));
-      info.appendChild(choose);
       row.appendChild(imageNode(p, 'hcd-rec__img'));
       row.appendChild(info);
+      row.appendChild(choose);
       return row;
     }
 

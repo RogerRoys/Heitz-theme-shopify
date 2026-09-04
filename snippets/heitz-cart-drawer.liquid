@@ -6,10 +6,15 @@
   carrying the cart total, Shop Pay accelerated button, and a trust
   row (free shipping / 30-day returns / secure — verified against the
   store's published policies), with the reference's staggered reveal
-  on open. The recommendations script survives Horizon's cart morphs:
-  rebuilt rows are cached and restored in the same microtask when a
-  cart update wipes them, so the panel never collapses mid-session.
-  Colors ride the drawer's color scheme; type is the house system.
+  on open. Mobile (<1100px, Option B "Cart First" from the design
+  canvas): recommendations render as a horizontal swipe strip between
+  the items and the footer — floating chip title on the hairline,
+  82%-width cards with a square quick-view (+) button. The
+  recommendations script renders BOTH surfaces from one fetch and
+  survives Horizon's cart morphs: rebuilt rows are cached and restored
+  in the same microtask when a cart update wipes them, so neither
+  panel collapses mid-session. Colors ride the drawer's color scheme;
+  type is the house system.
 {%- endcomment -%}
 
 {% stylesheet %}
@@ -293,6 +298,95 @@
   .hcd-rec__choose:hover { color: var(--color-primary-button-hover-background, #9f6939); }
   .hcd-rec__choose svg { width: 16px; height: 10px; stroke: currentColor; stroke-width: 1.5; fill: none; stroke-linecap: round; }
 
+  /* ── mobile recommendations strip (Option B) ───── */
+  .hcd-mrecs { display: none; }
+  @media screen and (max-width: 1099px) {
+    .hcd-mrecs.is-ready {
+      display: block;
+      position: relative;
+      margin-top: auto;
+      border-top: 1px solid rgba(26, 27, 24, 0.08);
+    }
+  }
+  .hcd-mrecs__head {
+    position: absolute;
+    top: 0;
+    left: 14px;
+    transform: translateY(-50%);
+    background: var(--color-background, #ffffff);
+    padding: 0 10px;
+    font-family: var(--font-heading--family);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 2.4px;
+    text-transform: uppercase;
+    color: var(--color-foreground-heading, #1a1b18);
+  }
+  .hcd-mrecs__list {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    padding: 22px 16px 14px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .hcd-mrecs__list::-webkit-scrollbar { height: 2px; }
+  .hcd-mrecs__list::-webkit-scrollbar-thumb { background: var(--color-border, #d2d5d9); }
+  .hcd-mrec {
+    flex: 0 0 82%;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    border: 1px solid rgba(26, 27, 24, 0.08);
+    padding: 10px;
+  }
+  .hcd-mrec__img {
+    flex: 0 0 64px;
+    width: 64px;
+    height: 64px;
+    background: #f4f2ee;
+    display: block;
+  }
+  .hcd-mrec__img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .hcd-mrec__info { flex: 1 1 auto; min-width: 0; }
+  .hcd-mrec__title {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    font-family: var(--font-heading--family);
+    font-size: 13px;
+    line-height: 1.35;
+    color: var(--color-foreground-heading, #1a1b18);
+    text-decoration: none;
+    margin: 0 0 3px;
+  }
+  .hcd-mrec__price {
+    font-family: var(--font-body--family);
+    font-size: 12.5px;
+    color: var(--color-foreground, #212326);
+    margin: 0;
+  }
+  .hcd-mrec__price s { color: #9a938a; margin-left: 5px; font-size: 12px; }
+  .hcd-mrec__add {
+    flex: 0 0 36px;
+    width: 36px;
+    height: 36px;
+    border: 0;
+    border-radius: 0;
+    padding: 0;
+    background: var(--color-primary-button-background, #1a1b18);
+    color: var(--color-primary-button-text, #ffffff);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color var(--animation-speed, 0.125s) var(--animation-easing, ease-in-out);
+  }
+  @media (hover: hover) {
+    .hcd-mrec__add:hover { background: var(--color-primary-button-hover-background, #9f6939); }
+  }
+  .hcd-mrec__add svg { width: 14px; height: 14px; stroke: currentColor; stroke-width: 1.8; fill: none; stroke-linecap: round; }
+
 
   /* ── reference stagger: header → items → footer ── */
   @keyframes hcd-in {
@@ -306,6 +400,7 @@
     animation: hcd-in 0.45s ease both 0.18s;
   }
   .cart-drawer__dialog[open] .hcd-recs { animation: hcd-in 0.5s ease both 0.28s; }
+  .cart-drawer__dialog[open] .hcd-mrecs { animation: hcd-in 0.48s ease both 0.22s; }
   .cart-drawer__dialog[open] .cart-drawer__summary {
     animation: hcd-in 0.5s ease both 0.24s;
   }
@@ -313,6 +408,7 @@
     .cart-drawer__dialog[open] .cart-drawer__header,
     .cart-drawer__dialog[open] .cart-drawer__items,
     .cart-drawer__dialog[open] .hcd-recs,
+    .cart-drawer__dialog[open] .hcd-mrecs,
     .cart-drawer__dialog[open] .cart-drawer__summary {
       animation: none;
     }
@@ -339,86 +435,132 @@
     var loadedForOpen = false;
 
     function panelEls() {
-      var panel = document.querySelector('[data-hcd-recs]');
-      var list = document.querySelector('[data-hcd-recs-list]');
-      return panel && list ? { panel: panel, list: list } : null;
+      return {
+        panel: document.querySelector('[data-hcd-recs]'),
+        list: document.querySelector('[data-hcd-recs-list]'),
+        mPanel: document.querySelector('[data-hcd-mrecs]'),
+        mList: document.querySelector('[data-hcd-mrecs-list]')
+      };
+    }
+
+    function normalizeImage(p) {
+      var img = p.featured_image || (p.images && p.images[0]) || '';
+      img = String(img);
+      if (img.indexOf('//') === 0) img = 'https:' + img;
+      if (img) img += (img.indexOf('?') > -1 ? '&' : '?') + 'width=240';
+      return img;
+    }
+
+    function priceNode(p, cls) {
+      var price = document.createElement('p');
+      price.className = cls;
+      price.textContent = money(p.price);
+      if (p.compare_at_price && p.compare_at_price > p.price) {
+        var s = document.createElement('s');
+        s.textContent = money(p.compare_at_price);
+        price.appendChild(document.createTextNode(' '));
+        price.appendChild(s);
+      }
+      return price;
+    }
+
+    function imageNode(p, cls) {
+      var img = normalizeImage(p);
+      var link = document.createElement('a');
+      link.className = cls;
+      link.href = p.url;
+      if (img) {
+        var im = document.createElement('img');
+        im.src = img; im.alt = ''; im.loading = 'lazy';
+        link.appendChild(im);
+      }
+      return link;
+    }
+
+    function buildDesktopRow(p) {
+      var row = document.createElement('div');
+      row.className = 'hcd-rec';
+
+      var info = document.createElement('div');
+      info.className = 'hcd-rec__info';
+
+      var title = document.createElement('a');
+      title.className = 'hcd-rec__title';
+      title.href = p.url;
+      title.textContent = p.title;
+
+      var choose = document.createElement('button');
+      choose.type = 'button';
+      choose.className = 'hcd-rec__choose';
+      choose.setAttribute('data-heitz-qv', p.url);
+      choose.innerHTML = 'Choose options <svg viewBox="0 0 20 12"><path d="M1 6h17m-5-5 5 5-5 5"></path></svg>';
+
+      info.appendChild(title);
+      info.appendChild(priceNode(p, 'hcd-rec__price'));
+      info.appendChild(choose);
+      row.appendChild(imageNode(p, 'hcd-rec__img'));
+      row.appendChild(info);
+      return row;
+    }
+
+    function buildStripCard(p) {
+      var card = document.createElement('div');
+      card.className = 'hcd-mrec';
+
+      var info = document.createElement('div');
+      info.className = 'hcd-mrec__info';
+
+      var title = document.createElement('a');
+      title.className = 'hcd-mrec__title';
+      title.href = p.url;
+      title.textContent = p.title;
+
+      var add = document.createElement('button');
+      add.type = 'button';
+      add.className = 'hcd-mrec__add';
+      add.setAttribute('data-heitz-qv', p.url);
+      add.setAttribute('aria-label', 'Choose options');
+      add.innerHTML = '<svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"></path></svg>';
+
+      info.appendChild(title);
+      info.appendChild(priceNode(p, 'hcd-mrec__price'));
+      card.appendChild(imageNode(p, 'hcd-mrec__img'));
+      card.appendChild(info);
+      card.appendChild(add);
+      return card;
     }
 
     function renderRows(els, prods, inCart) {
       var filtered = prods.filter(function (p) { return inCart.indexOf(p.id) === -1; }).slice(0, 4);
-      if (!filtered.length) {
-        els.panel.classList.remove('is-ready');
+      var any = filtered.length > 0;
+      if (els.list) {
         els.list.innerHTML = '';
-        shown = false;
-        return;
+        if (any) filtered.forEach(function (p) { els.list.appendChild(buildDesktopRow(p)); });
       }
-      els.list.innerHTML = '';
-      filtered.forEach(function (p) {
-        var img = p.featured_image || (p.images && p.images[0]) || '';
-        img = String(img);
-        if (img.indexOf('//') === 0) img = 'https:' + img;
-        if (img) img += (img.indexOf('?') > -1 ? '&' : '?') + 'width=240';
-        var onSale = p.compare_at_price && p.compare_at_price > p.price;
+      if (els.mList) {
+        els.mList.innerHTML = '';
+        if (any) filtered.forEach(function (p) { els.mList.appendChild(buildStripCard(p)); });
+      }
+      if (els.panel) els.panel.classList.toggle('is-ready', any);
+      if (els.mPanel) els.mPanel.classList.toggle('is-ready', any);
+      shown = any;
+    }
 
-        var row = document.createElement('div');
-        row.className = 'hcd-rec';
-
-        var imgLink = document.createElement('a');
-        imgLink.className = 'hcd-rec__img';
-        imgLink.href = p.url;
-        if (img) {
-          var im = document.createElement('img');
-          im.src = img; im.alt = ''; im.loading = 'lazy';
-          imgLink.appendChild(im);
-        }
-
-        var info = document.createElement('div');
-        info.className = 'hcd-rec__info';
-
-        var title = document.createElement('a');
-        title.className = 'hcd-rec__title';
-        title.href = p.url;
-        title.textContent = p.title;
-
-        var price = document.createElement('p');
-        price.className = 'hcd-rec__price';
-        price.textContent = money(p.price);
-        if (onSale) {
-          var s = document.createElement('s');
-          s.textContent = money(p.compare_at_price);
-          price.appendChild(document.createTextNode(' '));
-          price.appendChild(s);
-        }
-
-        var choose = document.createElement('button');
-        choose.type = 'button';
-        choose.className = 'hcd-rec__choose';
-        choose.setAttribute('data-heitz-qv', p.url);
-        choose.innerHTML = 'Choose options <svg viewBox="0 0 20 12"><path d="M1 6h17m-5-5 5 5-5 5"></path></svg>';
-
-        info.appendChild(title);
-        info.appendChild(price);
-        info.appendChild(choose);
-        row.appendChild(imgLink);
-        row.appendChild(info);
-        els.list.appendChild(row);
-      });
-      els.panel.classList.add('is-ready');
-      shown = true;
+    function clearAll(els) {
+      if (els.panel) els.panel.classList.remove('is-ready');
+      if (els.mPanel) els.mPanel.classList.remove('is-ready');
+      if (els.list) els.list.innerHTML = '';
+      if (els.mList) els.mList.innerHTML = '';
+      shown = false;
     }
 
     function loadRecs() {
       var els = panelEls();
-      if (!els) return;
+      if (!els.list && !els.mList) return;
       fetch('/cart.js').then(function (r) { return r.json(); }).then(function (cart) {
         var els2 = panelEls();
-        if (!els2) return;
-        if (!cart.items || !cart.items.length) {
-          els2.panel.classList.remove('is-ready');
-          els2.list.innerHTML = '';
-          shown = false;
-          return;
-        }
+        if (!els2.list && !els2.mList) return;
+        if (!cart.items || !cart.items.length) { clearAll(els2); return; }
         var lead = cart.items[0].product_id;
         var inCart = cart.items.map(function (i) { return i.product_id; });
         lastInCart = inCart;
@@ -432,7 +574,7 @@
           .then(function (data) {
             lastFetched = data.products || [];
             var els3 = panelEls();
-            if (els3) renderRows(els3, lastFetched, lastInCart);
+            if (els3.list || els3.mList) renderRows(els3, lastFetched, lastInCart);
           });
       }).catch(function () {});
     }
@@ -445,10 +587,14 @@
         ensureQueued = false;
         var dialog = document.querySelector('cart-drawer-component dialog');
         var els = panelEls();
-        if (!dialog || !els) return;
+        if (!dialog || (!els.list && !els.mList)) return;
         if (!dialog.hasAttribute('open')) { loadedForOpen = false; return; }
         if (!loadedForOpen) { loadedForOpen = true; loadRecs(); return; }
-        if (shown && (!els.list.children.length || !els.panel.classList.contains('is-ready'))) {
+        var wiped = (els.list && !els.list.children.length) ||
+          (els.mList && !els.mList.children.length) ||
+          (els.panel && !els.panel.classList.contains('is-ready')) ||
+          (els.mPanel && !els.mPanel.classList.contains('is-ready'));
+        if (shown && wiped) {
           if (lastFetched) renderRows(els, lastFetched, lastInCart);
           loadRecs();
         }

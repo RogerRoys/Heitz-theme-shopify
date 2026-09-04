@@ -193,26 +193,6 @@
                 <div
                   class="cart-drawer__summary"
                 >
-                  <div class="hcd-actions">
-                    <details class="hcd-action">
-                      <summary><svg viewBox="0 0 24 24"><path d="M17 3a2.8 2.8 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3Z"></path></svg>Note</summary>
-                      <div>
-                        <label for="hcd-note">Order special instructions</label>
-                        <textarea id="hcd-note" data-hcd-note>{{ cart.note }}</textarea>
-                        <button type="button" class="hcd-action__apply" data-hcd-note-apply>Apply</button>
-                        <p class="hcd-action__msg" data-hcd-note-msg></p>
-                      </div>
-                    </details>
-                    <details class="hcd-action">
-                      <summary><svg viewBox="0 0 24 24"><path d="m10.9 2.1 9.9 1.4 1.4 9.9-9.2 9.2a1 1 0 0 1-1.4 0l-9.9-9.9a1 1 0 0 1 0-1.4l9.2-9.2Z"></path><circle cx="15" cy="9" r="1.6"></circle></svg>Discount</summary>
-                      <div>
-                        <label for="hcd-discount">Discount code</label>
-                        <input type="text" id="hcd-discount" data-hcd-discount placeholder="Add a discount code">
-                        <button type="button" class="hcd-action__apply" data-hcd-discount-apply>Apply</button>
-                        <p class="hcd-action__msg" data-hcd-discount-msg></p>
-                      </div>
-                    </details>
-                  </div>
                   {% render 'cart-summary', show_total_in_checkout: true %}
                   <div class="hcd-trust">
                     <span><svg viewBox="0 0 24 24"><path d="M3 7h11v10H3zM14 10h4l3 3v4h-7"></path><circle cx="7" cy="17" r="1.6"></circle><circle cx="17" cy="17" r="1.6"></circle></svg>Free shipping</span>

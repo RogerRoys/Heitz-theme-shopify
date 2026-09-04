@@ -4,9 +4,9 @@
   over a hairline, a free-shipping banner under the header (always
   unlocked — the store ships free on all orders; no gift tier by
   owner's call), compact 64px media rows with a compact bordered
-  quantity box, then the footer: subtotal, NOTE | DISCOUNT row above
-  the checkout button, full-width checkout carrying the cart total,
-  Shop Pay accelerated button, and a trust row (free shipping /
+  quantity box, then the footer: subtotal, full-width checkout
+  carrying the cart total, Shop Pay accelerated button, and a trust
+  row (free shipping /
   30-day returns / secure — verified against the store's published
   policies), with the reference's staggered reveal on open. Colors
   ride the drawer's color scheme; type is the house system.
@@ -173,8 +173,8 @@
     column-gap: 0.45em;
   }
   .hcd-checkout-total { font-weight: inherit; }
-  /* Option C footer order: totals → NOTE | DISCOUNT → CHECKOUT · total
-     → Shop Pay → trust row (grid `order` fixes the DOM order) */
+  /* Option C footer order: totals → CHECKOUT · total → Shop Pay
+     → trust row */
   .cart-drawer__summary {
     display: grid;
     grid-template-columns: 1fr;
@@ -182,7 +182,6 @@
     align-items: stretch;
   }
   .cart-drawer__summary > .cart__summary-totals { grid-column: 1 / -1; order: 1; }
-  .cart-drawer__summary .hcd-actions { grid-column: 1 / -1; order: 2; }
   .cart-drawer__summary .cart__ctas { margin: 0; grid-column: 1 / -1; order: 3; }
   .cart-drawer__summary .additional-checkout-buttons {
     margin-top: 10px;
@@ -301,81 +300,6 @@
   .hcd-rec__choose:hover { color: var(--color-primary-button-hover-background, #9f6939); }
   .hcd-rec__choose svg { width: 16px; height: 10px; stroke: currentColor; stroke-width: 1.5; fill: none; stroke-linecap: round; }
 
-  /* ── note / discount actions row (above checkout) ─ */
-  .hcd-actions {
-    position: relative;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    border-block: 1px solid var(--color-border, #d2d5d9);
-  }
-  .hcd-action summary {
-    list-style: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    padding: 13px 10px;
-    font-family: var(--button-font-family-primary, var(--font-body--family));
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--color-foreground-heading, #1a1b18);
-    cursor: pointer;
-  }
-  .hcd-action summary::-webkit-details-marker { display: none; }
-  .hcd-action summary svg { width: 14px; height: 14px; stroke: currentColor; stroke-width: 1.5; fill: none; stroke-linecap: round; stroke-linejoin: round; }
-  .hcd-action:first-child { border-right: 1px solid var(--color-border, #d2d5d9); }
-  .hcd-action > div {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 100%;
-    background: var(--color-background, #ffffff);
-    border-top: 1px solid var(--color-border, #d2d5d9);
-    box-shadow: 0 -14px 30px rgba(20, 18, 15, 0.08);
-    padding: 18px 20px 20px;
-    z-index: 3;
-  }
-  .hcd-action label {
-    display: block;
-    font-size: 12px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: #9a938a;
-    margin-bottom: 10px;
-  }
-  .hcd-action textarea,
-  .hcd-action input[type="text"] {
-    width: 100%;
-    box-sizing: border-box;
-    border: 1px solid var(--color-border, #d2d5d9);
-    border-radius: 0;
-    padding: 10px 12px;
-    font-family: var(--font-body--family);
-    font-size: 14px;
-    margin-bottom: 12px;
-    background: transparent;
-    color: var(--color-foreground, #212326);
-  }
-  .hcd-action textarea { min-height: 84px; resize: vertical; }
-  .hcd-action__apply {
-    width: 100%;
-    height: 42px;
-    border: 0;
-    background: var(--color-primary-button-background, #1a1b18);
-    color: var(--color-primary-button-text, #ffffff);
-    font-family: var(--button-font-family-primary, var(--font-body--family));
-    font-size: 12px;
-    font-weight: 500;
-    letter-spacing: 2.4px;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: background-color var(--animation-speed, 0.125s) var(--animation-easing, ease-in-out);
-  }
-  .hcd-action__apply:hover { background: var(--color-primary-button-hover-background, #9f6939); }
-  .hcd-action__msg { font-size: 12.5px; color: #6b6459; margin-top: 10px; display: none; }
-  .hcd-action__msg.is-show { display: block; }
 
   /* ── reference stagger: header → items → footer ── */
   @keyframes hcd-in {
@@ -499,28 +423,6 @@
         }).observe(dialog, { attributes: true, attributeFilter: ['open'] });
         if (dialog.hasAttribute('open')) loadRecs();
       }
-      var noteBtn = document.querySelector('[data-hcd-note-apply]');
-      if (noteBtn) noteBtn.addEventListener('click', function () {
-        var ta = document.querySelector('[data-hcd-note]');
-        var msg = document.querySelector('[data-hcd-note-msg]');
-        fetch('/cart/update.js', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ note: ta ? ta.value : '' })
-        }).then(function () {
-          if (msg) { msg.textContent = 'Saved with your order'; msg.classList.add('is-show'); }
-        });
-      });
-      var discBtn = document.querySelector('[data-hcd-discount-apply]');
-      if (discBtn) discBtn.addEventListener('click', function () {
-        var input = document.querySelector('[data-hcd-discount]');
-        var msg = document.querySelector('[data-hcd-discount-msg]');
-        var code = input ? input.value.trim() : '';
-        if (!code) return;
-        fetch('/discount/' + encodeURIComponent(code)).then(function () {
-          if (msg) { msg.textContent = 'Code applied — reflected at checkout'; msg.classList.add('is-show'); }
-        });
-      });
     };
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', wire);

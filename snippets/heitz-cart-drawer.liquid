@@ -26,6 +26,13 @@
     max-width: calc(100vw - 4rem);
     border-radius: 0;
   }
+  /* full-bleed drawer on phones */
+  @media screen and (max-width: 749px) {
+    .cart-drawer__dialog.cart-drawer__dialog {
+      width: 100vw !important;
+      max-width: 100vw;
+    }
+  }
   .cart-drawer__dialog::backdrop { cursor: zoom-out; }
 
   /* ── reference open/close: smooth right slide ──── */
@@ -101,6 +108,15 @@
     color: var(--color-foreground, #212326);
     opacity: 0.55;
   }
+  /* variant options on ONE line, ellipsized (desktop + mobile) */
+  .cart-drawer__items .cart-items__variants {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+  }
+  .cart-drawer__items .cart-items__variant { display: inline; }
+  .cart-drawer__items .cart-items__variant dd { display: inline; margin: 0; }
   .cart-drawer__items .cart-items__price,
   .cart-drawer__items .cart-price {
     font-family: var(--font-body--family);
@@ -306,10 +322,13 @@
   /* ── mobile recommendations strip (Option B) ───── */
   .hcd-mrecs { display: none; }
   @media screen and (max-width: 1099px) {
+    /* pin the strip: only the items area scrolls, so the strip sits
+       directly above the Estimated total at all times */
+    .cart-drawer__items { flex: 1 1 0%; min-height: 80px; }
+    .cart-drawer__summary { position: static; }
     .hcd-mrecs.is-ready {
       display: block;
       position: relative;
-      margin-top: auto;
       border-top: 1px solid rgba(26, 27, 24, 0.08);
     }
   }

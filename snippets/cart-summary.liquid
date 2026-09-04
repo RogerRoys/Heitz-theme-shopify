@@ -2,6 +2,7 @@
   Renders the cart summary totals.
 
   @param {string} [accelerated_checkout_buttons_layout] - { 'vertical' } Forced layout of the additional checkout buttons, instead of relying on platform's layout.
+  @param {boolean} [show_total_in_checkout] - Append the cart total to the checkout button label (used by the cart drawer).
 {%- enddoc -%}
 
 <div class="cart__summary-totals">
@@ -269,6 +270,9 @@
     form="cart-form"
   >
     {{ 'content.checkout' | t }}
+    {%- if show_total_in_checkout and cart != empty -%}
+      <span class="hcd-checkout-total">&middot;&nbsp;{{ cart.total_price | money }}</span>
+    {%- endif -%}
   </button>
 
   {% if additional_checkout_buttons and settings.show_accelerated_checkout_buttons %}

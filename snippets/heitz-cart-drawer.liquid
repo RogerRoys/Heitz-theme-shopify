@@ -1,9 +1,11 @@
 {%- comment -%}
-  Heitz cart drawer restyle — Marven-reference look on Horizon's cart
+  Heitz cart drawer restyle — Option C "Conversion+" on Horizon's cart
   drawer machinery: 450px right panel, uppercase spaced CART heading
-  over a hairline, 70px media rows with muted option lines and a
-  compact bordered quantity box, subtotal row and a stacked
-  checkout / view-cart pair, with the reference's staggered
+  over a hairline, compact 64px media rows with muted option lines and
+  a compact bordered quantity box, subtotal row, full-width checkout
+  button carrying the cart total, view-cart secondary and a trust row
+  (free shipping / 30-day returns / secure — verified against the
+  store's published policies), with the reference's staggered
   header→items→footer reveal on open. Colors ride the drawer's color
   scheme; type is the house system (heading font labels, Jost body,
   12/500/2.4 buttons).
@@ -36,8 +38,8 @@
   /* ── item rows ─────────────────────────────────── */
   .cart-drawer__items .cart-items__media-container,
   .cart-drawer__items .cart-items__media-image {
-    width: 70px;
-    height: 70px;
+    width: 64px;
+    height: 64px;
     object-fit: cover;
     border-radius: 0;
   }
@@ -50,11 +52,11 @@
     letter-spacing: normal;
   }
   .cart-drawer__items .cart-items__details {
-    font-size: 13px;
+    font-size: 12.5px;
   }
   .cart-drawer__items .cart-items__details .variant-option,
   .cart-drawer__items .cart-items__option {
-    font-size: 13px;
+    font-size: 12.5px;
     color: var(--color-foreground, #212326);
     opacity: 0.55;
   }
@@ -68,16 +70,16 @@
   .cart-drawer__items .quantity-selector {
     border: 1px solid rgba(210, 213, 217, 0.6);
     border-radius: 0;
-    min-height: 28px;
-    height: 28px;
+    min-height: 26px;
+    height: 26px;
   }
   .cart-drawer__items .quantity-selector__input {
-    font-size: 13px;
-    min-width: 34px;
+    font-size: 12.5px;
+    min-width: 30px;
   }
   .cart-drawer__items .quantity-selector__button {
-    min-width: 26px;
-    min-height: 26px;
+    min-width: 24px;
+    min-height: 24px;
   }
 
   /* ── footer / summary ──────────────────────────── */
@@ -99,19 +101,48 @@
   .cart-drawer__summary .cart__checkout-button {
     border-radius: 0;
     min-height: 46px;
+    white-space: nowrap;
   }
-  /* footer grid: totals full row, CHECK OUT | VIEW CART side by side */
+  .hcd-checkout-total { font-weight: inherit; }
+  /* Option C footer: totals, full-width CHECKOUT · total,
+     VIEW CART secondary, then the trust row */
   .cart-drawer__summary {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
     gap: 10px;
     align-items: stretch;
   }
   .cart-drawer__summary > .cart__summary-totals { grid-column: 1 / -1; }
-  .cart-drawer__summary .cart__ctas { margin: 0; }
+  .cart-drawer__summary .cart__ctas { margin: 0; grid-column: 1 / -1; }
   .cart-drawer__summary .additional-checkout-buttons { display: none; }
+  .hcd-trust {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 6px 18px;
+    padding-top: 2px;
+    font-family: var(--font-body--family);
+    font-size: 10.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgb(var(--color-foreground-rgb, 33 35 38) / 0.55);
+  }
+  .hcd-trust span { display: inline-flex; align-items: center; gap: 6px; }
+  .hcd-trust svg {
+    width: 13px;
+    height: 13px;
+    flex: 0 0 auto;
+    stroke: #9f6939;
+    stroke-width: 1.6;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
   .hcd-viewcart {
     display: block;
+    grid-column: 1 / -1;
     height: 46px;
     line-height: 44px;
     text-align: center;
@@ -162,15 +193,15 @@
   .hcd-recs__list { padding: 0 20px 20px; }
   .hcd-rec {
     display: flex;
-    gap: 16px;
-    padding: 16px 0;
+    gap: 14px;
+    padding: 12px 0;
     border-bottom: 1px solid rgba(26, 27, 24, 0.08);
   }
   .hcd-rec:last-child { border-bottom: 0; }
   .hcd-rec__img {
-    flex: 0 0 88px;
-    width: 88px;
-    height: 88px;
+    flex: 0 0 64px;
+    width: 64px;
+    height: 64px;
     background: #f4f2ee;
     display: block;
   }
@@ -179,19 +210,19 @@
   .hcd-rec__title {
     display: block;
     font-family: var(--font-heading--family);
-    font-size: 14px;
+    font-size: 13.5px;
     line-height: 1.4;
     color: var(--color-foreground-heading, #1a1b18);
     text-decoration: none;
-    margin: 0 0 6px;
+    margin: 0 0 4px;
   }
   .hcd-rec__price {
     font-family: var(--font-body--family);
-    font-size: 14px;
+    font-size: 13px;
     color: var(--color-foreground, #212326);
-    margin: 0 0 10px;
+    margin: 0 0 7px;
   }
-  .hcd-rec__price s { color: #9a938a; margin-left: 6px; font-size: 13px; }
+  .hcd-rec__price s { color: #9a938a; margin-left: 6px; font-size: 12.5px; }
   .hcd-rec__choose {
     display: inline-flex;
     align-items: center;
@@ -201,7 +232,7 @@
     padding: 0 0 4px;
     border-bottom: 1px solid var(--color-border, #d2d5d9);
     font-family: var(--button-font-family-primary, var(--font-body--family));
-    font-size: 11px;
+    font-size: 10.5px;
     font-weight: 500;
     letter-spacing: 2px;
     text-transform: uppercase;

@@ -40,18 +40,19 @@
      premium css) — force the drawer onto move-and-fade with the
      reference's longer, silky ease; specificity beats both the
      .dialog-modal and .dialog-drawer base rules */
+  /* Option B2 "Expo Luxe, staged close" from the motion canvas */
   .cart-drawer__dialog.cart-drawer__dialog[open] {
     --start-x: 100%;
     --end-x: 0px;
     --start-opacity: 1;
     --end-opacity: 1;
     will-change: transform;
-    animation: move-and-fade 0.5s cubic-bezier(0.32, 0.72, 0, 1) forwards;
+    animation: move-and-fade 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
   .cart-drawer__dialog.cart-drawer__dialog[open].dialog-closing {
     --start-x: 0px;
     --end-x: 100%;
-    animation: move-and-fade 0.4s cubic-bezier(0.32, 0.72, 0, 1) forwards;
+    animation: move-and-fade 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
   /* the theme animates ::backdrop with backdrop-filter, which re-renders
      the whole page behind the drawer every frame and janks the slide on
@@ -62,10 +63,10 @@
     background: rgb(20 18 15 / 0.4);
   }
   .cart-drawer__dialog.cart-drawer__dialog[open]::backdrop {
-    animation: hcd-backdrop-in 0.45s ease both;
+    animation: hcd-backdrop-in 0.55s ease both;
   }
   .cart-drawer__dialog.cart-drawer__dialog[open].dialog-closing::backdrop {
-    animation: hcd-backdrop-out 0.35s ease both;
+    animation: hcd-backdrop-out 0.4s ease both;
   }
   @keyframes hcd-backdrop-in { from { opacity: 0; } to { opacity: 1; } }
   @keyframes hcd-backdrop-out { from { opacity: 1; } to { opacity: 0; } }
@@ -75,6 +76,7 @@
     .cart-drawer__dialog.cart-drawer__dialog[open]::backdrop,
     .cart-drawer__dialog.cart-drawer__dialog[open].dialog-closing::backdrop {
       animation-duration: 0.01ms;
+      animation-delay: 0s;
     }
   }
 
@@ -252,11 +254,12 @@
   /* ── recommendations side panel (desktop) ─────── */
   .hcd-recs {
     display: none;
-    flex: 0 0 450px;
     flex-direction: column;
     border-right: 1px solid var(--color-border, #d2d5d9);
     background: var(--color-background, #ffffff);
     overflow-y: auto;
+    overflow-x: hidden;
+    transition: opacity 0.3s ease;
   }
   @media screen and (min-width: 1100px) {
     .cart-drawer__dialog:not(.cart-drawer--empty)[open] {
@@ -271,7 +274,23 @@
       max-width: min(900px, calc(100vw - 4rem));
     }
     .cart-drawer__dialog:not(.cart-drawer--empty)[open]:has(.hcd-recs.is-ready) .hcd-recs { display: flex; }
-    .cart-drawer__inner { flex: 1 1 auto; min-width: 0; }
+    /* the cart column is FIXED at 450px; the recs panel takes whatever
+       the width transition grants, its content laid out at full 450px
+       and clipped while narrower — so nothing squishes mid-transition */
+    .cart-drawer__inner { flex: 0 0 450px; min-width: 0; }
+    .hcd-recs { flex: 1 1 auto; min-width: 0; }
+    .hcd-recs__head, .hcd-recs__list { width: 450px; box-sizing: border-box; }
+    /* Option B2 staged close: collapse the recs panel first (width
+       transition back to 450 while the slide waits out its delay),
+       then the drawer slides away */
+    .cart-drawer__dialog.cart-drawer__dialog[open].dialog-closing:has(.hcd-recs.is-ready) {
+      width: 450px !important;
+      animation: move-and-fade 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.42s forwards;
+    }
+    .cart-drawer__dialog[open].dialog-closing .hcd-recs { opacity: 0; }
+    .cart-drawer__dialog.cart-drawer__dialog[open].dialog-closing:has(.hcd-recs.is-ready)::backdrop {
+      animation: hcd-backdrop-out 0.45s ease 0.5s both;
+    }
   }
   /* Option C "Editorial Rows" from the recommendations canvas:
      96px images, heading-font bronze prices, circle arrow buttons */
@@ -683,8 +702,8 @@
           // let the slide LAND before any recs work: rendering the rows
           // and the :has() width change mid-slide blocks the main thread
           // and the animation visually skips to its end (the
-          // only-the-first-open-animates bug)
-          setTimeout(loadRecs, 550);
+          // only-the-first-open-animates bug). 0.65s expo slide + margin.
+          setTimeout(loadRecs, 720);
           return;
         }
         var wiped = (els.list && !els.list.children.length) ||

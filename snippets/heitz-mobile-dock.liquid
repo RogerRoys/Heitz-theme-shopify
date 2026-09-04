@@ -128,21 +128,32 @@
     });
 
     var badge = dock.querySelector('[data-hmd-cart-count]');
+    var syncQueued = false;
     function sync() {
       if (badge) {
         var bubble = document.querySelector('cart-drawer-component [id^="cart-bubble"]');
         if (bubble) {
           var m = (bubble.textContent || '').match(/\d+/);
           var n = m ? parseInt(m[0], 10) : 0;
-          badge.hidden = !n;
-          badge.textContent = n;
+          var txt = String(n);
+          // only write on CHANGE — an unconditional write re-triggers the
+          // observer and loops the page into a frozen white screen
+          if (badge.textContent !== txt) badge.textContent = txt;
+          if (badge.hidden !== !n) badge.hidden = !n;
         }
       }
-      var covered = document.querySelector('.htf-drawer.is-open, #heitz-wishlist-drawer.is-open');
-      dock.classList.toggle('is-covered', !!covered);
+      var covered = !!document.querySelector('.htf-drawer.is-open, #heitz-wishlist-drawer.is-open');
+      if (dock.classList.contains('is-covered') !== covered) {
+        dock.classList.toggle('is-covered', covered);
+      }
+    }
+    function queueSync() {
+      if (syncQueued) return;
+      syncQueued = true;
+      Promise.resolve().then(function () { syncQueued = false; sync(); });
     }
     sync();
-    new MutationObserver(sync).observe(document.body, {
+    new MutationObserver(queueSync).observe(document.body, {
       childList: true,
       subtree: true,
       characterData: true,

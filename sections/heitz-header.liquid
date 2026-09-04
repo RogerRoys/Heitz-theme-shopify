@@ -98,8 +98,9 @@
     height: 28px;
     fill: none;
     stroke: currentColor;
-    stroke-width: 4px;
-    stroke-miterlimit: 10;
+    stroke-width: 1.5px;
+    stroke-linecap: round;
+    stroke-linejoin: round;
     vertical-align: middle;
   }
   /* the icons row is a tight flex line — without these the button
@@ -330,7 +331,7 @@
     border-bottom: 1px solid var(--htf-color-border-light);
   }
   .htf-drawer__close { background: none; border: 0; cursor: pointer; color: var(--htf-color-text); padding: 6px; }
-  .htf-drawer__close svg { width: 26px; height: 26px; fill: none; stroke: currentColor; stroke-width: 4px; }
+  .htf-drawer__close svg { width: 26px; height: 26px; fill: none; stroke: currentColor; stroke-width: 1.5px; stroke-linecap: round; }
   .htf-drawer__nav { list-style: none; margin: 0; padding: 10px 0 10px; flex: 1 1 auto; overflow-y: auto; min-height: 0; }
   .htf-drawer__nav li { margin: 0; }
   .htf-drawer__footer {
@@ -346,8 +347,9 @@
     height: 22px;
     fill: none;
     stroke: currentColor;
-    stroke-width: 4px;
-    stroke-miterlimit: 10;
+    stroke-width: 1.5px;
+    stroke-linecap: round;
+    stroke-linejoin: round;
     margin-right: 10px;
     flex: 0 0 auto;
   }
@@ -520,7 +522,7 @@
       <div class="htf-header__item htf-header__item--left">
         {% render 'search', class: 'mobile:hidden' %}
         <button type="button" class="htf-header__icon-link htf-mobile-only" data-htf-drawer-open aria-label="Menu">
-          <svg viewBox="0 0 64 64"><path d="M7 15h51"/><path d="M7 32h43"/><path d="M7 49h51"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M3 6.5h18"/><path d="M3 12h18"/><path d="M3 17.5h18"/></svg>
         </button>
       </div>
 
@@ -552,7 +554,7 @@
           {% render 'dropdown-localization', show_country: loc_show_country, show_language: loc_show_language, country_style: section.settings.country_selector_style, localization_position: section.settings.localization_position %}
         {%- endif -%}
         <button type="button" class="htf-header__icon-link htf-wish-toggle" data-hwd-open aria-label="Wishlist">
-          <svg viewBox="0 0 64 64"><path d="M32 54S8 39.5 8 24.5C8 16.5 14.4 10 22.4 10c4 0 7.7 1.9 9.6 4.8C33.9 11.9 37.6 10 41.6 10 49.6 10 56 16.5 56 24.5 56 39.5 32 54 32 54Z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 20.5S3.5 15 3.5 9.5C3.5 6.5 5.9 4 8.9 4c1.5 0 2.9.7 3.1 1.8C12.2 4.7 13.6 4 15.1 4c3 0 5.4 2.5 5.4 5.5 0 5.5-8.5 11-8.5 11Z"/></svg>
           <span class="htf-wish-badge" data-hwd-count hidden></span>
         </button>
         {% render 'header-actions' %}
@@ -567,7 +569,7 @@
               <a href="{{ link.url }}" class="htf-nav__link">
                 {{ link.title }}
                 {%- if link.links != blank -%}
-                  <svg class="htf-chevron" viewBox="0 0 28 16"><path d="m1.57 1.59 12.76 12.77L27.1 1.59" stroke-width="2" stroke="currentColor" fill="none"/></svg>
+                  <svg class="htf-chevron" viewBox="0 0 28 16"><path d="m1.57 1.59 12.76 12.77L27.1 1.59" stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
                 {%- endif -%}
               </a>
               {%- if link.links != blank -%}
@@ -599,7 +601,7 @@
 <div class="htf-drawer" data-htf-drawer aria-hidden="true">
   <div class="htf-drawer__header">
     <button type="button" class="htf-drawer__close" data-htf-drawer-close aria-label="Close menu">
-      <svg viewBox="0 0 64 64"><path d="m19 17.61 27.12 27.13m0-27.12L19 44.74"/></svg>
+      <svg viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></svg>
     </button>
   </div>
   {%- if menu != blank -%}
@@ -609,7 +611,7 @@
           {%- if link.links != blank -%}
             <button type="button" class="htf-drawer__toggle" aria-expanded="false" data-htf-drawer-toggle>
               <span>{{ link.title }}</span>
-              <svg class="htf-chevron" viewBox="0 0 28 16"><path d="m1.57 1.59 12.76 12.77L27.1 1.59" stroke-width="2" stroke="currentColor" fill="none"/></svg>
+              <svg class="htf-chevron" viewBox="0 0 28 16"><path d="m1.57 1.59 12.76 12.77L27.1 1.59" stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
             </button>
             <ul class="htf-drawer__sub">
               {%- for child in link.links -%}
@@ -617,7 +619,7 @@
                   {%- if child.links != blank -%}
                     <button type="button" class="htf-drawer__toggle" aria-expanded="false" data-htf-drawer-toggle>
                       <span>{{ child.title }}</span>
-                      <svg class="htf-chevron" viewBox="0 0 28 16"><path d="m1.57 1.59 12.76 12.77L27.1 1.59" stroke-width="2" stroke="currentColor" fill="none"/></svg>
+                      <svg class="htf-chevron" viewBox="0 0 28 16"><path d="m1.57 1.59 12.76 12.77L27.1 1.59" stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
                     </button>
                     <ul class="htf-drawer__sub">
                       {%- for grandchild in child.links -%}
@@ -640,7 +642,7 @@
 
   <div class="htf-drawer__footer">
     <a href="{{ routes.account_url }}" class="htf-drawer__link htf-drawer__account">
-      <svg viewBox="0 0 64 64"><path d="M35 39.84v-2.53c3.3-1.91 6-6.66 6-11.41 0-7.63 0-13.82-9-13.82s-9 6.19-9 13.82c0 4.75 2.7 9.51 6 11.41v2.53c-10.18.85-18 6-18 12.16h42c0-6.19-7.82-11.31-18-12.16Z"/></svg>
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg>
       <span>{% if customer %}Account{% else %}Log in{% endif %}</span>
     </a>
 
@@ -712,7 +714,7 @@
                 {{ 'content.localization_region_and_language' | t }}
               </button>
               <button type="button" class="htf-drawer__close" data-htf-drawer-close aria-label="Close menu">
-                <svg viewBox="0 0 64 64"><path d="m19 17.61 27.12 27.13m0-27.12L19 44.74"/></svg>
+                <svg viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></svg>
               </button>
             </div>
             <div class="htf-loc-native">

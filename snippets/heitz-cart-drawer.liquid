@@ -246,7 +246,7 @@
     .cart-drawer__dialog:not(.cart-drawer--empty)[open] {
       display: flex;
       flex-direction: row;
-      transition: width 0.35s ease;
+      transition: width 0.45s cubic-bezier(0.32, 0.72, 0, 1);
     }
     /* widen only once the recs panel actually has content, so the
        cart column always keeps its full 450px */
@@ -612,7 +612,15 @@
         var dialog = document.querySelector('cart-drawer-component dialog');
         var els = panelEls();
         if (!dialog || (!els.list && !els.mList)) return;
-        if (!dialog.hasAttribute('open')) { loadedForOpen = false; return; }
+        if (!dialog.hasAttribute('open')) {
+          loadedForOpen = false;
+          // collapse the recs on close so every open replays the
+          // drawer-in -> panel-expand choreography
+          if (els.panel) els.panel.classList.remove('is-ready');
+          if (els.mPanel) els.mPanel.classList.remove('is-ready');
+          shown = false;
+          return;
+        }
         if (!loadedForOpen) {
           loadedForOpen = true;
           // some engines (iOS Safari) skip the [open] slide animation on
@@ -621,7 +629,11 @@
           dialog.style.animation = 'none';
           void dialog.offsetWidth;
           dialog.style.animation = '';
-          loadRecs();
+          // let the slide LAND before any recs work: rendering the rows
+          // and the :has() width change mid-slide blocks the main thread
+          // and the animation visually skips to its end (the
+          // only-the-first-open-animates bug)
+          setTimeout(loadRecs, 550);
           return;
         }
         var wiped = (els.list && !els.list.children.length) ||

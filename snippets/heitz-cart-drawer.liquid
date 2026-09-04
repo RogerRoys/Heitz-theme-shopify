@@ -45,6 +45,7 @@
     --end-x: 0px;
     --start-opacity: 1;
     --end-opacity: 1;
+    will-change: transform;
     animation: move-and-fade 0.5s cubic-bezier(0.32, 0.72, 0, 1) forwards;
   }
   .cart-drawer__dialog.cart-drawer__dialog[open].dialog-closing {
@@ -52,12 +53,27 @@
     --end-x: 100%;
     animation: move-and-fade 0.4s cubic-bezier(0.32, 0.72, 0, 1) forwards;
   }
-  .cart-drawer__dialog.cart-drawer__dialog[open]::backdrop {
-    transition: opacity 0.4s ease;
+  /* the theme animates ::backdrop with backdrop-filter, which re-renders
+     the whole page behind the drawer every frame and janks the slide on
+     both desktop and mobile — replace it with a plain opacity fade */
+  .cart-drawer__dialog.cart-drawer__dialog::backdrop {
+    backdrop-filter: none;
+    transition: none;
+    background: rgb(20 18 15 / 0.4);
   }
+  .cart-drawer__dialog.cart-drawer__dialog[open]::backdrop {
+    animation: hcd-backdrop-in 0.45s ease both;
+  }
+  .cart-drawer__dialog.cart-drawer__dialog[open].dialog-closing::backdrop {
+    animation: hcd-backdrop-out 0.35s ease both;
+  }
+  @keyframes hcd-backdrop-in { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes hcd-backdrop-out { from { opacity: 1; } to { opacity: 0; } }
   @media (prefers-reduced-motion: reduce) {
     .cart-drawer__dialog.cart-drawer__dialog[open],
-    .cart-drawer__dialog.cart-drawer__dialog[open].dialog-closing {
+    .cart-drawer__dialog.cart-drawer__dialog[open].dialog-closing,
+    .cart-drawer__dialog.cart-drawer__dialog[open]::backdrop,
+    .cart-drawer__dialog.cart-drawer__dialog[open].dialog-closing::backdrop {
       animation-duration: 0.01ms;
     }
   }

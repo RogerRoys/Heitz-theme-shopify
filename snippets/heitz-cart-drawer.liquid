@@ -613,7 +613,17 @@
         var els = panelEls();
         if (!dialog || (!els.list && !els.mList)) return;
         if (!dialog.hasAttribute('open')) { loadedForOpen = false; return; }
-        if (!loadedForOpen) { loadedForOpen = true; loadRecs(); return; }
+        if (!loadedForOpen) {
+          loadedForOpen = true;
+          // some engines (iOS Safari) skip the [open] slide animation on
+          // repeat opens — force a fresh one, same reset trick the theme
+          // uses for its closing animation
+          dialog.style.animation = 'none';
+          void dialog.offsetWidth;
+          dialog.style.animation = '';
+          loadRecs();
+          return;
+        }
         var wiped = (els.list && !els.list.children.length) ||
           (els.mList && !els.mList.children.length) ||
           (els.panel && !els.panel.classList.contains('is-ready')) ||

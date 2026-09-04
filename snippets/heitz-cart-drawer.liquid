@@ -346,8 +346,14 @@
       align-items: center;
       text-align: center;
     }
+    /* the non-empty grow rule above must not stretch the empty state */
+    .cart-drawer--empty .cart-drawer__items {
+      flex: 0 0 auto;
+      min-height: 0;
+    }
   }
   /* the empty drawer's account prompt: lift the Log in link (all sizes) */
+  .cart-drawer--empty .cart-drawer__items p a,
   .cart-drawer__dialog a[href*="/account/login"] {
     color: var(--color-primary-button-hover-background, #9f6939);
     font-weight: 500;

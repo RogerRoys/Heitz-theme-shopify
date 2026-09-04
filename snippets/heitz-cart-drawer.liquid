@@ -13,8 +13,10 @@
 
 {% stylesheet %}
   /* ── panel ─────────────────────────────────────── */
-  .cart-drawer__dialog {
-    width: 450px;
+  /* base.css (never syncs from git) sets width: 35rem !important at
+     >=750px — match its priority, win on specificity */
+  .cart-drawer__dialog.cart-drawer__dialog {
+    width: 450px !important;
     max-width: calc(100vw - 4rem);
     border-radius: 0;
   }
@@ -102,6 +104,10 @@
     border-radius: 0;
     min-height: 46px;
     white-space: nowrap;
+    /* the base button is display:grid — keep label and total on one row */
+    grid-auto-flow: column;
+    justify-content: center;
+    column-gap: 0.45em;
   }
   .hcd-checkout-total { font-weight: inherit; }
   /* Option C footer: totals, full-width CHECKOUT · total,
@@ -177,8 +183,18 @@
     overflow-y: auto;
   }
   @media screen and (min-width: 1100px) {
-    .cart-drawer__dialog:not(.cart-drawer--empty)[open] { display: flex; flex-direction: row; width: 900px; }
-    .cart-drawer__dialog:not(.cart-drawer--empty) .hcd-recs.is-ready { display: flex; }
+    .cart-drawer__dialog:not(.cart-drawer--empty)[open] {
+      display: flex;
+      flex-direction: row;
+      transition: width 0.35s ease;
+    }
+    /* widen only once the recs panel actually has content, so the
+       cart column always keeps its full 450px */
+    .cart-drawer__dialog:not(.cart-drawer--empty)[open]:has(.hcd-recs.is-ready) {
+      width: 900px !important;
+      max-width: min(900px, calc(100vw - 4rem));
+    }
+    .cart-drawer__dialog:not(.cart-drawer--empty)[open]:has(.hcd-recs.is-ready) .hcd-recs { display: flex; }
     .cart-drawer__inner { flex: 1 1 auto; min-width: 0; }
   }
   .hcd-recs__head {

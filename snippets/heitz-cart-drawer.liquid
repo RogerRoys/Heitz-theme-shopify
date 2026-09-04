@@ -104,25 +104,24 @@
     font-size: 14px;
   }
   /* compact bordered quantity control, reference proportions */
+  /* Horizon markup: .quantity-selector { flex: 0 0 var(--quantity-selector-width) }
+     with .quantity-minus/.quantity-plus buttons (44px touch targets) and a
+     bare input — flex-basis beats width, so pin the basis too */
   .cart-drawer__items quantity-selector-component,
   .cart-drawer__items .quantity-selector {
     border: 1px solid rgba(210, 213, 217, 0.8);
     border-radius: 0;
     min-height: 26px;
     height: 26px;
+    flex: 0 0 78px;
+    width: 78px;
+    min-width: 78px;
     display: inline-flex;
     align-items: center;
     overflow: hidden;
   }
-  .cart-drawer__items .quantity-selector__input {
-    font-size: 12.5px;
-    min-width: 28px;
-    width: 28px;
-    height: 24px;
-    padding: 0;
-    text-align: center;
-  }
-  .cart-drawer__items .quantity-selector__button {
+  .cart-drawer__items .quantity-selector .quantity-minus,
+  .cart-drawer__items .quantity-selector .quantity-plus {
     min-width: 24px;
     width: 24px;
     min-height: 24px;
@@ -132,9 +131,20 @@
     align-items: center;
     justify-content: center;
   }
-  .cart-drawer__items .quantity-selector__button svg {
+  .cart-drawer__items .quantity-selector .svg-wrapper,
+  .cart-drawer__items .quantity-selector .svg-wrapper svg {
     width: 9px;
     height: 9px;
+  }
+  .cart-drawer__items .quantity-selector input {
+    font-size: 12.5px;
+    min-width: 28px;
+    width: 28px;
+    height: 24px;
+    padding: 0;
+    text-align: center;
+    border: 0;
+    background: transparent;
   }
 
   /* ── footer / summary ──────────────────────────── */

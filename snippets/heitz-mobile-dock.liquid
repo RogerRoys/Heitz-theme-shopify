@@ -83,7 +83,7 @@
   .hmd__badge[hidden] { display: none; }
 {% endstylesheet %}
 
-<nav class="hmd" data-hmd aria-label="Mobile navigation">
+<nav class="hmd is-hidden" data-hmd aria-label="Mobile navigation">
   <a class="hmd__item{% if template.name == 'index' %} is-active{% endif %}" href="{{ routes.root_url }}">
     <span class="hmd__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10.5 12 4l8 6.5V20h-5.5v-5h-5v5H4V10.5Z"/></svg></span>
     <span class="hmd__label">Home</span>
@@ -161,6 +161,8 @@
       attributeFilter: ['class']
     });
 
+    // the dock and the sticky header trade places: scrolling DOWN
+    // brings the dock up, scrolling UP hides it (the header returns)
     var lastY = window.scrollY;
     var ticking = false;
     window.addEventListener('scroll', function () {
@@ -168,8 +170,8 @@
       ticking = true;
       requestAnimationFrame(function () {
         var y = window.scrollY;
-        if (y > lastY + 6 && y > 140) dock.classList.add('is-hidden');
-        else if (y < lastY - 6 || y <= 140) dock.classList.remove('is-hidden');
+        if (y > lastY + 6 && y > 140) dock.classList.remove('is-hidden');
+        else if (y < lastY - 6 || y <= 140) dock.classList.add('is-hidden');
         lastY = y;
         ticking = false;
       });

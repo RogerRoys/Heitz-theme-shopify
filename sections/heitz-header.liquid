@@ -755,6 +755,13 @@
     var wrapper = header.closest('.htf-section-header-wrap');
     var drawer = document.querySelector('[data-htf-drawer]');
     var overlay = document.querySelector('[data-htf-drawer-overlay]');
+
+    /* The sticky wrapper animates transform (tuck/reveal), which turns it
+       into the containing block for fixed descendants — the drawer would
+       ride the header instead of pinning to the viewport (cut-off close
+       button, announcement bar peeking above). Portal both to <body>. */
+    if (drawer && drawer.parentElement !== document.body) document.body.appendChild(drawer);
+    if (overlay && overlay.parentElement !== document.body) document.body.appendChild(overlay);
     var compactMenuToggle = header.querySelector('[data-htf-compact-menu-toggle]');
     var lastScrollY = window.scrollY;
     var fullHeaderHeight = wrapper ? wrapper.offsetHeight : header.offsetHeight;

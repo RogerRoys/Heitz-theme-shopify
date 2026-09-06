@@ -3,10 +3,8 @@
   const pendingClass = 'heitz-navigation-pending';
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const mobileViewport = window.matchMedia('(max-width: 749px)');
-  /* curtain-split timings: the exit close is 450ms and the arrival
-     split runs 900ms, so the pause and cleanup windows cover them */
-  const navigationPause = mobileViewport.matches ? 300 : 420;
-  const arrivalCleanup = mobileViewport.matches ? 820 : 980;
+  const navigationPause = mobileViewport.matches ? 160 : 290;
+  const arrivalCleanup = mobileViewport.matches ? 230 : 360;
   const arrivalFallback = mobileViewport.matches ? 180 : 320;
   let clearTimer;
 

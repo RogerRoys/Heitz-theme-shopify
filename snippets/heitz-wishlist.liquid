@@ -83,8 +83,11 @@
     z-index: 210;
     pointer-events: none;
     visibility: hidden;
+    /* hold visibility until the slide-out finishes — flipping it
+       instantly is what made the close look like a hard cut */
+    transition: visibility 0s linear 0.7s;
   }
-  .hwd.is-open { pointer-events: auto; visibility: visible; }
+  .hwd.is-open { pointer-events: auto; visibility: visible; transition-delay: 0s; }
   .hwd__overlay {
     position: absolute;
     inset: 0;
@@ -98,7 +101,7 @@
     top: 0;
     right: 0;
     bottom: 0;
-    width: min(400px, 92vw);
+    width: min(450px, 92vw);
     background: #ffffff;
     color: #1a1b18;
     display: flex;

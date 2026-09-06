@@ -1,0 +1,126 @@
+{%- comment -%}
+  Heitz preloader — Option C "Curtain Split" from the preloader canvas.
+  Restyles the existing page-transition machinery (heitz-reveal-* on
+  arrival, heitz-navigation-pending + .heitz-page-loader on exit) into
+  two cream panels with a bronze seam that part on the expo ease, with
+  a small HEITZ LIVING wordmark riding the curtains. Pure CSS
+  overrides — the transition JS keeps orchestrating the classes; only
+  its timings were retuned for the longer split. Specificity note:
+  :root.<class> prefixes outrank the premium-css originals without
+  !important.
+{%- endcomment -%}
+
+{% stylesheet %}
+  /* ── arrival: panels cover the page, then part on reveal ── */
+  :root.heitz-reveal-enabled body::before {
+    inset: 0 50% 0 0;
+    width: auto;
+    height: auto;
+    transform: none;
+    animation: none;
+    background: #faf9f7;
+    border-right: 1px solid #9f6939;
+    transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  :root.heitz-reveal-enabled body::after {
+    inset: 0 0 0 50%;
+    clip-path: none;
+    background: #faf9f7;
+    border-left: 1px solid #9f6939;
+    transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  :root.heitz-reveal-enabled.heitz-reveal-ready body::before {
+    transform: translateX(-101%);
+    opacity: 1;
+  }
+  :root.heitz-reveal-enabled.heitz-reveal-ready body::after {
+    transform: translateX(101%);
+    clip-path: none;
+  }
+
+  /* wordmark riding the curtains */
+  :root.heitz-reveal-enabled::after {
+    content: 'HEITZ LIVING';
+    position: fixed;
+    z-index: 2147483646;
+    left: 0;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    text-align: center;
+    pointer-events: none;
+    font-family: var(--font-heading--family, 'Cabin', sans-serif);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: #9f6939;
+    transition: opacity 0.28s ease;
+  }
+  :root.heitz-reveal-enabled.heitz-reveal-ready::after { opacity: 0; }
+
+  /* ── exit: curtains close from the sides while navigating ── */
+  .heitz-page-loader.heitz-page-loader {
+    background: transparent;
+  }
+  .heitz-page-loader::before,
+  .heitz-page-loader::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 50.5%;
+    background: #faf9f7;
+    transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .heitz-page-loader::before {
+    left: 0;
+    transform: translateX(-101%);
+    border-right: 1px solid #9f6939;
+  }
+  .heitz-page-loader::after {
+    right: 0;
+    transform: translateX(101%);
+    border-left: 1px solid #9f6939;
+  }
+  :root.heitz-navigation-pending .heitz-page-loader::before,
+  :root.heitz-navigation-pending .heitz-page-loader::after {
+    transform: translateX(0);
+  }
+
+  /* the old pulsing bar becomes the wordmark */
+  .heitz-page-loader__bar.heitz-page-loader__bar {
+    width: auto;
+    height: auto;
+    background: none;
+    transform: none;
+    animation: none;
+    position: relative;
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 0.3s ease 0.12s;
+    font-family: var(--font-heading--family, 'Cabin', sans-serif);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: #9f6939;
+  }
+  .heitz-page-loader__bar::after { content: 'HEITZ LIVING'; }
+  :root.heitz-navigation-pending .heitz-page-loader__bar.heitz-page-loader__bar {
+    opacity: 1;
+    animation: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :root.heitz-reveal-enabled body::before,
+    :root.heitz-reveal-enabled body::after,
+    :root.heitz-reveal-enabled::after,
+    .heitz-page-loader::before,
+    .heitz-page-loader::after,
+    .heitz-page-loader__bar.heitz-page-loader__bar {
+      display: none;
+      transition: none;
+    }
+  }
+{% endstylesheet %}

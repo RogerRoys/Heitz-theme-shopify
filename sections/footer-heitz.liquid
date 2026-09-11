@@ -13,10 +13,11 @@
 
 <style>
   .hf-{{ section.id }} {
-    --hf-bg: {{ section.settings.bg_color }};
-    --hf-bg-deep: {{ section.settings.bottom_bg_color }};
-    --hf-ink: {{ section.settings.text_color }};
+    --hf-bg: var(--color-background);
+    --hf-bg-deep: color-mix(in srgb, var(--color-background) 86%, #000);
+    --hf-ink: var(--color-foreground);
     --hf-accent: {{ section.settings.accent_color }};
+    --hf-media-ink: #f5f1ea;
     background: var(--hf-bg);
     color: var(--hf-ink);
     font-family: {{ section.settings.font_stack }};
@@ -31,38 +32,38 @@
   /* left: image + newsletter */
   .hf-media { position: relative; overflow: hidden; background: #241f19; }
   .hf-media > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-  .hf-media__scrim { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(20,18,15,.25), rgba(20,18,15,.88)); }
+  .hf-media__scrim { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(20,18,15,.25), rgba(20,18,15,.88)); opacity: {{ section.settings.scrim_opacity | default: 100 | divided_by: 100.0 }}; }
   .hf-media__body { position: relative; height: 100%; padding: 42px; display: flex; flex-direction: column; justify-content: flex-end; gap: 16px; }
   .hf-kicker { font-size: 14px; letter-spacing: .18em; text-transform: uppercase; color: rgba(245,241,234,.7); }
   .hf-lede { margin: 0; font-size: 22px; font-weight: 300; line-height: 1.4; max-width: 26ch; text-wrap: pretty; }
 
   .hf-signup { display: flex; border: 1px solid rgba(245,241,234,.4); border-radius: 2px; overflow: hidden; background: rgba(20,18,15,.4); }
-  .hf-signup input[type="email"] { flex: 1; min-width: 0; border: 0; background: transparent; padding: 14px 16px; font: inherit; font-size: 16px; color: var(--hf-ink); }
+  .hf-signup input[type="email"] { flex: 1; min-width: 0; border: 0; background: transparent; padding: 14px 16px; font: inherit; font-size: 16px; color: var(--hf-media-ink); }
   .hf-signup input[type="email"]::placeholder { color: rgba(245,241,234,.6); }
   .hf-signup input[type="email"]:focus { outline: none; }
-  .hf-signup button { border: 0; background: var(--hf-ink); color: var(--hf-bg); font: inherit; font-size: 13px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; padding: 0 22px; cursor: pointer; transition: background .18s ease; }
+  .hf-signup button { border: 0; background: var(--hf-media-ink); color: #14120f; font: inherit; font-size: 13px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; padding: 0 22px; cursor: pointer; transition: background .18s ease; }
   .hf-signup button:hover { background: var(--hf-accent); }
   .hf-note { margin: 0; font-size: 14px; color: rgba(245,241,234,.6); }
   .hf-social { display: inline-flex; align-items: center; gap: 9px; font-size: 15px; color: rgba(245,241,234,.75); }
 
   /* right: contact + links */
   .hf-panel { padding: 44px 42px; display: flex; flex-direction: column; gap: 30px; }
-  .hf-label { font-size: 13.5px; letter-spacing: .18em; text-transform: uppercase; color: rgba(245,241,234,.45); }
+  .hf-label { font-size: 13.5px; letter-spacing: .18em; text-transform: uppercase; color: rgb(var(--color-foreground-rgb) / 0.45); }
   .hf-pairs { display: grid; grid-template-columns: 1fr 1fr; gap: 22px 30px; }
   .hf-pair { display: flex; flex-direction: column; gap: 4px; }
-  .hf-pair dt { font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: rgba(245,241,234,.42); margin: 0; }
+  .hf-pair dt { font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: rgb(var(--color-foreground-rgb) / 0.42); margin: 0; }
   .hf-pair dd { margin: 0; font-size: 16.5px; line-height: 1.55; }
-  .hf-pair a { border-bottom: 1px solid rgba(245,241,234,.28); }
+  .hf-pair a { border-bottom: 1px solid rgb(var(--color-foreground-rgb) / 0.28); }
 
-  .hf-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; border-top: 1px solid rgba(245,241,234,.13); padding-top: 28px; }
+  .hf-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; border-top: 1px solid rgb(var(--color-foreground-rgb) / 0.13); padding-top: 28px; }
   .hf-col > .hf-label { display: block; margin-bottom: 14px; font-size: 13px; letter-spacing: .16em; }
   .hf-col ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
-  .hf-col li a { font-size: 16px; color: rgba(245,241,234,.84); }
+  .hf-col li a { font-size: 16px; color: rgb(var(--color-foreground-rgb) / 0.84); }
   .hf-col summary { display: none; }
 
   /* bottom bar */
-  .hf-bottom { display: flex; align-items: center; justify-content: space-between; gap: 28px; flex-wrap: wrap; padding: 20px 42px; border-top: 1px solid rgba(245,241,234,.12); background: var(--hf-bg-deep); }
-  .hf-copy { font-size: 14.5px; color: rgba(245,241,234,.5); }
+  .hf-bottom { display: flex; align-items: center; justify-content: space-between; gap: 28px; flex-wrap: wrap; padding: 20px 42px; border-top: 1px solid rgb(var(--color-foreground-rgb) / 0.12); background: var(--hf-bg-deep); }
+  .hf-copy { font-size: 14.5px; color: rgb(var(--color-foreground-rgb) / 0.5); }
   .hf-pay { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
   .hf-pay svg, .hf-pay img { height: 24px; width: auto; display: block; }
 
@@ -72,17 +73,17 @@
     .hf-media__body { padding: 26px 22px; }
     .hf-lede { font-size: 18px; }
     .hf-panel { padding: 0; gap: 0; }
-    .hf-contact { padding: 26px 22px; border-bottom: 1px solid rgba(245,241,234,.12); display: flex; flex-direction: column; gap: 16px; }
+    .hf-contact { padding: 26px 22px; border-bottom: 1px solid rgb(var(--color-foreground-rgb) / 0.12); display: flex; flex-direction: column; gap: 16px; }
     .hf-pairs { grid-template-columns: 1fr; gap: 14px; }
     .hf-cols { display: block; border-top: 0; padding-top: 0; }
-    .hf-col { border-bottom: 1px solid rgba(245,241,234,.12); }
+    .hf-col { border-bottom: 1px solid rgb(var(--color-foreground-rgb) / 0.12); }
     .hf-col > .hf-label { display: none; }
     .hf-col summary { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 20px 22px; cursor: pointer; list-style: none; }
     .hf-col summary::-webkit-details-marker { display: none; }
-    .hf-col summary span:first-child { font-size: 12.5px; letter-spacing: .18em; text-transform: uppercase; color: rgba(245,241,234,.7); }
+    .hf-col summary span:first-child { font-size: 12.5px; letter-spacing: .18em; text-transform: uppercase; color: rgb(var(--color-foreground-rgb) / 0.7); }
     .hf-col summary .hf-sign { position: relative; width: 14px; height: 14px; flex: none; }
     .hf-col summary .hf-sign::before,
-    .hf-col summary .hf-sign::after { content: ""; position: absolute; background: rgba(245,241,234,.6); transition: transform .2s ease, opacity .2s ease; }
+    .hf-col summary .hf-sign::after { content: ""; position: absolute; background: rgb(var(--color-foreground-rgb) / 0.6); transition: transform .2s ease, opacity .2s ease; }
     .hf-col summary .hf-sign::before { top: 6px; left: 0; width: 14px; height: 1.5px; }
     .hf-col summary .hf-sign::after { left: 6px; top: 0; width: 1.5px; height: 14px; }
     .hf-col[open] summary .hf-sign::after { opacity: 0; transform: scaleY(0); }
@@ -92,14 +93,14 @@
   }
 </style>
 
-<footer class="hf-{{ section.id }}" role="contentinfo">
+<footer class="hf-{{ section.id }} color-{{ section.settings.color_scheme | default: 'scheme-3' }}" role="contentinfo">
   <div class="hf-grid">
 
     <div class="hf-media">
       {%- if section.settings.image != blank -%}
         <img
-          src="{{ section.settings.image | image_url: width: 1400 }}"
-          srcset="{{ section.settings.image | image_url: width: 700 }} 700w, {{ section.settings.image | image_url: width: 1400 }} 1400w"
+          src="{{ section.settings.image | image_url: width: 1800 }}"
+          srcset="{{ section.settings.image | image_url: width: 700 }} 700w, {{ section.settings.image | image_url: width: 1200 }} 1200w, {{ section.settings.image | image_url: width: 1800 }} 1800w, {{ section.settings.image | image_url: width: 2400 }} 2400w"
           sizes="(min-width: 990px) 45vw, 100vw"
           alt="{{ section.settings.image.alt | escape }}"
           width="{{ section.settings.image.width }}"
@@ -235,6 +236,7 @@
   "settings": [
     { "type": "header", "content": "Story image + newsletter" },
     { "type": "image_picker", "id": "image", "label": "Image" },
+    { "type": "range", "id": "scrim_opacity", "label": "Image overlay opacity", "min": 0, "max": 100, "step": 5, "unit": "%", "default": 100 },
     { "type": "text", "id": "newsletter_kicker", "label": "Kicker", "default": "Stay in the light" },
     { "type": "richtext", "id": "newsletter_text", "label": "Newsletter text", "default": "<p>Be the first to know about our biggest and best sales. We'll never send more than one email a month.</p>" },
     { "type": "text", "id": "button_label", "label": "Button label", "default": "Sign up" },
@@ -262,9 +264,7 @@
     { "type": "checkbox", "id": "show_payment_icons", "label": "Show payment icons", "default": true },
 
     { "type": "header", "content": "Colours & type" },
-    { "type": "color", "id": "bg_color", "label": "Background", "default": "#14120F" },
-    { "type": "color", "id": "bottom_bg_color", "label": "Bottom bar background", "default": "#100E0C" },
-    { "type": "color", "id": "text_color", "label": "Text", "default": "#F5F1EA" },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-3" },
     { "type": "color", "id": "accent_color", "label": "Accent (hover)", "default": "#D6B27A" },
     { "type": "text", "id": "font_stack", "label": "Font stack", "default": "inherit" }
   ],

@@ -43,7 +43,7 @@
 
   /* three groups across */
   .hf-cols { display: grid; grid-template-columns: 1.35fr 1fr 1fr; gap: 44px; padding: 60px  44px 60px ; }
-  .hf-label { font-size: var(--hf-fs-label); letter-spacing: .18em; text-transform: uppercase; color: rgb(var(--color-foreground-rgb) /.45); }
+  .hf-label { font-family: var(--font-heading--family, 'Cabin', sans-serif); font-size: var(--hf-fs-label); letter-spacing: .18em; text-transform: uppercase; color: rgb(var(--color-foreground-rgb) /.45); }
   .hf-contact { display: flex; flex-direction: column; gap: 10px; }
   .hf-contact > .hf-label { margin-bottom: 6px; }
   .hf-contact__lines { font-size: var(--hf-fs-text); line-height: 1.75; color: rgb(var(--color-foreground-rgb) /.85); }
@@ -89,7 +89,7 @@
     .hf-col > .hf-label { display: none; }
     .hf-col summary { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 20px 22px; cursor: pointer; list-style: none; }
     .hf-col summary::-webkit-details-marker { display: none; }
-    .hf-col summary > span:first-child { font-size: calc(var(--hf-fs-label) - 0.5px); letter-spacing: .18em; text-transform: uppercase; color: rgb(var(--color-foreground-rgb) /.7); }
+    .hf-col summary > span:first-child { font-family: var(--font-heading--family, 'Cabin', sans-serif); font-size: calc(var(--hf-fs-label) - 0.5px); letter-spacing: .18em; text-transform: uppercase; color: rgb(var(--color-foreground-rgb) /.7); }
     .hf-sign { position: relative; width: 14px; height: 14px; flex: none; }
     .hf-sign::before, .hf-sign::after { content: ""; position: absolute; background: rgb(var(--color-foreground-rgb) /.6); transition: transform .2s ease, opacity .2s ease; }
     .hf-sign::before { top: 6px; left: 0; width: 14px; height: 1.5px; }

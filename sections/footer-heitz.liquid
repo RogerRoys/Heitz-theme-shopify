@@ -52,7 +52,7 @@
 
   /* right: contact + links */
   .hf-panel { padding: 44px 42px; display: flex; flex-direction: column; gap: 30px; }
-  .hf-label { font-size: var(--hf-fs-label); letter-spacing: .18em; text-transform: uppercase; color: rgb(var(--color-foreground-rgb) / 0.45); }
+  .hf-label { font-family: var(--font-heading--family, 'Cabin', sans-serif); font-size: var(--hf-fs-label); letter-spacing: .18em; text-transform: uppercase; color: rgb(var(--color-foreground-rgb) / 0.45); }
   .hf-pairs { display: grid; grid-template-columns: 1fr 1fr; gap: 22px 30px; }
   .hf-pair { display: flex; flex-direction: column; gap: 4px; }
   .hf-pair dt { font-size: calc(var(--hf-fs-label) - 0.5px); letter-spacing: .08em; text-transform: uppercase; color: rgb(var(--color-foreground-rgb) / 0.42); margin: 0; }
@@ -84,7 +84,7 @@
     .hf-col > .hf-label { display: none; }
     .hf-col summary { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 20px 22px; cursor: pointer; list-style: none; }
     .hf-col summary::-webkit-details-marker { display: none; }
-    .hf-col summary span:first-child { font-size: calc(var(--hf-fs-label) - 1px); letter-spacing: .18em; text-transform: uppercase; color: rgb(var(--color-foreground-rgb) / 0.7); }
+    .hf-col summary span:first-child { font-family: var(--font-heading--family, 'Cabin', sans-serif); font-size: calc(var(--hf-fs-label) - 1px); letter-spacing: .18em; text-transform: uppercase; color: rgb(var(--color-foreground-rgb) / 0.7); }
     .hf-col summary .hf-sign { position: relative; width: 14px; height: 14px; flex: none; }
     .hf-col summary .hf-sign::before,
     .hf-col summary .hf-sign::after { content: ""; position: absolute; background: rgb(var(--color-foreground-rgb) / 0.6); transition: transform .2s ease, opacity .2s ease; }

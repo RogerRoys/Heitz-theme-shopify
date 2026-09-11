@@ -16,6 +16,10 @@
     --hf-bg: var(--color-background);
     --hf-ink: var(--color-foreground);
     --hf-accent: {{ section.settings.accent_color }};
+    --hf-fs-news: {{ section.settings.news_size | default: 17 }}px;
+    --hf-fs-label: {{ section.settings.label_size | default: 13 }}px;
+    --hf-fs-text: {{ section.settings.text_size | default: 16.5 }}px;
+    --hf-fs-copy: {{ section.settings.copy_size | default: 14.5 }}px;
     background: var(--hf-bg);
     color: var(--hf-ink);
     font-family: {{ section.settings.font_stack }};
@@ -28,59 +32,59 @@
 
   /* newsletter row */
   .hf-news { display: flex; align-items: center; justify-content: space-between; gap: 40px; flex-wrap: wrap; padding: 36px 44px; border-bottom: 1px solid rgb(var(--color-foreground-rgb) /.12); }
-  .hf-news p { margin: 0; font-size: 17px; font-weight: 300; line-height: 1.5; max-width: 52ch; color: rgb(var(--color-foreground-rgb) /.88); }
+  .hf-news p { margin: 0; font-size: var(--hf-fs-news); font-weight: 300; line-height: 1.5; max-width: 52ch; color: rgb(var(--color-foreground-rgb) /.88); }
   .hf-signup { display: flex; align-items: center; gap: 16px; border-bottom: 1px solid rgb(var(--color-foreground-rgb) /.4); padding-bottom: 11px; min-width: 380px; flex: 0 1 420px; }
-  .hf-signup input[type="email"] { flex: 1; min-width: 0; border: 0; background: transparent; padding: 0; font: inherit; font-size: 16.5px; color: var(--hf-ink); }
+  .hf-signup input[type="email"] { flex: 1; min-width: 0; border: 0; background: transparent; padding: 0; font: inherit; font-size: var(--hf-fs-text); color: var(--hf-ink); }
   .hf-signup input[type="email"]::placeholder { color: rgb(var(--color-foreground-rgb) /.45); }
   .hf-signup input[type="email"]:focus { outline: none; }
   .hf-signup button { border: 0; background: none; padding: 0; font: inherit; font-size: 13px; letter-spacing: .14em; text-transform: uppercase; color: var(--hf-ink); cursor: pointer; transition: color .18s ease; }
   .hf-signup button:hover { color: var(--hf-accent); }
-  .hf-note { margin: 8px 0 0; font-size: 14px; color: rgb(var(--color-foreground-rgb) /.6); flex-basis: 100%; }
+  .hf-note { margin: 8px 0 0; font-size: calc(var(--hf-fs-copy) - 0.5px); color: rgb(var(--color-foreground-rgb) /.6); flex-basis: 100%; }
 
   /* three groups across */
   .hf-cols { display: grid; grid-template-columns: 1.35fr 1fr 1fr; gap: 44px; padding: 44px 44px 40px; }
-  .hf-label { font-size: 13px; letter-spacing: .18em; text-transform: uppercase; color: rgb(var(--color-foreground-rgb) /.45); }
+  .hf-label { font-size: var(--hf-fs-label); letter-spacing: .18em; text-transform: uppercase; color: rgb(var(--color-foreground-rgb) /.45); }
   .hf-contact { display: flex; flex-direction: column; gap: 10px; }
   .hf-contact > .hf-label { margin-bottom: 6px; }
-  .hf-contact__lines { font-size: 16.5px; line-height: 1.75; color: rgb(var(--color-foreground-rgb) /.85); }
-  .hf-contact a { font-size: 16.5px; align-self: flex-start; }
-  .hf-contact__hours { font-size: 15px; line-height: 1.7; color: rgb(var(--color-foreground-rgb) /.6); margin-top: 2px; }
+  .hf-contact__lines { font-size: var(--hf-fs-text); line-height: 1.75; color: rgb(var(--color-foreground-rgb) /.85); }
+  .hf-contact a { font-size: var(--hf-fs-text); align-self: flex-start; }
+  .hf-contact__hours { font-size: calc(var(--hf-fs-text) - 1.5px); line-height: 1.7; color: rgb(var(--color-foreground-rgb) /.6); margin-top: 2px; }
 
   .hf-col > .hf-label { display: block; margin-bottom: 16px; }
   .hf-col ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 13px; }
-  .hf-col li a { font-size: 16.5px; color: rgb(var(--color-foreground-rgb) /.84); }
+  .hf-col li a { font-size: var(--hf-fs-text); color: rgb(var(--color-foreground-rgb) /.84); }
   .hf-col summary { display: none; }
 
   /* bottom bar */
   .hf-bottom { display: flex; align-items: center; justify-content: space-between; gap: 28px; flex-wrap: wrap; padding: 18px 44px; border-top: 1px solid rgb(var(--color-foreground-rgb) /.12); }
-  .hf-bottom__left { display: flex; gap: 22px; align-items: center; flex-wrap: wrap; font-size: 14.5px; color: rgb(var(--color-foreground-rgb) /.5); }
+  .hf-bottom__left { display: flex; gap: 22px; align-items: center; flex-wrap: wrap; font-size: var(--hf-fs-copy); color: rgb(var(--color-foreground-rgb) /.5); }
   .hf-social { display: inline-flex; align-items: center; gap: 8px; color: rgb(var(--color-foreground-rgb) /.72); }
   .hf-pay { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
   .hf-pay svg, .hf-pay img { height: 24px; width: auto; display: block; }
 
   @media screen and (max-width: 989px) {
     .hf-news { padding: 26px 22px; gap: 13px; }
-    .hf-news p { font-size: 16.5px; }
+    .hf-news p { font-size: calc(var(--hf-fs-news) - 0.5px); }
     .hf-signup { min-width: 0; width: 100%; flex: 1 1 100%; gap: 14px; }
-    .hf-signup input[type="email"] { font-size: 16px; }
+    .hf-signup input[type="email"] { font-size: calc(var(--hf-fs-text) - 0.5px); }
     .hf-signup button { padding: 10px 0; font-size: 13px; letter-spacing: .12em; }
 
     .hf-cols { display: block; padding: 0; }
     .hf-contact { padding: 26px 22px; border-bottom: 1px solid rgb(var(--color-foreground-rgb) /.12); }
-    .hf-contact__lines, .hf-contact a { font-size: 16px; }
+    .hf-contact__lines, .hf-contact a { font-size: calc(var(--hf-fs-text) - 0.5px); }
 
     .hf-col { border-bottom: 1px solid rgb(var(--color-foreground-rgb) /.12); }
     .hf-col > .hf-label { display: none; }
     .hf-col summary { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 20px 22px; cursor: pointer; list-style: none; }
     .hf-col summary::-webkit-details-marker { display: none; }
-    .hf-col summary > span:first-child { font-size: 12.5px; letter-spacing: .18em; text-transform: uppercase; color: rgb(var(--color-foreground-rgb) /.7); }
+    .hf-col summary > span:first-child { font-size: calc(var(--hf-fs-label) - 0.5px); letter-spacing: .18em; text-transform: uppercase; color: rgb(var(--color-foreground-rgb) /.7); }
     .hf-sign { position: relative; width: 14px; height: 14px; flex: none; }
     .hf-sign::before, .hf-sign::after { content: ""; position: absolute; background: rgb(var(--color-foreground-rgb) /.6); transition: transform .2s ease, opacity .2s ease; }
     .hf-sign::before { top: 6px; left: 0; width: 14px; height: 1.5px; }
     .hf-sign::after { left: 6px; top: 0; width: 1.5px; height: 14px; }
     .hf-col[open] .hf-sign::after { opacity: 0; transform: scaleY(0); }
     .hf-col ul { padding: 0 22px 22px; gap: 0; }
-    .hf-col li a { display: block; padding: 11px 0; font-size: 16px; }
+    .hf-col li a { display: block; padding: 11px 0; font-size: calc(var(--hf-fs-text) - 0.5px); }
 
     .hf-bottom { padding: 22px; flex-direction: column; align-items: flex-start; gap: 14px; }
     .hf-bottom__left { flex-direction: column; align-items: flex-start; gap: 12px; }
@@ -200,7 +204,7 @@
 
 {% schema %}
 {
-  "name": "Heitz footer final",
+  "name": "Footer 2",
   "settings": [
     { "type": "header", "content": "Newsletter" },
     { "type": "richtext", "id": "newsletter_text", "label": "Text", "default": "<p>Be the first to know about our biggest and best sales. We'll never send more than one email a month.</p>" },
@@ -231,11 +235,17 @@
     { "type": "text", "id": "rights_text", "label": "Rights text", "default": "All rights reserved." },
     { "type": "checkbox", "id": "show_payment_icons", "label": "Show payment icons", "default": true },
 
+    { "type": "header", "content": "Typography" },
+    { "type": "range", "id": "news_size", "label": "Newsletter text size", "min": 12, "max": 28, "step": 0.5, "unit": "px", "default": 17 },
+    { "type": "range", "id": "label_size", "label": "Column titles size", "min": 10, "max": 18, "step": 0.5, "unit": "px", "default": 13 },
+    { "type": "range", "id": "text_size", "label": "Text & links size", "min": 12, "max": 22, "step": 0.5, "unit": "px", "default": 16.5 },
+    { "type": "range", "id": "copy_size", "label": "Bottom bar text size", "min": 10, "max": 18, "step": 0.5, "unit": "px", "default": 14.5 },
+
     { "type": "header", "content": "Colours & type" },
     { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-3" },
     { "type": "color", "id": "accent_color", "label": "Accent (hover)", "default": "#D6B27A" },
     { "type": "text", "id": "font_stack", "label": "Font stack", "default": "inherit" }
   ],
-  "presets": [{ "name": "Heitz footer final" }]
+  "presets": [{ "name": "Footer 2" }]
 }
 {% endschema %}

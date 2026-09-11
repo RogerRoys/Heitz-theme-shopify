@@ -35,8 +35,12 @@
         "instagram_label": "Follow us",
         "rights_text": "All rights reserved.",
         "show_payment_icons": true,
+        "news_size": 17,
+        "label_size": 16,
+        "text_size": 16,
+        "copy_size": 14.5,
         "color_scheme": "scheme-3",
-        "accent_color": "#9F6939",
+        "accent_color": "#9f6939",
         "font_stack": "inherit"
       }
     },
@@ -65,6 +69,10 @@
         "menu_2": "legal",
         "rights_text": "All rights reserved.",
         "show_payment_icons": true,
+        "news_size": 22,
+        "label_size": 13.5,
+        "text_size": 16,
+        "copy_size": 14.5,
         "color_scheme": "scheme-3",
         "accent_color": "#d6b27a",
         "font_stack": "inherit"

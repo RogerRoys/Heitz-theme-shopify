@@ -62,6 +62,15 @@
   .hf-pay { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
   .hf-pay svg, .hf-pay img { height: 24px; width: auto; display: block; }
 
+  /* desktop: social left, copyright dead-centre, payments right */
+  @media screen and (min-width: 990px) {
+    .hf-bottom { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; }
+    .hf-bottom__left { display: contents; }
+    .hf-social { justify-self: start; }
+    .hf-bottom__left > span { justify-self: center; }
+    .hf-pay { justify-self: end; }
+  }
+
   @media screen and (max-width: 989px) {
     .hf-news { padding: 26px 22px; gap: 13px; }
     /* the liquid form tag wraps the signup in a <form> — that form is

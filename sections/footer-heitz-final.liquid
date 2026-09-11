@@ -98,8 +98,12 @@
     .hf-col ul { padding: 0 22px 22px; gap: 0; }
     .hf-col li a { display: block; padding: 11px 0; font-size: calc(var(--hf-fs-text) - 0.5px); }
 
-    .hf-bottom { padding: 22px; flex-direction: column; align-items: flex-start; gap: 14px; }
-    .hf-bottom__left { flex-direction: column; align-items: flex-start; gap: 12px; }
+    /* centred stack: Follow us, payment icons, copyright last */
+    .hf-bottom { padding: 22px; flex-direction: column; align-items: center; gap: 14px; }
+    .hf-bottom__left { display: contents; }
+    .hf-social { order: 1; }
+    .hf-pay { order: 2; justify-content: center; }
+    .hf-bottom__left > span { order: 3; text-align: center; }
   }
 </style>
 

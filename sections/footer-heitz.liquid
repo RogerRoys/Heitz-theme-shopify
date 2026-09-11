@@ -1,0 +1,273 @@
+{%- comment -%}
+  Heitz footer — option 5a
+  Desktop: image + newsletter panel (left), contact info + link columns (right)
+  Mobile:  image/newsletter, contact info open, Customer Support & Our Policies collapsible
+
+  Install:
+  1. Shopify admin > Online Store > Themes > ... > Edit code
+  2. Sections > Add a new section > name it: footer-heitz  (creates footer-heitz.liquid)
+  3. Paste this whole file in and Save.
+  4. Theme editor > Footer > Add section > "Heitz footer" (remove the old footer section).
+  5. In the section settings pick the image, the two menus, and edit the contact fields.
+{%- endcomment -%}
+
+<style>
+  .hf-{{ section.id }} {
+    --hf-bg: {{ section.settings.bg_color }};
+    --hf-bg-deep: {{ section.settings.bottom_bg_color }};
+    --hf-ink: {{ section.settings.text_color }};
+    --hf-accent: {{ section.settings.accent_color }};
+    background: var(--hf-bg);
+    color: var(--hf-ink);
+    font-family: {{ section.settings.font_stack }};
+    -webkit-font-smoothing: antialiased;
+  }
+  .hf-{{ section.id }} * { box-sizing: border-box; }
+  .hf-{{ section.id }} a { color: inherit; text-decoration: none; transition: color .18s ease; }
+  .hf-{{ section.id }} a:hover { color: var(--hf-accent); }
+
+  .hf-grid { display: grid; grid-template-columns: 1fr 1.2fr; min-height: 400px; }
+
+  /* left: image + newsletter */
+  .hf-media { position: relative; overflow: hidden; background: #241f19; }
+  .hf-media > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .hf-media__scrim { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(20,18,15,.25), rgba(20,18,15,.88)); }
+  .hf-media__body { position: relative; height: 100%; padding: 42px; display: flex; flex-direction: column; justify-content: flex-end; gap: 16px; }
+  .hf-kicker { font-size: 14px; letter-spacing: .18em; text-transform: uppercase; color: rgba(245,241,234,.7); }
+  .hf-lede { margin: 0; font-size: 22px; font-weight: 300; line-height: 1.4; max-width: 26ch; text-wrap: pretty; }
+
+  .hf-signup { display: flex; border: 1px solid rgba(245,241,234,.4); border-radius: 2px; overflow: hidden; background: rgba(20,18,15,.4); }
+  .hf-signup input[type="email"] { flex: 1; min-width: 0; border: 0; background: transparent; padding: 14px 16px; font: inherit; font-size: 16px; color: var(--hf-ink); }
+  .hf-signup input[type="email"]::placeholder { color: rgba(245,241,234,.6); }
+  .hf-signup input[type="email"]:focus { outline: none; }
+  .hf-signup button { border: 0; background: var(--hf-ink); color: var(--hf-bg); font: inherit; font-size: 13px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; padding: 0 22px; cursor: pointer; transition: background .18s ease; }
+  .hf-signup button:hover { background: var(--hf-accent); }
+  .hf-note { margin: 0; font-size: 14px; color: rgba(245,241,234,.6); }
+  .hf-social { display: inline-flex; align-items: center; gap: 9px; font-size: 15px; color: rgba(245,241,234,.75); }
+
+  /* right: contact + links */
+  .hf-panel { padding: 44px 42px; display: flex; flex-direction: column; gap: 30px; }
+  .hf-label { font-size: 13.5px; letter-spacing: .18em; text-transform: uppercase; color: rgba(245,241,234,.45); }
+  .hf-pairs { display: grid; grid-template-columns: 1fr 1fr; gap: 22px 30px; }
+  .hf-pair { display: flex; flex-direction: column; gap: 4px; }
+  .hf-pair dt { font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: rgba(245,241,234,.42); margin: 0; }
+  .hf-pair dd { margin: 0; font-size: 16.5px; line-height: 1.55; }
+  .hf-pair a { border-bottom: 1px solid rgba(245,241,234,.28); }
+
+  .hf-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; border-top: 1px solid rgba(245,241,234,.13); padding-top: 28px; }
+  .hf-col > .hf-label { display: block; margin-bottom: 14px; font-size: 13px; letter-spacing: .16em; }
+  .hf-col ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
+  .hf-col li a { font-size: 16px; color: rgba(245,241,234,.84); }
+  .hf-col summary { display: none; }
+
+  /* bottom bar */
+  .hf-bottom { display: flex; align-items: center; justify-content: space-between; gap: 28px; flex-wrap: wrap; padding: 20px 42px; border-top: 1px solid rgba(245,241,234,.12); background: var(--hf-bg-deep); }
+  .hf-copy { font-size: 14.5px; color: rgba(245,241,234,.5); }
+  .hf-pay { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  .hf-pay svg, .hf-pay img { height: 24px; width: auto; display: block; }
+
+  @media screen and (max-width: 989px) {
+    .hf-grid { grid-template-columns: 1fr; }
+    .hf-media { min-height: 290px; }
+    .hf-media__body { padding: 26px 22px; }
+    .hf-lede { font-size: 18px; }
+    .hf-panel { padding: 0; gap: 0; }
+    .hf-contact { padding: 26px 22px; border-bottom: 1px solid rgba(245,241,234,.12); display: flex; flex-direction: column; gap: 16px; }
+    .hf-pairs { grid-template-columns: 1fr; gap: 14px; }
+    .hf-cols { display: block; border-top: 0; padding-top: 0; }
+    .hf-col { border-bottom: 1px solid rgba(245,241,234,.12); }
+    .hf-col > .hf-label { display: none; }
+    .hf-col summary { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 20px 22px; cursor: pointer; list-style: none; }
+    .hf-col summary::-webkit-details-marker { display: none; }
+    .hf-col summary span:first-child { font-size: 12.5px; letter-spacing: .18em; text-transform: uppercase; color: rgba(245,241,234,.7); }
+    .hf-col summary .hf-sign { position: relative; width: 14px; height: 14px; flex: none; }
+    .hf-col summary .hf-sign::before,
+    .hf-col summary .hf-sign::after { content: ""; position: absolute; background: rgba(245,241,234,.6); transition: transform .2s ease, opacity .2s ease; }
+    .hf-col summary .hf-sign::before { top: 6px; left: 0; width: 14px; height: 1.5px; }
+    .hf-col summary .hf-sign::after { left: 6px; top: 0; width: 1.5px; height: 14px; }
+    .hf-col[open] summary .hf-sign::after { opacity: 0; transform: scaleY(0); }
+    .hf-col ul { padding: 0 22px 22px; gap: 0; }
+    .hf-col li a { display: block; padding: 11px 0; }
+    .hf-bottom { padding: 22px; flex-direction: column; align-items: flex-start; gap: 14px; }
+  }
+</style>
+
+<footer class="hf-{{ section.id }}" role="contentinfo">
+  <div class="hf-grid">
+
+    <div class="hf-media">
+      {%- if section.settings.image != blank -%}
+        <img
+          src="{{ section.settings.image | image_url: width: 1400 }}"
+          srcset="{{ section.settings.image | image_url: width: 700 }} 700w, {{ section.settings.image | image_url: width: 1400 }} 1400w"
+          sizes="(min-width: 990px) 45vw, 100vw"
+          alt="{{ section.settings.image.alt | escape }}"
+          width="{{ section.settings.image.width }}"
+          height="{{ section.settings.image.height }}"
+          loading="lazy">
+      {%- endif -%}
+      <div class="hf-media__scrim"></div>
+      <div class="hf-media__body">
+        {%- if section.settings.newsletter_kicker != blank -%}
+          <div class="hf-kicker">{{ section.settings.newsletter_kicker | escape }}</div>
+        {%- endif -%}
+        {%- if section.settings.newsletter_text != blank -%}
+          <p class="hf-lede">{{ section.settings.newsletter_text }}</p>
+        {%- endif -%}
+
+        {%- form 'customer' -%}
+          <input type="hidden" name="contact[tags]" value="newsletter">
+          <div class="hf-signup">
+            <input
+              type="email"
+              name="contact[email]"
+              id="hf-email-{{ section.id }}"
+              placeholder="{{ 'blocks.email_signup.placeholder' | t | default: 'Enter your email' }}"
+              autocorrect="off"
+              autocapitalize="off"
+              required>
+            <button type="submit">{{ section.settings.button_label | escape }}</button>
+          </div>
+          {%- if form.errors -%}
+            <p class="hf-note">{{ form.errors.translated_fields.email | capitalize }} {{ form.errors.messages.email }}</p>
+          {%- elsif form.posted_successfully? -%}
+            <p class="hf-note">{{ section.settings.success_text | escape }}</p>
+          {%- endif -%}
+        {%- endform -%}
+
+        {%- if section.settings.instagram_url != blank -%}
+          <a class="hf-social" href="{{ section.settings.instagram_url }}" target="_blank" rel="noopener">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+              <rect x="3" y="3" width="18" height="18" rx="5"></rect>
+              <circle cx="12" cy="12" r="4"></circle>
+              <circle cx="17.3" cy="6.7" r="1.1" fill="currentColor" stroke="none"></circle>
+            </svg>
+            {{ section.settings.instagram_label | escape }}
+          </a>
+        {%- endif -%}
+      </div>
+    </div>
+
+    <div class="hf-panel">
+      <div class="hf-contact">
+        <div class="hf-label">{{ section.settings.contact_title | escape }}</div>
+        <dl class="hf-pairs">
+          {%- if section.settings.business_name != blank -%}
+            <div class="hf-pair"><dt>Business name</dt><dd>{{ section.settings.business_name | escape }}</dd></div>
+          {%- endif -%}
+          {%- if section.settings.business_address != blank -%}
+            <div class="hf-pair"><dt>Business address</dt><dd>{{ section.settings.business_address }}</dd></div>
+          {%- endif -%}
+          {%- if section.settings.email != blank -%}
+            <div class="hf-pair"><dt>Email</dt><dd><a href="mailto:{{ section.settings.email }}">{{ section.settings.email }}</a></dd></div>
+          {%- endif -%}
+          {%- if section.settings.phone != blank -%}
+            <div class="hf-pair"><dt>Phone</dt><dd><a href="tel:{{ section.settings.phone | remove: ' ' | remove: '(' | remove: ')' | remove: '-' }}">{{ section.settings.phone }}</a></dd></div>
+          {%- endif -%}
+          {%- if section.settings.hours != blank -%}
+            <div class="hf-pair"><dt>Opening hours</dt><dd>{{ section.settings.hours }}</dd></div>
+          {%- endif -%}
+          {%- if section.settings.response_time != blank -%}
+            <div class="hf-pair"><dt>Response time</dt><dd>{{ section.settings.response_time | escape }}</dd></div>
+          {%- endif -%}
+        </dl>
+      </div>
+
+      <div class="hf-cols">
+        {%- assign menus = section.settings.menu_1 | default: nil -%}
+        <details class="hf-col">
+          <summary><span>{{ section.settings.menu_1_title | escape }}</span><span class="hf-sign" aria-hidden="true"></span></summary>
+          <span class="hf-label">{{ section.settings.menu_1_title | escape }}</span>
+          <ul>
+            {%- for link in section.settings.menu_1.links -%}
+              <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+            {%- endfor -%}
+          </ul>
+        </details>
+
+        <details class="hf-col">
+          <summary><span>{{ section.settings.menu_2_title | escape }}</span><span class="hf-sign" aria-hidden="true"></span></summary>
+          <span class="hf-label">{{ section.settings.menu_2_title | escape }}</span>
+          <ul>
+            {%- for link in section.settings.menu_2.links -%}
+              <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+            {%- endfor -%}
+          </ul>
+        </details>
+      </div>
+    </div>
+  </div>
+
+  <div class="hf-bottom">
+    <div class="hf-copy">
+      &copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. {{ section.settings.rights_text | escape }}
+    </div>
+    {%- if section.settings.show_payment_icons and shop.enabled_payment_types.size > 0 -%}
+      <div class="hf-pay">
+        {%- for type in shop.enabled_payment_types -%}
+          {{ type | payment_type_svg_tag: class: 'hf-pay__icon' }}
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</footer>
+
+<script>
+  (function () {
+    var root = document.querySelector('.hf-{{ section.id }}');
+    if (!root) return;
+    var groups = root.querySelectorAll('.hf-col');
+    var mq = window.matchMedia('(min-width: 990px)');
+    function sync() {
+      groups.forEach(function (g) {
+        if (mq.matches) { g.setAttribute('open', ''); }
+        else { g.removeAttribute('open'); }
+      });
+    }
+    sync();
+    mq.addEventListener ? mq.addEventListener('change', sync) : window.addEventListener('resize', sync);
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Heitz footer",
+  "settings": [
+    { "type": "header", "content": "Story image + newsletter" },
+    { "type": "image_picker", "id": "image", "label": "Image" },
+    { "type": "text", "id": "newsletter_kicker", "label": "Kicker", "default": "Stay in the light" },
+    { "type": "richtext", "id": "newsletter_text", "label": "Newsletter text", "default": "<p>Be the first to know about our biggest and best sales. We'll never send more than one email a month.</p>" },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Sign up" },
+    { "type": "text", "id": "success_text", "label": "Success message", "default": "Thanks — you're on the list." },
+    { "type": "url", "id": "instagram_url", "label": "Instagram URL" },
+    { "type": "text", "id": "instagram_label", "label": "Instagram label", "default": "Follow us" },
+
+    { "type": "header", "content": "Contact information" },
+    { "type": "text", "id": "contact_title", "label": "Title", "default": "Contact Information" },
+    { "type": "text", "id": "business_name", "label": "Business name", "default": "HEITZ LLC" },
+    { "type": "richtext", "id": "business_address", "label": "Business address", "default": "<p>30 N Gould St. Ste R, Sheridan, Wyoming, 82801, USA</p>" },
+    { "type": "text", "id": "email", "label": "Email", "default": "support@heitz.shop" },
+    { "type": "text", "id": "phone", "label": "Phone", "default": "+1 (917) 341-2265" },
+    { "type": "richtext", "id": "hours", "label": "Opening hours", "default": "<p>Monday to Friday, 09:00-17:00 (EST)</p>" },
+    { "type": "text", "id": "response_time", "label": "Response time", "default": "12-24 hours" },
+
+    { "type": "header", "content": "Link columns" },
+    { "type": "text", "id": "menu_1_title", "label": "Column 1 title", "default": "Customer Support" },
+    { "type": "link_list", "id": "menu_1", "label": "Column 1 menu" },
+    { "type": "text", "id": "menu_2_title", "label": "Column 2 title", "default": "Our Policies" },
+    { "type": "link_list", "id": "menu_2", "label": "Column 2 menu" },
+
+    { "type": "header", "content": "Bottom bar" },
+    { "type": "text", "id": "rights_text", "label": "Rights text", "default": "All rights reserved." },
+    { "type": "checkbox", "id": "show_payment_icons", "label": "Show payment icons", "default": true },
+
+    { "type": "header", "content": "Colours & type" },
+    { "type": "color", "id": "bg_color", "label": "Background", "default": "#14120F" },
+    { "type": "color", "id": "bottom_bg_color", "label": "Bottom bar background", "default": "#100E0C" },
+    { "type": "color", "id": "text_color", "label": "Text", "default": "#F5F1EA" },
+    { "type": "color", "id": "accent_color", "label": "Accent (hover)", "default": "#D6B27A" },
+    { "type": "text", "id": "font_stack", "label": "Font stack", "default": "inherit" }
+  ],
+  "presets": [{ "name": "Heitz footer" }]
+}
+{% endschema %}

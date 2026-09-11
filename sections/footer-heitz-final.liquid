@@ -64,6 +64,9 @@
 
   @media screen and (max-width: 989px) {
     .hf-news { padding: 26px 22px; gap: 13px; }
+    /* the liquid form tag wraps the signup in a <form> — that form is
+       the actual flex item, so it must stretch for the signup to */
+    .hf-news form { width: 100%; flex: 1 1 100%; }
     .hf-news p { font-size: calc(var(--hf-fs-news) - 0.5px); }
     .hf-signup { min-width: 0; width: 100%; flex: 1 1 100%; gap: 14px; }
     .hf-signup input[type="email"] { font-size: calc(var(--hf-fs-text) - 0.5px); }

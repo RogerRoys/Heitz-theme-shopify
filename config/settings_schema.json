@@ -2338,6 +2338,33 @@
       },
       {
         "type": "header",
+        "content": "Search rail (Option C)"
+      },
+      {
+        "type": "text",
+        "id": "hsm_quick_links_title",
+        "label": "Quick links title",
+        "default": "Quick links"
+      },
+      {
+        "type": "link_list",
+        "id": "hsm_quick_links",
+        "label": "Quick links menu"
+      },
+      {
+        "type": "text",
+        "id": "hsm_trending_title",
+        "label": "Trending title",
+        "default": "Trending"
+      },
+      {
+        "type": "textarea",
+        "id": "hsm_trending",
+        "label": "Trending searches (one per line)",
+        "default": "brass pendant\ndining chandelier"
+      },
+      {
+        "type": "header",
         "content": "t:names.predictive_search"
       },
       {

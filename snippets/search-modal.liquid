@@ -103,6 +103,30 @@
         </div>
 
         <div class="predictive-search-form__content-wrapper">
+          {%- if settings.hsm_quick_links != blank or settings.hsm_trending != blank -%}
+            <aside class="hsm-rail" aria-label="{{ settings.hsm_quick_links_title | default: 'Quick links' | escape }}">
+              {%- if settings.hsm_quick_links != blank -%}
+                <span class="hsm-label">{{ settings.hsm_quick_links_title | default: 'Quick links' | escape }}</span>
+                <ul class="hsm-links list-unstyled">
+                  {%- for link in settings.hsm_quick_links.links -%}
+                    <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+                  {%- endfor -%}
+                </ul>
+              {%- endif -%}
+              {%- if settings.hsm_trending != blank -%}
+                <span class="hsm-label">{{ settings.hsm_trending_title | default: 'Trending' | escape }}</span>
+                <ul class="hsm-trend list-unstyled">
+                  {%- assign hsm_terms = settings.hsm_trending | newline_to_br | split: '<br />' -%}
+                  {%- for t in hsm_terms -%}
+                    {%- assign hsm_term = t | strip_html | strip -%}
+                    {%- if hsm_term != blank -%}
+                      <li><a href="{{ routes.search_url }}?q={{ hsm_term | url_encode }}">&#8599;&nbsp; {{ hsm_term }}</a></li>
+                    {%- endif -%}
+                  {%- endfor -%}
+                </ul>
+              {%- endif -%}
+            </aside>
+          {%- endif -%}
           <div
             class="predictive-search-form__content"
             tabindex="-1"
@@ -525,5 +549,180 @@
   .predictive-search__close-modal-button:hover {
     --button-color: var(--color-foreground);
     --button-background-color: transparent;
+  }
+
+  /* ===== Heitz search Option C: Split Editorial ===== */
+  .search-modal {
+    /* radius 0 everywhere the modal reads this var */
+    --search-border-radius: 0px;
+  }
+
+  .search-modal__content.search-modal__content {
+    --modal-width: min(910px, 92dvw);
+  }
+
+  /* the component carries corner-radius vars inline — re-declare below it */
+  .search-modal .predictive-search-form {
+    --product-corner-radius: 0px;
+    --card-corner-radius: 0px;
+    --resource-card-corner-radius: 0px;
+  }
+
+  /* flat hairline input row */
+  .search-modal .predictive-search-form__header {
+    border: 0;
+    border-bottom: var(--style-border-width, 1px) solid var(--color-border);
+    border-radius: 0;
+    background-color: var(--color-background);
+  }
+
+  .search-modal .predictive-search-form__header-inner {
+    border: 0;
+    border-radius: 0;
+  }
+
+  /* section labels: heading font, uppercase, letterspaced */
+  .search-modal .predictive-search-results__title {
+    font-family: var(--font-heading--family, 'Cabin', sans-serif);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 2.2px;
+    text-transform: uppercase;
+    color: rgb(var(--color-foreground-rgb) / 0.55);
+  }
+
+  .search-modal .predictive-search-results__clear.predictive-search-results__clear {
+    font-family: var(--font-body--family, inherit);
+    font-size: 12.5px;
+    font-weight: 400;
+    letter-spacing: normal;
+    text-transform: none;
+    color: var(--color-primary-button-hover-background, #9f6939);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    opacity: 1;
+  }
+
+  /* card type: compact titles, bronze prices */
+  .search-modal .resource-card__title.resource-card__title {
+    font-size: 13.5px;
+    line-height: 1.35;
+  }
+
+  .search-modal .resource-card__subtext.resource-card__subtext {
+    font-family: var(--font-heading--family, 'Cabin', sans-serif);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--color-primary-button-hover-background, #9f6939);
+  }
+
+  /* left rail */
+  .search-modal .hsm-rail {
+    box-sizing: border-box;
+    background-color: var(--color-background);
+  }
+
+  .search-modal .hsm-label {
+    font-family: var(--font-heading--family, 'Cabin', sans-serif);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 2.2px;
+    text-transform: uppercase;
+    color: rgb(var(--color-foreground-rgb) / 0.55);
+    display: block;
+    margin-bottom: 12px;
+  }
+
+  .search-modal .hsm-links {
+    margin: 0 0 22px;
+    padding: 0;
+  }
+
+  .search-modal .hsm-links a {
+    font-size: 15px;
+    color: var(--color-foreground);
+    text-decoration: none;
+    display: block;
+    padding: 6.5px 0;
+    transition: color 0.18s ease;
+  }
+
+  .search-modal .hsm-links a:hover {
+    color: var(--color-primary-button-hover-background, #9f6939);
+  }
+
+  .search-modal .hsm-trend {
+    margin: 0;
+    padding: 0;
+  }
+
+  .search-modal .hsm-trend a {
+    font-size: 13.5px;
+    color: var(--color-primary-button-hover-background, #9f6939);
+    text-decoration: none;
+    display: block;
+    padding: 5px 0;
+  }
+
+  /* desktop: rail beside results */
+  @media screen and (min-width: 750px) {
+    .search-modal .predictive-search-form__content-wrapper {
+      flex-direction: row;
+    }
+
+    .search-modal .hsm-rail {
+      flex: 0 0 240px;
+      border-right: var(--style-border-width, 1px) solid var(--color-border);
+      padding: 24px 26px;
+      overflow-y: auto;
+    }
+
+    .search-modal .predictive-search-form__content {
+      flex: 1 1 auto;
+      min-width: 0;
+      width: auto;
+    }
+  }
+
+  /* mobile: rail stacks on top — quick links become a chip row */
+  @media screen and (max-width: 749px) {
+    .search-modal .predictive-search-form__content-wrapper {
+      flex-direction: column;
+    }
+
+    .search-modal .hsm-rail {
+      width: 100%;
+      border-bottom: var(--style-border-width, 1px) solid var(--color-border);
+      padding: 16px;
+    }
+
+    .search-modal .hsm-links {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      margin: 0 0 14px;
+      scrollbar-width: none;
+    }
+
+    .search-modal .hsm-links::-webkit-scrollbar {
+      display: none;
+    }
+
+    .search-modal .hsm-links li {
+      flex: none;
+    }
+
+    .search-modal .hsm-links a {
+      border: 1px solid var(--color-border);
+      padding: 7px 12px;
+      white-space: nowrap;
+      font-size: 13px;
+    }
+
+    .search-modal .hsm-trend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2px 18px;
+    }
   }
 {% endstylesheet %}

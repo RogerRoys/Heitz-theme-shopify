@@ -52,7 +52,9 @@
   /* newsletter band */
   .hf-news { display: flex; align-items: center; justify-content: space-between; gap: 40px; flex-wrap: wrap; padding: 30px 40px; border-bottom: 1px solid var(--hf-line); }
   .hf-news p { margin: 0; font-size: var(--hf-fs-news); font-weight: 300; line-height: 1.5; max-width: 50ch; color: rgb(var(--color-foreground-rgb) /.85); }
-  .hf-signup { display: flex; border: 1px solid rgb(var(--color-foreground-rgb) /.3); border-radius: 2px; overflow: hidden; min-width: 420px; flex: 0 1 540px; }
+  .hf-signup { display: flex; border: 1px solid rgb(var(--color-foreground-rgb) /.3); border-radius: 2px; overflow: hidden; }
+  /* the form tag is the real flex item — size it, the signup fills it */
+  .hf-news form { flex: 0 1 540px; min-width: 420px; }
   .hf-signup input[type="email"] { flex: 1; min-width: 0; border: 0; background: transparent; padding: 13px 16px; font: inherit; font-size: calc(var(--hf-fs-text) - 0.5px); color: var(--hf-ink); }
   .hf-signup input[type="email"]::placeholder { color: rgb(var(--color-foreground-rgb) /.5); }
   .hf-signup input[type="email"]:focus { outline: none; }
@@ -89,7 +91,7 @@
     .hf-news { padding: 26px 22px; gap: 13px; border-bottom: 1px solid var(--hf-line); }
     /* the liquid form tag wraps the signup in a <form> — that form is
        the actual flex item, so it must stretch for the signup to */
-    .hf-news form { width: 100%; flex: 1 1 100%; }
+    .hf-news form { width: 100%; flex: 1 1 100%; min-width: 0; }
     .hf-news p { font-size: calc(var(--hf-fs-news) - 0.5px); }
     .hf-signup { min-width: 0; width: 100%; flex: 1 1 100%; }
 

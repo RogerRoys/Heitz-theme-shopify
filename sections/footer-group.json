@@ -110,6 +110,7 @@
         "menu_policies",
         "newsletter"
       ],
+      "disabled": true,
       "settings": {
         "color_scheme": "scheme-3",
         "padding_top": 80,

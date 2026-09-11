@@ -13,7 +13,6 @@
   "sections": {
     "footer_heitz_10a": {
       "type": "footer-heitz-10a",
-      "disabled": true,
       "settings": {
         "pad_top": 0,
         "pad_bottom": 0,
@@ -51,6 +50,7 @@
     },
     "footer_heitz_final": {
       "type": "footer-heitz-final",
+      "disabled": true,
       "settings": {
         "newsletter_text": "<p>Be the first to know about our biggest and best sales. We'll never send more than one email a month.</p>",
         "email_placeholder": "Enter your email",

@@ -1,0 +1,261 @@
+{%- comment -%}
+  Heitz footer — option 10a (FINAL)
+  Desktop: three ruled columns (Contact Information · Customer Support · Our Policies),
+           newsletter band, bottom bar = Follow us / centred copyright / payment icons
+  Mobile:  contact info + newsletter open, Customer Support & Our Policies collapsible
+
+  Install:
+  1. Shopify admin > Online Store > Themes > ... > Edit code
+  2. Sections > Add a new section > name it: footer-heitz  (creates footer-heitz.liquid)
+  3. Paste this whole file in and Save.
+  4. Theme editor > Footer > Add section > "Heitz footer" (remove the old footer section).
+  5. In the section settings pick the two menus and edit the contact fields.
+{%- endcomment -%}
+
+<style>
+  .hf-{{ section.id }} {
+    --hf-bg: var(--color-background);
+    --hf-ink: var(--color-foreground);
+    --hf-accent: {{ section.settings.accent_color }};
+    --hf-line: rgb(var(--color-foreground-rgb) / 0.12);
+    --hf-fs-news: {{ section.settings.news_size | default: 16.5 }}px;
+    --hf-fs-label: {{ section.settings.label_size | default: 13 }}px;
+    --hf-fs-text: {{ section.settings.text_size | default: 16.5 }}px;
+    --hf-fs-copy: {{ section.settings.copy_size | default: 14.5 }}px;
+    background: var(--hf-bg);
+    color: var(--hf-ink);
+    font-family: {{ section.settings.font_stack }};
+    -webkit-font-smoothing: antialiased;
+  }
+  .hf-{{ section.id }} * { box-sizing: border-box; }
+  .hf-{{ section.id }} a { color: inherit; text-decoration: none; transition: color .18s ease; }
+  .hf-{{ section.id }} a:hover { color: var(--hf-accent); }
+
+  /* three ruled columns */
+  .hf-cols { display: grid; grid-template-columns: 1.15fr 1fr 1fr; border-bottom: 1px solid var(--hf-line); }
+  .hf-label { font-size: var(--hf-fs-label); letter-spacing: .18em; text-transform: uppercase; color: rgb(var(--color-foreground-rgb) /.45); }
+
+  .hf-contact { padding: 44px 40px; border-right: 1px solid var(--hf-line); display: flex; flex-direction: column; gap: 10px; }
+  .hf-contact > .hf-label { margin-bottom: 6px; }
+  .hf-contact__lines { font-size: var(--hf-fs-text); line-height: 1.75; color: rgb(var(--color-foreground-rgb) /.85); }
+  .hf-contact a { font-size: var(--hf-fs-text); align-self: flex-start; }
+  .hf-contact__hours { font-size: calc(var(--hf-fs-text) - 1.5px); line-height: 1.7; color: rgb(var(--color-foreground-rgb) /.6); margin-top: 2px; }
+
+  .hf-col { padding: 44px 36px; border-right: 1px solid var(--hf-line); }
+  .hf-col:last-child { border-right: 0; }
+  .hf-col > .hf-label { display: block; margin-bottom: 16px; }
+  .hf-col ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 13px; }
+  .hf-col li a { font-size: var(--hf-fs-text); color: rgb(var(--color-foreground-rgb) /.84); }
+  .hf-col summary { display: none; }
+
+  /* newsletter band */
+  .hf-news { display: flex; align-items: center; justify-content: space-between; gap: 40px; flex-wrap: wrap; padding: 30px 40px; border-bottom: 1px solid var(--hf-line); }
+  .hf-news p { margin: 0; font-size: var(--hf-fs-news); font-weight: 300; line-height: 1.5; max-width: 50ch; color: rgb(var(--color-foreground-rgb) /.85); }
+  .hf-signup { display: flex; border: 1px solid rgb(var(--color-foreground-rgb) /.3); border-radius: 2px; overflow: hidden; min-width: 380px; flex: 0 1 420px; }
+  .hf-signup input[type="email"] { flex: 1; min-width: 0; border: 0; background: transparent; padding: 13px 16px; font: inherit; font-size: calc(var(--hf-fs-text) - 0.5px); color: var(--hf-ink); }
+  .hf-signup input[type="email"]::placeholder { color: rgb(var(--color-foreground-rgb) /.5); }
+  .hf-signup input[type="email"]:focus { outline: none; }
+  .hf-signup button { border: 0; background: var(--hf-ink); color: var(--hf-bg); font: inherit; font-size: 13px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; padding: 0 22px; cursor: pointer; transition: background .18s ease; }
+  .hf-signup button:hover { background: var(--hf-accent); }
+  .hf-note { margin: 8px 0 0; font-size: calc(var(--hf-fs-copy) - 0.5px); color: rgb(var(--color-foreground-rgb) /.6); flex-basis: 100%; }
+
+  /* bottom bar: follow us / centred copyright / payment icons */
+  .hf-bottom { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 24px; padding: 18px 40px; border-top: 1px solid var(--hf-line); }
+  .hf-social { display: inline-flex; align-items: center; gap: 10px; font-size: 15px; color: rgb(var(--color-foreground-rgb) /.72); justify-self: start; }
+  .hf-copy { font-size: var(--hf-fs-copy); color: rgb(var(--color-foreground-rgb) /.5); text-align: center; }
+  .hf-pay { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; justify-content: flex-end; }
+  .hf-pay svg, .hf-pay img { height: 24px; width: auto; display: block; }
+
+  @media screen and (max-width: 989px) {
+    .hf-cols { display: block; border-bottom: 0; }
+    .hf-contact { padding: 26px 22px; border-right: 0; border-bottom: 1px solid var(--hf-line); }
+    .hf-contact__lines, .hf-contact a { font-size: calc(var(--hf-fs-text) - 0.5px); }
+
+    .hf-col { padding: 0; border-right: 0; border-bottom: 1px solid var(--hf-line); }
+    .hf-col > .hf-label { display: none; }
+    .hf-col summary { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 20px 22px; cursor: pointer; list-style: none; }
+    .hf-col summary::-webkit-details-marker { display: none; }
+    .hf-col summary > span:first-child { font-size: calc(var(--hf-fs-label) - 0.5px); letter-spacing: .18em; text-transform: uppercase; color: rgb(var(--color-foreground-rgb) /.7); }
+    .hf-sign { position: relative; width: 14px; height: 14px; flex: none; }
+    .hf-sign::before, .hf-sign::after { content: ""; position: absolute; background: rgb(var(--color-foreground-rgb) /.6); transition: transform .2s ease, opacity .2s ease; }
+    .hf-sign::before { top: 6px; left: 0; width: 14px; height: 1.5px; }
+    .hf-sign::after { left: 6px; top: 0; width: 1.5px; height: 14px; }
+    .hf-col[open] .hf-sign::after { opacity: 0; transform: scaleY(0); }
+    .hf-col ul { padding: 0 22px 22px; gap: 0; }
+    .hf-col li a { display: block; padding: 11px 0; font-size: calc(var(--hf-fs-text) - 0.5px); }
+
+    .hf-news { padding: 26px 22px; gap: 13px; border-bottom: 1px solid var(--hf-line); }
+    /* the liquid form tag wraps the signup in a <form> — that form is
+       the actual flex item, so it must stretch for the signup to */
+    .hf-news form { width: 100%; flex: 1 1 100%; }
+    .hf-news p { font-size: calc(var(--hf-fs-news) - 0.5px); }
+    .hf-signup { min-width: 0; width: 100%; flex: 1 1 100%; }
+
+    .hf-bottom { grid-template-columns: 1fr; justify-items: center; gap: 14px; padding: 22px; }
+    .hf-social { justify-self: center; }
+    .hf-pay { justify-content: center; }
+  }
+</style>
+
+<footer class="hf-{{ section.id }} color-{{ section.settings.color_scheme | default: 'scheme-3' }}" role="contentinfo">
+
+  <div class="hf-cols">
+
+    <div class="hf-contact">
+      <div class="hf-label">{{ section.settings.contact_title | escape }}</div>
+      <div class="hf-contact__lines">
+        {%- if section.settings.business_name != blank -%}Business Name: {{ section.settings.business_name | escape }}<br>{%- endif -%}
+        {%- if section.settings.business_address != blank -%}Business Address: {{ section.settings.business_address | escape }}<br>{%- endif -%}
+        {%- if section.settings.city_line != blank -%}{{ section.settings.city_line | escape }}<br>{%- endif -%}
+        {%- if section.settings.country != blank -%}{{ section.settings.country | escape }}{%- endif -%}
+      </div>
+      {%- if section.settings.email != blank -%}
+        <a href="mailto:{{ section.settings.email }}">Email: {{ section.settings.email }}</a>
+      {%- endif -%}
+      {%- if section.settings.phone != blank -%}
+        <a href="tel:{{ section.settings.phone | remove: ' ' | remove: '(' | remove: ')' | remove: '-' }}">Phone: {{ section.settings.phone }}</a>
+      {%- endif -%}
+      <div class="hf-contact__hours">
+        {%- if section.settings.hours != blank -%}Opening hours: {{ section.settings.hours | escape }}<br>{%- endif -%}
+        {%- if section.settings.response_time != blank -%}Response time: {{ section.settings.response_time | escape }}{%- endif -%}
+      </div>
+    </div>
+
+    <details class="hf-col">
+      <summary><span>{{ section.settings.menu_1_title | escape }}</span><span class="hf-sign" aria-hidden="true"></span></summary>
+      <span class="hf-label">{{ section.settings.menu_1_title | escape }}</span>
+      <ul>
+        {%- for link in section.settings.menu_1.links -%}
+          <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+        {%- endfor -%}
+      </ul>
+    </details>
+
+    <details class="hf-col">
+      <summary><span>{{ section.settings.menu_2_title | escape }}</span><span class="hf-sign" aria-hidden="true"></span></summary>
+      <span class="hf-label">{{ section.settings.menu_2_title | escape }}</span>
+      <ul>
+        {%- for link in section.settings.menu_2.links -%}
+          <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+        {%- endfor -%}
+      </ul>
+    </details>
+
+  </div>
+
+  {%- if section.settings.newsletter_text != blank -%}
+    <div class="hf-news">
+      {{ section.settings.newsletter_text }}
+      {%- form 'customer' -%}
+        <input type="hidden" name="contact[tags]" value="newsletter">
+        <div class="hf-signup">
+          <input
+            type="email"
+            name="contact[email]"
+            id="hf-email-{{ section.id }}"
+            placeholder="{{ section.settings.email_placeholder | escape }}"
+            autocorrect="off"
+            autocapitalize="off"
+            required>
+          <button type="submit">{{ section.settings.button_label | escape }}</button>
+        </div>
+        {%- if form.errors -%}
+          <p class="hf-note">{{ form.errors.translated_fields.email | capitalize }} {{ form.errors.messages.email }}</p>
+        {%- elsif form.posted_successfully? -%}
+          <p class="hf-note">{{ section.settings.success_text | escape }}</p>
+        {%- endif -%}
+      {%- endform -%}
+    </div>
+  {%- endif -%}
+
+  <div class="hf-bottom">
+    {%- if section.settings.instagram_url != blank -%}
+      <a class="hf-social" href="{{ section.settings.instagram_url }}" target="_blank" rel="noopener">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+          <rect x="3" y="3" width="18" height="18" rx="5"></rect>
+          <circle cx="12" cy="12" r="4"></circle>
+          <circle cx="17.3" cy="6.7" r="1.1" fill="currentColor" stroke="none"></circle>
+        </svg>
+        {{ section.settings.instagram_label | escape }}
+      </a>
+    {%- else -%}
+      <span></span>
+    {%- endif -%}
+
+    <div class="hf-copy">&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. {{ section.settings.rights_text | escape }}</div>
+
+    {%- if section.settings.show_payment_icons and shop.enabled_payment_types.size > 0 -%}
+      <div class="hf-pay">
+        {%- for type in shop.enabled_payment_types -%}
+          {{ type | payment_type_svg_tag: class: 'hf-pay__icon' }}
+        {%- endfor -%}
+      </div>
+    {%- else -%}
+      <span></span>
+    {%- endif -%}
+  </div>
+</footer>
+
+<script>
+  (function () {
+    var root = document.querySelector('.hf-{{ section.id }}');
+    if (!root) return;
+    var groups = root.querySelectorAll('.hf-col');
+    var mq = window.matchMedia('(min-width: 990px)');
+    function sync() {
+      groups.forEach(function (g) {
+        if (mq.matches) { g.setAttribute('open', ''); } else { g.removeAttribute('open'); }
+      });
+    }
+    sync();
+    if (mq.addEventListener) { mq.addEventListener('change', sync); } else { window.addEventListener('resize', sync); }
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Footer 3",
+  "settings": [
+    { "type": "header", "content": "Contact information" },
+    { "type": "text", "id": "contact_title", "label": "Title", "default": "Contact Information" },
+    { "type": "text", "id": "business_name", "label": "Business name", "default": "HEITZ LLC" },
+    { "type": "text", "id": "business_address", "label": "Street address", "default": "30 N Gould St. Ste R" },
+    { "type": "text", "id": "city_line", "label": "City / state / zip", "default": "Sheridan, Wyoming, 82801" },
+    { "type": "text", "id": "country", "label": "Country", "default": "USA" },
+    { "type": "text", "id": "email", "label": "Email", "default": "support@heitz.shop" },
+    { "type": "text", "id": "phone", "label": "Phone", "default": "+1 (917) 341-2265" },
+    { "type": "text", "id": "hours", "label": "Opening hours", "default": "Monday to Friday, 09:00-17:00 (EST)" },
+    { "type": "text", "id": "response_time", "label": "Response time", "default": "12-24 hours" },
+
+    { "type": "header", "content": "Link columns" },
+    { "type": "text", "id": "menu_1_title", "label": "Column 1 title", "default": "Customer Support" },
+    { "type": "link_list", "id": "menu_1", "label": "Column 1 menu" },
+    { "type": "text", "id": "menu_2_title", "label": "Column 2 title", "default": "Our Policies" },
+    { "type": "link_list", "id": "menu_2", "label": "Column 2 menu" },
+
+    { "type": "header", "content": "Newsletter" },
+    { "type": "richtext", "id": "newsletter_text", "label": "Text", "default": "<p>Be the first to know about our biggest and best sales. We'll never send more than one email a month.</p>" },
+    { "type": "text", "id": "email_placeholder", "label": "Field placeholder", "default": "Enter your email" },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Sign up" },
+    { "type": "text", "id": "success_text", "label": "Success message", "default": "Thanks — you're on the list." },
+
+    { "type": "header", "content": "Bottom bar" },
+    { "type": "url", "id": "instagram_url", "label": "Instagram URL" },
+    { "type": "text", "id": "instagram_label", "label": "Instagram label", "default": "Follow us" },
+    { "type": "text", "id": "rights_text", "label": "Rights text", "default": "All rights reserved." },
+    { "type": "checkbox", "id": "show_payment_icons", "label": "Show payment icons", "default": true },
+
+    { "type": "header", "content": "Typography" },
+    { "type": "range", "id": "news_size", "label": "Newsletter text size", "min": 12, "max": 28, "step": 0.5, "unit": "px", "default": 16.5 },
+    { "type": "range", "id": "label_size", "label": "Column titles size", "min": 10, "max": 18, "step": 0.5, "unit": "px", "default": 13 },
+    { "type": "range", "id": "text_size", "label": "Text & links size", "min": 12, "max": 22, "step": 0.5, "unit": "px", "default": 16.5 },
+    { "type": "range", "id": "copy_size", "label": "Bottom bar text size", "min": 10, "max": 18, "step": 0.5, "unit": "px", "default": 14.5 },
+
+    { "type": "header", "content": "Colours & type" },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-3" },
+    { "type": "color", "id": "accent_color", "label": "Accent (hover)", "default": "#D6B27A" },
+    { "type": "text", "id": "font_stack", "label": "Font stack", "default": "inherit" }
+  ],
+  "presets": [{ "name": "Footer 3" }]
+}
+{% endschema %}

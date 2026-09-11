@@ -11,8 +11,38 @@
   "type": "footer",
   "name": "Footer",
   "sections": {
+    "footer_heitz_10a": {
+      "type": "footer-heitz-10a",
+      "settings": {
+        "contact_title": "Contact Information",
+        "business_name": "HEITZ LLC",
+        "business_address": "30 N Gould St. Ste R",
+        "city_line": "Sheridan, Wyoming, 82801",
+        "country": "USA",
+        "email": "support@heitz.shop",
+        "phone": "+1 (917) 341-2265",
+        "hours": "Monday to Friday, 09:00-17:00 (EST)",
+        "response_time": "12-24 hours",
+        "menu_1_title": "Customer Support",
+        "menu_1": "footer",
+        "menu_2_title": "Our Policies",
+        "menu_2": "legal",
+        "newsletter_text": "<p>Be the first to know about our biggest and best sales. We'll never send more than one email a month.</p>",
+        "email_placeholder": "Enter your email",
+        "button_label": "Sign up",
+        "success_text": "Thanks — you're on the list.",
+        "instagram_url": "https://www.instagram.com/heitz_official?igsh=MXI4eHV2eGpvNTJhNw%3D%3D&utm_source=qr",
+        "instagram_label": "Follow us",
+        "rights_text": "All rights reserved.",
+        "show_payment_icons": true,
+        "color_scheme": "scheme-3",
+        "accent_color": "#d6b27a",
+        "font_stack": "inherit"
+      }
+    },
     "footer_heitz_final": {
       "type": "footer-heitz-final",
+      "disabled": true,
       "settings": {
         "newsletter_text": "<p>Be the first to know about our biggest and best sales. We'll never send more than one email a month.</p>",
         "email_placeholder": "Enter your email",
@@ -133,6 +163,7 @@
     }
   },
   "order": [
+    "footer_heitz_10a",
     "footer_heitz_final",
     "footer_heitz",
     "heitz_footer"

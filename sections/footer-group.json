@@ -16,7 +16,7 @@
       "settings": {
         "newsletter_text": "<p>Be the first to know about our biggest and best sales. We'll never send more than one email a month.</p>",
         "email_placeholder": "Enter your email",
-        "button_label": "Subscribe →",
+        "button_label": "Subscribe",
         "success_text": "Thanks — you're on the list.",
         "contact_title": "Contact Information",
         "business_name": "HEITZ LLC",

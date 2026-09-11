@@ -117,6 +117,10 @@
   /* Option B "Square Chip Follow": on hover-capable devices the static
      chip hides and a cursor-following square chip carries the zoom
      hint; the visible slide takes a soft expo zoom while it's shown */
+  /* hidden by default — ONLY hover devices style and show it; without
+     this the unstyled span rendered as a full-width svg block on
+     mobile and pushed the gallery down by its height */
+  .hpdp-zoom-cursor { display: none; }
   @media (hover: hover) {
     .hpdp-zoom-btn { display: none; }
     .hpdp-stage__track,

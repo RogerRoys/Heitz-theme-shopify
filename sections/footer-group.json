@@ -1,1 +1,48 @@
-{"type":"footer","name":"Footer","sections":{"footer_heitz":{"type":"footer-heitz","settings":{"newsletter_kicker":"Stay in the light","newsletter_text":"<p>Be the first to know about our biggest and best sales. We'll never send more than one email a month.</p>","button_label":"Sign up","success_text":"Thanks — you're on the list.","instagram_url":"https://www.instagram.com/heitz_official?igsh=MXI4eHV2eGpvNTJhNw%3D%3D&utm_source=qr","instagram_label":"Follow us","contact_title":"Contact Information","business_name":"HEITZ LLC","business_address":"<p>30 N Gould St. Ste R, Sheridan, Wyoming, 82801, USA</p>","email":"support@heitz.shop","phone":"+1 (917) 341-2265","hours":"<p>Monday to Friday, 09:00-17:00 (EST)</p>","response_time":"12-24 hours","menu_1_title":"Customer Support","menu_1":"footer","menu_2_title":"Our Policies","menu_2":"legal","rights_text":"All rights reserved.","show_payment_icons":true}}},"order":["footer_heitz"]}
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "type": "footer",
+  "name": "Footer",
+  "sections": {
+    "footer_heitz": {
+      "type": "footer-heitz",
+      "settings": {
+        "image": "shopify://shop_images/04-luminara-spiral-grand_acf91848-feb4-46a3-87d9-a50d02f8bec4.webp",
+        "newsletter_kicker": "Stay in the light",
+        "newsletter_text": "<p>Be the first to know about our biggest and best sales. We'll never send more than one email a month.</p>",
+        "button_label": "Sign up",
+        "success_text": "Thanks — you're on the list.",
+        "instagram_url": "https://www.instagram.com/heitz_official?igsh=MXI4eHV2eGpvNTJhNw%3D%3D&utm_source=qr",
+        "instagram_label": "Follow us",
+        "contact_title": "Contact Information",
+        "business_name": "HEITZ LLC",
+        "business_address": "<p>30 N Gould St. Ste R, Sheridan, Wyoming, 82801, USA</p>",
+        "email": "support@heitz.shop",
+        "phone": "+1 (917) 341-2265",
+        "hours": "<p>Monday to Friday, 09:00-17:00 (EST)</p>",
+        "response_time": "12-24 hours",
+        "menu_1_title": "Customer Support",
+        "menu_1": "footer",
+        "menu_2_title": "Our Policies",
+        "menu_2": "legal",
+        "rights_text": "All rights reserved.",
+        "show_payment_icons": true,
+        "bg_color": "#14120f",
+        "bottom_bg_color": "#100e0c",
+        "text_color": "#f5f1ea",
+        "accent_color": "#d6b27a",
+        "font_stack": "inherit"
+      }
+    }
+  },
+  "order": [
+    "footer_heitz"
+  ]
+}

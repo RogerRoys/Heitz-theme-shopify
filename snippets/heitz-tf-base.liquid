@@ -33,7 +33,12 @@
     border-radius: 0;
     color: var(--color-primary-button-text, var(--htf-color-btn-text));
     cursor: pointer;
-    display: inline-block;
+    /* inline-flex + centering: the mobile 48px touch-target min-height
+       (heitz-premium-interactions.css) left the label stuck at the top
+       of an inline-block, showing a gap under the text */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     font-family: var(--htf-font-body);
     font-size: 12px;
     font-weight: 500;

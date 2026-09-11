@@ -13,6 +13,7 @@
   "sections": {
     "footer_heitz": {
       "type": "footer-heitz",
+      "disabled": true,
       "settings": {
         "image": "shopify://shop_images/heitz-patio-bronze-globe-pendant-day-cover.webp",
         "scrim_opacity": 100,
@@ -42,7 +43,6 @@
     },
     "heitz_footer": {
       "type": "heitz-footer",
-      "disabled": true,
       "blocks": {
         "contact": {
           "type": "contact",
@@ -75,7 +75,12 @@
           }
         }
       },
-      "block_order": ["contact", "menu_support", "menu_policies", "newsletter"],
+      "block_order": [
+        "contact",
+        "menu_support",
+        "menu_policies",
+        "newsletter"
+      ],
       "settings": {
         "color_scheme": "scheme-3",
         "padding_top": 80,

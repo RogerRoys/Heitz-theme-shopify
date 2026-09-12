@@ -481,8 +481,8 @@
 
   /* ── reference stagger: header → items → footer ── */
   @keyframes hcd-in {
-    from { opacity: 0; transform: translateX(28px); }
-    to { opacity: 1; transform: translateX(0); }
+    from { opacity: 0.4; clip-path: inset(0 100% 0 0); }
+    to { opacity: 1; clip-path: inset(0); }
   }
   .cart-drawer__dialog[open] .cart-drawer__header {
     animation: hcd-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) both 0.12s;

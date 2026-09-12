@@ -309,6 +309,35 @@ details#Details-menu-drawer-container .menu-drawer {
     box-shadow: none !important;
   }
 
+  /* E Curtain Wipe: a bronze underline draws left-to-right under the
+     card media on hover, and the image dims a touch */
+  :where(.product-card, .collection-card, .resource-card) .card-gallery {
+    position: relative;
+  }
+
+  :where(.product-card, .collection-card, .resource-card) .card-gallery::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 2px;
+    background: #9f6939;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  :where(.product-card, .collection-card, .resource-card):hover .card-gallery::after {
+    transform: scaleX(1);
+  }
+
+  :where(.product-card, .collection-card, .resource-card):hover .card-gallery img {
+    opacity: 0.88;
+  }
+
   .card-hover-effect-subtle-zoom .product-card:hover :where(.card-gallery, .product-card__image),
   .card-hover-effect-subtle-zoom .collection-card:hover .collection-card__image,
   .card-hover-effect-subtle-zoom .resource-card:hover .resource-card__image {

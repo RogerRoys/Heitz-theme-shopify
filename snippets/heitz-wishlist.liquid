@@ -106,8 +106,7 @@
     color: #1a1b18;
     display: flex;
     flex-direction: column;
-    transform: translateX(102%) rotate(1.5deg);
-    transform-origin: top right;
+    transform: translateX(102%);
     /* cart drawer's Expo Luxe motion, shared across all drawers */
     transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
     box-shadow: -12px 0 40px rgba(0, 0, 0, 0.18);
@@ -115,7 +114,7 @@
   @media screen and (max-width: 749px) {
     .hwd__panel { width: 100vw; }
   }
-  .hwd.is-open .hwd__panel { transform: translateX(0) rotate(0); }
+  .hwd.is-open .hwd__panel { transform: translateX(0); }
   .hwd__head {
     display: flex;
     align-items: center;
@@ -145,7 +144,7 @@
   /* FINAL Heitz Motion: C-style content stagger behind the slide */
   .hwd__head, .hwd__items, .hwd__empty, .hwd__foot {
     opacity: 0;
-    transform: translateX(34px) rotate(-1deg);
+    transform: translateX(34px);
     transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1), transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
   }
   .hwd.is-open .hwd__head { transition-delay: 0.16s; }

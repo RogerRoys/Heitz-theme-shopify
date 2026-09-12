@@ -81,14 +81,16 @@
   }
 }
 
-/* H Tilt & Drift: first image drifts and untilts into place */
+/* FINAL Heitz Motion: first image focuses from blur instead of scaling */
 @keyframes heitz-image-settle {
   from {
-    transform: scale(1.05) rotate(0.8deg);
+    filter: blur(12px);
+    opacity: 0.55;
   }
 
   to {
-    transform: scale(1) rotate(0);
+    filter: blur(0);
+    opacity: 1;
   }
 }
 
@@ -300,20 +302,11 @@ details#Details-menu-drawer-container .menu-drawer {
     border-color: rgb(var(--color-foreground-rgb) / 16%);
   }
 
-  /* H Tilt & Drift: cards tilt and lift on hover (replaces the old
-     transform-neutralize; the carousel-item neutralize further down
-     still wins inside the mobile strips) */
-  .card-hover-effect-lift :where(.product-card, .collection-card, .resource-card),
-  .card-hover-effect-scale :where(.product-card, .collection-card, .resource-card),
-  .card-hover-effect-subtle-zoom :where(.product-card, .collection-card, .resource-card) {
-    transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.45s ease !important;
-  }
-
   .card-hover-effect-lift :where(.product-card, .collection-card, .resource-card):hover,
   .card-hover-effect-scale :where(.product-card, .collection-card, .resource-card):hover,
   .card-hover-effect-subtle-zoom :where(.product-card, .collection-card, .resource-card):hover {
-    transform: rotate(-1deg) translateY(-6px) !important;
-    box-shadow: 0 20px 40px rgba(20, 18, 15, 0.12) !important;
+    transform: none !important;
+    box-shadow: none !important;
   }
 
   .card-hover-effect-subtle-zoom .product-card:hover :where(.card-gallery, .product-card__image),

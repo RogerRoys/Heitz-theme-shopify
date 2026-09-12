@@ -223,9 +223,6 @@
     transition: transform .25s ease;
   }
   .htf-nav__item:hover > .htf-nav__link .htf-chevron { transform: rotate(180deg); }
-  /* H Tilt & Drift: nav links tilt gently on hover */
-  .htf-nav__link { transition: transform .3s cubic-bezier(.16, 1, .3, 1), color .2s ease; }
-  .htf-nav__item:hover > .htf-nav__link { transform: rotate(-2deg); }
   .htf-dropdown {
     background-color: #ffffff;
     box-shadow: 0 10px 20px #00000017;
@@ -307,8 +304,7 @@
     overflow: hidden;
     position: fixed;
     top: 0;
-    transform: translateX(-102%) rotate(-1.5deg);
-    transform-origin: top left;
+    transform: translateX(-102%);
     /* cart drawer's Expo Luxe motion, shared across all drawers */
     transition: transform .65s cubic-bezier(.16, 1, .3, 1);
     width: 88vw;
@@ -321,7 +317,7 @@
   @media screen and (max-width: 749px) {
     .htf-drawer { width: 100vw; max-width: none; }
   }
-  .htf-drawer.is-open { transform: translateX(0) rotate(0); }
+  .htf-drawer.is-open { transform: translateX(0); }
   .htf-drawer__overlay {
     background: rgba(42, 55, 67, 0.5);
     inset: 0;
@@ -345,7 +341,7 @@
   /* FINAL Heitz Motion: C-style nav stagger behind the slide */
   .htf-drawer__nav > li {
     opacity: 0;
-    transform: translateX(-26px) rotate(1deg);
+    transform: translateX(-26px);
     transition: opacity 0.4s cubic-bezier(.16, 1, .3, 1), transform 0.4s cubic-bezier(.16, 1, .3, 1);
   }
   .htf-drawer.is-open .htf-drawer__nav > li { opacity: 1; transform: translateX(0); }

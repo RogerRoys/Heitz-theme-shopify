@@ -81,16 +81,14 @@
   }
 }
 
-/* FINAL Heitz Motion: first image focuses from blur instead of scaling */
+/* H Tilt & Drift: first image drifts and untilts into place */
 @keyframes heitz-image-settle {
   from {
-    filter: blur(12px);
-    opacity: 0.55;
+    transform: scale(1.05) rotate(0.8deg);
   }
 
   to {
-    filter: blur(0);
-    opacity: 1;
+    transform: scale(1) rotate(0);
   }
 }
 

@@ -81,15 +81,15 @@
   }
 }
 
-/* FINAL Heitz Motion: first image focuses from blur instead of scaling */
+/* E Curtain Wipe: first image wipes in left-to-right */
 @keyframes heitz-image-settle {
   from {
-    filter: blur(12px);
-    opacity: 0.55;
+    clip-path: inset(0 100% 0 0);
+    opacity: 0.6;
   }
 
   to {
-    filter: blur(0);
+    clip-path: inset(0);
     opacity: 1;
   }
 }
@@ -169,7 +169,7 @@ html.heitz-reveal-enabled.heitz-reveal-ready body::before {
 
 html.heitz-reveal-enabled.heitz-reveal-ready .heitz-transition-focus {
   transform-origin: center;
-  animation: heitz-image-settle var(--heitz-image-reveal-duration) var(--heitz-motion-ease) both;
+  animation: heitz-image-settle var(--heitz-image-reveal-duration) cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 ::view-transition-new(product-grid) {

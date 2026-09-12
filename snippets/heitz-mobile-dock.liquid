@@ -25,10 +25,10 @@
       background: var(--color-background, #ffffff);
       border-top: 1px solid #ececea;
       box-shadow: 0 -6px 20px rgba(20, 18, 15, 0.06);
-      clip-path: inset(0);
-      transition: clip-path 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      transform: translateY(0);
+      transition: transform 0.25s ease;
     }
-    .hmd.is-hidden, .hmd.is-covered { clip-path: inset(0 100% 0 0); }
+    .hmd.is-hidden, .hmd.is-covered { transform: translateY(110%); }
   }
   .hmd__item {
     flex: 1 1 0;

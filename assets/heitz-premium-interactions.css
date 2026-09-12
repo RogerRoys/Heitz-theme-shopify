@@ -81,15 +81,15 @@
   }
 }
 
-/* E Curtain Wipe: first image wipes in left-to-right */
+/* FINAL Heitz Motion: first image focuses from blur instead of scaling */
 @keyframes heitz-image-settle {
   from {
-    clip-path: inset(0 100% 0 0);
-    opacity: 0.6;
+    filter: blur(12px);
+    opacity: 0.55;
   }
 
   to {
-    clip-path: inset(0);
+    filter: blur(0);
     opacity: 1;
   }
 }
@@ -169,7 +169,7 @@ html.heitz-reveal-enabled.heitz-reveal-ready body::before {
 
 html.heitz-reveal-enabled.heitz-reveal-ready .heitz-transition-focus {
   transform-origin: center;
-  animation: heitz-image-settle var(--heitz-image-reveal-duration) cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation: heitz-image-settle var(--heitz-image-reveal-duration) var(--heitz-motion-ease) both;
 }
 
 ::view-transition-new(product-grid) {
@@ -307,35 +307,6 @@ details#Details-menu-drawer-container .menu-drawer {
   .card-hover-effect-subtle-zoom :where(.product-card, .collection-card, .resource-card):hover {
     transform: none !important;
     box-shadow: none !important;
-  }
-
-  /* E Curtain Wipe: a bronze underline draws left-to-right under the
-     card media on hover, and the image dims a touch */
-  :where(.product-card, .collection-card, .resource-card) .card-gallery {
-    position: relative;
-  }
-
-  :where(.product-card, .collection-card, .resource-card) .card-gallery::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    height: 2px;
-    background: #9f6939;
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    z-index: 2;
-    pointer-events: none;
-  }
-
-  :where(.product-card, .collection-card, .resource-card):hover .card-gallery::after {
-    transform: scaleX(1);
-  }
-
-  :where(.product-card, .collection-card, .resource-card):hover .card-gallery img {
-    opacity: 0.88;
   }
 
   .card-hover-effect-subtle-zoom .product-card:hover :where(.card-gallery, .product-card__image),

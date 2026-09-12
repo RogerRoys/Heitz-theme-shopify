@@ -1,8 +1,9 @@
 {%- comment -%}
-  Heitz Motion (E — Curtain Wipe) — section scroll-reveal: sections
-  below the fold wipe in left-to-right the first time they scroll
-  into view. Classes are stripped after the animation so no lingering
-  clip-path creates containing blocks for fixed descendants.
+  FINAL Heitz Motion — section scroll-reveal (picked style B):
+  sections below the fold enter with a blur-to-sharp crossfade the
+  first time they scroll into view. Classes are stripped after the
+  animation so no lingering filter creates containing blocks for
+  sticky/fixed descendants.
 {%- endcomment -%}
 {% stylesheet %}
   @media (prefers-reduced-motion: no-preference) {
@@ -11,18 +12,18 @@
     }
 
     .hsr-in {
-      animation: hsr-reveal 0.65s cubic-bezier(0.16, 1, 0.3, 1) both;
+      animation: hsr-reveal 0.9s ease both;
     }
 
     @keyframes hsr-reveal {
       from {
-        opacity: 0.4;
-        clip-path: inset(0 100% 0 0);
+        opacity: 0;
+        filter: blur(9px);
       }
 
       to {
         opacity: 1;
-        clip-path: inset(0);
+        filter: blur(0);
       }
     }
   }

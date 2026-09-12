@@ -28,7 +28,8 @@
       transform: translateY(0);
       transition: transform 0.25s ease;
     }
-    .hmd.is-hidden, .hmd.is-covered { transform: translateY(110%); }
+    .hmd { transform-origin: bottom left; }
+    .hmd.is-hidden, .hmd.is-covered { transform: translateY(110%) rotate(0.8deg); }
   }
   .hmd__item {
     flex: 1 1 0;

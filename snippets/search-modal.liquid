@@ -557,6 +557,19 @@
     --search-border-radius: 0px;
   }
 
+  /* house motion: the same expo language as the drawers */
+  .dialog-modal[open].search-modal__content {
+    animation: heitz-modal-in var(--heitz-dur-open, 0.65s) var(--heitz-ease, cubic-bezier(0.16, 1, 0.3, 1)) forwards;
+  }
+
+  .dialog-modal.search-modal__content.dialog-closing {
+    animation: heitz-modal-out var(--heitz-dur-close, 0.45s) var(--heitz-ease, cubic-bezier(0.16, 1, 0.3, 1)) forwards;
+  }
+
+  .search-modal__content[open]::backdrop {
+    animation: heitz-fade-in var(--heitz-dur-overlay, 0.55s) ease;
+  }
+
   /* mobile: edge-to-edge */
   @media screen and (max-width: 749px) {
     .search-modal__content.search-modal__content {

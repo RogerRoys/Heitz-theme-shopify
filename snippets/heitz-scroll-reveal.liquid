@@ -1,0 +1,89 @@
+{%- comment -%}
+  FINAL Heitz Motion — section scroll-reveal (picked style B):
+  sections below the fold enter with a blur-to-sharp crossfade the
+  first time they scroll into view. Classes are stripped after the
+  animation so no lingering filter creates containing blocks for
+  sticky/fixed descendants.
+{%- endcomment -%}
+{% stylesheet %}
+  @media (prefers-reduced-motion: no-preference) {
+    .hsr-pending {
+      opacity: 0.01;
+    }
+
+    .hsr-in {
+      animation: hsr-reveal 0.9s ease both;
+    }
+
+    @keyframes hsr-reveal {
+      from {
+        opacity: 0;
+        filter: blur(9px);
+      }
+
+      to {
+        opacity: 1;
+        filter: blur(0);
+      }
+    }
+  }
+{% endstylesheet %}
+
+<script>
+  (() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (!('IntersectionObserver' in window)) return;
+    if (window.Shopify && window.Shopify.designMode) return;
+
+    const init = () => {
+      const sections = document.querySelectorAll('#MainContent > .shopify-section');
+      if (!sections.length) return;
+
+      const fold = window.innerHeight * 0.92;
+      const pending = [];
+      sections.forEach((sec) => {
+        const rect = sec.getBoundingClientRect();
+        // sections already on screen belong to the page-load choreography
+        if (rect.top < fold) return;
+        sec.classList.add('hsr-pending');
+        pending.push(sec);
+      });
+      if (!pending.length) return;
+
+      const revealNow = (sec) => {
+        if (!sec.classList.contains('hsr-pending')) return;
+        sec.classList.remove('hsr-pending');
+        sec.classList.add('hsr-in');
+        sec.addEventListener(
+          'animationend',
+          () => sec.classList.remove('hsr-in'),
+          { once: true }
+        );
+      };
+
+      const io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            io.unobserve(entry.target);
+            revealNow(entry.target);
+          });
+        },
+        { threshold: 0.06, rootMargin: '0px 0px -6% 0px' }
+      );
+      pending.forEach((sec) => io.observe(sec));
+
+      // safety: if the observer never fires (throttled tab), show everything
+      window.setTimeout(() => {
+        pending.forEach(revealNow);
+        io.disconnect();
+      }, 4000);
+    };
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init, { once: true });
+    } else {
+      init();
+    }
+  })();
+</script>

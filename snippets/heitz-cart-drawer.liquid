@@ -485,15 +485,15 @@
     to { opacity: 1; transform: translateX(0); }
   }
   .cart-drawer__dialog[open] .cart-drawer__header {
-    animation: hcd-in 0.4s ease both 0.12s;
+    animation: hcd-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) both 0.12s;
   }
   .cart-drawer__dialog[open] .cart-drawer__items {
-    animation: hcd-in 0.45s ease both 0.18s;
+    animation: hcd-in 0.45s cubic-bezier(0.16, 1, 0.3, 1) both 0.18s;
   }
-  .cart-drawer__dialog[open] .hcd-recs { animation: hcd-in 0.5s ease both 0.28s; }
-  .cart-drawer__dialog[open] .hcd-mrecs { animation: hcd-in 0.48s ease both 0.22s; }
+  .cart-drawer__dialog[open] .hcd-recs { animation: hcd-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) both 0.28s; }
+  .cart-drawer__dialog[open] .hcd-mrecs { animation: hcd-in 0.48s cubic-bezier(0.16, 1, 0.3, 1) both 0.22s; }
   .cart-drawer__dialog[open] .cart-drawer__summary {
-    animation: hcd-in 0.5s ease both 0.24s;
+    animation: hcd-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) both 0.24s;
   }
   @media (prefers-reduced-motion: reduce) {
     .cart-drawer__dialog[open] .cart-drawer__header,

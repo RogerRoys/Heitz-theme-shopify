@@ -4,7 +4,7 @@
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const mobileViewport = window.matchMedia('(max-width: 749px)');
   const navigationPause = mobileViewport.matches ? 160 : 290;
-  const arrivalCleanup = mobileViewport.matches ? 230 : 360;
+  const arrivalCleanup = mobileViewport.matches ? 480 : 740;
   const arrivalFallback = mobileViewport.matches ? 180 : 320;
   let clearTimer;
 

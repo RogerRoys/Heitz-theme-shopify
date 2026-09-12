@@ -103,16 +103,17 @@
   .htf-hero__rise {
     overflow: hidden;
   }
+  /* FINAL Heitz Motion: calm crossfade entrance (was mask-rise) */
   .htf-hero__rise > span {
     display: block;
     opacity: 0;
-    transform: translateY(110%);
-    animation: htf-rise-up .8s cubic-bezier(.26,.54,.32,1) forwards;
+    animation: htf-rise-up 1s ease forwards;
+    animation-delay: .75s;
   }
-  .htf-hero__rise--sub > span { animation-delay: .4s; }
-  .htf-hero__rise--btn > span { animation-delay: .7s; }
+  .htf-hero__rise--sub > span { animation-delay: 1s; }
+  .htf-hero__rise--btn > span { animation-delay: 1.25s; }
   @keyframes htf-rise-up {
-    to { opacity: 1; transform: translateY(0); }
+    to { opacity: 1; }
   }
 </style>
 

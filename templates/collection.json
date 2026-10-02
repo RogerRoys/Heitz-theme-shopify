@@ -9,6 +9,19 @@
  */
 {
   "sections": {
+    "heitz_collection_sale_header_iYVfUM": {
+      "type": "heitz-collection-sale-header",
+      "name": "Heitz collection header",
+      "settings": {
+        "show_breadcrumb": true,
+        "sale_tag": "gold-seal",
+        "banner_text": "[count] pieces here are [pct]",
+        "link_label": "View sale items",
+        "show_all_label": "Show all",
+        "show_seal": false,
+        "show_filters": true
+      }
+    },
     "section_Q67MwG": {
       "type": "section",
       "blocks": {
@@ -42,6 +55,7 @@
       "block_order": [
         "text_KYqkXw"
       ],
+      "disabled": true,
       "name": "Collection Title",
       "settings": {
         "content_direction": "column",
@@ -312,6 +326,7 @@
       "blocks": {
         "filters": {
           "type": "filters",
+          "disabled": true,
           "static": true,
           "settings": {
             "enable_filtering": true,
@@ -875,6 +890,7 @@
     }
   },
   "order": [
+    "heitz_collection_sale_header_iYVfUM",
     "section_Q67MwG",
     "hero_xhf9TE",
     "media_with_content_pezPEP",

@@ -11,6 +11,9 @@
   "sections": {
     "heitz_collection_sale_header_iYVfUM": {
       "type": "heitz-collection-sale-header",
+      "custom_css": [
+        ".hch__chip {border-radius: 0px;}"
+      ],
       "name": "Heitz collection header",
       "settings": {
         "show_breadcrumb": true,

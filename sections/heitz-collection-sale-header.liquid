@@ -1,0 +1,184 @@
+{%- comment -%}
+  Heitz – Collection header with sale banner + filter row (Gold seal 1b).
+  Breadcrumb · title · "X pieces here are up to Y% off · View sale items" · filters · On sale (X) · product count · sort.
+  Sale products = tag (default "gold-seal") AND compare-at price > price. % is calculated per product.
+{%- endcomment -%}
+{%- liquid
+  assign hgs_tag = section.settings.sale_tag | default: 'gold-seal'
+  assign hgs_handle = hgs_tag | handleize
+  assign hgs_active = false
+  if current_tags contains hgs_tag
+    assign hgs_active = true
+  endif
+  assign hgs_count = 0
+  assign hgs_max = 0
+  assign hgs_min = 100
+  for p in collection.all_products
+    if p.tags contains hgs_tag and p.compare_at_price > p.price
+      assign hgs_count = hgs_count | plus: 1
+      assign pct = p.compare_at_price | minus: p.price | times: 100.0 | divided_by: p.compare_at_price | round
+      if pct > hgs_max
+        assign hgs_max = pct
+      endif
+      if pct < hgs_min
+        assign hgs_min = pct
+      endif
+    endif
+  endfor
+  if hgs_min == hgs_max
+    assign hgs_pct_text = hgs_max | append: '% off'
+  else
+    assign hgs_pct_text = 'up to ' | append: hgs_max | append: '% off'
+  endif
+  assign hgs_text = section.settings.banner_text | replace: '[count]', hgs_count | replace: '[pct]', hgs_pct_text
+  assign hgs_base = collection.url
+  if collection.url == blank
+    assign hgs_base = routes.all_products_collection_url
+  endif
+  assign hgs_sale_url = hgs_base | append: '/' | append: hgs_handle
+  assign sort_by = collection.sort_by | default: collection.default_sort_by
+-%}
+
+<div class="hch page-width">
+  <div class="hch__top">
+    <div class="hch__titles">
+      {%- if section.settings.show_breadcrumb -%}
+        <nav class="hch__crumb" aria-label="Breadcrumb">
+          <a href="{{ routes.root_url }}">Home</a>
+          <span aria-hidden="true">/</span>
+          {%- if hgs_active -%}<a href="{{ hgs_base }}">{{ collection.title }}</a><span aria-hidden="true">/</span><span>On sale</span>{%- else -%}<span aria-current="page">{{ collection.title }}</span>{%- endif -%}
+        </nav>
+      {%- endif -%}
+      <h1 class="hch__title">{{ collection.title }}</h1>
+    </div>
+
+    {%- if hgs_count > 0 -%}
+      <div class="hch__banner">
+        {%- if section.settings.show_seal -%}<span class="hch__seal">−{{ hgs_max }}%</span>{%- endif -%}
+        <span>{{ hgs_text }}</span>
+        {%- if hgs_active -%}
+          <a class="hch__banner-link" href="{{ hgs_base }}">{{ section.settings.show_all_label }}</a>
+        {%- else -%}
+          <a class="hch__banner-link" href="{{ hgs_sale_url }}">{{ section.settings.link_label }}</a>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  </div>
+
+  <div class="hch__bar">
+    <div class="hch__filters">
+      <span class="hch__label">Filter:</span>
+      {%- if section.settings.show_filters -%}
+        {%- for filter in collection.filters -%}
+          {%- if filter.type == 'list' and filter.values.size > 0 -%}
+            <details class="hch__dd">
+              <summary class="hch__chip{% if filter.active_values.size > 0 %} is-active{% endif %}">
+                {{ filter.label }}{% if filter.active_values.size > 0 %} ({{ filter.active_values.size }}){% endif %}
+                <span class="hch__caret" aria-hidden="true">▾</span>
+              </summary>
+              <div class="hch__menu">
+                {%- for value in filter.values -%}
+                  {%- if value.count > 0 or value.active -%}
+                    <a class="hch__opt{% if value.active %} is-active{% endif %}" href="{% if value.active %}{{ value.url_to_remove }}{% else %}{{ value.url_to_add }}{% endif %}">
+                      <span class="hch__box" aria-hidden="true">{% if value.active %}✓{% endif %}</span>
+                      {{ value.label }} <span class="hch__n">({{ value.count }})</span>
+                    </a>
+                  {%- endif -%}
+                {%- endfor -%}
+              </div>
+            </details>
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endif -%}
+
+      {%- if hgs_count > 0 or hgs_active -%}
+        {%- if hgs_active -%}
+          <a class="hch__chip is-active" href="{{ hgs_base }}">✓ On sale ({{ hgs_count }})</a>
+        {%- else -%}
+          <a class="hch__chip" href="{{ hgs_sale_url }}">On sale ({{ hgs_count }})</a>
+        {%- endif -%}
+      {%- endif -%}
+    </div>
+
+    <div class="hch__right">
+      <span>{{ collection.products_count }} {% if collection.products_count == 1 %}product{% else %}products{% endif %}</span>
+      <span aria-hidden="true">·</span>
+      <label class="hch__sort">
+        <span>Sort:</span>
+        <select onchange="var u=new URL(location.href);u.searchParams.set('sort_by',this.value);location.href=u.toString();" aria-label="Sort by">
+          {%- for option in collection.sort_options -%}
+            <option value="{{ option.value }}"{% if option.value == sort_by %} selected{% endif %}>{{ option.name }}</option>
+          {%- endfor -%}
+        </select>
+      </label>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('click', function (e) {
+    document.querySelectorAll('.hch__dd[open]').forEach(function (d) { if (!d.contains(e.target)) d.removeAttribute('open'); });
+  });
+</script>
+
+{% stylesheet %}
+  .hch{padding-top:32px;font-family:var(--font-body--family,inherit)}
+  .hch__top{display:flex;justify-content:space-between;align-items:flex-end;gap:16px 24px;flex-wrap:wrap}
+  .hch__titles{display:flex;flex-direction:column;gap:6px}
+  .hch__crumb{display:flex;gap:6px;font-size:12px;color:#666666}
+  .hch__crumb a{color:#666666;text-decoration:none}
+  .hch__crumb a:hover{color:#1A1B18;text-decoration:underline;text-underline-offset:3px}
+  .hch__title{margin:0;font-family:var(--font-heading--family,inherit);font-weight:600;font-size:34px;line-height:1.15;color:#1A1B18}
+  .hch__banner{display:flex;align-items:center;flex-wrap:wrap;gap:8px 14px;background:#F8F5F0;color:#9F6939;padding:12px 16px;font-size:14px}
+  .hch__seal{width:30px;height:30px;flex:0 0 30px;border-radius:50%;background:#D9B97A;color:#1A1B18;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:600}
+  .hch__banner-link{color:#9F6939;font-weight:500;text-decoration:underline;text-underline-offset:3px}
+  .hch__banner-link:hover{color:#1A1B18}
+  .hch__bar{margin-top:18px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px 16px;padding:12px 0;border-top:1px solid #E8E8E8;border-bottom:1px solid #E8E8E8;font-size:14px}
+  .hch__filters{display:flex;align-items:center;flex-wrap:wrap;gap:8px}
+  .hch__label{color:#555555;margin-right:2px}
+  .hch__chip{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border:1px solid #E2E2E2;border-radius:10px;background:#FFFFFF;color:#1A1B18;text-decoration:none;cursor:pointer;list-style:none;transition:background .2s,color .2s,border-color .2s}
+  .hch__chip::-webkit-details-marker{display:none}
+  .hch__chip:hover{border-color:#1A1B18}
+  .hch__chip.is-active{background:#1A1B18;border-color:#1A1B18;color:#FFFFFF}
+  .hch__caret{font-size:10px}
+  .hch__dd{position:relative}
+  .hch__menu{position:absolute;z-index:20;top:calc(100% + 6px);left:0;min-width:220px;max-height:320px;overflow-y:auto;background:#FFFFFF;border:1px solid #E8E8E8;box-shadow:0 12px 30px rgba(0,0,0,.08);padding:6px;display:flex;flex-direction:column}
+  .hch__opt{display:flex;align-items:center;gap:10px;padding:9px 10px;color:#1A1B18;text-decoration:none;border-radius:6px}
+  .hch__opt:hover{background:#F5F4F1}
+  .hch__box{width:16px;height:16px;flex:0 0 16px;border:1.5px solid #BDBDBD;display:flex;align-items:center;justify-content:center;font-size:10px;color:#FFFFFF}
+  .hch__opt.is-active .hch__box{background:#1A1B18;border-color:#1A1B18}
+  .hch__n{color:#888888}
+  .hch__right{display:flex;align-items:center;gap:8px;color:#555555}
+  .hch__sort{display:flex;align-items:center;gap:4px;cursor:pointer}
+  .hch__sort select{border:0;background:transparent;font:inherit;color:#1A1B18;cursor:pointer;padding:2px 0}
+  @media (max-width:749px){
+    .hch{padding-top:24px}
+    .hch__top{flex-direction:column;align-items:stretch}
+    .hch__title{font-size:26px}
+    .hch__bar{flex-direction:column;align-items:stretch}
+    .hch__filters{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin:0 -16px;padding:0 16px}
+    .hch__filters::-webkit-scrollbar{display:none}
+    .hch__chip{white-space:nowrap}
+    .hch__menu{position:fixed;left:16px;right:16px;top:auto;bottom:16px;min-width:0}
+    .hch__right{justify-content:space-between}
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Heitz collection header",
+  "settings": [
+    { "type": "checkbox", "id": "show_breadcrumb", "label": "Show breadcrumb", "default": true },
+    { "type": "header", "content": "Sale banner" },
+    { "type": "text", "id": "sale_tag", "label": "Sale product tag", "default": "gold-seal" },
+    { "type": "text", "id": "banner_text", "label": "Banner text", "info": "[count] = number of sale items, [pct] = '10% off' or 'up to 30% off'", "default": "[count] pieces here are [pct]" },
+    { "type": "text", "id": "link_label", "label": "Link label", "default": "View sale items" },
+    { "type": "text", "id": "show_all_label", "label": "Link label when filtered", "default": "Show all" },
+    { "type": "checkbox", "id": "show_seal", "label": "Show gold seal in banner", "default": false },
+    { "type": "header", "content": "Filter row" },
+    { "type": "checkbox", "id": "show_filters", "label": "Show store filters (Room, Material…)", "info": "Uses the filters set up in Search & Discovery.", "default": true }
+  ],
+  "presets": [{ "name": "Heitz collection header" }],
+  "enabled_on": { "templates": ["collection"] }
+}
+{% endschema %}

@@ -41,8 +41,53 @@
         "message_1",
         "message_2"
       ],
+      "disabled": true,
       "settings": {
         "color_scheme": "scheme-3",
+        "text_size": 13,
+        "speed": 5
+      }
+    },
+    "heitz_sale_announcement_phpk4r": {
+      "type": "heitz-sale-announcement",
+      "blocks": {
+        "message_aUkHEP": {
+          "type": "message",
+          "settings": {
+            "seal": "",
+            "text": "&nbsp;−10% on gold seal pieces · Already reduced Shop now&nbsp;",
+            "link_label": "Shop now",
+            "link": "shopify://collections/sold-seal"
+          }
+        },
+        "message_xwYq9f": {
+          "type": "message",
+          "settings": {
+            "seal": "",
+            "text": "Hassle-free 30-day return window&nbsp;",
+            "link_label": "Shop now",
+            "link": ""
+          }
+        },
+        "message_bgdRtt": {
+          "type": "message",
+          "settings": {
+            "seal": "",
+            "text": "Free shipping on all orders&nbsp;",
+            "link_label": "",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "message_aUkHEP",
+        "message_xwYq9f",
+        "message_bgdRtt"
+      ],
+      "name": "Heitz sale announcement",
+      "settings": {
+        "bg": "#D9B97A",
+        "fg": "#1A1B18",
         "text_size": 13,
         "speed": 5
       }
@@ -72,6 +117,7 @@
   },
   "order": [
     "heitz_announcement",
+    "heitz_sale_announcement_phpk4r",
     "heitz_header"
   ]
 }

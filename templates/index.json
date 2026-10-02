@@ -832,6 +832,89 @@
         "text_size": 16
       }
     },
+    "sustainability_story": {
+      "type": "heitz-value-banner",
+      "settings": {
+        "image": "shopify://shop_images/heitz-sustainability-solar-garden-desktop.webp",
+        "mobile_image": "shopify://shop_images/heitz-sustainability-solar-garden-mobile.webp",
+        "overlay_opacity": 45,
+        "min_height": 600,
+        "eyebrow": "Sustainability",
+        "title": "Designed To Last, Chosen With Care",
+        "text": "<p>Guided by Scandinavian and Japandi principles, we choose durable, responsibly sourced materials and timeless designs that reduce the need for frequent replacements — with energy-saving LED comfort built in.</p>",
+        "button_label": "Learn More",
+        "button_style": "secondary",
+        "link": "shopify://pages/sustainability",
+        "heading_size": 38,
+        "text_size": 16
+      }
+    },
+    "edit_spotlight": {
+      "type": "heitz-edit-spotlight",
+      "blocks": {
+        "cat_2": {
+          "type": "cat",
+          "settings": {
+            "collection": "outdoor-pillar-post-lights",
+            "label": "Pillar, Post & Gate Lights",
+            "body": "Pillar and post fittings that mark an entrance with quiet authority, from low bollards to tall gate lanterns.",
+            "image": "shopify://shop_images/heitz-edit-pillar-post-gate-lights.webp",
+            "cta_label": "Explore Pillar & Post Lights",
+            "cta_link": ""
+          }
+        },
+        "cat_4": {
+          "type": "cat",
+          "settings": {
+            "collection": "outdoor-garden-landscape-lighting",
+            "label": "Garden & Landscape Lighting",
+            "body": "Bollards, path lights and solar lamps that shape a garden rather than flood it — warm pools of light guiding the way after dark.",
+            "image": "shopify://shop_images/heitz-edit-garden-landscape-lighting.webp",
+            "cta_label": "Explore Garden Lighting",
+            "cta_link": ""
+          }
+        },
+        "cat_1": {
+          "type": "cat",
+          "settings": {
+            "collection": "outdoor-driveway-gate-fence-lighting",
+            "label": "Driveway, Gate & Fence Lighting",
+            "body": "Weather-sealed fittings for gate piers, driveways and fence lines — tracing the property’s edge in a calm, steady glow.",
+            "image": "shopify://shop_images/heitz-edit-driveway-gate-fence-lighting.webp",
+            "cta_label": "Explore Driveway Lighting",
+            "cta_link": ""
+          }
+        },
+        "cat_3": {
+          "type": "cat",
+          "settings": {
+            "collection": "floor-lamps",
+            "label": "Floor Lamps",
+            "body": "Tall, balanced floor lamps in calm Scandinavian forms — the soft standing light that finishes a living room after dark.",
+            "image": "shopify://shop_images/heitz-edit-floor-lamps.webp",
+            "cta_label": "Explore Floor Lamps",
+            "cta_link": ""
+          }
+        }
+      },
+      "block_order": [
+        "cat_2",
+        "cat_4",
+        "cat_1",
+        "cat_3"
+      ],
+      "settings": {
+        "color_scheme": "scheme-2",
+        "padding_top": 52,
+        "padding_bottom": 52,
+        "eyebrow": "The Heitz Edit",
+        "button_1_label": "Explore All Lighting",
+        "button_style": "primary",
+        "button_1_link": "shopify://collections/all",
+        "heading_size": 40,
+        "text_size": 16
+      }
+    },
     "heitz_featured_collection_Pme8WU": {
       "type": "heitz-featured-collection",
       "blocks": {
@@ -965,89 +1048,6 @@
         "color_scheme": "scheme-1",
         "padding_top": 80,
         "padding_bottom": 80
-      }
-    },
-    "sustainability_story": {
-      "type": "heitz-value-banner",
-      "settings": {
-        "image": "shopify://shop_images/heitz-sustainability-solar-garden-desktop.webp",
-        "mobile_image": "shopify://shop_images/heitz-sustainability-solar-garden-mobile.webp",
-        "overlay_opacity": 45,
-        "min_height": 600,
-        "eyebrow": "Sustainability",
-        "title": "Designed To Last, Chosen With Care",
-        "text": "<p>Guided by Scandinavian and Japandi principles, we choose durable, responsibly sourced materials and timeless designs that reduce the need for frequent replacements — with energy-saving LED comfort built in.</p>",
-        "button_label": "Learn More",
-        "button_style": "secondary",
-        "link": "shopify://pages/sustainability",
-        "heading_size": 38,
-        "text_size": 16
-      }
-    },
-    "edit_spotlight": {
-      "type": "heitz-edit-spotlight",
-      "blocks": {
-        "cat_2": {
-          "type": "cat",
-          "settings": {
-            "collection": "outdoor-pillar-post-lights",
-            "label": "Pillar, Post & Gate Lights",
-            "body": "Pillar and post fittings that mark an entrance with quiet authority, from low bollards to tall gate lanterns.",
-            "image": "shopify://shop_images/heitz-edit-pillar-post-gate-lights.webp",
-            "cta_label": "Explore Pillar & Post Lights",
-            "cta_link": ""
-          }
-        },
-        "cat_4": {
-          "type": "cat",
-          "settings": {
-            "collection": "outdoor-garden-landscape-lighting",
-            "label": "Garden & Landscape Lighting",
-            "body": "Bollards, path lights and solar lamps that shape a garden rather than flood it — warm pools of light guiding the way after dark.",
-            "image": "shopify://shop_images/heitz-edit-garden-landscape-lighting.webp",
-            "cta_label": "Explore Garden Lighting",
-            "cta_link": ""
-          }
-        },
-        "cat_1": {
-          "type": "cat",
-          "settings": {
-            "collection": "outdoor-driveway-gate-fence-lighting",
-            "label": "Driveway, Gate & Fence Lighting",
-            "body": "Weather-sealed fittings for gate piers, driveways and fence lines — tracing the property’s edge in a calm, steady glow.",
-            "image": "shopify://shop_images/heitz-edit-driveway-gate-fence-lighting.webp",
-            "cta_label": "Explore Driveway Lighting",
-            "cta_link": ""
-          }
-        },
-        "cat_3": {
-          "type": "cat",
-          "settings": {
-            "collection": "floor-lamps",
-            "label": "Floor Lamps",
-            "body": "Tall, balanced floor lamps in calm Scandinavian forms — the soft standing light that finishes a living room after dark.",
-            "image": "shopify://shop_images/heitz-edit-floor-lamps.webp",
-            "cta_label": "Explore Floor Lamps",
-            "cta_link": ""
-          }
-        }
-      },
-      "block_order": [
-        "cat_2",
-        "cat_4",
-        "cat_1",
-        "cat_3"
-      ],
-      "settings": {
-        "color_scheme": "scheme-2",
-        "padding_top": 52,
-        "padding_bottom": 52,
-        "eyebrow": "The Heitz Edit",
-        "button_1_label": "Explore All Lighting",
-        "button_style": "primary",
-        "button_1_link": "shopify://collections/all",
-        "heading_size": 40,
-        "text_size": 16
       }
     },
     "category_accordion": {
@@ -1515,15 +1515,15 @@
     "trust_badges",
     "category_scroll",
     "featured_outdoor",
-    "heitz_featured_collection_cCVtz8",
     "heitz_featured_collection_NAwf9H",
     "our_story",
+    "heitz_featured_collection_cCVtz8",
     "cta_pendant",
-    "featured_table",
     "warranty_story",
-    "heitz_featured_collection_Pme8WU",
+    "featured_table",
     "sustainability_story",
     "edit_spotlight",
+    "heitz_featured_collection_Pme8WU",
     "category_accordion",
     "featured_pendant",
     "home_faq",

@@ -18,7 +18,7 @@
           "type": "message",
           "settings": {
             "text": "−10% on gold seal pieces · Already reduced Shop now",
-            "link": ""
+            "link": "shopify://collections/sold-seal"
           }
         },
         "message_1": {

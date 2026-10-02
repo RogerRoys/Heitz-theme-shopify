@@ -1541,6 +1541,13 @@
         "default": "scheme-4"
       },
       {
+        "type": "checkbox",
+        "id": "show_sale_badge",
+        "label": "Show sale badge",
+        "info": "Turn off to hide the default sale badge (the gold seal stays).",
+        "default": true
+      },
+      {
         "type": "color_scheme",
         "id": "badge_sold_out_color_scheme",
         "label": "t:settings.badge_sold_out_color_scheme",

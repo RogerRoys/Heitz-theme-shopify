@@ -2321,6 +2321,23 @@
     ]
   },
   {
+    "name": "Gold seal sale",
+    "settings": [
+      {
+        "type": "text",
+        "id": "hgs_tag",
+        "label": "Sale tag",
+        "default": "gold-seal"
+      },
+      {
+        "type": "text",
+        "id": "hgs_save_sub",
+        "label": "Save card subtext",
+        "default": "Gold seal price, applied automatically"
+      }
+    ]
+  },
+  {
     "name": "t:names.search",
     "settings": [
       {

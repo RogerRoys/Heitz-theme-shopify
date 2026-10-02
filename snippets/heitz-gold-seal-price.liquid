@@ -1,0 +1,30 @@
+{%- comment -%}
+  Product page price + "You save" card (Gold seal 1b).
+  Usage (product section, replaces the price block): {% render 'heitz-gold-seal-price', product: product %}
+  Falls back to a normal price when the product is not a gold seal product.
+{%- endcomment -%}
+{%- liquid
+  assign hgs_tag = settings.hgs_tag | default: 'gold-seal'
+  assign v = product.selected_or_first_available_variant
+  assign hgs_on = false
+  if product.tags contains hgs_tag and v.compare_at_price > v.price
+    assign hgs_on = true
+  endif
+-%}
+<div class="hgs-price" data-hgs-price>
+  <div class="hgs-price__row">
+    <span class="hgs-price__now">{{ v.price | money }}</span>
+    {%- if hgs_on -%}<s class="hgs-price__was">{{ v.compare_at_price | money }}</s>{%- endif -%}
+  </div>
+  {%- if hgs_on -%}
+    {%- assign hgs_save = v.compare_at_price | minus: v.price -%}
+    {%- assign hgs_pct = hgs_save | times: 100.0 | divided_by: v.compare_at_price | round -%}
+    <div class="hgs-save">
+      <span class="hgs-save__seal">−{{ hgs_pct }}%</span>
+      <div class="hgs-save__text">
+        <span class="hgs-save__title">You save {{ hgs_save | money }}</span>
+        <span class="hgs-save__sub">{{ settings.hgs_save_sub | default: 'Gold seal price, applied automatically' }}</span>
+      </div>
+    </div>
+  {%- endif -%}
+</div>

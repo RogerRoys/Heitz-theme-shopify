@@ -1,0 +1,46 @@
+{{ 'heitz-gold-seal.css' | asset_url | stylesheet_tag }}
+{%- assign c = section.settings.collection -%}
+<div class="hgs-rail" style="--hgs-cols: {{ section.settings.cols }};">
+  <div class="hgs-rail__inner">
+    <div class="hgs-rail__head">
+      <div>
+        {%- if section.settings.eyebrow != blank -%}<span class="hgs-rail__eyebrow">{{ section.settings.eyebrow }}</span>{%- endif -%}
+        <h2 class="hgs-rail__title">{{ section.settings.title }}</h2>
+      </div>
+      {%- if section.settings.link_label != blank and c != blank -%}
+        <a class="hgs-rail__link" href="{{ c.url }}">{{ section.settings.link_label }}</a>
+      {%- endif -%}
+    </div>
+    <div class="hgs-rail__grid">
+      {%- if c != blank -%}
+        {%- for p in c.products limit: section.settings.limit -%}
+          <a class="hgs-card" href="{{ p.url }}">
+            <div class="hgs-card__media">
+              {%- if p.featured_media -%}{{ p.featured_media | image_url: width: 700 | image_tag: loading: 'lazy', widths: '300,500,700', sizes: '(min-width: 750px) 20vw, 50vw', alt: p.title }}{%- endif -%}
+              {% render 'heitz-gold-seal', product: p %}
+            </div>
+            <span class="hgs-card__title">{{ p.title | split: ' | ' | first }}</span>
+            {% render 'heitz-gold-seal-card-price', product: p %}
+          </a>
+        {%- endfor -%}
+      {%- else -%}
+        <p>Select a collection in the section settings.</p>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Gold seal rail",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Gold seal pieces" },
+    { "type": "text", "id": "title", "label": "Heading", "default": "Light Your Home For Less" },
+    { "type": "collection", "id": "collection", "label": "Sale collection" },
+    { "type": "text", "id": "link_label", "label": "Link label", "default": "View all gold seal pieces" },
+    { "type": "range", "id": "limit", "label": "Products to show", "min": 2, "max": 10, "step": 1, "default": 5 },
+    { "type": "range", "id": "cols", "label": "Columns (desktop)", "min": 3, "max": 6, "step": 1, "default": 5 }
+  ],
+  "presets": [{ "name": "Gold seal rail" }]
+}
+{% endschema %}

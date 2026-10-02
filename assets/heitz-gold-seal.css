@@ -1,0 +1,65 @@
+/* Heitz – Gold Seal sale (1b) */
+:root{--hgs-gold:#D9B97A;--hgs-ink:#1A1B18;--hgs-cream:#FBF7F1;--hgs-brown:#5A3A2F;--hgs-strike:#85838F}
+
+/* Seal badge */
+.hgs-seal{position:absolute;z-index:3;top:10px;left:10px;width:46px;height:46px;border-radius:50%;background:var(--hgs-gold);color:var(--hgs-ink);display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:var(--font-heading-family,inherit);font-weight:600;font-size:14px;line-height:1;pointer-events:none}
+.hgs-seal--lg{top:18px;left:18px;width:72px;height:72px;font-size:20px}
+.hgs-seal__sub{font-size:8px;letter-spacing:.14em;margin-top:3px}
+@media (max-width:749px){.hgs-seal{width:40px;height:40px;font-size:12px;top:8px;left:8px}.hgs-seal--lg{width:58px;height:58px;font-size:16px;top:12px;left:12px}}
+.hgs-media-wrap{position:relative}
+
+/* Product page price block */
+.hgs-price{display:flex;flex-direction:column;gap:12px;margin:4px 0 14px}
+.hgs-price__row{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.hgs-price__now{font-family:var(--font-heading-family,inherit);font-size:26px;letter-spacing:1.3px;color:var(--hgs-ink)}
+.hgs-price__was{font-size:17px;color:var(--hgs-strike)}
+.hgs-save{display:flex;align-items:center;gap:14px;background:var(--hgs-cream);border:1px solid var(--hgs-gold);padding:12px 16px}
+.hgs-save__seal{width:44px;height:44px;flex:0 0 44px;border-radius:50%;background:var(--hgs-gold);color:var(--hgs-ink);display:flex;align-items:center;justify-content:center;font-family:var(--font-heading-family,inherit);font-weight:600;font-size:13px}
+.hgs-save__text{display:flex;flex-direction:column;gap:2px}
+.hgs-save__title{font-size:15px;font-weight:500;color:var(--hgs-ink)}
+.hgs-save__sub{font-size:13px;color:var(--hgs-brown)}
+
+/* Card price */
+.hgs-card-price{display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
+.hgs-card-price s{font-size:13px;color:var(--hgs-strike)}
+
+/* Home rail */
+.hgs-rail{background:var(--hgs-cream);padding:64px 40px}
+.hgs-rail__inner{max-width:1400px;margin:0 auto;display:flex;flex-direction:column;gap:24px}
+.hgs-rail__head{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap}
+.hgs-rail__eyebrow{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:#9F6939}
+.hgs-rail__title{margin:6px 0 0;font-family:var(--font-heading-family,inherit);font-weight:600;font-size:32px;line-height:1.15;color:var(--hgs-ink)}
+.hgs-rail__link{font-size:14px;color:var(--hgs-ink);text-decoration:underline;text-underline-offset:3px;white-space:nowrap}
+.hgs-rail__grid{display:grid;grid-template-columns:repeat(var(--hgs-cols,5),minmax(0,1fr));gap:32px 20px}
+.hgs-card{display:flex;flex-direction:column;gap:8px;color:var(--hgs-ink);text-decoration:none}
+.hgs-card__media{position:relative;aspect-ratio:1/1;background:#F5F4F1;overflow:hidden}
+.hgs-card__media img{width:100%;height:100%;object-fit:cover;transition:transform .8s cubic-bezier(.2,.8,.2,1)}
+.hgs-card:hover .hgs-card__media img{transform:scale(1.05)}
+.hgs-card__title{font-size:14px;line-height:1.35}
+.hgs-card__price{font-family:var(--font-heading-family,inherit);font-size:16px;letter-spacing:.5px}
+@media (max-width:749px){.hgs-rail{padding:40px 16px}.hgs-rail__title{font-size:26px}.hgs-rail__grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:22px 12px}}
+
+/* Collection banner + filter chip */
+.hgs-banner{max-width:1400px;margin:18px auto 0;padding:0 40px}
+.hgs-banner__box{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px 16px;background:var(--hgs-cream);color:var(--hgs-brown);padding:12px 16px;font-size:14px}
+.hgs-banner__left{display:flex;align-items:center;gap:12px}
+.hgs-banner__dot{width:28px;height:28px;flex:0 0 28px;border-radius:50%;background:var(--hgs-gold);color:var(--hgs-ink);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:600}
+.hgs-chip{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border:1px solid #E2E2E2;border-radius:10px;font-size:14px;color:var(--hgs-ink);text-decoration:none;transition:background .2s,color .2s}
+.hgs-chip.is-active{background:var(--hgs-ink);border-color:var(--hgs-ink);color:#FFFFFF}
+@media (max-width:749px){.hgs-banner{padding:0 16px}}
+
+/* Popup */
+.hgs-pop{position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;padding:16px;opacity:0;pointer-events:none;transition:opacity .35s ease}
+.hgs-pop.is-open{opacity:1;pointer-events:auto}
+.hgs-pop__dim{position:absolute;inset:0;background:rgba(0,0,0,.45)}
+.hgs-pop__box{position:relative;width:100%;max-width:480px;max-height:92vh;overflow-y:auto;background:var(--hgs-cream);padding:48px 44px 36px;display:flex;flex-direction:column;align-items:center;gap:16px;text-align:center;box-shadow:0 30px 80px rgba(0,0,0,.28);transform:translateY(16px);transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+.hgs-pop.is-open .hgs-pop__box{transform:none}
+.hgs-pop__x{position:absolute;top:12px;right:14px;width:36px;height:36px;border:0;background:none;font-size:22px;color:#666666;cursor:pointer}
+.hgs-pop__seal{width:120px;height:120px;border-radius:50%;background:var(--hgs-gold);color:var(--hgs-ink);display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:var(--font-heading-family,inherit);font-weight:600;font-size:36px;line-height:1}
+.hgs-pop__seal span{font-size:10px;letter-spacing:.16em;margin-top:6px}
+.hgs-pop__title{margin:0;font-family:var(--font-heading-family,inherit);font-weight:600;font-size:30px;line-height:1.15;color:var(--hgs-ink)}
+.hgs-pop__body{margin:0;font-size:15px;line-height:1.6;color:#555555}
+.hgs-pop__btn{align-self:stretch;min-height:50px;background:#000000;color:#FFFFFF;border:1px solid #000000;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;transition:background .3s,color .3s}
+.hgs-pop__btn:hover{background:#FFFFFF;color:#000000}
+.hgs-pop__later{border:0;background:none;font-size:13px;color:#666666;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+@media (max-width:749px){.hgs-pop__box{padding:40px 22px 26px}.hgs-pop__title{font-size:26px}.hgs-pop__seal{width:100px;height:100px;font-size:30px}}

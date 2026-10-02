@@ -1,0 +1,17 @@
+{%- comment -%}
+  Gold seal badge. Shows only when the product is on sale (compare-at price > price)
+  AND has the tag set in Theme settings (default: gold-seal).
+  Usage: {% render 'heitz-gold-seal', product: product %}            (card)
+         {% render 'heitz-gold-seal', product: product, size: 'lg' %} (product page image)
+{%- endcomment -%}
+{%- liquid
+  assign hgs_tag = settings.hgs_tag | default: 'gold-seal'
+  assign hgs_on = false
+  if product.tags contains hgs_tag and product.compare_at_price > product.price
+    assign hgs_on = true
+  endif
+-%}
+{%- if hgs_on -%}
+  {%- assign hgs_pct = product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round -%}
+  <span class="hgs-seal{% if size == 'lg' %} hgs-seal--lg{% endif %}" aria-label="{{ hgs_pct }}% off">−{{ hgs_pct }}%</span>
+{%- endif -%}

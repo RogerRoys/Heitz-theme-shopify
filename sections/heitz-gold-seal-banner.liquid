@@ -1,0 +1,50 @@
+{%- comment -%}
+  Collection page banner + "On sale" filter chip.
+  Filtering uses the gold-seal tag (/collections/<handle>/gold-seal), so no app is needed.
+  Add this section to the collection template, above the product grid.
+{%- endcomment -%}
+{{ 'heitz-gold-seal.css' | asset_url | stylesheet_tag }}
+{%- liquid
+  assign hgs_tag = settings.hgs_tag | default: 'gold-seal'
+  assign hgs_active = false
+  if current_tags contains hgs_tag
+    assign hgs_active = true
+  endif
+  assign hgs_count = 0
+  assign hgs_max = 0
+  for p in collection.all_products
+    if p.tags contains hgs_tag and p.compare_at_price > p.price
+      assign hgs_count = hgs_count | plus: 1
+      assign pct = p.compare_at_price | minus: p.price | times: 100.0 | divided_by: p.compare_at_price | round
+      if pct > hgs_max
+        assign hgs_max = pct
+      endif
+    endif
+  endfor
+-%}
+{%- if hgs_count > 0 or hgs_active -%}
+<div class="hgs-banner">
+  <div class="hgs-banner__box">
+    <div class="hgs-banner__left">
+      <span class="hgs-banner__dot">−{{ hgs_max }}%</span>
+      <span>{{ section.settings.text | replace: '[count]', hgs_count | replace: '[max]', hgs_max }}</span>
+    </div>
+    {%- if hgs_active -%}
+      <a class="hgs-chip is-active" href="{{ collection.url }}">✓ On sale ({{ hgs_count }}) · Show all</a>
+    {%- else -%}
+      <a class="hgs-chip" href="{{ collection.url }}/{{ hgs_tag | handleize }}">On sale ({{ hgs_count }})</a>
+    {%- endif -%}
+  </div>
+</div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Gold seal banner",
+  "settings": [
+    { "type": "text", "id": "text", "label": "Text ([count] = sale items, [max] = biggest %)", "default": "Look for the gold seal: [count] pieces, up to [max]% off" }
+  ],
+  "presets": [{ "name": "Gold seal banner" }],
+  "enabled_on": { "templates": ["collection"] }
+}
+{% endschema %}

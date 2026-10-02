@@ -541,6 +541,7 @@
               </div>
             </div>
             <div class="hpdp-stage">
+            {% render 'heitz-gold-seal', product: product, size: 'lg' %}
             <button type="button" class="hpdp-stage__arrow hpdp-stage__arrow--prev" data-hpdp-prev aria-label="Previous image">&#8592;</button>
             <button type="button" class="hpdp-stage__arrow hpdp-stage__arrow--next" data-hpdp-next aria-label="Next image">&#8594;</button>
             <button type="button" class="hpdp-zoom-btn" data-hpdp-zoom-open aria-label="Zoom image">
@@ -571,6 +572,25 @@
           <span class="hpdp-price__current">{{ current_variant.price | money }}</span>
           <s class="hpdp-price__compare">{{ current_variant.compare_at_price | money }}</s>
         </div>
+
+        {%- liquid
+          assign hgs_tag = settings.hgs_tag | default: 'gold-seal'
+          assign hgs_save = 0
+          assign hgs_pct = 0
+          if current_variant.compare_at_price > current_variant.price
+            assign hgs_save = current_variant.compare_at_price | minus: current_variant.price
+            assign hgs_pct = hgs_save | times: 100.0 | divided_by: current_variant.compare_at_price | round
+          endif
+        -%}
+        {%- if product.tags contains hgs_tag -%}
+          <div class="hgs-save" data-hgs-save {% if hgs_save == 0 %}hidden{% endif %}>
+            <span class="hgs-save__seal" data-hgs-save-pct>&minus;{{ hgs_pct }}%</span>
+            <div class="hgs-save__text">
+              <span class="hgs-save__title">You save <span data-hgs-save-amt>{{ hgs_save | money }}</span></span>
+              <span class="hgs-save__sub">{{ settings.hgs_save_sub | default: 'Gold seal price, applied automatically' }}</span>
+            </div>
+          </div>
+        {%- endif -%}
 
         {%- assign trust_blocks = section.blocks | where: 'type', 'trust_item' -%}
         {%- if trust_blocks.size > 0 -%}
@@ -1018,6 +1038,16 @@
       var onSale = v.compare_at_price && v.compare_at_price > v.price;
       priceEl.classList.toggle('hpdp-price--on-sale', !!onSale);
       if (onSale) cmp.textContent = moneyFormat(v.compare_at_price);
+      var hgsSave = root.querySelector('[data-hgs-save]');
+      if (hgsSave) {
+        hgsSave.hidden = !onSale;
+        if (onSale) {
+          var saved = v.compare_at_price - v.price;
+          var pct = Math.round((saved * 100) / v.compare_at_price);
+          hgsSave.querySelector('[data-hgs-save-pct]').textContent = '−' + pct + '%';
+          hgsSave.querySelector('[data-hgs-save-amt]').textContent = moneyFormat(saved);
+        }
+      }
       if (atcBtn) atcBtn.disabled = !v.available;
       updateSticky(v);
       if (v.featured_media) {

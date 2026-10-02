@@ -1,0 +1,8 @@
+{%- comment -%}
+  Product card price: sale price + crossed-out original.
+  Usage (inside card-product.liquid, replacing the price render): {% render 'heitz-gold-seal-card-price', product: card_product %}
+{%- endcomment -%}
+<div class="hgs-card-price">
+  <span class="hgs-card__price">{% if product.price_varies %}From {% endif %}{{ product.price | money }}</span>
+  {%- if product.compare_at_price > product.price -%}<s>{{ product.compare_at_price | money }}</s>{%- endif -%}
+</div>

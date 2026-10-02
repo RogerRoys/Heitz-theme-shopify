@@ -1,0 +1,43 @@
+{{ 'heitz-gold-seal.css' | asset_url | stylesheet_tag }}
+{%- if section.settings.enabled -%}
+<div class="hgs-pop" id="hgs-pop" role="dialog" aria-modal="true" aria-labelledby="hgs-pop-title" data-delay="{{ section.settings.delay }}" data-days="{{ section.settings.days }}">
+  <div class="hgs-pop__dim" data-hgs-close></div>
+  <div class="hgs-pop__box">
+    <button type="button" class="hgs-pop__x" aria-label="Close" data-hgs-close>×</button>
+    <span class="hgs-pop__seal"><span>{{ section.settings.seal_top }}</span>{{ section.settings.seal_pct }}%<span>OFF</span></span>
+    <h2 class="hgs-pop__title" id="hgs-pop-title">{{ section.settings.title }}</h2>
+    <p class="hgs-pop__body">{{ section.settings.body }}</p>
+    <a class="hgs-pop__btn" href="{{ section.settings.link | default: routes.all_products_collection_url }}" data-hgs-close-link>{{ section.settings.btn }}</a>
+    <button type="button" class="hgs-pop__later" data-hgs-close>Maybe later</button>
+  </div>
+</div>
+<script>
+(function(){
+  var el=document.getElementById('hgs-pop'); if(!el) return;
+  var KEY='heitz_gold_seal_pop', days=+el.dataset.days||3, last=+localStorage.getItem(KEY)||0;
+  if(!window.Shopify||!Shopify.designMode){ if(Date.now()-last<days*864e5) return; }
+  function close(){ el.classList.remove('is-open'); try{localStorage.setItem(KEY,Date.now());}catch(e){} }
+  el.querySelectorAll('[data-hgs-close]').forEach(function(b){b.addEventListener('click',close);});
+  el.querySelector('[data-hgs-close-link]').addEventListener('click',function(){try{localStorage.setItem(KEY,Date.now());}catch(e){}});
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  setTimeout(function(){ el.classList.add('is-open'); }, (+el.dataset.delay||5)*1000);
+})();
+</script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Gold seal popup",
+  "settings": [
+    { "type": "checkbox", "id": "enabled", "label": "Show popup", "default": true },
+    { "type": "text", "id": "seal_top", "label": "Seal top text", "default": "UP TO" },
+    { "type": "range", "id": "seal_pct", "label": "Seal %", "min": 5, "max": 70, "step": 5, "default": 30 },
+    { "type": "text", "id": "title", "label": "Heading", "default": "A little extra light, for less" },
+    { "type": "textarea", "id": "body", "label": "Text", "default": "Pieces with the gold seal are already reduced, with no code needed. The saving is shown on each piece." },
+    { "type": "text", "id": "btn", "label": "Button label", "default": "Shop gold seal pieces" },
+    { "type": "url", "id": "link", "label": "Button link" },
+    { "type": "range", "id": "delay", "label": "Open after (seconds)", "min": 0, "max": 30, "step": 1, "default": 5 },
+    { "type": "range", "id": "days", "label": "Show again after (days)", "min": 1, "max": 30, "step": 1, "default": 3 }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,79 @@
+{%- comment -%}
+  Heitz About Identity — centered italic lead quote with a gold rule,
+  story paragraphs below in a single centered column.
+{%- endcomment -%}
+{% render 'heitz-tf-base' %}
+
+<style>
+  .habi { font-family: var(--font-body--family, var(--htf-font-body)); }
+  .habi * { box-sizing: border-box; }
+  .habi__inner { padding-top: {{ section.settings.padding_top | default: 80 }}px; padding-bottom: {{ section.settings.padding_bottom | default: 80 }}px; background: var(--color-background, #f5f3ee); border-bottom: 1px solid var(--color-border, #ddd5c4); text-align: center; }
+  .habi__quote { max-width: 720px; margin: 0 auto 30px; }
+  .habi__quote p {
+    margin: 0;
+    color: var(--color-primary, #b8913f);
+    font-family: var(--font-heading--family, var(--htf-font-heading));
+    font-size: 27px;
+    font-style: italic;
+    font-weight: 300;
+    line-height: 1.4;
+  }
+  .habi__quote:after {
+    content: '';
+    display: block;
+    width: 44px;
+    height: 1px;
+    margin: 28px auto 0;
+    background: var(--color-primary, #b8913f);
+  }
+  .habi__body { max-width: 780px; margin: 0 auto; }
+  .habi__body h2 {
+    margin: 0 0 16px;
+    color: var(--color-foreground-heading, var(--htf-color-text));
+    font-family: var(--font-heading--family, var(--htf-font-heading));
+    font-size: 28px;
+    font-weight: 400;
+    line-height: 1.25;
+  }
+  .habi__body p {
+    margin: 0 0 12px;
+    color: var(--color-foreground, #7a6e5e);
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 1.9;
+  }
+  .habi__body p:last-child { margin-bottom: 0; }
+  @media only screen and (max-width: 768px) {
+    .habi__quote p { font-size: 22px; }
+    .habi__quote { margin-bottom: 24px; }
+  }
+</style>
+
+<section class="habi">
+  <div class="htf-page-width habi__inner color-{{ section.settings.color_scheme }}">
+  <div class="habi__quote">
+    <p>{{ section.settings.quote }}</p>
+  </div>
+  <div class="habi__body">
+    <h2>{{ section.settings.heading }}</h2>
+    {{ section.settings.text }}
+  </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Heitz About Identity",
+  "settings": [
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-heitz-beige" },
+    { "type": "header", "content": "Padding" },
+    { "type": "range", "id": "padding_top", "label": "Top", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 80 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 80 },
+    { "type": "select", "id": "quote_position", "label": "Quote position (unused in centered layout)", "options": [ { "value": "left", "label": "Left" }, { "value": "right", "label": "Right" } ], "default": "left" },
+    { "type": "inline_richtext", "id": "quote", "label": "Lead quote", "default": "Simplicity, balance, and intentional living." },
+    { "type": "inline_richtext", "id": "heading", "label": "Heading", "default": "A different approach to lighting" },
+    { "type": "richtext", "id": "text", "label": "Text", "default": "<p>In a world filled with noise and excess, we were drawn to a different approach. Inspired by Scandinavian and Japandi design, we believe in simplicity, balance, and intentional living.</p><p>Every piece we offer reflects this philosophy — clean lines, soft light, and a focus on what truly matters.</p>" }
+  ],
+  "presets": [{ "name": "Heitz About Identity" }]
+}
+{% endschema %}

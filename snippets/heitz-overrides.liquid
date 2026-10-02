@@ -1,0 +1,65 @@
+{%- comment -%}
+  Heitz global overrides — small cross-section CSS that must ship via
+  the compiled stylesheet (assets/base.css edits do not sync reliably).
+{%- endcomment -%}
+{% stylesheet %}
+  /* recommendations + product-list mobile gaps match the homepage grids */
+  @media screen and (max-width: 749px) {
+    product-recommendations .resource-list,
+    product-list .resource-list {
+      --resource-list-mobile-gap-max: 9999px;
+      --resource-list-column-gap: 10px;
+      --resource-list-row-gap: 30px;
+    }
+  }
+  /* mobile hero bottom-left like the reference; desktop untouched */
+  @media screen and (max-width: 749px) {
+    .hero-wrapper .hero__container {
+      align-items: flex-end;
+      justify-content: flex-start;
+    }
+    /* the inner column flex centers its children from the desktop
+       setting — anchor them left and push to the bottom on mobile */
+    .hero-wrapper .hero__content-wrapper {
+      align-items: flex-start;
+      justify-content: flex-end;
+      padding-inline: 22px;
+    }
+    .hero-wrapper .text-block,
+    .hero-wrapper .text-block p,
+    .hero-wrapper .text-block h1 {
+      text-align: left;
+    }
+    /* the section's scoped custom CSS outranks this, hence !important */
+    .hero-wrapper .button {
+      background: #ffffff !important;
+      border: 0 !important;
+      color: #1a1b18 !important;
+      border-radius: 0 !important;
+      text-transform: uppercase !important;
+      letter-spacing: 2.8px !important;
+      font-size: 11px !important;
+      font-weight: 500 !important;
+      padding: 14px 30px !important;
+    }
+  }
+  /* inside the mobile section carousels the card's own gallery must
+     not fight the outer swipe — nested horizontal scrollers make the
+     images inside the cards jump mid-swipe on iOS */
+  @media screen and (max-width: 748px) {
+    /* overflow alone is enough: with the inner gallery unscrollable a
+       horizontal pan starting on the image chains up to the strip —
+       touch-action: pan-y here would swallow that gesture instead */
+    .htf-fc__grid slideshow-slides,
+    .htf-insp__grid slideshow-slides {
+      overflow-x: hidden !important;
+    }
+  }
+  /* desktop hero: keep a breathing gap between the content and the
+     viewport edge */
+  @media screen and (min-width: 750px) {
+    .hero-wrapper .hero__content-wrapper {
+      padding-inline: 48px;
+    }
+  }
+{% endstylesheet %}

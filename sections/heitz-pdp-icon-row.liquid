@@ -1,0 +1,156 @@
+{%- comment -%}
+  Heitz PDP icon row — "The Heitz Promise" strip: centered eyebrow,
+  four airy columns split by hairline dividers, thin line icons.
+{%- endcomment -%}
+{% render 'heitz-pdp-base' %}
+<style>
+  .hpdp-icons {
+    width: 100%;
+    background: var(--color-background, #ffffff);
+    padding: {{ section.settings.padding_top | default: 80 }}px 18px {{ section.settings.padding_bottom | default: 80 }}px;
+    font-family: var(--hpdp-font-body);
+  }
+  .hpdp-icons__eyebrow {
+    color: var(--color-foreground, #7a7a7a);
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 0.3em;
+    line-height: 1.4;
+    margin: 0 0 64px;
+    text-align: center;
+    text-transform: uppercase;
+  }
+  .hpdp-icons__inner {
+    max-width: 1500px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    text-align: center;
+  }
+  .hpdp-icons__item {
+    color: var(--color-foreground-heading, var(--hpdp-brown));
+    padding: 0 28px;
+  }
+  .hpdp-icons__item + .hpdp-icons__item { border-left: 1px solid var(--color-border, #e4e4e4); }
+  .hpdp-icons__icon {
+    width: 30px; height: 30px;
+    margin: 0 auto 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .hpdp-icons__icon svg { width: 30px; height: 30px; stroke: var(--color-foreground-heading, var(--hpdp-brown)); stroke-width: 1.1; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+  .hpdp-icons__title {
+    font-family: var(--hpdp-font-heading);
+    font-size: {{ section.settings.heading_size | default: 18 }}px;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    margin: 0 0 14px;
+    line-height: 1.3;
+  }
+  .hpdp-icons__text {
+    color: var(--color-foreground, #6b6b6b);
+    font-size: {{ section.settings.text_size | default: 14 }}px;
+    font-weight: 300;
+    line-height: 1.55;
+    max-width: 240px;
+    margin: 0 auto;
+  }
+  @media screen and (max-width: 900px) {
+    .hpdp-icons__eyebrow { margin-bottom: 40px; }
+    .hpdp-icons__inner { grid-template-columns: repeat(2, 1fr); gap: 40px 0; }
+    .hpdp-icons__item { padding: 0 18px; }
+    .hpdp-icons__item + .hpdp-icons__item { border-left: 0; }
+    .hpdp-icons__item:nth-child(even) { border-left: 1px solid var(--color-border, #e4e4e4); }
+    .hpdp-icons__icon { margin-bottom: 16px; }
+    .hpdp-icons__title { font-size: {{ section.settings.heading_size | default: 18 | minus: 2 }}px; }
+    .hpdp-icons__text { font-size: 13px; max-width: 200px; }
+  }
+  @media screen and (max-width: 520px) {
+    .hpdp-icons { padding: {{ section.settings.padding_top | default: 80 }}px 14px {{ section.settings.padding_bottom | default: 80 }}px; }
+    .hpdp-icons__icon, .hpdp-icons__icon svg { width: 26px; height: 26px; }
+    .hpdp-icons__text { font-size: 12.5px; line-height: 1.5; max-width: 160px; }
+  }
+</style>
+
+<section class="hpdp-icons color-{{ section.settings.color_scheme }}">
+  {%- if section.settings.eyebrow != blank -%}
+    <h2 class="hpdp-icons__eyebrow">{{ section.settings.eyebrow | escape }}</h2>
+  {%- endif -%}
+  <div class="hpdp-icons__inner">
+    {%- for block in section.blocks -%}
+      <div class="hpdp-icons__item" {{ block.shopify_attributes }}>
+        <div class="hpdp-icons__icon">
+          {%- case block.settings.icon -%}
+            {%- when 'boxes' -%}
+              <svg viewBox="0 0 24 24"><rect x="3" y="4" width="12" height="12" rx="2"/><rect x="9" y="10" width="12" height="10" rx="2"/></svg>
+            {%- when 'truck' -%}
+              <svg viewBox="0 0 24 24"><path d="M3 7h10v9H3z"/><path d="M13 10h3.5l2.5 3v3h-6z"/><circle cx="6.5" cy="17.5" r="1.6"/><circle cx="16.5" cy="17.5" r="1.6"/></svg>
+            {%- when 'return' -%}
+              <svg viewBox="0 0 24 24"><path d="M4 10a8 8 0 0 1 15 2"/><path d="M4 10V5m0 5h5"/></svg>
+            {%- when 'lock' -%}
+              <svg viewBox="0 0 24 24"><rect x="6" y="11" width="12" height="9" rx="1.5"/><path d="M9 11V8a3 3 0 0 1 6 0v3"/><path d="M12 14.5v2"/></svg>
+            {%- when 'chat' -%}
+              <svg viewBox="0 0 24 24"><path d="M12 4a8 8 0 1 0 4.6 14.5L20 20l-1-3.6A8 8 0 0 0 12 4z"/><path d="M8.5 11h7m-7 3h4.5"/></svg>
+            {%- when 'shield' -%}
+              <svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6z"/></svg>
+          {%- endcase -%}
+        </div>
+        <h3 class="hpdp-icons__title">{{ block.settings.title | escape }}</h3>
+        <p class="hpdp-icons__text">{{ block.settings.text | escape }}</p>
+      </div>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Heitz PDP Icon Row",
+  "settings": [
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+    { "type": "header", "content": "Padding" },
+    { "type": "range", "id": "padding_top", "label": "Top", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 80 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 80 },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow heading", "default": "The Heitz Promise" },
+    { "type": "header", "content": "Font sizes" },
+    { "type": "range", "id": "heading_size", "label": "Title size", "min": 13, "max": 26, "step": 1, "unit": "px", "default": 18 },
+    { "type": "range", "id": "text_size", "label": "Text size", "min": 11, "max": 18, "step": 1, "unit": "px", "default": 14 }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Item",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "truck", "label": "Truck" },
+            { "value": "return", "label": "Return arrow" },
+            { "value": "lock", "label": "Lock" },
+            { "value": "chat", "label": "Chat" },
+            { "value": "boxes", "label": "Boxes" },
+            { "value": "shield", "label": "Shield" }
+          ],
+          "default": "truck"
+        },
+        { "type": "text", "id": "title", "label": "Title", "default": "Free Tracked Shipping" },
+        { "type": "text", "id": "text", "label": "Text", "default": "Complimentary tracked delivery on every order." }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "presets": [
+    {
+      "name": "Heitz PDP Icon Row",
+      "blocks": [
+        { "type": "item", "settings": { "icon": "truck", "title": "Free Tracked Shipping", "text": "Complimentary tracked delivery on every order." } },
+        { "type": "item", "settings": { "icon": "return", "title": "30-Day Returns", "text": "Shop confidently with our hassle-free return window." } },
+        { "type": "item", "settings": { "icon": "lock", "title": "Secure Checkout", "text": "Shop safely with encrypted, trusted payment processing." } },
+        { "type": "item", "settings": { "icon": "chat", "title": "Personal Support", "text": "Friendly assistance before and after your purchase." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

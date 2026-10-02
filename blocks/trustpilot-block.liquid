@@ -1,0 +1,296 @@
+{% doc %}
+  @prompt
+    I need to create a block. I need to be able to add a logo to that block using svg code. I also need to be able to add a text in front of it., I need add logo use image piker. and text type need inline richtext. 
+    , Cooll... I need link this full block.  dont cahnge othr things. all settings are very impornent for me
+    , cool.. now need cahnge block padding setting separatly(top,left,right,bottom).dont cahnge othr things. all settings are very impornent for me
+    
+
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-logo-text-block-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    gap: {{ block.settings.spacing }}px;
+    flex-direction: {{ block.settings.layout }};
+    padding: {{ block.settings.padding_top }}px {{ block.settings.padding_right }}px {{ block.settings.padding_bottom }}px {{ block.settings.padding_left }}px;
+    max-width: 100%;
+    background-color: {{ block.settings.background_color }};
+    border-radius: {{ block.settings.border_radius }}px;text-decoration: none;
+  }
+
+  .ai-logo-container-{{ ai_gen_id }} {
+    flex-shrink: 0;
+    width: {{ block.settings.logo_width }}px;
+    height: auto;
+    max-width: 100%;
+  }
+
+  .ai-logo-container-{{ ai_gen_id }} img {
+    width: 100%;
+    height: auto;max-width: 100%;
+    display: block;
+  }
+
+  .ai-logo-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;}
+
+  .ai-logo-placeholder-{{ ai_gen_id }} svg {
+    width: 100%;
+    height: auto;
+    max-width: 100%;}
+
+  .ai-text-container-{{ ai_gen_id }} {
+    color: {{ block.settings.text_color }};
+    font-size: {{ block.settings.text_size }}px;
+    line-height: 1.4;}
+
+  @media screen and (max-width: 749px) {
+    .ai-logo-text-block-{{ ai_gen_id }} {
+      flex-direction: {{ block.settings.mobile_layout }};
+      padding: {{ block.settings.padding_top | divided_by: 1.5 }}px {{ block.settings.padding_right | divided_by: 1.5 }}px {{ block.settings.padding_bottom | divided_by: 1.5 }}px {{ block.settings.padding_left | divided_by: 1.5 }}px;
+      gap: {{ block.settings.spacing | divided_by: 1.5 }}px;
+    }
+
+    .ai-logo-container-{{ ai_gen_id }} {
+      width: {{ block.settings.mobile_logo_width }}px;
+    }
+
+    .ai-text-container-{{ ai_gen_id }} {
+      font-size: {{ block.settings.mobtext_size | times: 0.85 }}px;
+    }
+  }
+{% endstyle %}
+
+<a href="{{ block.settings.link }}" class="ai-logo-text-block-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-logo-container-{{ ai_gen_id }}">
+    {% if block.settings.logo %}
+      <img 
+        src="{{ block.settings.logo | image_url: width: block.settings.logo_width }}" 
+        alt="{{ block.settings.logo.alt | escape }}"
+        width="{{ block.settings.logo_width }}"
+        height="{{ block.settings.logo.height | times: block.settings.logo_width | divided_by: block.settings.logo.width | round }}"
+        loading="lazy"
+      >
+    {% else %}
+      <div class="ai-logo-placeholder-{{ ai_gen_id }}">
+        {{ 'image' | placeholder_svg_tag }}
+      </div>
+    {% endif %}
+  </div>
+  <div class="ai-text-container-{{ ai_gen_id }}">
+    {{ block.settings.text }}
+  </div>
+</a>
+
+{% schema %}
+{
+  "name": "Trustpilot Block",
+  "tag": null,
+  "class": "logo-with-text-block",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Logo Settings"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo image"
+    },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "min": 50,
+      "max": 300,
+      "step": 10,
+      "unit": "px",
+      "label": "Logo width",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "mobile_logo_width",
+      "min": 30,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "label": "Mobile logo width",
+      "default": 80
+    },
+    {
+      "type": "header",
+      "content": "Text Settings"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "text",
+      "label": "Text content",
+      "default": "Your text here. Describe your brand or provide additional information."
+    },
+    {
+      "type": "range",
+      "id": "text_size",
+      "min": 12,
+      "max": 36,
+      "step": 1,
+      "unit": "px",
+      "label": "Text size",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "mobtext_size",
+      "min": 12,
+      "max": 36,
+      "step": 1,
+      "unit": "px",
+      "label": "Mobile Text size",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#000000"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "Link"
+    },
+    {
+      "type": "header",
+      "content": "Layout Settings"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Desktop layout",
+      "options": [
+        {
+          "value": "row",
+          "label": "Logo → Text"
+        },
+        {
+          "value": "row-reverse",
+          "label": "Text → Logo"
+        },
+        {
+          "value": "column",
+          "label": "Logo above Text"
+        },
+        {
+          "value": "column-reverse",
+          "label": "Text above Logo"
+        }
+      ],
+      "default": "row"
+    },
+    {
+      "type": "select",
+      "id": "mobile_layout",
+      "label": "Mobile layout",
+      "options": [
+        {
+          "value": "row",
+          "label": "Logo → Text"
+        },
+        {
+          "value": "row-reverse",
+          "label": "Text → Logo"
+        },
+        {
+          "value": "column",
+          "label": "Logo above Text"
+        },
+        {
+          "value": "column-reverse",
+          "label": "Text above Logo"
+        }
+      ],
+      "default": "column"
+    },
+    {
+      "type": "range",
+      "id": "spacing",
+      "min": 0,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "label": "Spacing between logo and text",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Padding Settings"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_right",
+      "min": 0,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "label": "Right padding",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_left",
+      "min": 0,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "label": "Left padding",
+      "default": 20
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Border radius",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "Trustpilot Block"
+    }
+  ]
+}
+{% endschema %}

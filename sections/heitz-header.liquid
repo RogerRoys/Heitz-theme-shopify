@@ -1,0 +1,958 @@
+{%- comment -%}
+  Heitz TF header — sticky white header, center logo, icon row + centered nav
+  with hover dropdowns and third-level flyouts, search overlay, mobile drawer.
+{%- endcomment -%}
+{% render 'heitz-tf-base' %}
+
+{%- assign menu = linklists[section.settings.menu] -%}
+{%- assign logo_svg = section.settings.logo | default: settings.logo -%}
+
+<style>
+  .htf-section-header-wrap {
+    position: sticky;
+    top: 0;
+    z-index: 29;
+  }
+  @media only screen and (min-width: 769px) {
+    .htf-section-header-wrap {
+      transition: transform .42s cubic-bezier(.22, 1, .36, 1);
+      will-change: transform;
+    }
+    .htf-section-header-wrap.htf-smart-sticky--compact {
+      position: fixed;
+      top: 0;
+      right: 0;
+      left: 0;
+      width: 100%;
+    }
+    .htf-section-header-wrap.htf-smart-sticky--hidden {
+      transform: translateY(-100%);
+    }
+    .htf-section-header-wrap.htf-smart-sticky--preparing {
+      transition: none !important;
+    }
+    .htf-section-header-wrap.htf-smart-sticky--revealing {
+      transition-duration: .8s;
+      transition-timing-function: cubic-bezier(.16, 1, .3, 1);
+    }
+    .htf-section-header-wrap.htf-smart-sticky--compact .htf-header {
+      padding: 8px 0 0;
+    }
+    .htf-section-header-wrap.htf-smart-sticky--compact .htf-logo img,
+    .htf-section-header-wrap.htf-smart-sticky--compact .htf-logo svg {
+      height: calc(var(--htf-logo-h, 40px) * 0.72);
+    }
+    .htf-header,
+    .htf-logo a {
+      transition: padding .38s cubic-bezier(.22, 1, .36, 1), width .38s cubic-bezier(.22, 1, .36, 1);
+    }
+    .htf-logo img,
+    .htf-logo svg {
+      transition: height .38s cubic-bezier(.22, 1, .36, 1);
+    }
+    .htf-nav-row {
+      transition:
+        max-height .42s cubic-bezier(.22, 1, .36, 1),
+        opacity .28s ease,
+        transform .42s cubic-bezier(.22, 1, .36, 1);
+      will-change: max-height, opacity, transform;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .htf-section-header-wrap,
+      .htf-header,
+      .htf-logo a,
+      .htf-nav-row {
+        transition-duration: .01ms !important;
+      }
+    }
+  }
+  .htf-header {
+    background-color: var(--color-background, #ffffff);
+    border-bottom: 1px solid rgba(42, 55, 67, 0.1);
+    padding: 20px 0 0;
+    position: relative;
+  }
+  .htf-header a { text-decoration: none; }
+  .htf-header__layout {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .htf-header__item--left, .htf-header__item--icons { flex: 0 1 130px; }
+  .htf-header__item--logo { flex: 0 1 auto; text-align: center; }
+  @media only screen and (min-width: 769px) {
+    .htf-header__item--left, .htf-header__item--icons { flex: 0 0 200px; }
+  }
+  .htf-header__icon-link {
+    color: var(--htf-color-text);
+    display: inline-block;
+    padding: 7.5px 11px;
+    background: none;
+    border: 0;
+    cursor: pointer;
+    vertical-align: middle;
+    position: relative;
+  }
+  .htf-header__icon-link svg {
+    width: 28px;
+    height: 28px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 4px;
+    stroke-miterlimit: 10;
+    vertical-align: middle;
+  }
+  /* Horizon action components (search / account / cart) restyled to match */
+  /* Mobile: account lives in the menu drawer, so hide the header's
+     mobile account trigger (the bottom-sheet dialog version). The
+     desktop popover version is unaffected. */
+  .htf-header .account-drawer { display: none !important; }
+  .htf-header .header-actions__action svg,
+  .htf-header .account-button__icon svg,
+  .htf-header .search-modal__button svg { width: 28px; height: 28px; }
+  .htf-header {
+    --icon-size-sm: 26px;
+    --icon-size-xs: 22px;
+    /* Horizon's account popover CSS anchors below the trigger using
+       --header-padding; without it the top calc collapses and the panel
+       floats mid-page. Define it here since the stock header section
+       (its usual source) is not rendered. */
+    --header-padding: var(--padding-sm, 12px);
+  }
+  .htf-header__item--left { display: flex; align-items: center; justify-content: flex-start; }
+  .htf-header__item--icons {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 2px;
+  }
+  .htf-header .header-actions__action,
+  .htf-header .search-modal__button {
+    color: var(--htf-color-text);
+    padding: 7.5px 9px;
+  }
+  .htf-header header-actions {
+    display: flex;
+    align-items: center;
+  }
+  .htf-header dropdown-localization-component,
+  .htf-header .dropdown-localization { display: flex; align-items: center; }
+  .htf-logo {
+    margin: 0;
+    display: block;
+    line-height: 0;
+    /* the theme's Logo settings drive the rendered height */
+    --htf-logo-h: {{ settings.logo_height | default: 40 }}px;
+    --htf-logo-h-mobile: {{ settings.logo_height_mobile | default: 60 }}px;
+  }
+  .htf-logo a { display: inline-block; }
+  .htf-logo img, .htf-logo svg { height: var(--htf-logo-h-mobile, 60px); width: auto; display: block; }
+  .htf-logo__text {
+    font-family: var(--htf-font-heading);
+    font-size: 26px;
+    letter-spacing: 0.05em;
+    color: var(--htf-color-text);
+    line-height: 1.2;
+  }
+  @media only screen and (min-width: 769px) {
+    .htf-logo img, .htf-logo svg { height: var(--htf-logo-h, 40px); }
+    .htf-logo__text { font-size: 30px; }
+  }
+
+  /* ── desktop nav ─────────────────────────────── */
+  .htf-nav-row { text-align: center; }
+  .htf-nav {
+    display: inline-flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .htf-nav__item { position: relative; margin: 0; }
+  .htf-nav__link {
+    color: var(--htf-color-text);
+    display: inline-flex;
+    align-items: center;
+    font-family: var(--htf-font-heading);
+    font-weight: 400;
+    font-size: {{ section.settings.nav_size | default: 15 }}px;
+    letter-spacing: 0.025em;
+    line-height: 1.1;
+    padding: 12px 15px;
+    white-space: nowrap;
+    position: relative;
+  }
+  .htf-nav__link:after {
+    content: '';
+    position: absolute;
+    left: 15px;
+    right: 15px;
+    bottom: 8px;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform .25s ease;
+  }
+  .htf-nav__item:hover > .htf-nav__link:after { transform: scaleX(1); }
+  .htf-nav__link .htf-chevron {
+    width: 11px;
+    height: 7px;
+    margin-left: 7px;
+    flex: 0 0 auto;
+    transition: transform .25s ease;
+  }
+  .htf-nav__item:hover > .htf-nav__link .htf-chevron { transform: rotate(180deg); }
+  .htf-dropdown {
+    background-color: #ffffff;
+    box-shadow: 0 10px 20px #00000017;
+    list-style: none;
+    margin: 0;
+    min-width: 220px;
+    padding: 10px 0 5px;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    text-align: left;
+    opacity: 0;
+    visibility: hidden;
+    transform: translate3d(0, -12px, 0);
+    transition: all .3s cubic-bezier(.2,.06,.05,.95);
+    z-index: 5;
+  }
+  .htf-nav__item:hover > .htf-dropdown,
+  .htf-nav__item:focus-within > .htf-dropdown {
+    opacity: 1;
+    visibility: visible;
+    transform: translateZ(0);
+  }
+  .htf-dropdown li { margin: 0; position: relative; }
+  .htf-dropdown__link {
+    color: var(--htf-color-text);
+    display: block;
+    font-family: var(--htf-font-body);
+    font-size: 15px;
+    padding: 8px 20px;
+    white-space: nowrap;
+  }
+  .htf-dropdown__link {
+    transition: background-color .2s ease, color .2s ease;
+  }
+  .htf-dropdown__link:hover,
+  .htf-dropdown__link:focus-visible {
+    background-color: rgba(42, 55, 67, 0.06);
+    color: #0d1014;
+  }
+  .htf-dropdown__link--parent:after {
+    content: '';
+    border: solid var(--htf-color-text);
+    border-width: 0 1px 1px 0;
+    display: inline-block;
+    padding: 3px;
+    margin-left: 10px;
+    transform: rotate(-45deg);
+    vertical-align: middle;
+  }
+  .htf-flyout {
+    background-color: #ffffff;
+    box-shadow: 0 10px 20px #00000017;
+    list-style: none;
+    margin: 0;
+    min-width: 200px;
+    padding: 10px 0 5px;
+    position: absolute;
+    top: -10px;
+    left: 100%;
+    opacity: 0;
+    visibility: hidden;
+    transition: all .25s ease;
+    z-index: 6;
+  }
+  .htf-dropdown li:hover > .htf-flyout {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  /* ── mobile drawer ───────────────────────────── */
+  .htf-drawer {
+    display: flex;
+    flex-direction: column;
+    background: #ffffff;
+    bottom: 0;
+    left: 0;
+    max-width: 350px;
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    transform: translateX(-102%);
+    transition: transform .35s cubic-bezier(.26,.54,.32,1);
+    width: 88vw;
+    z-index: 60;
+  }
+  @supports (height: 100dvh) {
+    /* iOS: bottom: 0 sits under the collapsing browser toolbar; dvh tracks it */
+    .htf-drawer { height: 100dvh; bottom: auto; }
+  }
+  .htf-drawer.is-open { transform: translateX(0); }
+  .htf-drawer__overlay {
+    background: rgba(42, 55, 67, 0.5);
+    inset: 0;
+    opacity: 0;
+    pointer-events: none;
+    position: fixed;
+    transition: opacity .35s ease;
+    z-index: 59;
+  }
+  .htf-drawer__overlay.is-open { opacity: 1; pointer-events: auto; }
+  .htf-drawer__header {
+    display: flex;
+    justify-content: flex-end;
+    padding: 12px 15px;
+    border-bottom: 1px solid var(--htf-color-border-light);
+  }
+  .htf-drawer__close { background: none; border: 0; cursor: pointer; color: var(--htf-color-text); padding: 6px; }
+  .htf-drawer__close svg { width: 26px; height: 26px; fill: none; stroke: currentColor; stroke-width: 4px; }
+  .htf-drawer__nav { list-style: none; margin: 0; padding: 10px 0 10px; flex: 1 1 auto; overflow-y: auto; min-height: 0; }
+  .htf-drawer__nav li { margin: 0; }
+  .htf-drawer__footer {
+    border-top: 1px solid var(--htf-color-border-light);
+    /* pinned to the drawer bottom, like the old theme */
+    margin-top: auto;
+    /* --htf-bottom-clearance is set by JS when a bottom overlay
+       (Shopify preview bar / cookie bar) covers the viewport bottom */
+    padding: 6px 0 calc(10px + env(safe-area-inset-bottom, 0px) + var(--htf-bottom-clearance, 0px));
+  }
+  .htf-drawer__account svg {
+    width: 22px;
+    height: 22px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 4px;
+    stroke-miterlimit: 10;
+    margin-right: 10px;
+    flex: 0 0 auto;
+  }
+  .htf-drawer__account { justify-content: flex-start !important; }
+  /* stock Horizon drawer localization, adapted to the htf drawer */
+  .htf-drawer__localization { display: block; }
+  .htf-drawer__localization .drawer-localization__button {
+    align-items: center;
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+    list-style: none;
+    padding: 14px 25px;
+    cursor: pointer;
+  }
+  .htf-drawer__localization .drawer-localization__button::-webkit-details-marker { display: none; }
+  /* country panel slides over the drawer, like the old theme's submenu */
+  .htf-drawer .drawer-localization { display: block; position: static; }
+  .htf-drawer .menu-drawer__submenu {
+    position: absolute;
+    inset: 0;
+    background: var(--color-background, #ffffff);
+    z-index: 62;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    padding: 0 0 calc(15px + var(--htf-bottom-clearance, 0px));
+  }
+  .htf-drawer .drawer-localization[open] > .menu-drawer__submenu {
+    visibility: visible;
+    opacity: 1;
+    transform: none;
+    animation: htf-loc-slide-in .3s cubic-bezier(.26,.54,.32,1) both;
+  }
+  @keyframes htf-loc-slide-in {
+    from { transform: translateX(-10%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+  }
+  .htf-drawer .menu-drawer__submenu localization-form-component { flex: 1 1 auto; min-height: 0; }
+  .htf-drawer__nav-buttons {
+    align-items: center;
+    border-bottom: 1px solid var(--htf-color-border-light);
+    display: flex;
+    flex: 0 0 auto;
+    justify-content: space-between;
+    padding: 10px 15px 10px 20px;
+  }
+  .htf-drawer__back-button {
+    align-items: center;
+    background: none;
+    border: 0;
+    color: var(--htf-color-text);
+    cursor: pointer;
+    display: flex;
+    font-family: var(--htf-font-heading);
+    font-size: 15px;
+    gap: 10px;
+    padding: 6px 0;
+  }
+  .htf-drawer__back-button .svg-wrapper,
+  .htf-drawer__back-button .svg-wrapper svg { width: 14px; height: 14px; display: inline-block; }
+  .htf-loc-native { padding: 8px 12px 20px; }
+  .htf-loc-native__form { margin: 0; }
+  .htf-loc-native__btn {
+    align-items: center;
+    text-decoration: none;
+    background: none;
+    border: 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    color: var(--htf-color-text);
+    cursor: pointer;
+    display: flex;
+    font-family: var(--htf-font-body);
+    font-size: 15px;
+    gap: 12px;
+    padding: 14px 10px;
+    text-align: left;
+    width: 100%;
+  }
+  .htf-loc-native__btn.is-current { font-weight: 600; }
+  .htf-loc-native__flag {
+    flex: 0 0 auto;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background-size: cover;
+    background-position: center;
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.15);
+  }
+  .htf-loc-native__name { flex: 1 1 auto; }
+  .htf-loc-native__cur { flex: 0 0 auto; opacity: 0.7; font-size: 13px; }
+  .htf-drawer__link,
+  .htf-drawer__toggle {
+    align-items: center;
+    background: none;
+    border: 0;
+    color: var(--htf-color-text);
+    cursor: pointer;
+    display: flex;
+    font-family: var(--htf-font-heading);
+    font-size: 17px;
+    justify-content: space-between;
+    padding: 14px 25px;
+    text-align: left;
+    width: 100%;
+  }
+  .htf-drawer__sub .htf-drawer__link,
+  .htf-drawer__sub .htf-drawer__toggle {
+    font-family: var(--htf-font-body);
+    font-size: 15px;
+    padding: 10px 25px 10px 40px;
+  }
+  .htf-drawer__sub .htf-drawer__sub .htf-drawer__link {
+    font-size: 14px;
+    padding-left: 55px;
+  }
+  .htf-drawer__toggle .htf-chevron {
+    width: 14px;
+    height: 8px;
+    transition: transform .25s ease;
+  }
+  .htf-drawer__toggle[aria-expanded="true"] .htf-chevron { transform: rotate(180deg); }
+  .htf-drawer__sub {
+    display: none;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .htf-drawer__sub.is-open { display: block; }
+
+  .htf-mobile-only { display: none; }
+  @media only screen and (max-width: 768px) {
+    .htf-section-header-wrap.htf-mobile-sticky--fixed {
+      position: fixed;
+      top: 0;
+      right: 0;
+      left: 0;
+      width: 100%;
+      z-index: 29;
+      transform: none;
+      animation: htf-mobile-sticky-reveal .8s cubic-bezier(.16, 1, .3, 1) both;
+      will-change: transform;
+    }
+    @keyframes htf-mobile-sticky-reveal {
+      from { transform: translateY(-100%); }
+      to { transform: translateY(0); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .htf-section-header-wrap.htf-mobile-sticky--fixed {
+        animation-duration: .01ms !important;
+      }
+    }
+    .htf-mobile-only { display: inline-block; }
+    .htf-desktop-only, .htf-nav-row { display: none; }
+    .htf-header { padding: 14px 0 14px; }
+    /* desktop localization selector hides on mobile; the drawer has its own */
+    .htf-header__item--icons dropdown-localization-component,
+    .htf-header__item--icons .dropdown-localization,
+    .htf-header__item--icons .localization-wrapper { display: none !important; }
+    /* tighter icon spacing on mobile, like the reference */
+    .htf-header__item--icons { gap: 0; }
+    .htf-header .header-actions__action,
+    .htf-header .search-modal__button { padding: 7.5px 4px; }
+  }
+</style>
+
+<div class="htf-header color-{{ section.settings.color_scheme }}" data-htf-header>
+  <div class="htf-page-width">
+    <div class="htf-header__layout">
+      <div class="htf-header__item htf-header__item--left">
+        {% render 'search', class: 'mobile:hidden' %}
+        <button type="button" class="htf-header__icon-link htf-mobile-only" data-htf-drawer-open aria-label="Menu">
+          <svg viewBox="0 0 64 64"><path d="M7 15h51"/><path d="M7 32h43"/><path d="M7 49h51"/></svg>
+        </button>
+      </div>
+
+      <div class="htf-header__item htf-header__item--logo">
+        <h1 class="htf-logo">
+          <a href="{{ routes.root_url }}" aria-label="{{ shop.name | escape }}">
+            {%- if logo_svg != blank -%}
+              {{ logo_svg | image_url: width: 400 | image_tag: alt: shop.name, loading: 'eager' }}
+            {%- else -%}
+              <span class="htf-logo__text">{{ shop.name }}</span>
+            {%- endif -%}
+          </a>
+        </h1>
+      </div>
+
+      <div class="htf-header__item htf-header__item--icons">
+        {% render 'search', class: 'desktop:hidden' %}
+        {%- liquid
+          assign loc_show_language = section.settings.show_language
+          if localization.available_languages.size <= 1
+            assign loc_show_language = false
+          endif
+          assign loc_show_country = section.settings.show_country
+          if localization.available_countries.size <= 1
+            assign loc_show_country = false
+          endif
+        -%}
+        {%- if loc_show_country or loc_show_language -%}
+          {% render 'dropdown-localization', show_country: loc_show_country, show_language: loc_show_language, country_style: section.settings.country_selector_style, localization_position: section.settings.localization_position %}
+        {%- endif -%}
+        {% render 'header-actions' %}
+      </div>
+    </div>
+
+    {%- if menu != blank -%}
+      <div class="htf-nav-row" id="htf-desktop-nav-{{ section.id }}">
+        <ul class="htf-nav">
+          {%- for link in menu.links -%}
+            <li class="htf-nav__item">
+              <a href="{{ link.url }}" class="htf-nav__link">
+                {{ link.title }}
+                {%- if link.links != blank -%}
+                  <svg class="htf-chevron" viewBox="0 0 28 16"><path d="m1.57 1.59 12.76 12.77L27.1 1.59" stroke-width="2" stroke="currentColor" fill="none"/></svg>
+                {%- endif -%}
+              </a>
+              {%- if link.links != blank -%}
+                <ul class="htf-dropdown">
+                  {%- for child in link.links -%}
+                    <li>
+                      <a href="{{ child.url }}" class="htf-dropdown__link{% if child.links != blank %} htf-dropdown__link--parent{% endif %}">{{ child.title }}</a>
+                      {%- if child.links != blank -%}
+                        <ul class="htf-flyout">
+                          {%- for grandchild in child.links -%}
+                            <li><a href="{{ grandchild.url }}" class="htf-dropdown__link">{{ grandchild.title }}</a></li>
+                          {%- endfor -%}
+                        </ul>
+                      {%- endif -%}
+                    </li>
+                  {%- endfor -%}
+                </ul>
+              {%- endif -%}
+            </li>
+          {%- endfor -%}
+        </ul>
+      </div>
+    {%- endif -%}
+  </div>
+
+</div>
+
+<div class="htf-drawer__overlay" data-htf-drawer-overlay></div>
+<div class="htf-drawer" data-htf-drawer aria-hidden="true">
+  <div class="htf-drawer__header">
+    <button type="button" class="htf-drawer__close" data-htf-drawer-close aria-label="Close menu">
+      <svg viewBox="0 0 64 64"><path d="m19 17.61 27.12 27.13m0-27.12L19 44.74"/></svg>
+    </button>
+  </div>
+  {%- if menu != blank -%}
+    <ul class="htf-drawer__nav">
+      {%- for link in menu.links -%}
+        <li>
+          {%- if link.links != blank -%}
+            <button type="button" class="htf-drawer__toggle" aria-expanded="false" data-htf-drawer-toggle>
+              <span>{{ link.title }}</span>
+              <svg class="htf-chevron" viewBox="0 0 28 16"><path d="m1.57 1.59 12.76 12.77L27.1 1.59" stroke-width="2" stroke="currentColor" fill="none"/></svg>
+            </button>
+            <ul class="htf-drawer__sub">
+              {%- for child in link.links -%}
+                <li>
+                  {%- if child.links != blank -%}
+                    <button type="button" class="htf-drawer__toggle" aria-expanded="false" data-htf-drawer-toggle>
+                      <span>{{ child.title }}</span>
+                      <svg class="htf-chevron" viewBox="0 0 28 16"><path d="m1.57 1.59 12.76 12.77L27.1 1.59" stroke-width="2" stroke="currentColor" fill="none"/></svg>
+                    </button>
+                    <ul class="htf-drawer__sub">
+                      {%- for grandchild in child.links -%}
+                        <li><a href="{{ grandchild.url }}" class="htf-drawer__link">{{ grandchild.title }}</a></li>
+                      {%- endfor -%}
+                    </ul>
+                  {%- else -%}
+                    <a href="{{ child.url }}" class="htf-drawer__link">{{ child.title }}</a>
+                  {%- endif -%}
+                </li>
+              {%- endfor -%}
+            </ul>
+          {%- else -%}
+            <a href="{{ link.url }}" class="htf-drawer__link">{{ link.title }}</a>
+          {%- endif -%}
+        </li>
+      {%- endfor -%}
+    </ul>
+  {%- endif -%}
+
+  <div class="htf-drawer__footer">
+    <a href="{{ routes.account_url }}" class="htf-drawer__link htf-drawer__account">
+      <svg viewBox="0 0 64 64"><path d="M35 39.84v-2.53c3.3-1.91 6-6.66 6-11.41 0-7.63 0-13.82-9-13.82s-9 6.19-9 13.82c0 4.75 2.7 9.51 6 11.41v2.53c-10.18.85-18 6-18 12.16h42c0-6.19-7.82-11.31-18-12.16Z"/></svg>
+      <span>{% if customer %}Account{% else %}Log in{% endif %}</span>
+    </a>
+
+    {%- liquid
+      assign drawer_show_country = section.settings.show_country
+      if localization.available_countries.size <= 1
+        assign drawer_show_country = false
+      endif
+      assign drawer_show_language = section.settings.show_language
+      if localization.available_languages.size <= 1
+        assign drawer_show_language = false
+      endif
+    -%}
+    {%- if drawer_show_country or drawer_show_language -%}
+      {%- liquid
+        assign localization_font = '--menu-localization-font: var(--font-[localization_font]--family); ' | replace: '[localization_font]', section.settings.localization_font
+        assign color_shadow = '--color-shadow: rgb(var(--color-foreground-rgb) / var(--opacity-10-25));'
+        assign form_style = localization_font | append: color_shadow
+      -%}
+      <drawer-localization-component class="menu-drawer__localization htf-drawer__localization">
+        <details
+          id="drawer-localization"
+          class="drawer-localization"
+          on:toggle="/toggle"
+        >
+          <summary
+            id="HeaderDrawer-localization"
+            class="drawer-localization__button h3 link link--text focus-inset"
+            aria-expanded="false"
+            style="{{ form_style }}"
+          >
+            <div class="drawer-localization__button--label h6">
+              {%- if drawer_show_country -%}
+                <div class="mobile-localization mobile-localization--country link link--text">
+                  {%- if section.settings.country_selector_style == true -%}
+                    <span
+                      class="icon-flag"
+                      style="
+                        background-image: url({{- localization.country | image_url: width: 32 }});
+                        --size-shadow: 2px;
+                        --color-shadow: rgb(var(--color-foreground-rgb) / var(--opacity-30-60));
+                      "
+                    ></span>
+                  {%- endif -%}
+                  <span class="currency-code">
+                    {{- localization.country.currency.iso_code -}}
+                  </span>
+                </div>
+              {%- endif -%}
+              {%- if drawer_show_country and drawer_show_language -%}
+                <span>/</span>
+              {%- endif -%}
+              {%- if drawer_show_language -%}
+                <div class="mobile-localization mobile-localization--country link link--text">
+                  <span>{{ localization.language.iso_code | upcase }}</span>
+                </div>
+              {%- endif -%}
+            </div>
+            <span class="svg-wrapper icon-caret icon-caret--forward">
+              {{- 'icon-caret.svg' | inline_asset_content -}}
+            </span>
+          </summary>
+          <div class="menu-drawer__submenu htf-drawer__submenu color-{{ settings.drawer_color_scheme }}">
+            <div class="menu-drawer__nav-buttons htf-drawer__nav-buttons">
+              <button type="button" class="htf-drawer__back-button" data-htf-loc-back aria-expanded="true">
+                <span class="svg-wrapper icon-caret icon-caret--backward">
+                  {{- 'icon-caret.svg' | inline_asset_content -}}
+                </span>
+                {{ 'content.localization_region_and_language' | t }}
+              </button>
+              <button type="button" class="htf-drawer__close" data-htf-drawer-close aria-label="Close menu">
+                <svg viewBox="0 0 64 64"><path d="m19 17.61 27.12 27.13m0-27.12L19 44.74"/></svg>
+              </button>
+            </div>
+            <div class="htf-loc-native">
+              {%- for country in localization.available_countries -%}
+                <a
+                  class="htf-loc-native__btn{% if country.iso_code == localization.country.iso_code %} is-current{% endif %}"
+                  href="{{ request.path }}?country={{ country.iso_code }}"
+                >
+                  <span class="htf-loc-native__flag" style="background-image: url({{ country | image_url: width: 64 }});"></span>
+                  <span class="htf-loc-native__name">{{ country.name }}</span>
+                  <span class="htf-loc-native__cur">{{ country.currency.iso_code }} {{ country.currency.symbol }}</span>
+                </a>
+              {%- endfor -%}
+            </div>
+          </div>
+        </details>
+      </drawer-localization-component>
+    {%- endif -%}
+  </div>
+</div>
+
+<script>
+  (function () {
+    var header = document.querySelector('[data-htf-header]');
+    if (!header) return;
+
+    var wrapper = header.closest('.htf-section-header-wrap');
+    var drawer = document.querySelector('[data-htf-drawer]');
+    var overlay = document.querySelector('[data-htf-drawer-overlay]');
+    var compactMenuToggle = header.querySelector('[data-htf-compact-menu-toggle]');
+    var lastScrollY = window.scrollY;
+    var fullHeaderHeight = wrapper ? wrapper.offsetHeight : header.offsetHeight;
+    var scrollTicking = false;
+    var revealTimer = null;
+
+    /* When the wrapper goes position:fixed it leaves the document flow and
+       the whole page shifts up by the header height — a visible jump on the
+       first reveal. The spacer holds that space while the header is fixed. */
+    var stickySpacer = null;
+    if (wrapper && wrapper.parentNode) {
+      stickySpacer = document.createElement('div');
+      stickySpacer.style.display = 'none';
+      wrapper.parentNode.insertBefore(stickySpacer, wrapper.nextSibling);
+    }
+    function setStickySpacer(on) {
+      if (!stickySpacer) return;
+      stickySpacer.style.height = on ? fullHeaderHeight + 'px' : '';
+      stickySpacer.style.display = on ? 'block' : 'none';
+    }
+
+    function setCompactMenu(open) {
+      if (!wrapper || !compactMenuToggle) return;
+      wrapper.classList.toggle('htf-smart-sticky--menu-open', open);
+      compactMenuToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      compactMenuToggle.setAttribute('aria-label', open ? 'Close menu' : 'Menu');
+    }
+
+    function updateSmartStickyHeader() {
+      scrollTicking = false;
+      if (!wrapper) return;
+
+      if (window.matchMedia('(max-width: 768px)').matches) {
+        wrapper.classList.remove(
+          'htf-smart-sticky--compact',
+          'htf-smart-sticky--hidden',
+          'htf-smart-sticky--menu-open',
+          'htf-smart-sticky--revealing',
+          'htf-smart-sticky--preparing'
+        );
+        var mobileFixed = window.scrollY > fullHeaderHeight;
+        wrapper.classList.toggle('htf-mobile-sticky--fixed', mobileFixed);
+        setStickySpacer(mobileFixed);
+        if (compactMenuToggle) compactMenuToggle.setAttribute('aria-expanded', 'false');
+        lastScrollY = window.scrollY;
+        return;
+      }
+
+      wrapper.classList.remove('htf-mobile-sticky--fixed');
+      var currentScrollY = Math.max(window.scrollY, 0);
+      var atTop = currentScrollY <= 10;
+      var scrollDelta = currentScrollY - lastScrollY;
+      var scrollingDown = scrollDelta > 4;
+      var scrollingUp = scrollDelta < -4;
+
+      if (atTop) {
+        wrapper.classList.remove('htf-smart-sticky--compact', 'htf-smart-sticky--hidden', 'htf-smart-sticky--revealing', 'htf-smart-sticky--preparing');
+        setStickySpacer(false);
+        setCompactMenu(false);
+      } else if (currentScrollY > fullHeaderHeight) {
+        if (scrollingDown) {
+          /* The first downward pass keeps the full header dimensions and
+             slides the whole header away. This avoids a visible size jump. */
+          wrapper.classList.remove('htf-smart-sticky--revealing', 'htf-smart-sticky--preparing');
+          if (revealTimer) {
+            window.clearTimeout(revealTimer);
+            revealTimer = null;
+          }
+          wrapper.classList.add('htf-smart-sticky--hidden');
+          setCompactMenu(false);
+        } else if (scrollingUp) {
+          /* Lock the compact header at its hidden start position without
+             transition, then run the complete slower reveal animation.
+             Skip entirely while the header is already revealed — re-running
+             the sequence snaps it hidden and re-animates it on every scroll
+             event, which reads as stutter on a long upward scroll. */
+          var alreadyVisible =
+            wrapper.classList.contains('htf-smart-sticky--compact') &&
+            !wrapper.classList.contains('htf-smart-sticky--hidden');
+          if (
+            !alreadyVisible &&
+            !wrapper.classList.contains('htf-smart-sticky--revealing') &&
+            !wrapper.classList.contains('htf-smart-sticky--preparing')
+          ) {
+            /* Always start the reveal from the hidden position. A slow
+               scroll down (small deltas) never adds --hidden, so without
+               this the first reveal pops in with no animation. The forced
+               reflow commits the hidden start state before transitioning. */
+            wrapper.classList.add('htf-smart-sticky--compact', 'htf-smart-sticky--preparing', 'htf-smart-sticky--hidden');
+            setStickySpacer(true);
+            void wrapper.offsetHeight;
+
+            if (revealTimer) window.clearTimeout(revealTimer);
+            window.requestAnimationFrame(function () {
+              wrapper.classList.remove('htf-smart-sticky--preparing');
+              wrapper.classList.add('htf-smart-sticky--revealing');
+
+              window.requestAnimationFrame(function () {
+                if (
+                  wrapper.classList.contains('htf-smart-sticky--compact') &&
+                  window.scrollY <= currentScrollY
+                ) {
+                  wrapper.classList.remove('htf-smart-sticky--hidden');
+                  revealTimer = window.setTimeout(function () {
+                    wrapper.classList.remove('htf-smart-sticky--revealing');
+                    revealTimer = null;
+                  }, 850);
+                }
+              });
+            });
+          }
+        }
+      }
+
+      if (Math.abs(scrollDelta || 0) > 4 || atTop) {
+        lastScrollY = currentScrollY;
+      }
+    }
+
+    function requestStickyUpdate() {
+      if (scrollTicking) return;
+      scrollTicking = true;
+      window.requestAnimationFrame(updateSmartStickyHeader);
+    }
+
+    if (compactMenuToggle) {
+      compactMenuToggle.addEventListener('click', function () {
+        var open = wrapper.classList.contains('htf-smart-sticky--menu-open');
+        wrapper.classList.remove('htf-smart-sticky--hidden');
+        setCompactMenu(!open);
+      });
+    }
+
+    window.addEventListener('scroll', requestStickyUpdate, { passive: true });
+    window.addEventListener('resize', function () {
+      if (window.scrollY <= 10 && wrapper) fullHeaderHeight = wrapper.offsetHeight;
+      requestStickyUpdate();
+    });
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape') setCompactMenu(false);
+    });
+    updateSmartStickyHeader();
+    var locDetails = drawer.querySelector('.drawer-localization');
+    /* Shopify's preview bar (and similar bottom bars) overlay the viewport
+       bottom and swallow taps on the drawer's last rows. Measure them and
+       pad the drawer bottom so the localization row stays tappable. */
+    function updateBottomClearance() {
+      var pad = 0;
+      var candidates = document.querySelectorAll('#PBarNextFrameWrapper, #preview-bar-iframe, iframe[src*="preview-bar"], #shopify-pc__banner');
+      for (var i = 0; i < candidates.length; i++) {
+        var el = candidates[i];
+        var cs = window.getComputedStyle(el);
+        if (cs.display === 'none' || cs.visibility === 'hidden') continue;
+        var r = el.getBoundingClientRect();
+        var isBottomBar = r.height > 0 && r.height <= 200 && r.bottom > window.innerHeight - 10 && r.top > window.innerHeight / 2;
+        if (isBottomBar) pad = Math.max(pad, Math.round(window.innerHeight - r.top));
+      }
+      drawer.style.setProperty('--htf-bottom-clearance', pad + 'px');
+    }
+    window.addEventListener('resize', updateBottomClearance);
+    function setDrawer(open) {
+      if (open) updateBottomClearance();
+      if (!open && locDetails) locDetails.removeAttribute('open');
+      drawer.classList.toggle('is-open', open);
+      overlay.classList.toggle('is-open', open);
+      drawer.setAttribute('aria-hidden', open ? 'false' : 'true');
+      document.documentElement.style.overflow = open ? 'hidden' : '';
+    }
+    document.querySelectorAll('[data-htf-drawer-open]').forEach(function (btn) {
+      btn.addEventListener('click', function () { setDrawer(true); });
+    });
+    document.querySelectorAll('[data-htf-drawer-close]').forEach(function (btn) {
+      btn.addEventListener('click', function () { setDrawer(false); });
+    });
+    overlay.addEventListener('click', function () { setDrawer(false); });
+
+    if (locDetails) {
+      var locSummary = locDetails.querySelector('summary');
+      locSummary.addEventListener('click', function () {
+        var wasOpen = locDetails.open;
+        setTimeout(function () {
+          /* native toggle should have flipped it; if something on the page
+             prevented it, flip it ourselves */
+          if (locDetails.open === wasOpen) locDetails.open = !wasOpen;
+        }, 80);
+      });
+    }
+    drawer.querySelectorAll('[data-htf-loc-back]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        if (locDetails) locDetails.removeAttribute('open');
+      });
+    });
+
+    drawer.querySelectorAll('[data-htf-drawer-toggle]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var open = btn.getAttribute('aria-expanded') === 'true';
+        btn.setAttribute('aria-expanded', open ? 'false' : 'true');
+        var sub = btn.nextElementSibling;
+        if (sub) sub.classList.toggle('is-open', !open);
+      });
+    });
+
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Heitz TF Header",
+  "class": "htf-section-header-wrap",
+  "settings": [
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu",
+      "default": "main-menu"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo (falls back to theme logo, then shop name)"
+    },
+    { "type": "checkbox", "id": "enable_custom_search_icon", "label": "Use custom search icon", "default": false },
+    { "type": "html", "id": "custom_search_icon_svg", "label": "Custom search icon SVG" },
+    { "type": "checkbox", "id": "enable_custom_account_icon", "label": "Use custom account icon", "default": false },
+    { "type": "html", "id": "custom_account_svg", "label": "Custom account icon SVG" },
+    { "type": "checkbox", "id": "enable_custom_cart_icon", "label": "Use custom cart icon", "default": false },
+    { "type": "html", "id": "custom_cart_icon_svg", "label": "Custom cart icon SVG" },
+    { "type": "header", "content": "Localization" },
+    { "type": "checkbox", "id": "show_country", "label": "Show country/region selector", "default": true },
+    { "type": "checkbox", "id": "country_selector_style", "label": "Show flag", "default": true },
+    { "type": "checkbox", "id": "show_language", "label": "Show language selector", "default": false },
+    { "type": "select", "id": "localization_font", "label": "Localization font", "options": [ { "value": "heading", "label": "Heading" }, { "value": "subheading", "label": "Subheading" }, { "value": "body", "label": "Body" }, { "value": "accent", "label": "Accent" } ], "default": "heading" },
+    { "type": "select", "id": "localization_font_size", "label": "Localization size", "options": [ { "value": "0.625rem", "label": "10px" }, { "value": "0.75rem", "label": "12px" }, { "value": "0.875rem", "label": "14px" }, { "value": "1rem", "label": "16px" } ], "default": "0.75rem" },
+    { "type": "select", "id": "localization_position", "label": "Localization dropdown direction", "options": [ { "value": "left", "label": "Left" }, { "value": "right", "label": "Right" } ], "default": "right" }
+  ]
+}
+{% endschema %}

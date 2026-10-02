@@ -1,0 +1,299 @@
+{%- comment -%}
+  Heitz Edit Spotlight — Roger's Claude Design option 11a (category
+  stepper): one category at a time — large photo left with flush
+  prev/next arrows in its bottom-right corner, copy right with a
+  NN / 04 eyebrow counter, four-segment progress rule and a dark CTA.
+  Category blocks fall back from a custom image to the collection
+  image to its first product's image.
+{%- endcomment -%}
+{% render 'heitz-tf-base' %}
+{%- liquid
+  assign cats = section.blocks | where: 'type', 'cat'
+  assign total = cats.size
+-%}
+<style>
+  .hesp {
+    background: var(--color-background, #f5f3f0);
+    padding: {{ section.settings.padding_top | default: 52 }}px 0 {{ section.settings.padding_bottom | default: 52 }}px;
+    font-family: var(--htf-font-body);
+  }
+  .hesp__row {
+    display: flex;
+    align-items: center;
+    gap: 64px;
+  }
+  .hesp__stage {
+    position: relative;
+    flex: 0 1 47%;
+  }
+  .hesp__stage-img {
+    aspect-ratio: 100 / 105;
+    background: #d9d3ca;
+    overflow: hidden;
+  }
+  .hesp__stage-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: opacity 0.3s ease;
+  }
+  .hesp--switching .hesp__stage-img img { opacity: 0; }
+  .hesp__arrows {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    display: flex;
+  }
+  .hesp__arrows button {
+    width: 52px;
+    height: 52px;
+    border: 0;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    transition: background 0.2s ease;
+  }
+  .hesp__prev { background: rgba(245, 243, 240, 0.92); color: #1e1b18; }
+  .hesp__next { background: #1e1b18; color: #ffffff; }
+  .hesp__next:hover {
+    background: var(--color-primary-button-hover-background, #9f6939);
+    color: var(--color-primary-button-hover-text, #ffffff);
+  }
+  .hesp__copy {
+    flex: 0 1 44%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: flex-start;
+  }
+  .hesp__eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 0;
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: #8c8478;
+  }
+  .hesp__eyebrow::before {
+    content: '';
+    width: 26px;
+    height: 1px;
+    background: #8c8478;
+    flex: 0 0 auto;
+  }
+  .hesp__title {
+    margin: 0;
+    font-family: var(--htf-font-heading);
+    font-size: {{ section.settings.heading_size | default: 40 }}px;
+    font-weight: 400;
+    line-height: 1.15;
+    letter-spacing: 0.02em;
+    color: #1e1b18;
+    min-height: 80px;
+  }
+  .hesp__body {
+    margin: 0;
+    font-size: {{ section.settings.text_size | default: 16 }}px;
+    line-height: 1.75;
+    color: #6b6459;
+    max-width: 48ch;
+    min-height: 104px;
+    text-wrap: pretty;
+  }
+  .hesp__rule {
+    display: flex;
+    gap: 8px;
+  }
+  .hesp__rule button {
+    width: 54px;
+    height: 3px;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+    background: #d6cfc4;
+    transition: background 0.2s ease;
+  }
+  .hesp__rule button.is-active { background: #1e1b18; }
+  .hesp__cta {
+    display: inline-block;
+    margin-top: 8px;
+    background: #1e1b18;
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 2.4px;
+    text-transform: uppercase;
+    padding: 15px 24px;
+    text-decoration: none;
+    transition: background 0.2s ease;
+  }
+  .hesp__cta:hover { background: var(--color-primary-button-hover-background, #9f6939); }
+  @media screen and (max-width: 1023px) {
+    .hesp__row {
+      flex-direction: column;
+      gap: 34px;
+      align-items: stretch;
+    }
+    .hesp__stage, .hesp__copy { flex: 1 1 100%; width: 100%; }
+    .hesp__title { font-size: {{ section.settings.heading_size | default: 34 | at_most: 28 }}px; min-height: 0; }
+    .hesp__body { min-height: 0; }
+  }
+  @media screen and (max-width: 767px) {
+    .hesp__stage-img { aspect-ratio: 1 / 1; }
+    .hesp__arrows button { width: 44px; height: 44px; }
+    .hesp__title { font-size: {{ section.settings.heading_size | default: 34 | at_most: 24 }}px; }
+    .hesp__body { font-size: {{ section.settings.text_size | default: 15 | at_most: 14.5 }}px; }
+    .hesp__rule button { width: 40px; }
+  }
+</style>
+
+<div class="hesp color-{{ section.settings.color_scheme }}" data-hesp="{{ section.id }}">
+  <div class="htf-page-width">
+  <div class="hesp__row">
+    <div class="hesp__stage">
+      <div class="hesp__stage-img">
+        <img data-hesp-img src="" alt="">
+      </div>
+      <div class="hesp__arrows">
+        <button type="button" class="hesp__prev" data-hesp-prev aria-label="Previous category">&#8592;</button>
+        <button type="button" class="hesp__next" data-hesp-next aria-label="Next category">&#8594;</button>
+      </div>
+    </div>
+    <div class="hesp__copy" aria-live="polite">
+      <p class="hesp__eyebrow">{{ section.settings.eyebrow | escape }} &mdash; <span data-hesp-num>01</span>&nbsp;/&nbsp;{{ total | prepend: '0' | slice: -2, 2 }}</p>
+      <h2 class="hesp__title"><a data-hesp-title href="#" style="color:inherit;text-decoration:none"></a></h2>
+      <p class="hesp__body" data-hesp-body></p>
+      <div class="hesp__rule" data-hesp-rule>
+        {%- for block in cats -%}
+          <button type="button" data-hesp-seg="{{ forloop.index0 }}" aria-label="{{ block.settings.label | default: collections[block.settings.collection].title | escape }}"{% if forloop.first %} class="is-active"{% endif %}></button>
+        {%- endfor -%}
+      </div>
+      {%- if section.settings.button_1_label != blank -%}
+        <a data-hesp-cta href="{{ section.settings.button_1_link | default: routes.all_products_collection_url }}" class="hesp__cta htf-bs-{{ section.settings.button_style | default: 'primary' }}">{{ section.settings.button_1_label | escape }}</a>
+      {%- endif -%}
+    </div>
+  </div>
+  </div>
+</div>
+
+<script type="application/json" data-hesp-data="{{ section.id }}">
+  [
+    {%- for block in cats -%}
+      {%- liquid
+        assign col = collections[block.settings.collection]
+        assign label = block.settings.label
+        if label == blank
+          assign label = col.title
+        endif
+        assign img = block.settings.image
+        if img == blank
+          assign img = col.image
+        endif
+        if img == blank
+          assign img = col.products.first.featured_image
+        endif
+      -%}
+      {
+        "label": {{ label | json }},
+        "body": {{ block.settings.body | json }},
+        "href": {{ col.url | default: '#' | json }},
+        "image": {{ img | image_url: width: 1400 | json }},
+        "ctaLabel": {{ block.settings.cta_label | default: section.settings.button_1_label | json }},
+        "ctaHref": {{ block.settings.cta_link | default: col.url | default: routes.all_products_collection_url | json }}
+      }{% unless forloop.last %},{% endunless %}
+    {%- endfor -%}
+  ]
+</script>
+<script>
+  (function () {
+    var root = document.querySelector('[data-hesp="{{ section.id }}"]');
+    var dataEl = document.querySelector('[data-hesp-data="{{ section.id }}"]');
+    if (!root || !dataEl) return;
+    var cats;
+    try { cats = JSON.parse(dataEl.textContent); } catch (e) { return; }
+    if (!cats.length) return;
+    var img = root.querySelector('[data-hesp-img]');
+    var num = root.querySelector('[data-hesp-num]');
+    var title = root.querySelector('[data-hesp-title]');
+    var body = root.querySelector('[data-hesp-body]');
+    var segs = [].slice.call(root.querySelectorAll('[data-hesp-seg]'));
+    var cta = root.querySelector('[data-hesp-cta]');
+    var i = 0;
+
+    function show(n, instant) {
+      i = ((n % cats.length) + cats.length) % cats.length;
+      var c = cats[i];
+      num.textContent = ('0' + (i + 1)).slice(-2);
+      title.textContent = c.label;
+      title.href = c.href;
+      body.textContent = c.body;
+      segs.forEach(function (s, k) { s.classList.toggle('is-active', k === i); });
+      if (cta && c.ctaHref) { cta.href = c.ctaHref; if (c.ctaLabel) cta.textContent = c.ctaLabel; }
+      if (instant) { img.src = c.image; return; }
+      root.classList.add('hesp--switching');
+      var pre = new Image();
+      pre.onload = pre.onerror = function () {
+        img.src = c.image;
+        root.classList.remove('hesp--switching');
+      };
+      pre.src = c.image;
+    }
+
+    root.querySelector('[data-hesp-prev]').addEventListener('click', function () { show(i - 1); });
+    root.querySelector('[data-hesp-next]').addEventListener('click', function () { show(i + 1); });
+    segs.forEach(function (s, k) { s.addEventListener('click', function () { show(k); }); });
+    show(0, true);
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Heitz Edit Spotlight",
+  "settings": [
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+    { "type": "header", "content": "Padding" },
+    { "type": "range", "id": "padding_top", "label": "Top", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 52 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 52 },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "The Heitz Edit" },
+    { "type": "text", "id": "button_1_label", "label": "Button label", "default": "Explore All Lighting" },
+    { "type": "select", "id": "button_style", "label": "Button style", "options": [ { "value": "primary", "label": "Primary" }, { "value": "secondary", "label": "Secondary" }, { "value": "link", "label": "Link" } ], "default": "primary" },
+    { "type": "url", "id": "button_1_link", "label": "Button link" },
+    { "type": "header", "content": "Font sizes" },
+    { "type": "range", "id": "heading_size", "label": "Heading size", "min": 22, "max": 48, "step": 1, "unit": "px", "default": 40 },
+    { "type": "range", "id": "text_size", "label": "Body size", "min": 12, "max": 18, "step": 0.5, "unit": "px", "default": 16 }
+  ],
+  "blocks": [
+    {
+      "type": "cat",
+      "name": "Category",
+      "settings": [
+        { "type": "collection", "id": "collection", "label": "Collection" },
+        { "type": "text", "id": "label", "label": "Custom label", "info": "Leave empty to use the collection title" },
+        { "type": "textarea", "id": "body", "label": "Description" },
+        { "type": "image_picker", "id": "image", "label": "Image", "info": "Falls back to the collection image" },
+        { "type": "text", "id": "cta_label", "label": "CTA label", "info": "Leave empty to use the section button label" },
+        { "type": "url", "id": "cta_link", "label": "CTA link", "info": "Leave empty to link to the category collection" }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [
+    {
+      "name": "Heitz Edit Spotlight",
+      "blocks": [
+        { "type": "cat" },
+        { "type": "cat" },
+        { "type": "cat" },
+        { "type": "cat" }
+      ]
+    }
+  ]
+}
+{% endschema %}

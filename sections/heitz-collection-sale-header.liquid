@@ -15,9 +15,20 @@
   assign hgs_max = 0
   assign hgs_min = 100
   for p in collection.all_products
-    if p.tags contains hgs_tag and p.compare_at_price > p.price
+    comment
+      compare_at_price/price read the LOWEST variant pair, so a product
+      whose cheapest variant is not discounted gets missed — use the
+      max-compare vs min-price range to detect any discounted variant
+    endcomment
+    if p.tags contains hgs_tag and p.compare_at_price_max > p.price_min
       assign hgs_count = hgs_count | plus: 1
-      assign pct = p.compare_at_price | minus: p.price | times: 100.0 | divided_by: p.compare_at_price | round
+      assign hgs_c = p.compare_at_price
+      assign hgs_p = p.price
+      unless hgs_c > hgs_p
+        assign hgs_c = p.compare_at_price_max
+        assign hgs_p = p.price_min
+      endunless
+      assign pct = hgs_c | minus: hgs_p | times: 100.0 | divided_by: hgs_c | round
       if pct > hgs_max
         assign hgs_max = pct
       endif
@@ -31,7 +42,8 @@
   else
     assign hgs_pct_text = 'up to ' | append: hgs_max | append: '% off'
   endif
-  assign hgs_text = section.settings.banner_text | replace: '[count]', hgs_count | replace: '[pct]', hgs_pct_text
+  assign hgs_count_tag = '<span data-hgs-count>' | append: hgs_count | append: '</span>'
+  assign hgs_text = section.settings.banner_text | replace: '[count]', hgs_count_tag | replace: '[pct]', hgs_pct_text
   assign hgs_base = collection.url
   if hgs_base == blank
     assign hgs_base = routes.all_products_collection_url
@@ -48,7 +60,7 @@
   assign sid = section.id
 -%}
 
-<div class="hch" data-hch="{{ sid }}">
+<div class="hch" data-hch="{{ sid }}" data-hgs-sale-url="{{ hgs_sale_url }}"{% if hgs_active %} data-hgs-active="1" data-hgs-truecount="{{ collection.products_count }}"{% endif %} data-hgs-count-liquid="{{ hgs_count }}">
   <div class="hch__wrap">
     <div class="hch__top">
       <div class="hch__titles">
@@ -103,9 +115,9 @@
         {%- endif -%}
         {%- if hgs_count > 0 or hgs_active -%}
           {%- if hgs_active -%}
-            <a class="hch__chip is-active" href="{{ hgs_base }}">✓ On sale ({{ hgs_count }})</a>
+            <a class="hch__chip is-active" href="{{ hgs_base }}">✓ On sale (<span data-hgs-count>{{ hgs_count }}</span>)</a>
           {%- else -%}
-            <a class="hch__chip" href="{{ hgs_sale_url }}">On sale ({{ hgs_count }})</a>
+            <a class="hch__chip" href="{{ hgs_sale_url }}">On sale (<span data-hgs-count>{{ hgs_count }}</span>)</a>
           {%- endif -%}
         {%- endif -%}
       </div>
@@ -150,7 +162,7 @@
           <a class="hch-dr__sale{% if hgs_active %} is-active{% endif %}" href="{% if hgs_active %}{{ hgs_base }}{% else %}{{ hgs_sale_url }}{% endif %}">
             <span class="hch__box" aria-hidden="true">{% if hgs_active %}✓{% endif %}</span>
             <span>On sale</span>
-            <span class="hch__n">({{ hgs_count }})</span>
+            <span class="hch__n">(<span data-hgs-count>{{ hgs_count }}</span>)</span>
             <span class="hch-dr__pct">{{ hgs_pct_text }}</span>
           </a>
         {%- endif -%}
@@ -217,6 +229,19 @@
   document.addEventListener('click', function (e) {
     root.querySelectorAll('.hch__dd[open]').forEach(function (d) { if (!d.contains(e.target)) d.removeAttribute('open'); });
   });
+  /* true sale count: Liquid only sees the collection's first 50
+     products, so fetch this same section rendered on the tag-filtered
+     URL — there collection.products_count is the real sale count —
+     and swap it into the banner and chips */
+  if (!root.dataset.hgsActive && root.dataset.hgsSaleUrl) {
+    var cu = root.dataset.hgsSaleUrl + (root.dataset.hgsSaleUrl.indexOf('?') > -1 ? '&' : '?') + 'section_id={{ sid }}';
+    fetch(cu).then(function (r) { return r.text(); }).then(function (html) {
+      var m = html.match(/data-hgs-truecount="(\d+)"/);
+      if (!m || m[1] === root.dataset.hgsCountLiquid) return;
+      root.querySelectorAll('[data-hgs-count]').forEach(function (el) { el.textContent = m[1]; });
+      if (drawer) drawer.querySelectorAll('[data-hgs-count]').forEach(function (el) { el.textContent = m[1]; });
+    }).catch(function () {});
+  }
 })();
 </script>
 

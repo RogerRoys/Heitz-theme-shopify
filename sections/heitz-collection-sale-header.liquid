@@ -1,6 +1,7 @@
 {%- comment -%}
   Heitz – Collection header with sale banner + filter row (Gold seal 1b).
-  Breadcrumb · title · "X pieces here are up to Y% off · View sale items" · filters · On sale (X) · product count · sort.
+  Desktop: breadcrumb · title · sale banner · filter dropdowns · On sale (X) · count · sort.
+  Mobile: breadcrumb · title · sale banner · "Filter" button that opens a drawer (filters + On sale + sort).
   Sale products = tag (default "gold-seal") AND compare-at price > price. % is calculated per product.
 {%- endcomment -%}
 {%- liquid
@@ -32,135 +33,265 @@
   endif
   assign hgs_text = section.settings.banner_text | replace: '[count]', hgs_count | replace: '[pct]', hgs_pct_text
   assign hgs_base = collection.url
-  if collection.url == blank
+  if hgs_base == blank
     assign hgs_base = routes.all_products_collection_url
   endif
   assign hgs_sale_url = hgs_base | append: '/' | append: hgs_handle
   assign sort_by = collection.sort_by | default: collection.default_sort_by
+  assign active_n = 0
+  for filter in collection.filters
+    assign active_n = active_n | plus: filter.active_values.size
+  endfor
+  if hgs_active
+    assign active_n = active_n | plus: 1
+  endif
+  assign sid = section.id
 -%}
 
-<div class="hch page-width">
-  <div class="hch__top">
-    <div class="hch__titles">
-      {%- if section.settings.show_breadcrumb -%}
-        <nav class="hch__crumb" aria-label="Breadcrumb">
-          <a href="{{ routes.root_url }}">Home</a>
-          <span aria-hidden="true">/</span>
-          {%- if hgs_active -%}<a href="{{ hgs_base }}">{{ collection.title }}</a><span aria-hidden="true">/</span><span>On sale</span>{%- else -%}<span aria-current="page">{{ collection.title }}</span>{%- endif -%}
-        </nav>
+<div class="hch" data-hch="{{ sid }}">
+  <div class="hch__wrap">
+    <div class="hch__top">
+      <div class="hch__titles">
+        {%- if section.settings.show_breadcrumb -%}
+          <nav class="hch__crumb" aria-label="Breadcrumb">
+            <a href="{{ routes.root_url }}">Home</a>
+            <span aria-hidden="true">/</span>
+            {%- if hgs_active -%}<a href="{{ hgs_base }}">{{ collection.title }}</a><span aria-hidden="true">/</span><span>On sale</span>{%- else -%}<span aria-current="page">{{ collection.title }}</span>{%- endif -%}
+          </nav>
+        {%- endif -%}
+        <h1 class="hch__title">{{ collection.title }}</h1>
+      </div>
+
+      {%- if hgs_count > 0 -%}
+        <div class="hch__banner">
+          {%- if section.settings.show_seal -%}<span class="hch__seal">−{{ hgs_max }}%</span>{%- endif -%}
+          <span>{{ hgs_text }}</span>
+          {%- if hgs_active -%}
+            <a class="hch__banner-link" href="{{ hgs_base }}">{{ section.settings.show_all_label }}</a>
+          {%- else -%}
+            <a class="hch__banner-link" href="{{ hgs_sale_url }}">{{ section.settings.link_label }}</a>
+          {%- endif -%}
+        </div>
       {%- endif -%}
-      <h1 class="hch__title">{{ collection.title }}</h1>
     </div>
 
-    {%- if hgs_count > 0 -%}
-      <div class="hch__banner">
-        {%- if section.settings.show_seal -%}<span class="hch__seal">−{{ hgs_max }}%</span>{%- endif -%}
-        <span>{{ hgs_text }}</span>
-        {%- if hgs_active -%}
-          <a class="hch__banner-link" href="{{ hgs_base }}">{{ section.settings.show_all_label }}</a>
-        {%- else -%}
-          <a class="hch__banner-link" href="{{ hgs_sale_url }}">{{ section.settings.link_label }}</a>
+    {%- comment -%} Desktop bar {%- endcomment -%}
+    <div class="hch__bar hch__desk">
+      <div class="hch__filters">
+        <span class="hch__label">Filter:</span>
+        {%- if section.settings.show_filters -%}
+          {%- for filter in collection.filters -%}
+            {%- if filter.type == 'list' and filter.values.size > 0 -%}
+              <details class="hch__dd">
+                <summary class="hch__chip{% if filter.active_values.size > 0 %} is-active{% endif %}">
+                  {{ filter.label }}{% if filter.active_values.size > 0 %} ({{ filter.active_values.size }}){% endif %}
+                  <span class="hch__caret" aria-hidden="true">▾</span>
+                </summary>
+                <div class="hch__menu">
+                  {%- for value in filter.values -%}
+                    {%- if value.count > 0 or value.active -%}
+                      <a class="hch__opt{% if value.active %} is-active{% endif %}" href="{% if value.active %}{{ value.url_to_remove }}{% else %}{{ value.url_to_add }}{% endif %}">
+                        <span class="hch__box" aria-hidden="true">{% if value.active %}✓{% endif %}</span>
+                        <span>{{ value.label }}</span> <span class="hch__n">({{ value.count }})</span>
+                      </a>
+                    {%- endif -%}
+                  {%- endfor -%}
+                </div>
+              </details>
+            {%- endif -%}
+          {%- endfor -%}
+        {%- endif -%}
+        {%- if hgs_count > 0 or hgs_active -%}
+          {%- if hgs_active -%}
+            <a class="hch__chip is-active" href="{{ hgs_base }}">✓ On sale ({{ hgs_count }})</a>
+          {%- else -%}
+            <a class="hch__chip" href="{{ hgs_sale_url }}">On sale ({{ hgs_count }})</a>
+          {%- endif -%}
         {%- endif -%}
       </div>
-    {%- endif -%}
-  </div>
-
-  <div class="hch__bar">
-    <div class="hch__filters">
-      <span class="hch__label">Filter:</span>
-      {%- if section.settings.show_filters -%}
-        {%- for filter in collection.filters -%}
-          {%- if filter.type == 'list' and filter.values.size > 0 -%}
-            <details class="hch__dd">
-              <summary class="hch__chip{% if filter.active_values.size > 0 %} is-active{% endif %}">
-                {{ filter.label }}{% if filter.active_values.size > 0 %} ({{ filter.active_values.size }}){% endif %}
-                <span class="hch__caret" aria-hidden="true">▾</span>
-              </summary>
-              <div class="hch__menu">
-                {%- for value in filter.values -%}
-                  {%- if value.count > 0 or value.active -%}
-                    <a class="hch__opt{% if value.active %} is-active{% endif %}" href="{% if value.active %}{{ value.url_to_remove }}{% else %}{{ value.url_to_add }}{% endif %}">
-                      <span class="hch__box" aria-hidden="true">{% if value.active %}✓{% endif %}</span>
-                      {{ value.label }} <span class="hch__n">({{ value.count }})</span>
-                    </a>
-                  {%- endif -%}
-                {%- endfor -%}
-              </div>
-            </details>
-          {%- endif -%}
-        {%- endfor -%}
-      {%- endif -%}
-
-      {%- if hgs_count > 0 or hgs_active -%}
-        {%- if hgs_active -%}
-          <a class="hch__chip is-active" href="{{ hgs_base }}">✓ On sale ({{ hgs_count }})</a>
-        {%- else -%}
-          <a class="hch__chip" href="{{ hgs_sale_url }}">On sale ({{ hgs_count }})</a>
-        {%- endif -%}
-      {%- endif -%}
+      <div class="hch__right">
+        <span>{{ collection.products_count }} {% if collection.products_count == 1 %}product{% else %}products{% endif %}</span>
+        <span aria-hidden="true">·</span>
+        <label class="hch__sort">
+          <span>Sort:</span>
+          <select data-hch-sort aria-label="Sort by">
+            {%- for option in collection.sort_options -%}
+              <option value="{{ option.value }}"{% if option.value == sort_by %} selected{% endif %}>{{ option.name }}</option>
+            {%- endfor -%}
+          </select>
+        </label>
+      </div>
     </div>
 
-    <div class="hch__right">
-      <span>{{ collection.products_count }} {% if collection.products_count == 1 %}product{% else %}products{% endif %}</span>
-      <span aria-hidden="true">·</span>
-      <label class="hch__sort">
-        <span>Sort:</span>
-        <select onchange="var u=new URL(location.href);u.searchParams.set('sort_by',this.value);location.href=u.toString();" aria-label="Sort by">
-          {%- for option in collection.sort_options -%}
-            <option value="{{ option.value }}"{% if option.value == sort_by %} selected{% endif %}>{{ option.name }}</option>
+    {%- comment -%} Mobile bar {%- endcomment -%}
+    <div class="hch__bar hch__mob">
+      <button type="button" class="hch__fbtn" data-hch-open aria-haspopup="dialog" aria-controls="hch-drawer-{{ sid }}">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M7 12h10M10 17h4"></path></svg>
+        <span>Filter</span>
+        {%- if active_n > 0 -%}<span class="hch__badge">{{ active_n }}</span>{%- endif -%}
+      </button>
+      <span class="hch__mcount">{{ collection.products_count }} {% if collection.products_count == 1 %}product{% else %}products{% endif %}</span>
+    </div>
+  </div>
+
+  {%- comment -%} Mobile drawer {%- endcomment -%}
+  <div class="hch-dr" id="hch-drawer-{{ sid }}" role="dialog" aria-modal="true" aria-label="Filter and sort" data-hch-drawer>
+    <div class="hch-dr__dim" data-hch-close></div>
+    <div class="hch-dr__panel">
+      <div class="hch-dr__head">
+        <span class="hch-dr__title">Filter and sort</span>
+        <button type="button" class="hch-dr__x" data-hch-close aria-label="Close">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg>
+        </button>
+      </div>
+
+      <div class="hch-dr__body">
+        {%- if hgs_count > 0 or hgs_active -%}
+          <a class="hch-dr__sale{% if hgs_active %} is-active{% endif %}" href="{% if hgs_active %}{{ hgs_base }}{% else %}{{ hgs_sale_url }}{% endif %}">
+            <span class="hch__box" aria-hidden="true">{% if hgs_active %}✓{% endif %}</span>
+            <span>On sale</span>
+            <span class="hch__n">({{ hgs_count }})</span>
+            <span class="hch-dr__pct">{{ hgs_pct_text }}</span>
+          </a>
+        {%- endif -%}
+
+        {%- if section.settings.show_filters -%}
+          {%- for filter in collection.filters -%}
+            {%- if filter.type == 'list' and filter.values.size > 0 -%}
+              <details class="hch-dr__grp"{% if filter.active_values.size > 0 %} open{% endif %}>
+                <summary class="hch-dr__sum">
+                  <span>{{ filter.label }}{% if filter.active_values.size > 0 %} <span class="hch__n">({{ filter.active_values.size }})</span>{% endif %}</span>
+                  <span class="hch-dr__chev" aria-hidden="true">▾</span>
+                </summary>
+                <div class="hch-dr__opts">
+                  {%- for value in filter.values -%}
+                    {%- if value.count > 0 or value.active -%}
+                      <a class="hch__opt{% if value.active %} is-active{% endif %}" href="{% if value.active %}{{ value.url_to_remove }}{% else %}{{ value.url_to_add }}{% endif %}">
+                        <span class="hch__box" aria-hidden="true">{% if value.active %}✓{% endif %}</span>
+                        <span>{{ value.label }}</span> <span class="hch__n">({{ value.count }})</span>
+                      </a>
+                    {%- endif -%}
+                  {%- endfor -%}
+                </div>
+              </details>
+            {%- endif -%}
           {%- endfor -%}
-        </select>
-      </label>
+        {%- endif -%}
+
+        <details class="hch-dr__grp" open>
+          <summary class="hch-dr__sum"><span>Sort by</span><span class="hch-dr__chev" aria-hidden="true">▾</span></summary>
+          <div class="hch-dr__opts">
+            {%- for option in collection.sort_options -%}
+              <label class="hch__opt hch__radio{% if option.value == sort_by %} is-active{% endif %}">
+                <input type="radio" name="hch-sort-{{ sid }}" value="{{ option.value }}" data-hch-sort-radio{% if option.value == sort_by %} checked{% endif %}>
+                <span class="hch__dot" aria-hidden="true"></span>
+                <span>{{ option.name }}</span>
+              </label>
+            {%- endfor -%}
+          </div>
+        </details>
+      </div>
+
+      <div class="hch-dr__foot">
+        {%- if active_n > 0 -%}<a class="hch-dr__clear" href="{{ hgs_base }}">Clear all</a>{%- endif -%}
+        <button type="button" class="hch-dr__apply" data-hch-close>Show {{ collection.products_count }} {% if collection.products_count == 1 %}product{% else %}products{% endif %}</button>
+      </div>
     </div>
   </div>
 </div>
 
 <script>
+(function () {
+  var root = document.querySelector('[data-hch="{{ sid }}"]');
+  if (!root || root.dataset.ready) return;
+  root.dataset.ready = '1';
+  var drawer = root.querySelector('[data-hch-drawer]');
+  function goSort(v) { var u = new URL(location.href); u.searchParams.set('sort_by', v); location.href = u.toString(); }
+  function open() { document.body.appendChild(drawer); drawer.classList.add('is-open'); document.documentElement.style.overflow = 'hidden'; }
+  function close() { drawer.classList.remove('is-open'); document.documentElement.style.overflow = ''; }
+  root.querySelectorAll('[data-hch-open]').forEach(function (b) { b.addEventListener('click', open); });
+  drawer.querySelectorAll('[data-hch-close]').forEach(function (b) { b.addEventListener('click', close); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+  var s = root.querySelector('[data-hch-sort]'); if (s) s.addEventListener('change', function () { goSort(this.value); });
+  drawer.querySelectorAll('[data-hch-sort-radio]').forEach(function (r) { r.addEventListener('change', function () { goSort(this.value); }); });
   document.addEventListener('click', function (e) {
-    document.querySelectorAll('.hch__dd[open]').forEach(function (d) { if (!d.contains(e.target)) d.removeAttribute('open'); });
+    root.querySelectorAll('.hch__dd[open]').forEach(function (d) { if (!d.contains(e.target)) d.removeAttribute('open'); });
   });
+})();
 </script>
 
 {% stylesheet %}
-  .hch{padding-top:32px;font-family:var(--font-body--family,inherit)}
+  .hch{width:100%;padding-top:32px;color:#1A1B18}
+  .hch *, .hch-dr *{box-sizing:border-box}
+  .hch__wrap{width:100%;max-width:1500px;margin:0 auto;padding-left:17px;padding-right:17px}
+  @media only screen and (min-width:769px){.hch__wrap{padding-left:40px;padding-right:40px}}
   .hch__top{display:flex;justify-content:space-between;align-items:flex-end;gap:16px 24px;flex-wrap:wrap}
-  .hch__titles{display:flex;flex-direction:column;gap:6px}
-  .hch__crumb{display:flex;gap:6px;font-size:12px;color:#666666}
+  .hch__titles{display:flex;flex-direction:column;gap:6px;min-width:0}
+  .hch__crumb{display:flex;flex-wrap:wrap;gap:6px;font-size:12px;color:#666666}
   .hch__crumb a{color:#666666;text-decoration:none}
   .hch__crumb a:hover{color:#1A1B18;text-decoration:underline;text-underline-offset:3px}
   .hch__title{margin:0;font-family:var(--font-heading--family,inherit);font-weight:600;font-size:34px;line-height:1.15;color:#1A1B18}
-  .hch__banner{display:flex;align-items:center;flex-wrap:wrap;gap:8px 14px;background:#F8F5F0;color:#9F6939;padding:12px 16px;font-size:14px}
+  .hch__banner{display:flex;align-items:center;flex-wrap:wrap;gap:8px 14px;background:#F8F5F0;color:#9F6939;padding:12px 16px;font-size:14px;line-height:1.4}
   .hch__seal{width:30px;height:30px;flex:0 0 30px;border-radius:50%;background:#D9B97A;color:#1A1B18;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:600}
-  .hch__banner-link{color:#9F6939;font-weight:500;text-decoration:underline;text-underline-offset:3px}
+  .hch__banner-link{color:#9F6939;font-weight:500;text-decoration:underline;text-underline-offset:3px;white-space:nowrap}
   .hch__banner-link:hover{color:#1A1B18}
-  .hch__bar{margin-top:18px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px 16px;padding:12px 0;border-top:1px solid #E8E8E8;border-bottom:1px solid #E8E8E8;font-size:14px}
-  .hch__filters{display:flex;align-items:center;flex-wrap:wrap;gap:8px}
+  .hch__bar{margin-top:18px;display:flex;justify-content:space-between;align-items:center;gap:10px 16px;padding:12px 0;border-top:1px solid #E8E8E8;border-bottom:1px solid #E8E8E8;font-size:14px}
+  .hch__mob{display:none}
+  .hch__filters{display:flex;align-items:center;flex-wrap:wrap;gap:8px;min-width:0}
   .hch__label{color:#555555;margin-right:2px}
-  .hch__chip{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border:1px solid #E2E2E2;border-radius:10px;background:#FFFFFF;color:#1A1B18;text-decoration:none;cursor:pointer;list-style:none;transition:background .2s,color .2s,border-color .2s}
+  .hch__chip{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border:1px solid #E2E2E2;border-radius:10px;background:#FFFFFF;color:#1A1B18;text-decoration:none;cursor:pointer;list-style:none;white-space:nowrap;transition:background .2s,color .2s,border-color .2s}
   .hch__chip::-webkit-details-marker{display:none}
   .hch__chip:hover{border-color:#1A1B18}
   .hch__chip.is-active{background:#1A1B18;border-color:#1A1B18;color:#FFFFFF}
   .hch__caret{font-size:10px}
   .hch__dd{position:relative}
   .hch__menu{position:absolute;z-index:20;top:calc(100% + 6px);left:0;min-width:220px;max-height:320px;overflow-y:auto;background:#FFFFFF;border:1px solid #E8E8E8;box-shadow:0 12px 30px rgba(0,0,0,.08);padding:6px;display:flex;flex-direction:column}
-  .hch__opt{display:flex;align-items:center;gap:10px;padding:9px 10px;color:#1A1B18;text-decoration:none;border-radius:6px}
+  .hch__opt{display:flex;align-items:center;gap:10px;padding:9px 10px;color:#1A1B18;text-decoration:none;border-radius:6px;font-size:14px;cursor:pointer}
   .hch__opt:hover{background:#F5F4F1}
-  .hch__box{width:16px;height:16px;flex:0 0 16px;border:1.5px solid #BDBDBD;display:flex;align-items:center;justify-content:center;font-size:10px;color:#FFFFFF}
-  .hch__opt.is-active .hch__box{background:#1A1B18;border-color:#1A1B18}
+  .hch__box{width:18px;height:18px;flex:0 0 18px;border:1.5px solid #BDBDBD;display:flex;align-items:center;justify-content:center;font-size:11px;color:#FFFFFF}
+  .is-active > .hch__box{background:#1A1B18;border-color:#1A1B18}
   .hch__n{color:#888888}
-  .hch__right{display:flex;align-items:center;gap:8px;color:#555555}
+  .hch__right{display:flex;align-items:center;gap:8px;color:#555555;white-space:nowrap}
   .hch__sort{display:flex;align-items:center;gap:4px;cursor:pointer}
-  .hch__sort select{border:0;background:transparent;font:inherit;color:#1A1B18;cursor:pointer;padding:2px 0}
-  @media (max-width:749px){
+  .hch__sort select{border:0;background:transparent;font:inherit;color:#1A1B18;cursor:pointer;padding:2px 0;max-width:180px}
+
+  .hch__fbtn{display:inline-flex;align-items:center;gap:10px;min-height:44px;padding:0;border:0;background:none;font:inherit;font-size:16px;color:#1A1B18;cursor:pointer}
+  .hch__badge{min-width:20px;height:20px;padding:0 6px;border-radius:10px;background:#1A1B18;color:#FFFFFF;font-size:11px;display:inline-flex;align-items:center;justify-content:center}
+  .hch__mcount{font-size:14px;color:#555555}
+
+  .hch-dr{position:fixed;inset:0;z-index:2147483000;pointer-events:none;visibility:hidden;transition:visibility 0s linear .35s}
+  .hch-dr.is-open{pointer-events:auto;visibility:visible;transition:none}
+  .hch-dr__dim{position:absolute;inset:0;background:rgba(0,0,0,.4);opacity:0;transition:opacity .3s ease}
+  .hch-dr.is-open .hch-dr__dim{opacity:1}
+  .hch-dr__panel{position:absolute;top:0;bottom:0;left:0;width:min(400px,88vw);background:#FFFFFF;display:flex;flex-direction:column;transform:translateX(-100%);transition:transform .35s cubic-bezier(.2,.8,.2,1);color:#1A1B18}
+  .hch-dr.is-open .hch-dr__panel{transform:none}
+  .hch-dr__head{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid #E8E8E8}
+  .hch-dr__title{font-family:var(--font-heading--family,inherit);font-weight:600;font-size:18px}
+  .hch-dr__x{width:44px;height:44px;margin-right:-12px;border:0;background:none;color:#1A1B18;display:flex;align-items:center;justify-content:center;cursor:pointer}
+  .hch-dr__body{flex:1;overflow-y:auto;padding:0 20px}
+  .hch-dr__sale{display:flex;align-items:center;gap:10px;margin:16px 0 4px;padding:14px;background:#F8F5F0;color:#1A1B18;text-decoration:none;font-size:15px}
+  .hch-dr__pct{margin-left:auto;font-size:13px;color:#9F6939}
+  .hch-dr__grp{border-bottom:1px solid #E8E8E8}
+  .hch-dr__sum{display:flex;justify-content:space-between;align-items:center;min-height:56px;cursor:pointer;list-style:none;font-size:15px;font-weight:500}
+  .hch-dr__sum::-webkit-details-marker{display:none}
+  .hch-dr__chev{font-size:11px;color:#B8A98A;transition:transform .25s}
+  .hch-dr__grp[open] .hch-dr__chev{transform:rotate(180deg)}
+  .hch-dr__opts{display:flex;flex-direction:column;padding:0 0 12px;margin:0 -10px}
+  .hch-dr__opts .hch__opt{min-height:44px}
+  .hch__radio input{position:absolute;opacity:0;pointer-events:none}
+  .hch__dot{width:18px;height:18px;flex:0 0 18px;border:1.5px solid #BDBDBD;border-radius:50%;position:relative}
+  .hch__radio.is-active .hch__dot{border-color:#1A1B18}
+  .hch__radio.is-active .hch__dot::after{content:"";position:absolute;inset:3px;border-radius:50%;background:#1A1B18}
+  .hch-dr__foot{display:flex;gap:12px;align-items:center;padding:14px 20px calc(14px + env(safe-area-inset-bottom));border-top:1px solid #E8E8E8}
+  .hch-dr__clear{flex:0 0 auto;padding:0 6px;font-size:14px;color:#1A1B18;text-decoration:underline;text-underline-offset:3px}
+  .hch-dr__apply{flex:1;min-height:50px;border:1px solid #000000;background:#000000;color:#FFFFFF;font:inherit;font-size:12px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;cursor:pointer}
+
+  @media only screen and (max-width:768px){
     .hch{padding-top:24px}
-    .hch__top{flex-direction:column;align-items:stretch}
-    .hch__title{font-size:26px}
-    .hch__bar{flex-direction:column;align-items:stretch}
-    .hch__filters{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin:0 -16px;padding:0 16px}
-    .hch__filters::-webkit-scrollbar{display:none}
-    .hch__chip{white-space:nowrap}
-    .hch__menu{position:fixed;left:16px;right:16px;top:auto;bottom:16px;min-width:0}
-    .hch__right{justify-content:space-between}
+    .hch__top{flex-direction:column;align-items:stretch;gap:14px}
+    .hch__title{font-size:28px}
+    .hch__desk{display:none}
+    .hch__mob{display:flex;padding:4px 0}
   }
 {% endstylesheet %}
 
@@ -176,7 +307,7 @@
     { "type": "text", "id": "show_all_label", "label": "Link label when filtered", "default": "Show all" },
     { "type": "checkbox", "id": "show_seal", "label": "Show gold seal in banner", "default": false },
     { "type": "header", "content": "Filter row" },
-    { "type": "checkbox", "id": "show_filters", "label": "Show store filters (Room, Material…)", "info": "Uses the filters set up in Search & Discovery.", "default": true }
+    { "type": "checkbox", "id": "show_filters", "label": "Show store filters", "info": "Uses the filters set up in Search & Discovery.", "default": true }
   ],
   "presets": [{ "name": "Heitz collection header" }],
   "enabled_on": { "templates": ["collection"] }

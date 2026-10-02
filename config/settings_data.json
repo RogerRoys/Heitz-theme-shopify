@@ -102,7 +102,7 @@
           "title": "A little extra light, for less",
           "body": "Pieces with the gold seal are already reduced, with no code needed. The saving is shown on each piece.",
           "btn": "Shop gold seal pieces",
-          "link": "",
+          "link": "shopify://collections/sold-seal",
           "delay": 5,
           "days": 3
         }

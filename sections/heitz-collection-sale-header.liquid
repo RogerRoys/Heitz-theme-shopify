@@ -42,6 +42,13 @@
   else
     assign hgs_pct_text = 'up to ' | append: hgs_max | append: '% off'
   endif
+  comment
+    on the tag-filtered view products_count IS the real sale total
+    (across all pages) — use it instead of the 50-capped loop count
+  endcomment
+  if hgs_active
+    assign hgs_count = collection.products_count
+  endif
   assign hgs_count_tag = '<span data-hgs-count>' | append: hgs_count | append: '</span>'
   assign hgs_text = section.settings.banner_text | replace: '[count]', hgs_count_tag | replace: '[pct]', hgs_pct_text
   assign hgs_base = collection.url

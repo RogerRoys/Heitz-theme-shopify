@@ -55,7 +55,7 @@
           "type": "message",
           "settings": {
             "seal": "",
-            "text": "&nbsp;−10% on gold seal pieces · Already reduced Shop now&nbsp;",
+            "text": "&nbsp;−10% on gold seal pieces · Already reduced&nbsp;",
             "link_label": "Shop now",
             "link": "shopify://collections/sold-seal"
           }
@@ -85,7 +85,7 @@
         "message_bgdRtt"
       ],
       "custom_css": [
-        ".hsa__slide {font-family: 'Cabin'; text-transform: uppercase;}"
+        ".hsa__slide {font-family: \"Cabin\"; text-transform: uppercase;}"
       ],
       "name": "Heitz sale announcement",
       "settings": {

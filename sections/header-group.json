@@ -84,10 +84,13 @@
         "message_xwYq9f",
         "message_bgdRtt"
       ],
+      "custom_css": [
+        ".hsa__slide {font-family: 'Cabin'; text-transform: uppercase;}"
+      ],
       "name": "Heitz sale announcement",
       "settings": {
-        "bg": "#D9B97A",
-        "fg": "#1A1B18",
+        "bg": "#d9b97a",
+        "fg": "#1a1b18",
         "text_size": 13,
         "speed": 5
       }

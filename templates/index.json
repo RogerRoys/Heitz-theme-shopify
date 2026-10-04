@@ -365,142 +365,7 @@
         "letter_spacing": "normal",
         "case": "none",
         "color": "",
-        "title": "Light Your Home For Less",
-        "link_label": "View all",
-        "button_style": "primary",
-        "limit": 8,
-        "columns": 4,
-        "color_scheme": "scheme-1",
-        "padding_top": 80,
-        "padding_bottom": 80
-      }
-    },
-    "heitz_featured_collection_cCVtz8": {
-      "type": "heitz-featured-collection",
-      "blocks": {
-        "static-product-card": {
-          "type": "_product-card",
-          "static": true,
-          "settings": {
-            "product_card_gap": 6,
-            "inherit_color_scheme": true,
-            "color_scheme": "",
-            "border": "none",
-            "border_width": 1,
-            "border_opacity": 20,
-            "border_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {
-            "product_card_gallery_VzXMre": {
-              "type": "_product-card-gallery",
-              "settings": {
-                "image_ratio": "square",
-                "border": "none",
-                "border_width": 1,
-                "border_opacity": 100,
-                "border_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "product_title_X3b7zA": {
-              "type": "product-title",
-              "settings": {
-                "width": "fit-content",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "custom",
-                "font": "var(--font-heading--family)",
-                "font_size": "0.875rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "color": "var(--color-foreground)",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 4,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "price_EHbKAH": {
-              "type": "price",
-              "settings": {
-                "show_sale_price_first": true,
-                "show_installments": false,
-                "show_tax_info": false,
-                "show_discount_badge": true,
-                "discount_badge_product_page_only": true,
-                "discount_badge_text": "DISCOUNT",
-                "discount_badge_background": "#e62b2b",
-                "discount_badge_text_color": "#ffffff",
-                "discount_badge_font_size": 13,
-                "discount_badge_font_weight": "600",
-                "discount_badge_radius": 50,
-                "discount_badge_padding_x": 18,
-                "discount_badge_padding_y": 6,
-                "discount_badge_gap": 12,
-                "type_preset": "custom",
-                "width": "100%",
-                "alignment": "left",
-                "font": "var(--font-heading--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "color": "var(--color-primary)",
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "swatches_yqECQX": {
-              "type": "swatches",
-              "disabled": true,
-              "settings": {
-                "product_swatches_alignment": "flex-start",
-                "product_swatches_alignment_mobile": "flex-start",
-                "hide_padding": false,
-                "product_swatches_padding_top": 4,
-                "product_swatches_padding_bottom": 0,
-                "product_swatches_padding_left": 0,
-                "product_swatches_padding_right": 0
-              },
-              "blocks": {}
-            }
-          },
-          "block_order": [
-            "product_card_gallery_VzXMre",
-            "product_title_X3b7zA",
-            "price_EHbKAH",
-            "swatches_yqECQX"
-          ]
-        }
-      },
-      "custom_css": [],
-      "settings": {
-        "collection": "pendant-lights",
-        "type_preset": "custom",
-        "font": "var(--font-heading--family)",
-        "font_size": "",
-        "line_height": "normal",
-        "letter_spacing": "normal",
-        "case": "none",
-        "color": "",
-        "title": "Pendant Lights",
+        "title": "Marked in Gold",
         "link_label": "View all",
         "button_style": "primary",
         "limit": 8,
@@ -664,6 +529,141 @@
         "text_size": 16
       }
     },
+    "heitz_featured_collection_cCVtz8": {
+      "type": "heitz-featured-collection",
+      "blocks": {
+        "static-product-card": {
+          "type": "_product-card",
+          "static": true,
+          "settings": {
+            "product_card_gap": 6,
+            "inherit_color_scheme": true,
+            "color_scheme": "",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 20,
+            "border_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "product_card_gallery_VzXMre": {
+              "type": "_product-card-gallery",
+              "settings": {
+                "image_ratio": "square",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "product_title_X3b7zA": {
+              "type": "product-title",
+              "settings": {
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "custom",
+                "font": "var(--font-heading--family)",
+                "font_size": "0.875rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 4,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "price_EHbKAH": {
+              "type": "price",
+              "settings": {
+                "show_sale_price_first": true,
+                "show_installments": false,
+                "show_tax_info": false,
+                "show_discount_badge": true,
+                "discount_badge_product_page_only": true,
+                "discount_badge_text": "DISCOUNT",
+                "discount_badge_background": "#e62b2b",
+                "discount_badge_text_color": "#ffffff",
+                "discount_badge_font_size": 13,
+                "discount_badge_font_weight": "600",
+                "discount_badge_radius": 50,
+                "discount_badge_padding_x": 18,
+                "discount_badge_padding_y": 6,
+                "discount_badge_gap": 12,
+                "type_preset": "custom",
+                "width": "100%",
+                "alignment": "left",
+                "font": "var(--font-heading--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "color": "var(--color-primary)",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "swatches_yqECQX": {
+              "type": "swatches",
+              "disabled": true,
+              "settings": {
+                "product_swatches_alignment": "flex-start",
+                "product_swatches_alignment_mobile": "flex-start",
+                "hide_padding": false,
+                "product_swatches_padding_top": 4,
+                "product_swatches_padding_bottom": 0,
+                "product_swatches_padding_left": 0,
+                "product_swatches_padding_right": 0
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "product_card_gallery_VzXMre",
+            "product_title_X3b7zA",
+            "price_EHbKAH",
+            "swatches_yqECQX"
+          ]
+        }
+      },
+      "custom_css": [],
+      "settings": {
+        "collection": "pendant-lights",
+        "type_preset": "custom",
+        "font": "var(--font-heading--family)",
+        "font_size": "",
+        "line_height": "normal",
+        "letter_spacing": "normal",
+        "case": "none",
+        "color": "",
+        "title": "Pendant Lights",
+        "link_label": "View all",
+        "button_style": "primary",
+        "limit": 8,
+        "columns": 4,
+        "color_scheme": "scheme-1",
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    },
     "cta_pendant": {
       "type": "heitz-cta-button",
       "disabled": true,
@@ -677,6 +677,24 @@
         "label": "Shop now",
         "button_style": "primary",
         "link": "shopify://collections/pendant-lights"
+      }
+    },
+    "warranty_story": {
+      "type": "heitz-home-story",
+      "settings": {
+        "color_scheme": "scheme-2",
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "image": "shopify://shop_images/heitz-home-our-promise-travertine-lamp.webp",
+        "image_position": "right",
+        "eyebrow": "Our Promise",
+        "title": "Covered By Our 1-year Warranty",
+        "text": "<p>Every Heitz light is chosen with care and made to last. Each piece is covered by our 1-year warranty against manufacturing defects — electrical components, wiring and LED faults included — for 12 months from the day your order arrives.</p><p>If something is not right, our team will put it right with a repair, replacement or refund.</p>",
+        "button_label": "Read the Warranty",
+        "button_style": "primary",
+        "link": "shopify://pages/warranty",
+        "heading_size": 40,
+        "text_size": 16
       }
     },
     "featured_table": {
@@ -812,24 +830,6 @@
         "color_scheme": "scheme-1",
         "padding_top": 80,
         "padding_bottom": 80
-      }
-    },
-    "warranty_story": {
-      "type": "heitz-home-story",
-      "settings": {
-        "color_scheme": "scheme-2",
-        "padding_top": 80,
-        "padding_bottom": 80,
-        "image": "shopify://shop_images/heitz-home-our-promise-travertine-lamp.webp",
-        "image_position": "right",
-        "eyebrow": "Our Promise",
-        "title": "Covered By Our 1-year Warranty",
-        "text": "<p>Every Heitz light is chosen with care and made to last. Each piece is covered by our 1-year warranty against manufacturing defects — electrical components, wiring and LED faults included — for 12 months from the day your order arrives.</p><p>If something is not right, our team will put it right with a repair, replacement or refund.</p>",
-        "button_label": "Read the Warranty",
-        "button_style": "primary",
-        "link": "shopify://pages/warranty",
-        "heading_size": 40,
-        "text_size": 16
       }
     },
     "sustainability_story": {

@@ -98,9 +98,9 @@
         "settings": {
           "enabled": true,
           "seal_top": "UP TO",
-          "seal_pct": 30,
-          "title": "A little extra light, for less",
-          "body": "Pieces with the gold seal are already reduced, with no code needed. The saving is shown on each piece.",
+          "seal_pct": 10,
+          "title": "Look for the Gold",
+          "body": "Pieces with the gold seal are up to 10% off. The price is already reduced, with no code needed.",
           "btn": "Shop gold seal pieces",
           "link": "shopify://collections/sold-seal",
           "delay": 5,

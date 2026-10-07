@@ -1,6 +1,6 @@
 {%- comment -%}
   Heitz order tracking card (1a Classic tracker).
-  Params: s (section.settings), oid, order_name, placed, shipped, cur (0-4), eta, carrier, tn, turl, ship_to (city), order (optional), sample (bool)
+  Params: s (section.settings), oid, order_name, placed, cur (0-4), eta, carrier, tn, turl, ship_to, order (optional), sample (bool)
 {%- endcomment -%}
 {%- liquid
   assign labels = s.step1 | append: '|' | append: s.step2 | append: '|' | append: s.step3 | append: '|' | append: s.step4 | append: '|' | append: s.step5 | split: '|'
@@ -40,18 +40,14 @@
   <div class="hot-card__body">
     <div class="hot-card__updates">
       <span class="hot-h3">Tracking updates</span>
-      {%- if s.live_updates and tn != blank -%}
+      {%- if tn != blank -%}
         <div class="hot-yq" id="hot-yq-{{ oid }}" data-hot-tn="{{ tn }}"></div>
-        {%- if turl != blank and s.show_carrier_link -%}<a class="hot-link" href="{{ turl }}" target="_blank" rel="noopener">Open carrier tracking</a>{%- endif -%}
-      {%- elsif cur >= 2 -%}
-        {%- assign city = ship_to | default: 'you' -%}
-        <div class="hot-ms">
-          <div class="hot-ms__row is-latest"><div class="hot-ms__rail"><span class="hot-ms__dot"></span><span class="hot-ms__line"></span></div><div class="hot-ms__text"><span class="hot-ms__t">{{ s.transit_text | replace: '[city]', city }}</span><span class="hot-muted">{% if eta != blank %}Expected {{ eta }}{% else %}In transit{% endif %}</span></div></div>
-          <div class="hot-ms__row"><div class="hot-ms__rail"><span class="hot-ms__dot"></span><span class="hot-ms__line"></span></div><div class="hot-ms__text"><span class="hot-ms__t">Shipped with tracking</span><span class="hot-muted">{{ shipped | default: placed }}</span></div></div>
-          <div class="hot-ms__row"><div class="hot-ms__rail"><span class="hot-ms__dot"></span><span class="hot-ms__line"></span></div><div class="hot-ms__text"><span class="hot-ms__t">Quality-checked and packed</span><span class="hot-muted">Heitz fulfilment</span></div></div>
-          <div class="hot-ms__row"><div class="hot-ms__rail"><span class="hot-ms__dot"></span><span class="hot-ms__line"></span></div><div class="hot-ms__text"><span class="hot-ms__t">Order confirmed</span><span class="hot-muted">{{ placed }}</span></div></div>
-        </div>
-        {%- if sample -%}<span class="hot-muted hot-note">Sample data, visible in the theme editor only.</span>{%- endif -%}
+        {%- if turl != blank -%}<a class="hot-link" href="{{ turl }}" target="_blank" rel="noopener">Open on {{ carrier | default: 'carrier' }} website</a>{%- endif -%}
+      {%- elsif sample -%}
+        <div class="hot-ev"><span class="hot-muted">7 Oct, 09:12</span><div><span class="hot-ev__t is-latest">Departed international sorting centre</span><span class="hot-muted">In transit</span></div></div>
+        <div class="hot-ev"><span class="hot-muted">6 Oct, 18:40</span><div><span class="hot-ev__t">Arrived at international sorting centre</span><span class="hot-muted">In transit</span></div></div>
+        <div class="hot-ev"><span class="hot-muted">5 Oct, 14:05</span><div><span class="hot-ev__t">Handed to carrier</span><span class="hot-muted">Fulfilment centre</span></div></div>
+        <span class="hot-muted hot-note">Sample data, visible in the theme editor only.</span>
       {%- else -%}
         <p class="hot-p">{{ s.processing_text }}</p>
       {%- endif -%}
@@ -60,7 +56,7 @@
     <div class="hot-card__side">
       <div class="hot-side-block">
         <span class="hot-h3">Shipment</span>
-        <div class="hot-row"><span class="hot-muted">Carrier</span><span>{% if s.carrier_label != blank %}{{ s.carrier_label }}{% else %}{{ carrier | default: '—' }}{% endif %}</span></div>
+        <div class="hot-row"><span class="hot-muted">Carrier</span><span>{{ carrier | default: '—' }}</span></div>
         <div class="hot-row"><span class="hot-muted">Tracking no.</span>
           {%- if tn != blank -%}
             <button type="button" class="hot-copy" data-hot-copy="{{ tn }}">{{ tn }} <span>Copy</span></button>

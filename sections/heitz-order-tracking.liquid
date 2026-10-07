@@ -58,22 +58,30 @@
           endif
           assign ship_to = ''
           if o.shipping_address
-            assign ship_to = o.shipping_address.city | append: ', ' | append: o.shipping_address.country
+            assign ship_to = o.shipping_address.city
           endif
           assign placed = o.created_at | date: '%-d %b %Y'
+          assign shipped = ''
+          if fdate != blank
+            assign shipped = fdate | date: '%-d %b'
+          endif
         -%}
         <div class="hot-order{% if forloop.first %} is-active{% endif %}" data-hot-order="{{ o.id }}">
           {%- if o.cancelled -%}
             <div class="hot-card hot-card--plain"><span class="hot-card__eta">Order {{ o.name }} was cancelled</span><p class="hot-p">{{ section.settings.help_text }}</p></div>
           {%- else -%}
-            {% render 'heitz-tracking-card', s: section.settings, oid: o.id, order_name: o.name, placed: placed, cur: cur, eta: eta, carrier: carrier, tn: tn, turl: turl, ship_to: ship_to, order: o, sample: false %}
+            {% render 'heitz-tracking-card', s: section.settings, oid: o.id, order_name: o.name, placed: placed, cur: cur, eta: eta, carrier: carrier, tn: tn, turl: turl, ship_to: ship_to, shipped: shipped, placed_short: o.created_at, order: o, sample: false %}
           {%- endif -%}
         </div>
       {%- endfor -%}
 
-      <p class="hot__alt">Tracking a different parcel? <a href="#hot-guest-{{ sid }}" data-hot-show-guest>Enter a tracking number</a></p>
+      {%- if section.settings.live_updates -%}<p class="hot__alt">Tracking a different parcel? <a href="#hot-guest-{{ sid }}" data-hot-show-guest>Enter a tracking number</a></p>{%- endif -%}
     {%- endif -%}
 
+    {%- if section.settings.live_updates == false and customer == nil -%}
+      <div class="hot-login"><p class="hot-p">{{ section.settings.login_text }}</p><a class="hot-btn hot-btn--link" href="{{ routes.account_login_url }}">Log in to track</a></div>
+    {%- endif -%}
+    {%- if section.settings.live_updates -%}
     <div class="hot-guest{% if customer and customer.orders.size > 0 %} is-hidden{% endif %}" id="hot-guest-{{ sid }}">
       <form class="hot-form" data-hot-form>
         <label class="hot-field"><span>Tracking number</span><input type="text" name="tn" required placeholder="e.g. YT2627100048213" autocomplete="off"></label>
@@ -101,9 +109,10 @@
       </div>
     </div>
 
+    {%- endif -%}
     {%- if request.design_mode and customer == nil -%}
       <p class="hot-muted hot-note">Theme editor preview: this is how a logged-in customer's order looks.</p>
-      {% render 'heitz-tracking-card', s: section.settings, oid: 'sample', order_name: '#HZ10482', placed: '2 Oct 2026', cur: 2, eta: 'Tue 14 – Tue 21 Oct', carrier: 'Australia Post', tn: '', turl: '', ship_to: 'Carlton, Australia', sample: true %}
+      {% render 'heitz-tracking-card', s: section.settings, oid: 'sample', order_name: '#HZ10482', placed: '2 Oct 2026', cur: 2, eta: 'Tue 14 – Tue 21 Oct', carrier: 'Australia Post', tn: '', turl: '', ship_to: 'Carlton', shipped: '5 Oct', sample: true %}
     {%- endif -%}
   </div>
 </div>
@@ -141,6 +150,7 @@
   });
 
   var form = root.querySelector('[data-hot-form]');
+  if (!form) return;
   function runGuest(tn, order) {
     tn = (tn || '').trim().replace(/\s+/g, ''); if (!tn) return;
     var r = root.querySelector('[data-hot-guest-result]'); r.hidden = false;
@@ -173,6 +183,18 @@
   .hot-btn{height:50px;padding:0 32px;border:1px solid #000000;background:#000000;color:#FFFFFF;font:inherit;font-size:12px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;cursor:pointer;transition:background .3s,color .3s}
   .hot-btn:hover{background:#FFFFFF;color:#000000}
   .hot-guest{display:flex;flex-direction:column;gap:20px}
+  .hot-login{max-width:520px;margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:16px;text-align:center}
+  .hot-btn--link{display:inline-flex;align-items:center;justify-content:center;text-decoration:none}
+  .hot-ms{display:flex;flex-direction:column}
+  .hot-ms__row{display:grid;grid-template-columns:12px minmax(0,1fr);gap:14px}
+  .hot-ms__rail{display:flex;flex-direction:column;align-items:center}
+  .hot-ms__dot{width:10px;height:10px;margin-top:6px;border-radius:50%;background:#CFCFCF}
+  .hot-ms__row.is-latest .hot-ms__dot{background:#1A1B18;box-shadow:0 0 0 4px rgba(26,27,24,.12)}
+  .hot-ms__line{flex:1;width:1px;background:#E2E2E2}
+  .hot-ms__row:last-child .hot-ms__line{display:none}
+  .hot-ms__text{display:flex;flex-direction:column;gap:2px;padding-bottom:16px}
+  .hot-ms__t{font-size:15px;color:#555555}
+  .hot-ms__row.is-latest .hot-ms__t{color:#1A1B18;font-weight:500}
   .hot-guest.is-hidden,.hot-order{display:none}
   .hot-order.is-active{display:block}
   .hot-guest__result[hidden]{display:none}
@@ -244,6 +266,12 @@
     { "type": "text", "id": "sub_guest", "label": "Subheading (guests)", "default": "Enter the tracking number from your shipping confirmation email." },
     { "type": "text", "id": "sub_logged_in", "label": "Subheading (logged in)", "default": "Here's where your recent orders are." },
     { "type": "text", "id": "button", "label": "Button label", "default": "Track" },
+    { "type": "header", "content": "Privacy" },
+    { "type": "checkbox", "id": "live_updates", "label": "Show live carrier updates (17TRACK)", "info": "Off = no origin country or carrier scan locations are shown. Customers see Heitz milestones and the city only.", "default": false },
+    { "type": "text", "id": "carrier_label", "label": "Carrier name shown to customers", "info": "Leave empty to show the real carrier name.", "default": "Tracked shipping" },
+    { "type": "checkbox", "id": "show_carrier_link", "label": "Show link to carrier website", "default": false },
+    { "type": "text", "id": "login_text", "label": "Text for guests", "default": "Log in with the email you used at checkout to see where your order is." },
+    { "type": "text", "id": "transit_text", "label": "In-transit update text ([city] = delivery city)", "default": "On its way to [city]" },
     { "type": "header", "content": "Steps" },
     { "type": "text", "id": "step1", "label": "Step 1", "default": "Confirmed" },
     { "type": "text", "id": "step2", "label": "Step 2", "default": "Processing" },

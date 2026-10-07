@@ -1,0 +1,266 @@
+{%- comment -%}
+  Heitz – Order tracking (1a Classic tracker).
+  • Logged-in customers: their recent orders, real status, carrier, tracking number, items, and live tracking updates.
+  • Guests: enter the tracking number from the shipping email to see live updates.
+  Live updates use the free 17TRACK widget (no app or API key needed).
+{%- endcomment -%}
+{%- assign sid = section.id -%}
+<div class="hot" data-hot="{{ sid }}">
+  <div class="hot__wrap">
+    <div class="hot__intro">
+      <h1 class="hot__title">{{ section.settings.title }}</h1>
+      <p class="hot__sub">{% if customer %}{{ section.settings.sub_logged_in }}{% else %}{{ section.settings.sub_guest }}{% endif %}</p>
+    </div>
+
+    {%- if customer and customer.orders.size > 0 -%}
+      {%- if customer.orders.size > 1 -%}
+        <div class="hot-form hot-form--select">
+          <label class="hot-field"><span>Choose an order</span>
+            <select data-hot-select>
+              {%- for o in customer.orders limit: 10 -%}
+                <option value="{{ o.id }}">{{ o.name }} · {{ o.created_at | date: '%-d %b %Y' }} · {{ o.total_price | money }}</option>
+              {%- endfor -%}
+            </select>
+          </label>
+        </div>
+      {%- endif -%}
+
+      {%- for o in customer.orders limit: 10 -%}
+        {%- liquid
+          assign tn = '' 
+          assign carrier = ''
+          assign turl = ''
+          assign fdate = ''
+          for li in o.line_items
+            if li.fulfillment and li.fulfillment.tracking_number != blank
+              assign tn = li.fulfillment.tracking_number
+              assign carrier = li.fulfillment.tracking_company
+              assign turl = li.fulfillment.tracking_url
+              assign fdate = li.fulfillment.created_at
+              break
+            endif
+          endfor
+          assign cur = 1
+          if tn != blank
+            assign cur = 2
+          elsif o.fulfillment_status == 'fulfilled'
+            assign cur = 2
+          endif
+          assign eta = ''
+          if fdate != blank
+            assign t0 = fdate | date: '%s' | plus: 0
+            assign tmin = section.settings.eta_min | times: 86400 | plus: t0
+            assign tmax = section.settings.eta_max | times: 86400 | plus: t0
+            assign eta = tmin | date: '%a %-d %b' | append: ' – ' | append: tmax | date: '%a %-d %b'
+            assign eta_a = tmin | date: '%a %-d %b'
+            assign eta_b = tmax | date: '%a %-d %b'
+            assign eta = eta_a | append: ' – ' | append: eta_b
+          endif
+          assign ship_to = ''
+          if o.shipping_address
+            assign ship_to = o.shipping_address.city | append: ', ' | append: o.shipping_address.country
+          endif
+          assign placed = o.created_at | date: '%-d %b %Y'
+        -%}
+        <div class="hot-order{% if forloop.first %} is-active{% endif %}" data-hot-order="{{ o.id }}">
+          {%- if o.cancelled -%}
+            <div class="hot-card hot-card--plain"><span class="hot-card__eta">Order {{ o.name }} was cancelled</span><p class="hot-p">{{ section.settings.help_text }}</p></div>
+          {%- else -%}
+            {% render 'heitz-tracking-card', s: section.settings, oid: o.id, order_name: o.name, placed: placed, cur: cur, eta: eta, carrier: carrier, tn: tn, turl: turl, ship_to: ship_to, order: o, sample: false %}
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+
+      <p class="hot__alt">Tracking a different parcel? <a href="#hot-guest-{{ sid }}" data-hot-show-guest>Enter a tracking number</a></p>
+    {%- endif -%}
+
+    <div class="hot-guest{% if customer and customer.orders.size > 0 %} is-hidden{% endif %}" id="hot-guest-{{ sid }}">
+      <form class="hot-form" data-hot-form>
+        <label class="hot-field"><span>Tracking number</span><input type="text" name="tn" required placeholder="e.g. YT2627100048213" autocomplete="off"></label>
+        <label class="hot-field"><span>Order number (optional)</span><input type="text" name="order" placeholder="#HZ10482" autocomplete="off"></label>
+        <button type="submit" class="hot-btn">{{ section.settings.button }}</button>
+      </form>
+      {%- unless customer -%}
+        <p class="hot__alt">Your tracking number is in your shipping confirmation email. Have an account? <a href="{{ routes.account_login_url }}">Log in to see all your orders</a></p>
+      {%- endunless -%}
+
+      <div class="hot-guest__result" data-hot-guest-result hidden>
+        <div class="hot-card">
+          <div class="hot-card__head">
+            <div class="hot-card__titles"><span class="hot-muted" data-hot-guest-label>Tracking</span><span class="hot-card__eta">Live tracking</span></div>
+            <span class="hot-pill">● {{ section.settings.step3 }}</span>
+          </div>
+          <div class="hot-card__body">
+            <div class="hot-card__updates"><span class="hot-h3">Tracking updates</span><div class="hot-yq" id="hot-yq-guest-{{ sid }}"></div></div>
+            <div class="hot-card__side">
+              <div class="hot-side-block"><span class="hot-h3">Shipment</span><div class="hot-row"><span class="hot-muted">Tracking no.</span><button type="button" class="hot-copy" data-hot-copy="" data-hot-guest-copy><span data-hot-guest-tn></span> <span>Copy</span></button></div></div>
+              <div class="hot-side-block hot-sep"><span class="hot-h4">{{ section.settings.help_title }}</span><p class="hot-p">{{ section.settings.help_text }}</p>{%- if section.settings.help_link != blank -%}<a class="hot-link" href="{{ section.settings.help_link }}">{{ section.settings.help_label }}</a>{%- endif -%}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {%- if request.design_mode and customer == nil -%}
+      <p class="hot-muted hot-note">Theme editor preview: this is how a logged-in customer's order looks.</p>
+      {% render 'heitz-tracking-card', s: section.settings, oid: 'sample', order_name: '#HZ10482', placed: '2 Oct 2026', cur: 2, eta: 'Tue 14 – Tue 21 Oct', carrier: 'Australia Post', tn: '', turl: '', ship_to: 'Carlton, Australia', sample: true %}
+    {%- endif -%}
+  </div>
+</div>
+
+<script>
+(function () {
+  var root = document.querySelector('[data-hot="{{ sid }}"]');
+  if (!root || root.dataset.ready) return;
+  root.dataset.ready = '1';
+  var yqLoading = null;
+  function loadYQ() {
+    if (window.YQV5) return Promise.resolve();
+    if (yqLoading) return yqLoading;
+    yqLoading = new Promise(function (res) { var s = document.createElement('script'); s.src = 'https://www.17track.net/externalcall.js'; s.onload = res; document.head.appendChild(s); });
+    return yqLoading;
+  }
+  function track(el, tn) {
+    if (!el || !tn || el.dataset.done === tn) return;
+    el.dataset.done = tn; el.innerHTML = '<p class="hot-muted">Loading tracking updates…</p>';
+    loadYQ().then(function () { el.innerHTML = ''; window.YQV5.trackSingle({ YQ_ContainerId: el.id, YQ_Height: 520, YQ_Fc: '0', YQ_Lang: 'en', YQ_Num: tn }); });
+  }
+  function showOrder(id) {
+    root.querySelectorAll('[data-hot-order]').forEach(function (o) { o.classList.toggle('is-active', o.dataset.hotOrder === String(id)); });
+    var a = root.querySelector('[data-hot-order].is-active [data-hot-tn]'); if (a) track(a, a.dataset.hotTn);
+  }
+  var sel = root.querySelector('[data-hot-select]');
+  if (sel) sel.addEventListener('change', function () { showOrder(this.value); });
+  var first = root.querySelector('[data-hot-order].is-active [data-hot-tn]'); if (first) track(first, first.dataset.hotTn);
+
+  root.addEventListener('click', function (e) {
+    var c = e.target.closest('[data-hot-copy]');
+    if (c) { var v = c.dataset.hotCopy; try { navigator.clipboard.writeText(v); } catch (x) {} var l = c.lastElementChild; l.textContent = 'Copied ✓'; setTimeout(function () { l.textContent = 'Copy'; }, 1500); }
+    var g = e.target.closest('[data-hot-show-guest]');
+    if (g) { e.preventDefault(); root.querySelector('.hot-guest').classList.remove('is-hidden'); }
+  });
+
+  var form = root.querySelector('[data-hot-form]');
+  function runGuest(tn, order) {
+    tn = (tn || '').trim().replace(/\s+/g, ''); if (!tn) return;
+    var r = root.querySelector('[data-hot-guest-result]'); r.hidden = false;
+    root.querySelector('[data-hot-guest-tn]').textContent = tn;
+    root.querySelector('[data-hot-guest-copy]').dataset.hotCopy = tn;
+    root.querySelector('[data-hot-guest-label]').textContent = order ? 'Order ' + order : 'Tracking ' + tn;
+    track(document.getElementById('hot-yq-guest-{{ sid }}'), tn);
+    var u = new URL(location.href); u.searchParams.set('tn', tn); history.replaceState(null, '', u);
+  }
+  form.addEventListener('submit', function (e) { e.preventDefault(); runGuest(form.tn.value, form.order.value.trim()); });
+  var q = new URL(location.href).searchParams.get('tn');
+  if (q) { form.tn.value = q; root.querySelector('.hot-guest').classList.remove('is-hidden'); runGuest(q, ''); }
+})();
+</script>
+
+{% stylesheet %}
+  .hot{width:100%;color:#1A1B18}
+  .hot *{box-sizing:border-box}
+  .hot__wrap{width:100%;max-width:1500px;margin:0 auto;padding:56px 40px 72px;display:flex;flex-direction:column;gap:32px}
+  .hot__intro{display:flex;flex-direction:column;gap:10px;align-items:center;text-align:center}
+  .hot__title{margin:0;font-family:var(--font-heading--family,inherit);font-weight:600;font-size:44px;line-height:1.1;color:#1A1B18}
+  .hot__sub{margin:0;max-width:520px;font-size:15px;line-height:1.6;color:#555555}
+  .hot__alt{margin:0;text-align:center;font-size:14px;color:#555555}
+  .hot__alt a,.hot-link{color:#1A1B18;text-decoration:underline;text-underline-offset:3px}
+  .hot-form{width:100%;max-width:820px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) auto;gap:12px;align-items:end}
+  .hot-form--select{grid-template-columns:minmax(0,1fr);max-width:520px}
+  .hot-field{display:flex;flex-direction:column;gap:6px;font-size:13px;color:#555555}
+  .hot-field input,.hot-field select{height:50px;width:100%;border:1px solid #CFCFCF;border-radius:0;background:#FFFFFF;padding:0 14px;font:inherit;font-size:15px;color:#1A1B18}
+  .hot-field input:focus,.hot-field select:focus{outline:none;border-color:#1A1B18}
+  .hot-btn{height:50px;padding:0 32px;border:1px solid #000000;background:#000000;color:#FFFFFF;font:inherit;font-size:12px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;cursor:pointer;transition:background .3s,color .3s}
+  .hot-btn:hover{background:#FFFFFF;color:#000000}
+  .hot-guest{display:flex;flex-direction:column;gap:20px}
+  .hot-guest.is-hidden,.hot-order{display:none}
+  .hot-order.is-active{display:block}
+  .hot-guest__result[hidden]{display:none}
+
+  .hot-card{border:1px solid #E8E8E8;background:#FFFFFF;display:flex;flex-direction:column}
+  .hot-card--plain{padding:24px 28px;gap:8px}
+  .hot-card__head{padding:24px 28px;display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;border-bottom:1px solid #E8E8E8}
+  .hot-card__titles{display:flex;flex-direction:column;gap:6px}
+  .hot-card__eta{font-family:var(--font-heading--family,inherit);font-weight:600;font-size:30px;line-height:1.15;color:#1A1B18}
+  .hot-pill{padding:6px 12px;border-radius:10px;background:#EAF6EF;color:#1E7A46;font-size:13px;font-weight:500;white-space:nowrap}
+  .hot-pill--wait{background:#F8F5F0;color:#9F6939}
+  .hot-muted{font-size:13px;color:#888888}
+  .hot-note{display:block;margin-top:8px;text-align:center}
+
+  .hot-steps{list-style:none;margin:0;padding:24px 28px;border-bottom:1px solid #E8E8E8;display:grid;grid-template-columns:repeat(5,minmax(0,1fr))}
+  .hot-step{position:relative;display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center}
+  .hot-step__line{position:absolute;top:11px;left:50%;width:100%;height:2px;background:#E2E2E2}
+  .hot-step.is-done .hot-step__line{background:#1A1B18}
+  .hot-step__dot{position:relative;width:24px;height:24px;border-radius:50%;background:#E2E2E2;color:#FFFFFF;display:flex;align-items:center;justify-content:center;font-size:11px}
+  .hot-step.is-done .hot-step__dot,.hot-step.is-current .hot-step__dot{background:#1A1B18}
+  .hot-step.is-current .hot-step__dot{box-shadow:0 0 0 5px rgba(26,27,24,.12)}
+  .hot-step__label{font-size:14px;line-height:1.25;color:#9A9A9A}
+  .hot-step.is-done .hot-step__label,.hot-step.is-current .hot-step__label{color:#1A1B18}
+  .hot-step.is-current .hot-step__label{font-weight:500}
+
+  .hot-card__body{display:grid;grid-template-columns:minmax(0,1fr) 380px}
+  .hot-card__updates{padding:24px 28px;display:flex;flex-direction:column;gap:10px;border-right:1px solid #E8E8E8;min-width:0}
+  .hot-card__side{padding:24px 28px;display:flex;flex-direction:column;gap:20px;background:#FAFAF8}
+  .hot-side-block{display:flex;flex-direction:column;gap:10px}
+  .hot-sep{border-top:1px solid #E8E8E8;padding-top:18px}
+  .hot-h3{font-family:var(--font-heading--family,inherit);font-weight:600;font-size:17px;color:#1A1B18}
+  .hot-h4{font-family:var(--font-heading--family,inherit);font-weight:600;font-size:15px;color:#1A1B18}
+  .hot-p{margin:0;font-size:14px;line-height:1.6;color:#555555}
+  .hot-row{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:14px}
+  .hot-right{text-align:right}
+  .hot-copy{border:0;background:none;padding:0;font:inherit;font-size:14px;color:#1A1B18;cursor:pointer;display:flex;gap:8px;align-items:center}
+  .hot-copy span:last-child{font-size:12px;color:#9F6939;text-decoration:underline;text-underline-offset:3px}
+  .hot-ev{display:grid;grid-template-columns:130px minmax(0,1fr);gap:4px 16px;padding:12px 0;border-top:1px solid #F0F0F0}
+  .hot-ev div{display:flex;flex-direction:column;gap:2px}
+  .hot-ev__t{font-size:15px;color:#555555}
+  .hot-ev__t.is-latest{color:#1A1B18;font-weight:500}
+  .hot-yq{min-height:120px;width:100%}
+  .hot-yq iframe{width:100% !important;border:0}
+  .hot-item{display:grid;grid-template-columns:56px minmax(0,1fr) auto;gap:12px;align-items:center}
+  .hot-item__img{width:56px;height:56px;background:#F5F4F1;overflow:hidden}
+  .hot-item__img img{width:100%;height:100%;object-fit:cover;display:block}
+  .hot-item__text{display:flex;flex-direction:column;gap:2px;font-size:14px}
+  .hot-item__price{font-family:var(--font-heading--family,inherit);font-size:14px}
+
+  @media only screen and (max-width:768px){
+    .hot__wrap{padding:32px 16px 44px;gap:24px}
+    .hot__title{font-size:32px}
+    .hot-form{grid-template-columns:minmax(0,1fr)}
+    .hot-btn{width:100%}
+    .hot-card__head,.hot-steps,.hot-card__updates,.hot-card__side,.hot-card--plain{padding:18px 16px}
+    .hot-card__eta{font-size:24px}
+    .hot-step__label{font-size:11px}
+    .hot-card__body{grid-template-columns:minmax(0,1fr)}
+    .hot-card__updates{border-right:0;border-bottom:1px solid #E8E8E8}
+    .hot-ev{grid-template-columns:minmax(0,1fr)}
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Heitz order tracking",
+  "settings": [
+    { "type": "text", "id": "title", "label": "Heading", "default": "Track your order" },
+    { "type": "text", "id": "sub_guest", "label": "Subheading (guests)", "default": "Enter the tracking number from your shipping confirmation email." },
+    { "type": "text", "id": "sub_logged_in", "label": "Subheading (logged in)", "default": "Here's where your recent orders are." },
+    { "type": "text", "id": "button", "label": "Button label", "default": "Track" },
+    { "type": "header", "content": "Steps" },
+    { "type": "text", "id": "step1", "label": "Step 1", "default": "Confirmed" },
+    { "type": "text", "id": "step2", "label": "Step 2", "default": "Processing" },
+    { "type": "text", "id": "step3", "label": "Step 3", "default": "In transit" },
+    { "type": "text", "id": "step4", "label": "Step 4", "default": "Out for delivery" },
+    { "type": "text", "id": "step5", "label": "Step 5", "default": "Delivered" },
+    { "type": "header", "content": "Delivery estimate" },
+    { "type": "range", "id": "eta_min", "label": "Earliest delivery (days after shipping)", "min": 1, "max": 30, "step": 1, "default": 8 },
+    { "type": "range", "id": "eta_max", "label": "Latest delivery (days after shipping)", "min": 2, "max": 40, "step": 1, "default": 15 },
+    { "type": "text", "id": "processing_title", "label": "Heading before shipping", "default": "Preparing your order" },
+    { "type": "textarea", "id": "processing_text", "label": "Text before shipping", "default": "Your order is being quality-checked and packed. This takes 1–3 business days. You'll get an email with your tracking number as soon as it ships." },
+    { "type": "header", "content": "Help box" },
+    { "type": "text", "id": "help_title", "label": "Heading", "default": "Tracking not updating?" },
+    { "type": "textarea", "id": "help_text", "label": "Text", "default": "International parcels can go 3–5 days without a new scan while they travel between countries. That's normal." },
+    { "type": "text", "id": "help_label", "label": "Link label", "default": "Contact support" },
+    { "type": "url", "id": "help_link", "label": "Link" }
+  ],
+  "presets": [{ "name": "Heitz order tracking" }]
+}
+{% endschema %}

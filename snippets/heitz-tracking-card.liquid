@@ -1,0 +1,88 @@
+{%- comment -%}
+  Heitz order tracking card (1a Classic tracker).
+  Params: s (section.settings), oid, order_name, placed, cur (0-4), eta, carrier, tn, turl, ship_to, order (optional), sample (bool)
+{%- endcomment -%}
+{%- liquid
+  assign labels = s.step1 | append: '|' | append: s.step2 | append: '|' | append: s.step3 | append: '|' | append: s.step4 | append: '|' | append: s.step5 | split: '|'
+  case cur
+    when 0
+      assign pill = s.step1
+    when 1
+      assign pill = s.step2
+    when 2
+      assign pill = s.step3
+    when 3
+      assign pill = s.step4
+    else
+      assign pill = s.step5
+  endcase
+-%}
+<div class="hot-card" data-hot-card="{{ oid }}">
+  <div class="hot-card__head">
+    <div class="hot-card__titles">
+      <span class="hot-muted">Order {{ order_name }} · Placed {{ placed }}</span>
+      <span class="hot-card__eta">{% if eta != blank %}Arriving {{ eta }}{% else %}{{ s.processing_title }}{% endif %}</span>
+    </div>
+    <span class="hot-pill{% if cur < 2 %} hot-pill--wait{% endif %}">● {{ pill }}</span>
+  </div>
+
+  <ol class="hot-steps">
+    {%- for label in labels -%}
+      {%- assign i = forloop.index0 -%}
+      <li class="hot-step{% if i < cur %} is-done{% elsif i == cur %} is-current{% endif %}">
+        {%- unless forloop.last -%}<span class="hot-step__line"></span>{%- endunless -%}
+        <span class="hot-step__dot">{% if i < cur %}✓{% elsif i == cur %}●{% endif %}</span>
+        <span class="hot-step__label">{{ label }}</span>
+      </li>
+    {%- endfor -%}
+  </ol>
+
+  <div class="hot-card__body">
+    <div class="hot-card__updates">
+      <span class="hot-h3">Tracking updates</span>
+      {%- if tn != blank -%}
+        <div class="hot-yq" id="hot-yq-{{ oid }}" data-hot-tn="{{ tn }}"></div>
+        {%- if turl != blank -%}<a class="hot-link" href="{{ turl }}" target="_blank" rel="noopener">Open on {{ carrier | default: 'carrier' }} website</a>{%- endif -%}
+      {%- elsif sample -%}
+        <div class="hot-ev"><span class="hot-muted">7 Oct, 09:12</span><div><span class="hot-ev__t is-latest">Departed international sorting centre</span><span class="hot-muted">In transit</span></div></div>
+        <div class="hot-ev"><span class="hot-muted">6 Oct, 18:40</span><div><span class="hot-ev__t">Arrived at international sorting centre</span><span class="hot-muted">In transit</span></div></div>
+        <div class="hot-ev"><span class="hot-muted">5 Oct, 14:05</span><div><span class="hot-ev__t">Handed to carrier</span><span class="hot-muted">Fulfilment centre</span></div></div>
+        <span class="hot-muted hot-note">Sample data, visible in the theme editor only.</span>
+      {%- else -%}
+        <p class="hot-p">{{ s.processing_text }}</p>
+      {%- endif -%}
+    </div>
+
+    <div class="hot-card__side">
+      <div class="hot-side-block">
+        <span class="hot-h3">Shipment</span>
+        <div class="hot-row"><span class="hot-muted">Carrier</span><span>{{ carrier | default: '—' }}</span></div>
+        <div class="hot-row"><span class="hot-muted">Tracking no.</span>
+          {%- if tn != blank -%}
+            <button type="button" class="hot-copy" data-hot-copy="{{ tn }}">{{ tn }} <span>Copy</span></button>
+          {%- else -%}<span>Available once shipped</span>{%- endif -%}
+        </div>
+        {%- if ship_to != blank -%}<div class="hot-row"><span class="hot-muted">Ship to</span><span class="hot-right">{{ ship_to }}</span></div>{%- endif -%}
+      </div>
+
+      {%- if order -%}
+        <div class="hot-side-block hot-sep">
+          <span class="hot-h3">In this parcel</span>
+          {%- for li in order.line_items -%}
+            <div class="hot-item">
+              <div class="hot-item__img">{%- if li.image -%}{{ li.image | image_url: width: 160 | image_tag: loading: 'lazy', alt: li.title }}{%- endif -%}</div>
+              <div class="hot-item__text"><span>{{ li.product.title | default: li.title | split: ' | ' | first }}</span><span class="hot-muted">Qty {{ li.quantity }}</span></div>
+              <span class="hot-item__price">{{ li.final_line_price | money }}</span>
+            </div>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+
+      <div class="hot-side-block hot-sep">
+        <span class="hot-h4">{{ s.help_title }}</span>
+        <p class="hot-p">{{ s.help_text }}</p>
+        {%- if s.help_link != blank -%}<a class="hot-link" href="{{ s.help_link }}">{{ s.help_label }}</a>{%- endif -%}
+      </div>
+    </div>
+  </div>
+</div>

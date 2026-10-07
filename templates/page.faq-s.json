@@ -11,7 +11,6 @@
   "sections": {
     "header": {
       "type": "heitz-faq-header",
-      "disabled": true,
       "settings": {
         "color_scheme": "scheme-2",
         "padding_top": 60,
@@ -174,7 +173,6 @@
         "q_ret4",
         "q_ret5"
       ],
-      "disabled": true,
       "settings": {
         "color_scheme": "scheme-1",
         "padding_top": 80,
@@ -188,7 +186,6 @@
     },
     "contact": {
       "type": "heitz-faq-contact",
-      "disabled": true,
       "settings": {
         "color_scheme": "scheme-2",
         "padding_top": 80,
@@ -205,6 +202,7 @@
     },
     "heitz_order_tracking_Lt33yT": {
       "type": "heitz-order-tracking",
+      "disabled": true,
       "name": "Heitz order tracking",
       "settings": {
         "title": "Track your order",

@@ -41,6 +41,17 @@
 
   <body class="page-width-{{ settings.page_width }} card-hover-effect-{{ settings.card_hover_effect }}">
     {% render 'skip-to-content-link', href: '#MainContent', text: 'accessibility.skip_to_text' %}
+    {% comment %}
+      display:contents — a sticky header section can only stick within
+      its parent's height, and this wrapper is only as tall as the bars
+      themselves; with contents the sections sit directly in <body> and
+      position:sticky works. The stock Horizon selectors that target
+      #header-group are all gated on header-component, which this theme
+      does not render.
+    {% endcomment %}
+    <style>
+      #header-group { display: contents; }
+    </style>
     <div id="header-group">
       {% sections 'header-group' %}
     </div>

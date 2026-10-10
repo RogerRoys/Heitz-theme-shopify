@@ -11,6 +11,131 @@
   "type": "header",
   "name": "Header",
   "sections": {
+    "hr_gold_bar": {
+      "type": "heitz-hr-gold-seal-bar",
+      "settings": {
+        "text": "Up to 10% off gold seal pieces",
+        "sub": "The saving is already in the price",
+        "cta": "Shop now",
+        "link": "shopify://collections/sold-seal",
+        "bg": "#d9b97a",
+        "fg": "#1a1b18"
+      }
+    },
+    "hr_announcement": {
+      "type": "heitz-hr-announcement",
+      "blocks": {
+        "hr_msg_1": {
+          "type": "message",
+          "settings": {
+            "text": "Free tracked shipping on all orders",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "hr_msg_2": {
+          "type": "message",
+          "settings": {
+            "text": "Up to 10% off · Marked in Gold",
+            "link_label": "Shop now",
+            "link": "shopify://collections/sold-seal"
+          }
+        },
+        "hr_msg_3": {
+          "type": "message",
+          "settings": {
+            "text": "30-day returns · 1-year warranty",
+            "link_label": "",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "hr_msg_1",
+        "hr_msg_2",
+        "hr_msg_3"
+      ],
+      "disabled": true,
+      "settings": {
+        "speed": 5,
+        "bg": "#000000",
+        "fg": "#f2f2f2"
+      }
+    },
+    "hr_header": {
+      "type": "heitz-hr-header",
+      "blocks": {
+        "hr_card_1": {
+          "type": "mega_card",
+          "settings": {
+            "title": "Pendant Lights",
+            "link": "shopify://collections/pendant-lights"
+          }
+        },
+        "hr_card_2": {
+          "type": "mega_card",
+          "settings": {
+            "title": "Outdoor Lighting",
+            "link": "shopify://collections/outdoor-pillar-post-lights"
+          }
+        },
+        "hr_tile_1": {
+          "type": "search_tile",
+          "settings": {
+            "collection": "pendant-lights",
+            "title": ""
+          }
+        },
+        "hr_tile_2": {
+          "type": "search_tile",
+          "settings": {
+            "collection": "table-lamps",
+            "title": ""
+          }
+        },
+        "hr_tile_3": {
+          "type": "search_tile",
+          "settings": {
+            "collection": "solar-outdoor-lights",
+            "title": ""
+          }
+        },
+        "hr_tile_4": {
+          "type": "search_tile",
+          "settings": {
+            "collection": "outdoor-pillar-post-lights",
+            "title": ""
+          }
+        }
+      },
+      "block_order": [
+        "hr_card_1",
+        "hr_card_2",
+        "hr_tile_1",
+        "hr_tile_2",
+        "hr_tile_3",
+        "hr_tile_4"
+      ],
+      "settings": {
+        "logo_h": 40,
+        "logo_h_m": 30,
+        "menu": "heitz-menu-v2",
+        "highlight": "Marked in Gold",
+        "sticky": true,
+        "track_url": "",
+        "note": "",
+        "show_currency": true,
+        "countries": "US,GB,AU",
+        "search_placeholder": "Search pendants, table lamps, outdoor…",
+        "search_placeholder_m": "Search lighting…",
+        "suggestions": "Pendant lights, Table lamps, Floor lamps, Outdoor, Solar",
+        "wishlist_url": "",
+        "free_ship": 0,
+        "free_ship_label": "Free tracked shipping unlocked",
+        "upsell_collection": "pendant-lights",
+        "take_over_atc": true
+      }
+    },
     "heitz_announcement": {
       "type": "heitz-announcement",
       "blocks": {
@@ -84,6 +209,7 @@
         "message_xwYq9f",
         "message_bgdRtt"
       ],
+      "disabled": true,
       "custom_css": [
         ".hsa__slide {font-family: \"Cabin\"; text-transform: uppercase;}"
       ],
@@ -93,11 +219,11 @@
         "fg": "#1a1b18",
         "text_size": 13,
         "speed": 5
-      },
-      "disabled": true
+      }
     },
     "heitz_header": {
       "type": "heitz-header",
+      "disabled": true,
       "custom_css": [
         ".drawer-localization .mobile-localization,.drawer-localization .drawer-localization__button--label {border-bottom: 0px;}"
       ],
@@ -116,128 +242,6 @@
         "localization_font": "heading",
         "localization_font_size": "0.75rem",
         "localization_position": "right"
-      },
-      "disabled": true
-    },
-    "hr_announcement": {
-      "type": "heitz-hr-announcement",
-      "blocks": {
-        "hr_msg_1": {
-          "type": "message",
-          "settings": {
-            "text": "Free tracked shipping on all orders",
-            "link_label": "",
-            "link": ""
-          }
-        },
-        "hr_msg_2": {
-          "type": "message",
-          "settings": {
-            "text": "Up to 10% off · Marked in Gold",
-            "link_label": "Shop now",
-            "link": "shopify://collections/sold-seal"
-          }
-        },
-        "hr_msg_3": {
-          "type": "message",
-          "settings": {
-            "text": "30-day returns · 1-year warranty",
-            "link_label": "",
-            "link": ""
-          }
-        }
-      },
-      "block_order": [
-        "hr_msg_1",
-        "hr_msg_2",
-        "hr_msg_3"
-      ],
-      "settings": {
-        "speed": 5,
-        "bg": "#000000",
-        "fg": "#F2F2F2"
-      },
-      "disabled": true
-    },
-    "hr_header": {
-      "type": "heitz-hr-header",
-      "blocks": {
-        "hr_card_1": {
-          "type": "mega_card",
-          "settings": {
-            "title": "Pendant Lights",
-            "link": "shopify://collections/pendant-lights"
-          }
-        },
-        "hr_card_2": {
-          "type": "mega_card",
-          "settings": {
-            "title": "Outdoor Lighting",
-            "link": "shopify://collections/outdoor-pillar-post-lights"
-          }
-        },
-        "hr_tile_1": {
-          "type": "search_tile",
-          "settings": {
-            "collection": "pendant-lights"
-          }
-        },
-        "hr_tile_2": {
-          "type": "search_tile",
-          "settings": {
-            "collection": "table-lamps"
-          }
-        },
-        "hr_tile_3": {
-          "type": "search_tile",
-          "settings": {
-            "collection": "solar-outdoor-lights"
-          }
-        },
-        "hr_tile_4": {
-          "type": "search_tile",
-          "settings": {
-            "collection": "outdoor-pillar-post-lights"
-          }
-        }
-      },
-      "block_order": [
-        "hr_card_1",
-        "hr_card_2",
-        "hr_tile_1",
-        "hr_tile_2",
-        "hr_tile_3",
-        "hr_tile_4"
-      ],
-      "settings": {
-        "logo_h": 40,
-        "logo_h_m": 30,
-        "menu": "heitz-menu-v2-test",
-        "highlight": "Marked in Gold",
-        "sticky": true,
-        "track_url": "/apps/track123",
-        "note": "Free tracked shipping",
-        "show_currency": true,
-        "countries": "US,GB,AU",
-        "search_placeholder": "Search pendants, table lamps, outdoor…",
-        "search_placeholder_m": "Search lighting…",
-        "suggestions": "Pendant lights, Table lamps, Floor lamps, Outdoor, Solar",
-        "wishlist_url": "",
-        "free_ship": 0,
-        "free_ship_label": "Free tracked shipping unlocked",
-        "upsell_collection": "pendant-lights",
-        "take_over_atc": true
-      }
-    },
-    "hr_gold_bar": {
-      "type": "heitz-hr-gold-seal-bar",
-      "settings": {
-        "text": "Up to 10% off gold seal pieces",
-        "sub": "The saving is already in the price",
-        "cta": "Shop now",
-        "link": "shopify://collections/sold-seal",
-        "bg": "#D9B97A",
-        "fg": "#1A1B18"
       }
     }
   },

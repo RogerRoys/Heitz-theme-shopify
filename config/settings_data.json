@@ -96,7 +96,7 @@
       "heitz-gold-seal-popup": {
         "type": "heitz-gold-seal-popup",
         "settings": {
-          "enabled": true,
+          "enabled": false,
           "seal_top": "UP TO",
           "seal_pct": 10,
           "title": "Look for the Gold",

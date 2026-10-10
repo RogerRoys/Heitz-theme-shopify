@@ -156,7 +156,8 @@
         "speed": 5,
         "bg": "#000000",
         "fg": "#F2F2F2"
-      }
+      },
+      "disabled": true
     },
     "hr_header": {
       "type": "heitz-hr-header",
@@ -227,9 +228,21 @@
         "upsell_collection": "pendant-lights",
         "take_over_atc": true
       }
+    },
+    "hr_gold_bar": {
+      "type": "heitz-hr-gold-seal-bar",
+      "settings": {
+        "text": "Up to 10% off gold seal pieces",
+        "sub": "The saving is already in the price",
+        "cta": "Shop now",
+        "link": "shopify://collections/sold-seal",
+        "bg": "#D9B97A",
+        "fg": "#1A1B18"
+      }
     }
   },
   "order": [
+    "hr_gold_bar",
     "hr_announcement",
     "hr_header",
     "heitz_announcement",

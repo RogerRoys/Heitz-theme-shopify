@@ -68,6 +68,7 @@
         "hr_card_1": {
           "type": "mega_card",
           "settings": {
+            "image": "shopify://shop_images/heitz-pendant-lights-modern-mutowood-cover_54445dd6-6f5c-4818-8fdf-e61703a67ff3.webp",
             "title": "Pendant Lights",
             "link": "shopify://collections/pendant-lights"
           }
@@ -75,6 +76,7 @@
         "hr_card_2": {
           "type": "mega_card",
           "settings": {
+            "image": "shopify://shop_images/heitz-outdoor-lights-luxealuminum-blue-hour-cover_63982d49-f152-401f-b7fe-a7bbcee6b768.webp",
             "title": "Outdoor Lighting",
             "link": "shopify://collections/outdoor-pillar-post-lights"
           }

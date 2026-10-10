@@ -2310,6 +2310,13 @@
         "default": "scheme-1"
       },
       {
+        "type": "checkbox",
+        "id": "show_card_zoom",
+        "label": "Show zoom icon",
+        "info": "The magnifier that opens the quick-view popup on product cards.",
+        "default": true
+      },
+      {
         "type": "header",
         "content": "t:settings.media"
       },

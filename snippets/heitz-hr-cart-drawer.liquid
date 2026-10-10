@@ -1,0 +1,44 @@
+{%- comment -%} 6a Refined cart drawer. Rendered by heitz-hr-header. Contents are drawn by heitz-hr.js from /cart.js. {%- endcomment -%}
+<div class="hr-ov hr-cart" id="HrCart" hidden>
+  <div class="hr-ov__dim" data-hr-close></div>
+  <aside class="hr-cart__panel" data-hr-panel role="dialog" aria-label="Your cart">
+    <div class="hr-cart__head">
+      <span class="hr-h">Your cart (<span data-hr-cart-count>{{ cart.item_count }}</span>)</span>
+      <button type="button" class="hr-x" data-hr-close aria-label="Close cart">×</button>
+    </div>
+    <div class="hr-cart__ship" data-hr-ship hidden></div>
+    <div class="hr-cart__body" data-hr-cart-body>
+      <div class="hr-cart__items" data-hr-cart-items></div>
+      <div class="hr-cart__empty" data-hr-cart-empty hidden>
+        <span class="hr-h">Your cart is empty</span>
+        <span>Gold seal savings are already in the price.</span>
+        <a class="hr-btn hr-btn--line" href="{{ routes.all_products_collection_url }}" data-hr-close>Continue shopping</a>
+      </div>
+      <div class="hr-cart__up" data-hr-up hidden>
+        <span class="hr-eyebrow">Pairs well with</span>
+        <div data-hr-up-item></div>
+      </div>
+    </div>
+    <div class="hr-cart__foot" data-hr-cart-foot>
+      <button type="button" class="hr-disc__tog" data-hr-disc-tog aria-expanded="false">Have a discount code?<span class="hr-disc__sign">+</span></button>
+      <div class="hr-disc" data-hr-disc>
+        <div>
+          <form class="hr-disc__form" data-hr-disc-form>
+            <input type="text" name="code" placeholder="Discount code" autocomplete="off" aria-label="Discount code">
+            <button type="submit" class="hr-btn hr-btn--ink">Apply</button>
+          </form>
+          <span class="hr-disc__msg" data-hr-disc-msg></span>
+        </div>
+      </div>
+      <div data-hr-disc-applied></div>
+      <div class="hr-cart__sub"><span>Subtotal</span><span class="hr-cart__tot" data-hr-total>{{ cart.total_price | money }}</span></div>
+      <span class="hr-cart__save" data-hr-save hidden></span>
+      <form action="{{ routes.cart_url }}" method="post" class="hr-cart__co">
+        <button type="submit" name="checkout" class="hr-btn hr-btn--ink hr-btn--lg">Checkout · <span data-hr-total>{{ cart.total_price | money }}</span></button>
+      </form>
+      {%- if additional_checkout_buttons -%}
+        <div class="hr-cart__express">{{ content_for_additional_checkout_buttons }}</div>
+      {%- endif -%}
+    </div>
+  </aside>
+</div>

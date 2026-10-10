@@ -1,0 +1,28 @@
+{%- comment -%}
+  Country / currency picker (uses Shopify Markets). Params:
+  form_id (required, unique), compact (true = flag only), countries ("US,GB,AU" – blank shows all)
+{%- endcomment -%}
+{%- if localization.available_countries.size > 1 -%}
+  {%- assign show = countries | upcase | remove: ' ' | split: ',' -%}
+  <div class="hr-cur" data-hr-cur>
+    {%- form 'localization', id: form_id, class: 'hr-cur__form' -%}
+      <button type="button" class="hr-cur__btn" data-hr-cur-toggle aria-expanded="false" aria-label="Country / currency: {{ localization.country.name }}">
+        <img class="hr-flag" src="https://flagcdn.com/w40/{{ localization.country.iso_code | downcase }}.png" alt="" width="20" height="14" loading="lazy">
+        {%- unless compact -%}<span>{{ localization.country.currency.iso_code }}</span>{%- endunless -%}
+        <span class="hr-cur__chev">{% render 'heitz-hr-icon', icon: 'chevron', size: 9 %}</span>
+      </button>
+      <div class="hr-cur__drop" role="listbox">
+        <span class="hr-cur__lab">Country / currency</span>
+        {%- for c in localization.available_countries -%}
+          {%- if show.size == 0 or show contains c.iso_code -%}
+            <button type="submit" name="country_code" value="{{ c.iso_code }}" class="hr-cur__opt{% if c.iso_code == localization.country.iso_code %} is-cur{% endif %}">
+              <img class="hr-flag" src="https://flagcdn.com/w40/{{ c.iso_code | downcase }}.png" alt="" width="22" height="15" loading="lazy">
+              <span>{{ c.name }}</span>
+              <span class="hr-cur__code">{{ c.currency.iso_code }} {{ c.currency.symbol }}</span>
+            </button>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    {%- endform -%}
+  </div>
+{%- endif -%}

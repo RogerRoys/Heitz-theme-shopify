@@ -1,0 +1,45 @@
+{{ 'heitz-hr.css' | asset_url | stylesheet_tag }}
+
+{%- if section.blocks.size > 0 -%}
+<div class="hr-trust" style="--hr-trust-n: {{ section.blocks.size }};" {{ section.shopify_attributes }}>
+  {%- for block in section.blocks -%}
+    <div class="hr-trust__item" {{ block.shopify_attributes }}>
+      <span class="hr-trust__ic">{% render 'heitz-hr-icon', icon: block.settings.icon, size: 22 %}</span>
+      <span class="hr-trust__t">{{ block.settings.title }}</span>
+      {%- if block.settings.text != blank -%}<span class="hr-trust__s">{{ block.settings.text }}</span>{%- endif -%}
+    </div>
+  {%- endfor -%}
+</div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Heitz trust cards (10c)",
+  "blocks": [
+    {
+      "type": "badge",
+      "name": "Badge",
+      "settings": [
+        { "type": "select", "id": "icon", "label": "Icon", "default": "truck", "options": [
+          { "value": "truck", "label": "Truck" }, { "value": "check", "label": "Shield check" }, { "value": "globe", "label": "Globe" },
+          { "value": "lock", "label": "Lock" }, { "value": "chat", "label": "Chat" }, { "value": "return", "label": "Return" } ] },
+        { "type": "text", "id": "title", "label": "Title", "default": "Free Tracked Shipping" },
+        { "type": "text", "id": "text", "label": "Text", "default": "Complimentary on every order" }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [
+    {
+      "name": "Heitz trust cards (10c)",
+      "blocks": [
+        { "type": "badge", "settings": { "icon": "truck", "title": "Free Tracked Shipping", "text": "Complimentary on every order" } },
+        { "type": "badge", "settings": { "icon": "check", "title": "Quality Checked", "text": "Inspected before it ships" } },
+        { "type": "badge", "settings": { "icon": "globe", "title": "USA, UK & AU Delivery", "text": "Tracked to your door" } },
+        { "type": "badge", "settings": { "icon": "lock", "title": "Secure Checkout", "text": "Encrypted, trusted payments" } },
+        { "type": "badge", "settings": { "icon": "chat", "title": "Responsive Support", "text": "Real people, quick replies" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

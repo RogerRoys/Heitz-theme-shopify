@@ -1,0 +1,82 @@
+{{ 'heitz-hr.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'heitz-hr.js' | asset_url }}" defer></script>
+
+{%- if section.blocks.size > 0 -%}
+<section class="hr-hero" data-hr-hero data-autoplay="{{ section.settings.autoplay }}" data-speed="{{ section.settings.speed }}"
+  style="--hr-hero-d: {{ section.settings.height_d }}px; --hr-hero-m: {{ section.settings.height_m }}px; --hr-hero-dur: {{ section.settings.speed }}s;"
+  aria-roledescription="carousel" {{ section.shopify_attributes }}>
+  {%- for block in section.blocks -%}
+    <div class="hr-hero__slide{% if forloop.first %} is-active{% endif %}" role="group" aria-roledescription="slide" aria-label="{{ forloop.index }} / {{ forloop.length }}" {{ block.shopify_attributes }}>
+      <div class="hr-hero__img">
+        {%- if block.settings.image != blank -%}
+          {%- assign loading = 'lazy' -%}{%- if forloop.first -%}{%- assign loading = 'eager' -%}{%- endif -%}
+          {%- if block.settings.image_m != blank -%}
+            <picture>
+              <source media="(max-width: 989px)" srcset="{{ block.settings.image_m | image_url: width: 1000 }}">
+              {{ block.settings.image | image_url: width: 2400 | image_tag: loading: loading, sizes: '100vw', widths: '800,1200,1600,2000,2400', alt: block.settings.heading }}
+            </picture>
+          {%- else -%}
+            {{ block.settings.image | image_url: width: 2400 | image_tag: loading: loading, sizes: '100vw', widths: '800,1200,1600,2000,2400', alt: block.settings.heading }}
+          {%- endif -%}
+        {%- else -%}
+          {{ 'lifestyle-1' | placeholder_svg_tag: 'hr-hero__ph' }}
+        {%- endif -%}
+      </div>
+      <div class="hr-hero__shade"></div>
+      <div class="hr-hero__content">
+        {%- if block.settings.eyebrow != blank -%}<span class="hr-hero__eyebrow">{{ block.settings.eyebrow }}</span>{%- endif -%}
+        {%- if block.settings.heading != blank -%}
+          {%- if forloop.first -%}<h1 class="hr-hero__h">{{ block.settings.heading }}</h1>{%- else -%}<h2 class="hr-hero__h">{{ block.settings.heading }}</h2>{%- endif -%}
+        {%- endif -%}
+        {%- if block.settings.text != blank -%}<p class="hr-hero__t">{{ block.settings.text }}</p>{%- endif -%}
+        {%- if block.settings.button != blank -%}<a class="hr-hero__btn" href="{{ block.settings.link | default: routes.all_products_collection_url }}">{{ block.settings.button }}</a>{%- endif -%}
+      </div>
+    </div>
+  {%- endfor -%}
+  {%- if section.blocks.size > 1 -%}
+    <div class="hr-hero__dots" role="tablist">
+      {%- for block in section.blocks -%}
+        <button type="button" class="hr-hero__dot{% if forloop.first %} is-active{% endif %}" data-hr-dot="{{ forloop.index0 }}" aria-label="Go to slide {{ forloop.index }}"><span class="hr-hero__fill"></span></button>
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+</section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Heitz hero slideshow (4c)",
+  "settings": [
+    { "type": "checkbox", "id": "autoplay", "label": "Autoplay", "default": true },
+    { "type": "range", "id": "speed", "label": "Seconds per slide", "min": 3, "max": 12, "step": 0.5, "default": 5.5 },
+    { "type": "range", "id": "height_d", "label": "Height – desktop", "min": 480, "max": 900, "step": 10, "unit": "px", "default": 700 },
+    { "type": "range", "id": "height_m", "label": "Height – mobile", "min": 400, "max": 760, "step": 10, "unit": "px", "default": 560 }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "image_picker", "id": "image_m", "label": "Mobile image (optional)" },
+        { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Heitz Living" },
+        { "type": "text", "id": "heading", "label": "Heading", "default": "The Right Light Changes Everything" },
+        { "type": "textarea", "id": "text", "label": "Text", "default": "Calm, considered lighting that quietly shapes how your home feels." },
+        { "type": "text", "id": "button", "label": "Button label", "default": "Explore Now" },
+        { "type": "url", "id": "link", "label": "Button link" }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [
+    {
+      "name": "Heitz hero slideshow (4c)",
+      "blocks": [
+        { "type": "slide" },
+        { "type": "slide", "settings": { "eyebrow": "Marked in Gold", "heading": "Up to 10% Off Selected Lighting", "text": "Look for the gold seal – the saving is already in the price.", "button": "Shop the Sale" } },
+        { "type": "slide", "settings": { "eyebrow": "Outdoor", "heading": "Light the Way Home", "text": "Pillar, path and wall lights made for every season.", "button": "Shop Outdoor" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

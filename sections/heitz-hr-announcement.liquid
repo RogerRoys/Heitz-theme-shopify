@@ -1,0 +1,54 @@
+{{ 'heitz-hr.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'heitz-hr.js' | asset_url }}" defer></script>
+
+{%- if section.blocks.size > 0 -%}
+<div class="hr-ann" data-hr-ann data-speed="{{ section.settings.speed }}" style="--hr-ann-bg: {{ section.settings.bg }}; --hr-ann-fg: {{ section.settings.fg }};" {{ section.shopify_attributes }}>
+  <button type="button" class="hr-ann__arrow" data-hr-ann-prev aria-label="Previous message">‹</button>
+  <div class="hr-ann__track" aria-live="polite">
+    {%- for block in section.blocks -%}
+      <div class="hr-ann__msg{% if forloop.first %} is-active{% endif %}" {{ block.shopify_attributes }}>
+        {%- if block.settings.link != blank -%}
+          <a href="{{ block.settings.link }}">{{ block.settings.text }}{% if block.settings.link_label != blank %} <u>{{ block.settings.link_label }}</u>{% endif %}</a>
+        {%- else -%}
+          <span>{{ block.settings.text }}</span>
+        {%- endif -%}
+      </div>
+    {%- endfor -%}
+  </div>
+  <button type="button" class="hr-ann__arrow" data-hr-ann-next aria-label="Next message">›</button>
+</div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Heitz announcement (9b)",
+  "class": "hr-ann-section",
+  "settings": [
+    { "type": "range", "id": "speed", "label": "Seconds per message", "min": 3, "max": 10, "step": 1, "default": 5 },
+    { "type": "color", "id": "bg", "label": "Background", "default": "#000000" },
+    { "type": "color", "id": "fg", "label": "Text", "default": "#F2F2F2" }
+  ],
+  "blocks": [
+    {
+      "type": "message",
+      "name": "Message",
+      "settings": [
+        { "type": "text", "id": "text", "label": "Text", "default": "Free tracked shipping on all orders" },
+        { "type": "text", "id": "link_label", "label": "Link label (optional)" },
+        { "type": "url", "id": "link", "label": "Link" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Heitz announcement (9b)",
+      "blocks": [
+        { "type": "message", "settings": { "text": "Free tracked shipping on all orders" } },
+        { "type": "message", "settings": { "text": "Up to 10% off · Marked in Gold" } },
+        { "type": "message", "settings": { "text": "30-day returns · 1-year warranty" } }
+      ]
+    }
+  ],
+  "enabled_on": { "groups": ["header"] }
+}
+{% endschema %}

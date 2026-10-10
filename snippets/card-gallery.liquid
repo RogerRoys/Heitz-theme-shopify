@@ -83,6 +83,7 @@
   {{ block.shopify_attributes }}
 >
   {% render 'heitz-gold-seal', product: product %}
+  {% render 'heitz-hr-wish-button', product: product %}
   {%- if product.media.size > 0 -%}
     {% liquid
       # Check if there are generic media that are not variant images

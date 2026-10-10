@@ -1,0 +1,10 @@
+{%- comment -%}
+  Wishlist heart for product cards / product page. Usage:
+  {% render 'heitz-hr-wish-button', product: product %}
+  The parent needs position:relative (the button sits top-right).
+{%- endcomment -%}
+{%- if product -%}
+  <button type="button" class="hr-wishbtn{% if inline %} hr-wishbtn--inline{% endif %}" data-hr-wish="{{ product.handle }}" aria-pressed="false" aria-label="Save {{ product.title | escape }} to wishlist">
+    {% render 'heitz-hr-icon', icon: 'heart', size: 18 %}
+  </button>
+{%- endif -%}

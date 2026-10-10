@@ -1,0 +1,17 @@
+{%- comment -%} Heitz home refresh icons. Usage: {% render 'heitz-hr-icon', icon: 'bag', size: 22 %} {%- endcomment -%}
+{%- assign s = size | default: 22 -%}
+{%- capture a -%}class="hr-ic" width="{{ s }}" height="{{ s }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"{%- endcapture -%}
+{%- case icon -%}
+  {%- when 'search' -%}<svg {{ a }}><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L20 20"/></svg>
+  {%- when 'account' -%}<svg {{ a }}><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg>
+  {%- when 'heart' -%}<svg {{ a }}><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg>
+  {%- when 'bag' -%}<svg {{ a }}><path d="M5 8h14l-1 13H6L5 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
+  {%- when 'menu' -%}<svg {{ a }} stroke-width="1.6"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+  {%- when 'chevron' -%}<svg {{ a }} stroke-width="2.6"><path d="M6 9l6 6 6-6"/></svg>
+  {%- when 'truck' -%}<svg {{ a }} stroke-width="1.4"><path d="M2 7h11v9H2zM13 10h4l3 3v3h-7zM6 19a1.6 1.6 0 1 0 0-.01M17 19a1.6 1.6 0 1 0 0-.01"/></svg>
+  {%- when 'check' -%}<svg {{ a }} stroke-width="1.4"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6zM8.5 12l2.5 2.5 4.5-5"/></svg>
+  {%- when 'globe' -%}<svg {{ a }} stroke-width="1.4"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg>
+  {%- when 'lock' -%}<svg {{ a }} stroke-width="1.4"><path d="M6 11h12v9H6zM8.5 11V8a3.5 3.5 0 0 1 7 0v3"/></svg>
+  {%- when 'chat' -%}<svg {{ a }} stroke-width="1.4"><path d="M4 5h16v11H9l-5 4zM8 10h8M8 13h5"/></svg>
+  {%- when 'return' -%}<svg {{ a }} stroke-width="1.4"><path d="M4 9h11a5 5 0 0 1 0 10H8M4 9l4-4M4 9l4 4"/></svg>
+{%- endcase -%}

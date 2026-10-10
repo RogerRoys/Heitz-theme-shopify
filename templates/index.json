@@ -9,6 +9,108 @@
  */
 {
   "sections": {
+    "hr_hero": {
+      "type": "heitz-hr-hero",
+      "blocks": {
+        "hr_slide_1": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/1-living-room-linear-pendant.jpg",
+            "eyebrow": "Heitz Living",
+            "heading": "The Right Light Changes Everything",
+            "text": "Calm, considered lighting that quietly shapes how your home feels.",
+            "button": "Explore Now",
+            "link": "shopify://collections/all"
+          }
+        },
+        "slide_KEWEik": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/2-marked-in-gold-wall-sconce.jpg",
+            "eyebrow": "Up to 10% off",
+            "heading": "Marked in Gold",
+            "text": "Selected lighting up to 10% off. The saving is already in the price.",
+            "button": "Shop the Gold Seal",
+            "link": "shopify://collections/sold-seal"
+          }
+        },
+        "slide_bJPUBQ": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/3-outdoor-pillar-light.jpg",
+            "eyebrow": "Outdoor lighting",
+            "heading": "Light the Way Outside",
+            "text": "Weather-sealed pillar, path and garden lights for warm evenings outdoors.",
+            "button": "Shop Outdoor",
+            "link": "shopify://collections/outdoor-lights"
+          }
+        }
+      },
+      "block_order": [
+        "hr_slide_1",
+        "slide_KEWEik",
+        "slide_bJPUBQ"
+      ],
+      "settings": {
+        "autoplay": true,
+        "speed": 5.5,
+        "height_d": 700,
+        "height_m": 560
+      }
+    },
+    "hr_trust": {
+      "type": "heitz-hr-trust",
+      "blocks": {
+        "hr_b1": {
+          "type": "badge",
+          "settings": {
+            "icon": "truck",
+            "title": "Free Tracked Shipping",
+            "text": "Complimentary on every order"
+          }
+        },
+        "hr_b2": {
+          "type": "badge",
+          "settings": {
+            "icon": "return",
+            "title": "30-Day Returns",
+            "text": "Easy, no-fuss returns"
+          }
+        },
+        "hr_b3": {
+          "type": "badge",
+          "settings": {
+            "icon": "check",
+            "title": "1-Year Warranty",
+            "text": "Quality checked before it ships"
+          }
+        },
+        "hr_b4": {
+          "type": "badge",
+          "settings": {
+            "icon": "globe",
+            "title": "USA, UK & AU Delivery",
+            "text": "Tracked to your door"
+          }
+        },
+        "hr_b5": {
+          "type": "badge",
+          "settings": {
+            "icon": "chat",
+            "title": "Responsive Support",
+            "text": "Replies within 12–24 hours"
+          }
+        }
+      },
+      "block_order": [
+        "hr_b1",
+        "hr_b2",
+        "hr_b3",
+        "hr_b4",
+        "hr_b5"
+      ],
+      "settings": {}
+    },
     "hero": {
       "type": "hero",
       "blocks": {
@@ -82,6 +184,7 @@
         "text_2",
         "button"
       ],
+      "disabled": true,
       "custom_css": [
         ".button {background: transparent; border: 1px solid rgba(255, 255, 255, 0.85); color: #ffffff; border-radius: 0; text-transform: uppercase; letter-spacing: 0.14em; font-size: 13px; font-weight: 400; padding: 13px 34px; transition: background 0.3s ease, color 0.3s ease;}",
         ".button:hover {background: #ffffff; color: #1a1b18;}"
@@ -116,8 +219,7 @@
         "reflection_opacity": 75,
         "padding-block-start": 40,
         "padding-block-end": 40
-      },
-      "disabled": true
+      }
     },
     "trust_badges": {
       "type": "heitz-trust-badges",
@@ -165,12 +267,12 @@
         "badge_4",
         "badge_5"
       ],
+      "disabled": true,
       "settings": {
         "color_scheme": "scheme-heitz-light",
         "padding_top": 20,
         "padding_bottom": 20
-      },
-      "disabled": true
+      }
     },
     "category_scroll": {
       "type": "heitz-category-scroll",
@@ -1510,84 +1612,6 @@
         "heading_size": 18,
         "text_size": 14
       }
-    },
-    "hr_hero": {
-      "type": "heitz-hr-hero",
-      "blocks": {
-        "hr_slide_1": {
-          "type": "slide",
-          "settings": {
-            "image": "shopify://shop_images/ChatGPT_Image_Aug_22_2026_08_50_36_AM_10.png",
-            "eyebrow": "Heitz Living",
-            "heading": "The Right Light Changes Everything",
-            "text": "Calm, considered lighting that quietly shapes how your home feels.",
-            "button": "Explore Now",
-            "link": "shopify://collections/all"
-          }
-        }
-      },
-      "block_order": [
-        "hr_slide_1"
-      ],
-      "settings": {
-        "autoplay": true,
-        "speed": 5.5,
-        "height_d": 700,
-        "height_m": 560
-      }
-    },
-    "hr_trust": {
-      "type": "heitz-hr-trust",
-      "blocks": {
-        "hr_b1": {
-          "type": "badge",
-          "settings": {
-            "icon": "truck",
-            "title": "Free Tracked Shipping",
-            "text": "Complimentary on every order"
-          }
-        },
-        "hr_b2": {
-          "type": "badge",
-          "settings": {
-            "icon": "return",
-            "title": "30-Day Returns",
-            "text": "Easy, no-fuss returns"
-          }
-        },
-        "hr_b3": {
-          "type": "badge",
-          "settings": {
-            "icon": "check",
-            "title": "1-Year Warranty",
-            "text": "Quality checked before it ships"
-          }
-        },
-        "hr_b4": {
-          "type": "badge",
-          "settings": {
-            "icon": "globe",
-            "title": "USA, UK & AU Delivery",
-            "text": "Tracked to your door"
-          }
-        },
-        "hr_b5": {
-          "type": "badge",
-          "settings": {
-            "icon": "chat",
-            "title": "Responsive Support",
-            "text": "Replies within 12–24 hours"
-          }
-        }
-      },
-      "block_order": [
-        "hr_b1",
-        "hr_b2",
-        "hr_b3",
-        "hr_b4",
-        "hr_b5"
-      ],
-      "settings": {}
     }
   },
   "order": [

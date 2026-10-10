@@ -119,6 +119,7 @@
         "hr_tile_4"
       ],
       "settings": {
+        "logo": "shopify://shop_images/heitz_living_Primary_logo_61d45f48-7c74-4889-8913-f220de634eeb.svg",
         "logo_h": 40,
         "logo_h_m": 30,
         "menu": "heitz-menu-v2",

@@ -168,6 +168,11 @@
     counts: function () { var n = this.data ? this.data.item_count : 0; $$('[data-hr-cart-count]').forEach(function (e) { e.textContent = n; }); },
     render: function () {
       var c = this.data, el = this.el(); this.counts(); if (!c || !el) return;
+      /* opening the drawer re-fetches the cart; rebuilding identical
+         rows makes the content visibly flash — skip when unchanged */
+      var sig = c.token + '|' + c.total_price + '|' + c.items.map(function (i) { return i.key + ':' + i.quantity; }).join(',') + '|' + (c.discount_codes || []).map(function (d) { return d.code + ':' + d.applicable; }).join(',');
+      if (el.dataset.hrSig === sig) return;
+      el.dataset.hrSig = sig;
       var self = this, empty = c.items.length === 0;
       $('[data-hr-cart-empty]', el).hidden = !empty;
       $('[data-hr-cart-foot]', el).hidden = empty;
